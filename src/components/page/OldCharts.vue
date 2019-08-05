@@ -1,7 +1,8 @@
+
 <template>
     <div class="table">
         <div class="divBut">
-                                       
+
             <el-row>
                 <!-- <el-button type="primary" round @click="add()">添加账号</el-button> -->
                 <!-- <el-button type="primary" round @click='edit()'>修改账号</el-button> -->
@@ -49,7 +50,7 @@
               <el-table-column
                 prop="phone"
 
-                
+
                 label="手机号">
               </el-table-column>
               <!-- <el-table-column
@@ -71,7 +72,7 @@
                   <span class='fire' v-if="scope.row.working_status == '0'"></span>
                 </template>
               </el-table-column>
-              
+
               <el-table-column
                 label="是否缴纳押金">
                 <template slot-scope="scope" >
@@ -83,7 +84,7 @@
                 label="创建时间">
                 <template slot-scope="scope">{{ scope.row.addtime | formatDate}}</template>
               </el-table-column>
-              
+
               <el-table-column
                 label="操作">
                 <template slot-scope="scope" >
@@ -111,7 +112,7 @@
             <el-form-item label="密码" :label-width="formLabelWidth">
             <el-input v-model="form.password" auto-complete="off"></el-input>
             </el-form-item>
-            
+
             <el-form-item label="姓名" :label-width="formLabelWidth">
             <el-input v-model="form.relly_name" auto-complete="off" @blur="testName(val='添加')"></el-input>
             </el-form-item>
@@ -138,7 +139,7 @@
             <el-form-item label="密码" :label-width="formLabelWidth">
             <el-input v-model="form1.password" auto-complete="off"></el-input>
             </el-form-item>
-            
+
             <el-form-item label="姓名" :label-width="formLabelWidth">
             <el-input v-model="form1.relly_name" auto-complete="off" @blur="testName(val='修改')"></el-input>
             </el-form-item>

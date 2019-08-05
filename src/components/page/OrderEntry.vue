@@ -1,26 +1,115 @@
 <template>
     <div class="bigdiv">
 
-        <ul class="nav-center">
+        <ul class="nav-center" >
             <li>
-                <a :class="{active:activeMenu == 'a'}" @click="scrollTo('a')">Section 1</a>
+                <a :class="{active:activeMenu == 'a'}" @click="scrollTo('a')"><i class="el-icon-star-off"></i><br></br>基本信息</a>
             </li>
             <li>
-                <a :class="{active:activeMenu == 'b'}" @click="scrollTo('b')">Section 2</a>
+                <a :class="{active:activeMenu == 'b'}" @click="scrollTo('b')"><i class="el-icon-date"></i><br></br>货物信息</a>
             </li>
             <li>
-                <a :class="{active:activeMenu == 'c'}" @click="scrollTo('c')">Section 3</a>
+                <a :class="{active:activeMenu == 'c'}" @click="scrollTo('c')"><i class="el-icon-tickets"></i> <br></br>订单</a>
             </li>
-            <li>
-                <a :class="{active:activeMenu == 'd'}" @click="scrollTo('d')">Section 4</a>
-            </li>
+
         </ul>
 
         <div class="main" id="scrollDom" key='1'>
-            <div class="section section-a" v-scrollWatch="{name:'a',offset:0,callback:spyDomChange}"><h1>section 1</h1></div>
-            <div class="section  section-b" v-scrollWatch="{name:'b',offset:0,callback:spyDomChange}"><h1>section 2</h1></div>
-            <div class="section  section-c" v-scrollWatch="{name:'c',offset:0,callback:spyDomChange}"><h1>section 3</h1></div>
-            <div class="section  section-d" v-scrollWatch="{name:'d',offset:0,callback:spyDomChange}"><h1>section 4</h1></div>
+            <div class="section section-a" v-scrollWatch="{name:'a',offset:0,callback:spyDomChange}">
+                <el-row :gutter="24" style="margin: 0">
+
+                    <el-col :span="12" >
+                        <h2 style="border-left: 4px solid #45A2DF;">&nbsp寄件人信息</h2>
+                        <div class="bioage">
+                            <el-form ref="form"  label-width="100px" >
+                                <el-col :span="12" style="padding:0">
+                                    <el-form-item label="客户账号">
+                                        <el-input ></el-input>
+                                    </el-form-item>
+                                </el-col>
+
+                                <el-col :span="12" style="padding:0">
+                                    <el-form-item >
+                                        <el-input ></el-input>
+                                    </el-form-item>
+                                </el-col>
+
+                                <el-form-item label="公司名称">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-form-item label="寄件人">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-col :span="12" style="padding:0">
+                                    <el-form-item label="部门/科室">
+                                        <el-input ></el-input>
+                                    </el-form-item>
+                                </el-col>
+
+                                <el-col :span="12" style="padding:0">
+                                    <el-form-item label="保险费率" >
+                                        <el-input ></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-form-item label="联系电话">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-form-item label="城市区域">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-form-item label="详细地址">
+                                    <el-input ></el-input>
+                                </el-form-item>
+
+                            </el-form>
+                        </div>
+                    </el-col>
+                    <el-col :span="11">
+                        <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end">收件人信息&nbsp&nbsp</h2>
+                        <div class="bioage">
+                            <el-form ref="form"  label-width="100px" >
+
+                                <el-form-item label="城市区域">
+                                    <el-input></el-input>
+                                </el-form-item>
+                                <el-form-item label="公司名称">
+                                    <el-input></el-input>
+                                </el-form-item>
+                                <el-form-item label="收件人">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-form-item label="部门/科室">
+                                <el-input ></el-input>
+                               </el-form-item>
+                                <el-form-item label="联系电话">
+                                    <el-input ></el-input>
+                                </el-form-item>
+                                <el-form-item label="详细地址">
+                                <el-input ></el-input>
+                               </el-form-item>
+
+
+
+
+                            </el-form>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="section  section-b" v-scrollWatch="{name:'b',offset:0,callback:spyDomChange}">
+                <el-row :gutter="24"  style="margin: 0">
+                    <el-col >
+                        <el-steps :active="active" finish-status="success">
+                            <el-step title="温度区间"></el-step>
+                            <el-step title="器具选择"></el-step>
+                            <el-step title="数量确定"></el-step>
+                        </el-steps>
+                        <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="section  section-c" v-scrollWatch="{name:'c',offset:0,callback:spyDomChange}"><h1 >section 3</h1></div>
+
         </div>
     </div>
 </template>
@@ -33,14 +122,18 @@ export default {
     name: "test",
     data() {
         return {
-            activeMenu: 1,
+            activeMenu: 1  , active: 0
+
         }
     },
     created(){
         scrollWatch.setContainer("#scrollDom")
-        
+
     },
     methods: {
+        next() {
+            if (this.active++ > 2) this.active = 0;
+        },
         spyDomChange(node) {
             if (this.activeMenu != node.name)
                 this.activeMenu = node.name
@@ -53,15 +146,28 @@ export default {
 </script>
 <style scoped>
 
+    .bioage{
+        margin:20px 0
+    }
+    .bioage span{
+        margin-right: 20px;
+    }
 .bigdiv{
-    height:100%;
+    height:800px;
     display: flex;
+
 }
 .nav-center {
-    
+
     list-style-type: none;
     width:150px;
-    
+   text-align: center;
+
+
+}
+.nav-center li{
+    padding: 20px 0px;
+    border-bottom: 1px solid #999;
 }
 h1{
     margin:0;
@@ -78,21 +184,27 @@ h1{
     height: 100%;
     /* overflow: hidden; */
     overflow-y: hidden;
-    text-align:center;
+
 }
 .section.section-a {
-    background:#67C23A
+    background:#eee
 }
 .section.section-b {
-    background:#E6A23C
+    background:#eee
 }
 .section.section-c {
-    background:#909399
+    background:#eee;
+
 }
 .section.section-d {
-    background:#F56C6C
+    background:#eee
 }
 .active {
     color: #42b983;
 }
+</style>
+<style>
+    .el-form-item__label {
+
+        width: 100px!important;}
 </style>
