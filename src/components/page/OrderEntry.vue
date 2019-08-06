@@ -19,7 +19,7 @@
                 <el-row :gutter="24" style="margin: 0">
 
                     <el-col :span="12" >
-                        <h2 style="border-left: 4px solid #45A2DF;">&nbsp寄件人信息</h2>
+                        <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp寄件人信息</h2>
                         <div class="bioage">
                             <el-form ref="form"  label-width="100px" >
                                 <el-col :span="12" style="padding:0">
@@ -65,7 +65,7 @@
                         </div>
                     </el-col>
                     <el-col :span="11">
-                        <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end">收件人信息&nbsp&nbsp</h2>
+                        <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">收件人信息&nbsp&nbsp</h2>
                         <div class="bioage">
                             <el-form ref="form"  label-width="100px" >
 
@@ -108,7 +108,13 @@
                     </el-col>
                 </el-row>
             </div>
-            <div class="section  section-c" v-scrollWatch="{name:'c',offset:0,callback:spyDomChange}"><h1 >section 3</h1></div>
+            <div class="section  section-c" v-scrollWatch="{name:'c',offset:0,callback:spyDomChange}">
+                <el-row  :gutter="24"  style="margin: 0">
+                    <el-col>
+
+                    </el-col>
+                </el-row>
+            </div>
 
         </div>
     </div>
@@ -153,7 +159,7 @@ export default {
         margin-right: 20px;
     }
 .bigdiv{
-    height:800px;
+    height:100%;
     display: flex;
 
 }
@@ -175,7 +181,7 @@ h1{
 .main{
     /* margin-top:50px; */
     /* padding-left:200px; */
-   background: rgba(0,0,0,0.1);
+   background: #fff;
     height:100%;
     overflow:auto;
     flex:1;
@@ -187,18 +193,19 @@ h1{
 
 }
 .section.section-a {
-    background:#eee
+    background:#eee;
+    margin:0 20px;
 }
 .section.section-b {
-    background:#eee
+    background:#eee;
+    margin:20px;
 }
 .section.section-c {
     background:#eee;
+    margin:20px;
 
 }
-.section.section-d {
-    background:#eee
-}
+
 .active {
     color: #42b983;
 }
