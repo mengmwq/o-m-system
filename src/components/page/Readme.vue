@@ -4,23 +4,23 @@
             <el-row>
                 <el-col>
                     <el-row :gutter="24"  >
-                        <el-col :span="18" >
+                        <el-col :span="24" >
                             <div style="border:0.1px solid #fff;">
-                                <el-row  :gutter="24" style="background: #fff;padding: 5px;border-bottom: 1px solid #ccc; border-top-right-radius:15px;border-top-left-radius:15px;">
+                                <el-row  :gutter="24" style="background: #fff;padding: 5px 30px 5px 5px;border-bottom: 1px solid #ccc; border-top-right-radius:15px;border-top-left-radius:15px;">
                                     <el-col :span="10" >
                                         <el-button size="mini">日</el-button>
                                         <el-button size="mini">周</el-button>
                                         <el-button size="mini">月</el-button>
                                     </el-col>
-                                    <el-col :span="11">订单</el-col>
+                                    <el-col :span="13">订单</el-col>
                                     <el-col :span="1"> <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakordersRtatistics">More</el-button></el-col>
 
                                 </el-row>
                                 <el-row  :gutter="24" style="background: #fff;padding: 5px;">
-                                    <el-col :span="20" >
+                                    <el-col :span="21" >
                                         <div id="orderChart" style="width:100%;height:100px; text-align: center"></div>
                                     </el-col>
-                                    <el-col :span="4"  style="height: 150px">
+                                    <el-col :span="3"  style="height: 150px">
                                         <div style="padding: 30px 0;font-weight: 800">888888</div>
                                         <div>今日订单(票)</div>
                                     </el-col>
@@ -46,31 +46,7 @@
 
                             </div>
                         </el-col>
-                        <el-col :span="5"   :offset="1">
-                            <div style="border:0.1px solid #EBEBEB;    ">
-                                <el-row  :gutter="24" style="background: #fff;padding: 9px 0;border-bottom: 1px solid #ccc; border-top-right-radius:15px;border-top-left-radius:15px;">
-                                    <el-col style="font-family: cursive" > 结算 (票)</el-col>
-                                </el-row>
-                                <el-row  :gutter="24" style="background: #fff;padding: 5px;">
-                                    <el-col>
-                                        <div style="font-weight: 800;text-align: center;font-size: 24px;height:150px;line-height: 150px">987654</div>
-                                    </el-col>
-                                </el-row>
-                                <el-row  :gutter="24" style="background: #EEEEEE; border-bottom-right-radius:15px; border-bottom-left-radius:15px;padding:5px 0">
 
-                                    <el-col :span="12"  style="border-right:1px solid #fff">
-
-                                        <div style="text-align: center;font-family: cursive">昨日</div>
-                                        <div style="text-align: center;">88</div>
-                                    </el-col>
-                                    <el-col :span="12" >
-
-                                        <div style="text-align: center;font-family: cursive">累计</div>
-                                        <div style="text-align: center;">1250</div>
-                                    </el-col>
-                                </el-row>
-                            </div>
-                        </el-col>
                     </el-row>
                 </el-col>
             </el-row>
@@ -115,63 +91,26 @@
             <el-row style="margin:20px 0;">
                 <el-col>
                     <el-row :gutter="24"  >
-                    <el-col :span="18"  style="display: flex;justify-content: space-between;padding:0;">
+                    <el-col :span="24"  style="display: flex;justify-content: space-between;padding:0;">
                         <div class="shunli">
-                            <div>
-                                <el-button size="mini">日</el-button>
-                                <el-button size="mini">周</el-button>
-                                <el-button size="mini">月</el-button>
-                            </div>
-                            <div style="line-height: 50px;">
+                            <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;padding: 0 12px">
                                 <div>
-                                    <span :class="isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('area')">区域订单</span>
-                                    <span :class="!isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('type')">&nbsp&nbsp货物类型</span>
+                                    <el-button size="mini">日</el-button>
+                                    <el-button size="mini">周</el-button>
+                                    <el-button size="mini">月</el-button>
                                 </div>
+                                <div style="line-height: 50px;">
+                                    <div>
+                                        <span :class="isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('area')">区域订单</span>
+                                        <span :class="!isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('type')">&nbsp&nbsp货物类型</span>
+                                    </div>
+                                </div>
+                                <el-button size="mini" type="primary" class="btn-cancel" plain>More</el-button>
                             </div>
-                             <el-button size="mini" type="primary" class="btn-cancel" plain>More</el-button>
+
                             <div style="width: 100%;height: 300px;background: #fff;" id="orderList" ></div>
                         </div>
-
-                        <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content:space-around;border-radius: 8px">
-                            <div class="shunli2">
-                              <p style="font-family: cursive;font-size: 14px;color:#626262">保温箱使用 (种/件)</p>
-                                <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakBoxType">More</el-button>
-
-                                <div style="width: 100%;height: 250px;background: #fff" id="IncubatorCharts"></div>
-                                <div class="shunli2" style="background: rgb(238, 238, 238);">
-                                    <div style="text-align: center;font-family: cursive;">昨日 88</div>
-
-                                   <div style="border:1px solid #fff;width: 1px;height: 50px"></div>
-                                    <div style="text-align: center;font-family: cursive">累计 88</div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </el-col>
-                    <el-col :span="5"  :offset="1" style="display: flex;justify-content: space-between;padding:0;">
-                        <div class="shunli2">
-                            <p style="font-family: cursive;font-size: 14px;color:#626262">温区分布 (种/票)</p>
-                            <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakBoxType">More</el-button>
-
-                            <div style="width: 100%;height: 250px;background: #fff" id="warmArea"></div>
-                            <div class="shunli2" style="background: rgb(238, 238, 238);">
-                                <div style="text-align: center;font-family: cursive;">昨日 88</div>
-
-                                <div style="border:1px solid #fff;width: 1px;height: 50px"></div>
-                                <div style="text-align: center;font-family: cursive">累计 88</div>
-
-                            </div>
-                        </div>
-
-                    </el-col>
-                    </el-row>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col>
-                    <el-row :gutter="24"  >
-                        <el-col :span="13"  style="display: flex;justify-content: space-between;   padding: 0!important;width: 55.39%;">
+                        <div style="background: #fff;height:50px;width:42.3%;display: flex;align-items: center;justify-content:space-around;border-radius: 8px">
                             <div class="shunli3">
                                 <div>
                                     <el-button size="mini">日</el-button>
@@ -180,28 +119,73 @@
                                 </div>
                                 <div style="line-height: 50px;">
                                     <div style="font-family: cursive">
-                                       异常统计
+                                        异常统计
                                     </div>
                                 </div>
                                 <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakDailyStatistical">More</el-button>
                                 <div style="width: 100%;height: 300px;background: #fff;" id="ExceptionTable" ></div>
                             </div>
 
+                        </div>
+
+
+                    </el-col>
+
+                    </el-row>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col>
+                    <el-row :gutter="24"  >
+                        <el-col :span="24"  style="display: flex;   padding: 0!important;width: 65.39%;">
+                            <div class="shunli3">
+                                <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;padding: 0 12px">
+                                    <div>
+                                        <el-button size="mini">日</el-button>
+                                        <el-button size="mini">周</el-button>
+                                        <el-button size="mini">月</el-button>
+                                    </div>
+                                    <div style="line-height: 50px;">
+                                        <div style="font-family: cursive">
+                                            温区及箱型
+                                        </div>
+                                    </div>
+                                    <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakDailyStatistical">More</el-button>
+
+                                </div>
+                                <div style=" display: flex; align-items: center;center: space-between;width: 100%;padding: 0 12px;  box-sizing: border-box;justify-content: space-between;;">
+                                    <h6>保温箱使用(件)</h6>
+                                    <el-button size="mini">昨日合计：569</el-button>
+                                    <el-button size="mini">当日合计：888</el-button>
+                                    <el-button size="mini">累计：5355</el-button>
+                                </div>
+
+
+                                <div style="width: 100%;height: 150px;background: #fff" id="IncubatorCharts"></div>
+
+                                <div style="width: 100%;height: 150px;background: #fff"   id="warmArea"></div>
+
+                            </div>
+
                         </el-col>
-                        <el-col :span="10"  style="display: flex;justify-content: space-between;width: 44.6%;padding-left: 40px" >
+                        <el-col  style="display: flex;justify-content: space-between;width: 34.61%;padding: 0 0 0 12px;" >
                             <div class="shunli4">
+                                <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;">
+
                                 <div>
 
-                                    <el-button size="mini">周</el-button>
-                                    <el-button size="mini">月</el-button>
-                                </div>
-                                <div style="line-height: 50px;">
-                                    <div style="font-family: cursive">
-                                       客户活跃度
+                                        <el-button size="mini">周</el-button>
+                                        <el-button size="mini">月</el-button>
                                     </div>
+                                    <div style="line-height: 50px;">
+                                        <div style="font-family: cursive">
+                                            客户活跃度
+                                        </div>
+                                    </div>
+                                    <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakCustomerInformation">More</el-button>
                                 </div>
-                                <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakCustomerInformation">More</el-button>
-                                <div style="width: 100%;height: 300px;background: #fff;" id="CustomerAtivity" ></div>
+
+                                <div style="width: 100%;height: 350px;background: #fff;" id="CustomerAtivity" ></div>
                             </div>
                         </el-col>
 
@@ -271,6 +255,13 @@ export default {
                 "grid": {
                     "containLabel": true
                 },
+                grid:{
+                    x:10,
+                    y:45,
+                    x2:5,
+                    y2:20,
+                    borderWidth:1
+                },
                 "xAxis": [{
 
                     "type": "category",
@@ -299,7 +290,7 @@ export default {
                         "textStyle": {
                             "color": "#82b0ec"
                         },
-                        "formatter": "{value}%"
+                        "formatter": "{value}"
                     },
                     "splitLine": {
                         "lineStyle": {
@@ -366,10 +357,17 @@ export default {
           tooltip : {
               trigger: 'axis'
           },
-          grid: {
-              left: '3%',
-              top:'15%',
-              containLabel: true
+          // grid: {
+          //     left: '3%',
+          //     top:'85%',
+          //     containLabel: true
+          // },
+          grid:{
+              x:10,
+              y:45,
+              x2:5,
+              y2:20,
+              borderWidth:1
           },
           legend: {
               data:['web','app'],
@@ -424,6 +422,13 @@ export default {
           tooltip : {
               trigger: 'axis'
           },
+          grid:{
+              x:50,
+              y:10,
+              x2:50,
+              y2:50,
+              borderWidth:1
+          },
           xAxis: {
               axisLabel: {
                   interval: 0,
@@ -453,9 +458,27 @@ export default {
       //温区分布表
       warmArea.setOption({
           background:'#fff',
+          title: {
+              "text": "   温区分布(票)",
+
+              textStyle: {
+                  color: '#000',
+                  fontSize: '12',
+
+              },
+
+          },
           tooltip : {
               trigger: 'axis'
           },
+          grid:{
+              x:50,
+              y:0,
+              x2:50,
+              y2:50,
+              borderWidth:1
+          },
+
           xAxis: {
               axisLabel: {
                   interval: 0,
@@ -482,15 +505,23 @@ export default {
               },
           }]
       });
+      //异常统计
       ExceptionTable.setOption({
           background:'#fff',
           "tooltip": {
               "trigger": "axis"
           },
+          grid:{
+              x:10,
+              y:45,
+              x2:5,
+              y2:20,
+              borderWidth:1
+          },
           "color": ["#45A2DF", "#1AB394", "#f29c00", ],
           "legend": {
               "top": "10",
-              "data": ["客户取消", "内部取消", "时间变更",],
+              "data": ["客户取消", "内部取消",],
               "itemGap": 10,
               "itemWidth": 15,
               "itemHeight": 12
@@ -507,7 +538,7 @@ export default {
               "type": "value",
               show:false
           }],
-          "series": [{  name:'下单准确率',
+          "series": [{  name:'时间变更',
               type:'line',
               itemStyle : {  /*设置折线颜色*/
                   normal : {  /* color:'#c4cddc'*/  } },
@@ -528,15 +559,7 @@ export default {
               label: {
                   show: true
               }
-          }, {
-              "data": [5, 7, 5, 6, 5, 2,3,18],
-              "name": "时间变更",
-              "stack": "one",
-              "type": "bar",
-              label: {
-                  show: true
-              }
-          }]
+          },]
       })
       //客户活跃度表
       var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
@@ -551,6 +574,13 @@ export default {
               // axisPointer: {
               //     type: 'cross'
               // }
+          },
+          grid:{
+              x:10,
+              y:45,
+              x2:5,
+              y2:20,
+              borderWidth:1
           },
           legend: {
               x: 'center',
@@ -580,13 +610,13 @@ export default {
           }
 
           ],
-          grid: {
-              right: '5%',
-              bottom: '10%',
-              left: '2%',
-              top: '80px',
-              containLabel: true
-          },
+          // grid: {
+          //     right: '5%',
+          //     bottom: '10%',
+          //     left: '2%',
+          //     top: '80px',
+          //     containLabel: true
+          // },
           xAxis: [{
               type: 'category',
               data: xData,
@@ -702,13 +732,14 @@ export default {
     }
     .shunli{
         background: #fff;
-        width:74%;
+        width:55.6%;
+
         height:50px;
         display: flex;
         align-items: center;
         justify-content: space-around;
         border-radius: 8px;
-        border-bottom: 1px solid #ccc;
+
         box-sizing: border-box;
         flex-direction: row;
         flex-wrap: wrap;
@@ -740,7 +771,7 @@ export default {
         align-items: center;
         justify-content:space-around;
         border-radius: 8px;
-       padding: 0!important;
+        padding: 0!important;
         box-sizing: border-box;
         flex-direction: row;
         flex-wrap: wrap;
@@ -756,7 +787,7 @@ export default {
         align-items: center;
         justify-content:space-around;
         border-radius: 8px;
-
+        padding: 0;
         box-sizing: border-box;
         flex-direction: row;
         flex-wrap: wrap;
