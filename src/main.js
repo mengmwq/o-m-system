@@ -2,15 +2,16 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import axios from 'axios';
+import Navigation from 'vue-navigation'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 // import "babel-polyfill";
-// 李洋 8.4 两行
+
 import vueScrollwatch from "./lib/vue-scrollwatch"
 Vue.use(vueScrollwatch)
 
-
+Vue.use(Navigation, {router})
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 // Vue.config.productionTip = false;// 去除console提示

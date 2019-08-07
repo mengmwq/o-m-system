@@ -3,14 +3,12 @@
 
         <ul class="nav-center" >
             <li>
-                <a :class="{active:activeMenu == 'a'}" @click="scrollTo('a')"><i class="el-icon-star-off"></i><br></br>基本信息</a>
+                <a :class="{active:activeMenu == 'a'}" @click="scrollTo('a')"><i class="el-icon-star-off"></i><br></br>订单信息</a>
             </li>
             <li>
-                <a :class="{active:activeMenu == 'b'}" @click="scrollTo('b')"><i class="el-icon-date"></i><br></br>货物信息</a>
+                <a :class="{active:activeMenu == 'b'}" @click="scrollTo('b')"><i class="el-icon-date"></i><br></br>订单预览</a>
             </li>
-            <li>
-                <a :class="{active:activeMenu == 'c'}" @click="scrollTo('c')"><i class="el-icon-tickets"></i> <br></br>订单</a>
-            </li>
+
 
         </ul>
 
@@ -99,22 +97,11 @@
             <div class="section  section-b" v-scrollWatch="{name:'b',offset:0,callback:spyDomChange}">
                 <el-row :gutter="24"  style="margin: 0">
                     <el-col >
-                        <el-steps :active="active" finish-status="success">
-                            <el-step title="温度区间"></el-step>
-                            <el-step title="器具选择"></el-step>
-                            <el-step title="数量确定"></el-step>
-                        </el-steps>
-                        <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+                       订单预览表页面
                     </el-col>
                 </el-row>
             </div>
-            <div class="section  section-c" v-scrollWatch="{name:'c',offset:0,callback:spyDomChange}">
-                <el-row  :gutter="24"  style="margin: 0">
-                    <el-col>
 
-                    </el-col>
-                </el-row>
-            </div>
 
         </div>
     </div>

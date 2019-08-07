@@ -128,6 +128,7 @@ export default {
     .el-submenu .el-menu-item{
         min-width: auto;
     }
+
 </style>
 <style scoped>
     .sidebar {

@@ -1,9 +1,11 @@
 <template>
     <div id="app" >
         <!-- <router-view v-if='isRouterAlive'></router-view> -->
-        <transition name="slide-fade" mode="out-in">
-            <router-view v-if='isRouterAlive'></router-view>
-        </transition>
+        <navigation>
+
+                <router-view v-if='isRouterAlive'></router-view>
+
+        </navigation>>
     </div>
 </template>
 <script>

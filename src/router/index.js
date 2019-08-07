@@ -16,41 +16,50 @@ export default new Router({
             children:[
                 {
                     path: '/',
-                    component: resolve => require(['../components/page/Readme.vue'], resolve)
+                    component: resolve => require(['../components/page/Readme.vue'], resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                     path: '/OrderQuery',                                                             // 用户管理
-                    component: resolve => require(['../components/page/OrderQuery.vue'], resolve)
+                    component: resolve => require(['../components/page/OrderQuery.vue'], resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                    path:'/OrderEntry' ,
-                    component:resolve => require(['../components/page/OrderEntry.vue'],resolve)
+                    component:resolve => require(['../components/page/OrderEntry.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 //订单统计
                 {
                     path:'/ordersRtatistics' ,
-                    component:resolve => require(['../components/page/ordersRtatistics.vue'],resolve)
+                    component:resolve => require(['../components/page/ordersRtatistics.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                     path:'/BoxType' ,
-                    component:resolve => require(['../components/page/BoxType.vue'],resolve)
+                    component:resolve => require(['../components/page/BoxType.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                     path:'/DailyStatistical',
-                    component:resolve => require(['../components/page/DailyStatistical.vue'],resolve)
+                    component:resolve => require(['../components/page/DailyStatistical.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                     path:'/CustomerInformation',
-                    component:resolve => require(['../components/page/CustomerInformation.vue'],resolve)
+                    component:resolve => require(['../components/page/CustomerInformation.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 //客户服务
                 {
                     path:'/SenderManagement' ,
-                    component:resolve => require(['../components/page/SenderManagement.vue'],resolve)
+                    component:resolve => require(['../components/page/SenderManagement.vue'],resolve),
+                    meta:{keepAlive: true}
                 },
                 {
                     path:'/RecipientManagement',
-                    component:resolve =>require(['../components/page/RecipientManagement.vue'],resolve)
+                    component:resolve =>require(['../components/page/RecipientManagement.vue'],resolve),
+                    meta:{keepAlive: true}
                 }
 
 

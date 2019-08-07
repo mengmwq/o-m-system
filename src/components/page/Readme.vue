@@ -105,7 +105,7 @@
                                         <span :class="!isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('type')">&nbsp&nbsp货物类型</span>
                                     </div>
                                 </div>
-                                <el-button size="mini" type="primary" class="btn-cancel" plain>More</el-button>
+                                <el-button size="mini" type="primary" class="btn-cancel" plain >More</el-button>
                             </div>
 
                             <div style="width: 100%;height: 300px;background: #fff;" id="orderList" ></div>
@@ -150,7 +150,7 @@
                                             温区及箱型
                                         </div>
                                     </div>
-                                    <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakDailyStatistical">More</el-button>
+                                    <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakBoxType">More</el-button>
 
                                 </div>
                                 <div style=" display: flex; align-items: center;center: space-between;width: 100%;padding: 0 12px;  box-sizing: border-box;justify-content: space-between;;">
