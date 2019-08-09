@@ -14,6 +14,7 @@
 
         <div class="main" id="scrollDom" key='1'>
             <div class="section section-a" v-scrollWatch="{name:'a',offset:0,callback:spyDomChange}">
+                <!-- 寄件人  收件人信息 -->
                 <el-row :gutter="24" style="margin: 0">
 
                     <el-col :span="12" >
@@ -93,6 +94,36 @@
                         </div>
                     </el-col>
                 </el-row>
+                <!-- 货物信息 -->
+                <el-row :gutter="24" style="margin: 0">
+                    <el-col :span="24">
+                        <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
+
+                        
+                        <div style="display:flex;">
+                            <el-steps direction="vertical" :active="active" style="height:200px;width:50px;">
+                                <el-step></el-step>
+                                <el-step v-if="active===2"></el-step>
+                            </el-steps>
+                            <div style="display:flex;flex-direction: column;">
+                                <div v-if="isFirst" style="flex:1;">
+                                    <div>{{firstTitle}}</div>
+                                    <button @click="next"> 下一步 </button>
+                                </div>
+
+                                <div v-if="active===2">
+                                    <div>{{towTitle}}</div>
+                                    <button @click="prev"> 上一步 </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </el-col>
+                    
+                </el-row>
             </div>
             <div class="section  section-b" v-scrollWatch="{name:'b',offset:0,callback:spyDomChange}">
                 <el-row :gutter="24"  style="margin: 0">
@@ -115,7 +146,11 @@ export default {
     name: "test",
     data() {
         return {
-            activeMenu: 1  , active: 0
+            activeMenu: 1  , 
+            active: 1,
+            isFirst: true,
+            firstTitle: "进行中",
+            towTitle:"进行中"
 
         }
     },
@@ -124,8 +159,13 @@ export default {
 
     },
     methods: {
-        next() {
-            if (this.active++ > 2) this.active = 0;
+        next(){
+            this.active = 2;
+            this.firstTitle = "已完成"
+        },
+        prev(){
+            this.active = 1;
+            this.firstTitle = "进行中"
         },
         spyDomChange(node) {
             if (this.activeMenu != node.name)
