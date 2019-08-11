@@ -150,11 +150,12 @@
                   <div>温区选择（任意温区）</div>
                   <div class="temFirst">
                     <span
-                      v-for="(item,index) in temArea"
+                      v-for="(item1,index) in temArea"
                       :key="index"
-                      @click="next(item,index)"
+
+                      @click="next(item1,index)"
                       :class="{temActive: istemActive == index,temDefault: istemActive != index}"
-                    >{{item.tem}}</span>
+                    >{{item1.tem}}</span>
                   </div>
                   <!-- <button @click="next"> 下一步 </button> -->
                 </div>
@@ -162,9 +163,30 @@
                 <div v-if="active===2">
                   <div>{{towTitle}}</div>
                   <div>
-                    <el-tabs type="border-card">
-                      <el-tab-pane label="箱型"></el-tab-pane>
-                      <el-tab-pane label="冷藏专用车"></el-tab-pane>
+                    <el-tabs>
+                      <el-tab-pane label="箱型">
+                        <div class="temFirst">
+                          <div 
+						  	v-for="(item,index) in boxType" 
+                          	:key="index" >
+                            <span>{{item.box}}</span>
+							
+							<input type="text" value="" v-model='item.num' style='width:20%;' @input="isNull(item,index)">
+							
+							<span>个</span>
+                          </div>
+
+                        </div>
+                      </el-tab-pane>
+                      <el-tab-pane label="冷藏专用车">
+                        <div class="temFirst">
+							<div v-for="(item,index) in iceCar" :key="index">
+								<span>{{item.car}}</span>
+								<input type="text" v-model="item.num" style='width:20%;' @input="isNull(item,index,item1)">
+								<span>辆</span>
+							</div>
+                        </div>
+                      </el-tab-pane>
                     </el-tabs>
                   </div>
                   <button @click="prev"> 上一步 </button>
@@ -205,34 +227,87 @@ export default {
       activeMenu: 1,
       active: 1,
       isFirst: true,
+	  boxNum: '',
+	  iceCarNum:'',
+	  selectTem:'',
       istemActive: Number,
       firstTitle: "进行中",
-      towTitle: "进行中",
-      temArea: [{ tem: "2℃~8℃" }, { tem: "20℃~80℃" }, { tem: "-25℃~-15℃" }, { tem: "-80℃~-40℃" }]
+	  towTitle: "进行中",
+	  cargoMsg:[],
+      temArea: [
+        { tem: "2℃~8℃" },
+        { tem: "20℃~80℃" },
+        { tem: "-25℃~-15℃" },
+        { tem: "-80℃~-40℃" }
+      ],
+      boxType: [],
+      iceCar: [
+        { car: "4.2m冷藏车" ,num:""},
+        { car: "7.6m冷藏车" ,num:""},
+        { car: "9.6m冷藏车",num:"" }
+	  ],
+	  
     };
   },
   created() {
     scrollWatch.setContainer("#scrollDom");
   },
   methods: {
-    next(val,index) {
+    next(val, index) {
+      //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
+      //哦
       this.istemActive = index;
-      if(val.tem == '2℃~8℃'){
-        this.boxType = [{box:'XS26'},{box:'XS27'},{box:'XS28'}];
-      }else if(val.tem == '20℃~80℃'){
-        this.boxType = [{box:'XS30'},{box:'XS321'},{box:'XS32'}];
-      }else if(val.tem == '-25℃~-15℃'){
-        this.boxType = [{box:'XS40'},{box:'XS41'},{box:'XS42'}];
-      }else if(val.tem == '-80℃~-40℃'){
-        this.boxType = [{box:'XS50'},{box:'XS51'},{box:'XS52'}];
+      if (val.tem == "2℃~8℃") {
+        this.boxType = [{ box: "XS26",num:"" }, { box: "XS27",num:"" }, { box: "XS28",num:"" },{box:"xs29",num:""}];
+      } else if (val.tem == "20℃~80℃") {
+        this.boxType = [{ box: "XS30" ,num:"" }, { box: "XS321" ,num:"" }, { box: "XS32",num:"" }];
+      } else if (val.tem == "-25℃~-15℃") {
+        this.boxType = [{ box: "XS40" ,num:"" }, { box: "XS41",num:""  }, { box: "XS42",num:"" }];
+      } else if (val.tem == "-80℃~-40℃") {
+        this.boxType = [{ box: "XS50" ,num:"" }, { box: "XS51",num:"" }, { box: "XS52",num:"" }];
       }
-      // this.active = 2;
-      // this.firstTitle = "已完成";
+      this.active = 2;
+	  this.firstTitle = "已完成";
+	  this.selectTem = val.tem; // 当前选择的温区
+
+	  let obj = {tem: this.selectTem, box:[], iceCar:[]}; 
+	  
+		this.cargoMsg.push(obj);
+
+
+	  console.log(this.cargoMsg); // 选择的温区  
     },
     prev() {
-      this.active = 1;
-      this.firstTitle = "进行中";
-    },
+
+	//   [{tem:"",box:[{type:"",num:""}]},{},{}]
+	  console.log(this.cargoMsg);
+	  if(this.cargoMsg.length == 3){
+		this.$message.error('最多只允许添加3个温区');
+	  }else{
+		this.active = 1;
+		this.firstTitle = "进行中";
+		this.istemActive = -2;
+	  }
+	},
+	isNull(val,index,tem){
+		// 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息 
+		
+
+		// 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
+		// val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
+		// this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
+		let threeData = this.cargoMsg;
+		for(let i=0;i<threeData.length;i++){
+
+			if(this.selectTem == threeData[i].tem){
+				
+				threeData[i].box.push(val);
+			}
+		}
+
+		// console.log(threeData);
+
+	},
     spyDomChange(node) {
       if (this.activeMenu != node.name) this.activeMenu = node.name;
     },
@@ -274,7 +349,7 @@ h1 {
   flex: 1;
 }
 .section {
-  height: 100%;
+  height: auto;
   /* overflow: hidden; */
   overflow-y: hidden;
 }
@@ -294,26 +369,26 @@ h1 {
 .active {
   color: #42b983;
 }
-.temFirst{
-    display: flex;
-    flex-flow: wrap;
+.temFirst {
+  display: flex;
+  flex-flow: wrap;
 }
 
-.temActive{
-  border:1px solid rgb(69, 162, 223);
+.temActive {
+  border: 1px solid rgb(69, 162, 223);
   color: rgb(69, 162, 223);
-      cursor:pointer;
-    border-radius: 10px;
-    padding: 5px;
-    margin: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
 }
-.temDefault{
-    border: 1px solid #000;
-    color:#000;
-    cursor:pointer;
-    border-radius: 10px;
-    padding: 5px;
-    margin: 5px;
+.temDefault {
+  border: 1px solid #000;
+  color: #000;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px;
 }
 </style>
 <style>
