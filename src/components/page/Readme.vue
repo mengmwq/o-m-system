@@ -134,7 +134,7 @@
                     </el-row>
                 </el-col>
             </el-row>
-            <el-row>
+            <el-row style="margin-bottom: 50px;">
                 <el-col>
                     <el-row :gutter="24"  >
                         <el-col :span="24"  style="display: flex;   padding: 0!important;width: 65.39%;">
