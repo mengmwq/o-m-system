@@ -12,7 +12,7 @@
                    根本不慌  有注释  没问题
 
     -->
-                <span v-for="(item,index) in staData" :class="{boActive:isCur===index}" @click="isCur=index, changeSta(item.name)" >{{item.name}}</span>
+                <span v-for="(item,index) in staData" :key="index" :class="{boActive:isCur===index}" @click="isCur=index, changeSta(item.name)" >{{item.name}}</span>
 
 
             </div>
