@@ -159,8 +159,6 @@
                                     <el-button size="mini">当日合计：888</el-button>
                                     <el-button size="mini">累计：5355</el-button>
                                 </div>
-
-
                                 <div style="width: 100%;height: 150px;background: #fff" id="IncubatorCharts"></div>
 
                                 <div style="width: 100%;height: 150px;background: #fff"   id="warmArea"></div>
@@ -188,18 +186,12 @@
                                 <div style="width: 100%;height: 350px;background: #fff;" id="CustomerAtivity" ></div>
                             </div>
                         </el-col>
-
-
                     </el-row>
                 </el-col>
             </el-row>
-
-
         </div>
-
     </div>
 </template>
-
 <script>
 import echarts from 'echarts';
 export default {
@@ -213,7 +205,6 @@ export default {
 
   },
     methods: {
-
         breakordersRtatistics(){
             this.$router.push({path:'/ordersRtatistics'});
         },

@@ -166,13 +166,13 @@
                     <el-tabs>
                       <el-tab-pane label="箱型">
                         <div class="temFirst">
-                          <div 
-						  	v-for="(item,index) in boxType" 
+                          <div
+						  	v-for="(item,index) in boxType"
                           	:key="index" >
                             <span>{{item.box}}</span>
-							
+
 							<input type="text" value="" v-model='item.num' style='width:20%;' @input="isNull(item,index)">
-							
+
 							<span>个</span>
                           </div>
 
@@ -246,7 +246,7 @@ export default {
         { car: "7.6m冷藏车" ,num:""},
         { car: "9.6m冷藏车",num:"" }
 	  ],
-	  
+
     };
   },
   created() {
@@ -269,13 +269,23 @@ export default {
       this.active = 2;
 	  this.firstTitle = "已完成";
 	  this.selectTem = val.tem; // 当前选择的温区
-
-	  let obj = {tem: this.selectTem, box:[], iceCar:[]}; 
-	  
-		this.cargoMsg.push(obj);
-
-
-	  console.log(this.cargoMsg); // 选择的温区  
+        let obj = {tem: this.selectTem, box:[], iceCar:[]};
+        if(this.cargoMsg.length == 0){
+            this.cargoMsg.push(obj);
+        }else if(this.cargoMsg.length == 3){
+            this.$message.error('最多只允许添加3个温区');
+        }else{
+            let init = true;
+            this.cargoMsg.forEach(item => {
+                if(this.selectTem == item.tem){
+                    init = false;
+                }
+            })
+            if(init){
+                this.cargoMsg.push(obj);
+            }
+        }
+	  console.log(this.cargoMsg); // 选择的温区
     },
     prev() {
 
@@ -290,8 +300,8 @@ export default {
 	  }
 	},
 	isNull(val,index,tem){
-		// 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息 
-		
+		// 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
+
 
 		// 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
 		// val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
@@ -300,7 +310,7 @@ export default {
 		for(let i=0;i<threeData.length;i++){
 
 			if(this.selectTem == threeData[i].tem){
-				
+
 				threeData[i].box.push(val);
 			}
 		}
