@@ -36,8 +36,9 @@ export default {
   methods: {
     handleSubmit2(ev) {
       let that = this;
+      this.$axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
       this.$axios({
-        url: "https://result.eolinker.com/WLs4PCQb718e2865c5262db31483fbf47c99e30041e7ed8?uri=out.ccsc58.cc/OMS/v1/public/index/login/index",
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
         method: "post",
         data: {
             UserName: this.account,
@@ -56,7 +57,7 @@ export default {
             return ret;
           }
         ],
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        // headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
       }).then(function(res) {
 
         if (res.data.code == "200") {

@@ -29,10 +29,10 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api':{
-                target:'http://www.zjcoldcloud.com',
+                target:'http://out.ccsc58.cc',
                 changeOrigin:true,
                 pathRewrite:{
-                    '^/api':'http://www.zjcoldcloud.com'
+                    '^/api':'http://out.ccsc58.cc'
                 }
             }
         },

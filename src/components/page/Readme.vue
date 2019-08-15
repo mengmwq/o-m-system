@@ -353,13 +353,74 @@ export default {
 
                     }]
             })
-        }
+        },
+        // 8.15 李洋   请求 top
+                CLSD(val) {
+            this.$emit("func");
+            this.limit = 20;
+            this.cur_page = 1;
+        
+            if (Number(val) === 1) {
+                //日
+                this.isLoad = this.isWeek = isMonth = true;
+                this.isday = false;
+        
+        
+                this.getSearchData("day");
+            } else if(Number(val) === 0) {
+                // 周
+        
+                this.isLoad = this.isday = isMonth = true;
+                this.isWeek= false;
+        
+        
+        
+                this.getSearchData("week");
+            }else{
+                //月
+                // 周
+        
+                this.isLoad = this.isday = isWeek = true;
+                this.isMonth =true;
+        
+        
+                this.getSearchData("month");
+            }
+        },
+      getSearchData(val){
+          this.$axios({
+              url:'http://out.ccsc58.cc/OMS/v1/public/index/index/top',
+              method: "post",
+              data: {
+                  Type: val,
+                  Company:this.company
+              },
+              transformRequest: [
+                  function(data) {
+                      let ret = "";
+                      for (let it in data) {
+                          ret +=
+                              encodeURIComponent(it) +
+                              "=" +
+                              encodeURIComponent(data[it]) +
+                              "&";
+                      }
+                      return ret;
+                  }
+              ],
+            //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          }).then(function(res) {
+
+
+          })
+      }
     },
   mounted() {
-    //  this.getdata();
-      let company = window.sessionStorage.getItem('compony');
+      this.company = window.sessionStorage.getItem('compony');
+     this.getSearchData('day');
+      
 
-      this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
+    //   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
 
       var IncubatorCharts = echarts.init(document.getElementById('IncubatorCharts'));
       var warmArea = echarts.init(document.getElementById('warmArea'));
@@ -722,69 +783,7 @@ export default {
   ]
       })
 
-  },
-
-   methods:{
-        // CLSD(val) {
-        //     this.$emit("func");
-        //     this.limit = 20;
-        //     this.cur_page = 1;
-        //
-        //     if (Number(val) === 1) {
-        //         //日
-        //         this.isLoad = this.isWeek = isMonth = true;
-        //         this.isday = false;
-        //
-        //
-        //         this.getSearchData("day");
-        //     } else if(Number(val) === 0) {
-        //         // 周
-        //
-        //         this.isLoad = this.isday = isMonth = true;
-        //         this.isWeek= false;
-        //
-        //
-        //
-        //         this.getSearchData("week");
-        //     }else{
-        //         //月
-        //         // 周
-        //
-        //         this.isLoad = this.isday = isWeek = true;
-        //         this.isMonth =true;
-        //
-        //
-        //         this.getSearchData("month");
-        //     }
-        // },
-      getdata(){
-          this.$axios({
-              url:'https://result.eolinker.com/WLs4PCQb718e2865c5262db31483fbf47c99e30041e7ed8?uri=out.ccsc58.cc/OMS/v1/public/index/index/top',
-              method: "post",
-              data: {
-                  Type: this.day,
-                  Company:this.company
-              },
-              transformRequest: [
-                  function(data) {
-                      let ret = "";
-                      for (let it in data) {
-                          ret +=
-                              encodeURIComponent(it) +
-                              "=" +
-                              encodeURIComponent(data[it]) +
-                              "&";
-                      }
-                      return ret;
-                  }
-              ],
-              headers: { "Content-Type": "application/x-www-form-urlencoded" }
-          }).then(function(res) {
-
-
-          })
-      }
-    }
+  }
 };
 </script>
 <style>

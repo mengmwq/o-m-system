@@ -18,7 +18,7 @@ Vue.prototype.$axios = axios;
 
 //判断 开发环境 生产环境
 if (process.env.NODE_ENV !== 'development') {
-    Vue.prototype.URL_API = 'http://www.zjcoldcloud.com';
+    Vue.prototype.URL_API = 'http://out.ccsc58.cc';
   } else {
     Vue.prototype.URL_API = 'api/';
 }
