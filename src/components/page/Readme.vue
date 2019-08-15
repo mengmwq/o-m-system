@@ -1,6 +1,6 @@
 <template>
     <div class="container" >
-        <div v-loading="loading"  element-loading-text="拼命加载中" >
+        <div  v-loading="isLoad"  element-loading-text="拼命加载中" >
             <el-row>
                 <el-col>
                     <el-row :gutter="24"  >
@@ -8,9 +8,23 @@
                             <div style="border:0.1px solid #fff;">
                                 <el-row  :gutter="24" style="background: #fff;padding: 5px 30px 5px 5px;border-bottom: 1px solid #ccc; border-top-right-radius:15px;border-top-left-radius:15px;">
                                     <el-col :span="10" >
-                                        <el-button size="mini">日</el-button>
-                                        <el-button size="mini">周</el-button>
-                                        <el-button size="mini">月</el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isday ? 'blackDefault' : 'blueActive'"
+                                            @click="CLSD(1)"
+                                        >日
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                            @click="CLSD(0)"
+                                        >周
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                            @click="CLSD(2)">月
+                                        </el-button>
                                     </el-col>
                                     <el-col :span="13">订单</el-col>
                                     <el-col :span="1"> <el-button size="mini" type="primary" class="btn-cancel" plain @click="breakordersRtatistics">More</el-button></el-col>
@@ -171,7 +185,6 @@
                                 <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;">
 
                                 <div>
-
                                         <el-button size="mini">周</el-button>
                                         <el-button size="mini">月</el-button>
                                     </div>
@@ -198,8 +211,12 @@ export default {
   data: function() {
     return {
         loading:false,
-        isMeng: true
-    };
+        isMeng: true,
+        isday:false,
+        isWeek :true,
+        isMonth  :true,
+        isLoad:false
+  };
   },
   created(){
 
@@ -337,76 +354,15 @@ export default {
         }
     },
   mounted() {
+    //  this.getdata();
       this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
-      var orderChart = echarts.init(document.getElementById('orderChart'));
+
       var IncubatorCharts = echarts.init(document.getElementById('IncubatorCharts'));
       var warmArea = echarts.init(document.getElementById('warmArea'));
       var ExceptionTable = echarts.init(document.getElementById('ExceptionTable'));
       var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
-      orderChart.setOption({
 
-          tooltip : {
-              trigger: 'axis'
-          },
-          // grid: {
-          //     left: '3%',
-          //     top:'85%',
-          //     containLabel: true
-          // },
-          grid:{
-              x:10,
-              y:45,
-              x2:5,
-              y2:20,
-              borderWidth:1
-          },
-          legend: {
-              data:['web','app'],
-              right: 0,
-              orient: 'vertical',
-          },
-          calculable : true,
-          xAxis : [
-              {
-                  show : false,
-                  type : 'category',
-                  boundaryGap : false,
-                  data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-              }
-          ],
-          yAxis : {
-              type : 'value',
-              show : false,
-          }
-          ,
-          series : [
-              {
-                  name: 'web',
-                  type: 'line',
-                  itemStyle: {
-                      color: '#5b9bd5',
-                      borderColor: '#5b9bd5',
-                      borderWidth: 1
-                  },
-                  lineStyle: {
-                      width: 1
-                  },
-                  data: [123,154, 234, 421,120,390, 634,63,194, 234, 321,278,110, 534]
-              },
-              {
-                  name: 'app',
-                  type: 'line',
-                  itemStyle: {
-                      color: '#ed7d31',
-                      borderColor: '#ed7d31',
-                      borderWidth: 1
-                  },
-                  lineStyle: {
-                      width: 1
-                  },
-                  data: [63,194, 234, 321,778,110, 534,123,154, 234, 321,120,390, 634]}
-          ]
-      });
+
       //保温箱使用表
       IncubatorCharts.setOption({
           background:'#fff',
@@ -556,7 +512,71 @@ export default {
       var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
       var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
       var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];   var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
+      var orderChart = echarts.init(document.getElementById('orderChart'));
+      orderChart.setOption({
 
+          tooltip : {
+              trigger: 'axis'
+          },
+          // grid: {
+          //     left: '3%',
+          //     top:'85%',
+          //     containLabel: true
+          // },
+          grid:{
+              x:10,
+              y:45,
+              x2:5,
+              y2:20,
+              borderWidth:1
+          },
+          legend: {
+              data:['web','app'],
+              right: 0,
+              orient: 'vertical',
+          },
+          calculable : true,
+          xAxis : [
+              {
+                  show : false,
+                  type : 'category',
+                  boundaryGap : false,
+                  data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+              }
+          ],
+          yAxis : {
+              type : 'value',
+              show : false,
+          }
+          ,
+          series : [
+              {
+                  name: 'web',
+                  type: 'line',
+                  itemStyle: {
+                      color: '#5b9bd5',
+                      borderColor: '#5b9bd5',
+                      borderWidth: 1
+                  },
+                  lineStyle: {
+                      width: 1
+                  },
+                  data: [123,154, 234, 421,120,390, 634,63,194, 234, 321,278,110, 534]
+              },
+              {
+                  name: 'app',
+                  type: 'line',
+                  itemStyle: {
+                      color: '#ed7d31',
+                      borderColor: '#ed7d31',
+                      borderWidth: 1
+                  },
+                  lineStyle: {
+                      width: 1
+                  },
+                  data: [63,194, 234, 321,778,110, 534,123,154, 234, 321,120,390, 634]}
+          ]
+      });
       CustomerAtivity.setOption({
 
           backgroundColor: '#fff',
@@ -697,7 +717,70 @@ export default {
 
   ]
       })
-  }
+
+  },
+
+    // methods:{
+    //     // CLSD(val) {
+    //     //     this.$emit("func");
+    //     //     this.limit = 20;
+    //     //     this.cur_page = 1;
+    //     //
+    //     //     if (Number(val) === 1) {
+    //     //         //日
+    //     //         this.isLoad = this.isWeek = isMonth = true;
+    //     //         this.isday = false;
+    //     //
+    //     //
+    //     //         this.getSearchData("day");
+    //     //     } else if(Number(val) === 0) {
+    //     //         // 周
+    //     //
+    //     //         this.isLoad = this.isday = isMonth = true;
+    //     //         this.isWeek= false;
+    //     //
+    //     //
+    //     //
+    //     //         this.getSearchData("week");
+    //     //     }else{
+    //     //         //月
+    //     //         // 周
+    //     //
+    //     //         this.isLoad = this.isday = isWeek = true;
+    //     //         this.isMonth =true;
+    //     //
+    //     //
+    //     //         this.getSearchData("month");
+    //     //     }
+    //     // },
+    //   // getdata(){
+    //   //     this.$axios({
+    //   //         url:'https://result.eolinker.com/WLs4PCQb718e2865c5262db31483fbf47c99e30041e7ed8?uri=out.ccsc58.cc/OMS/v1/public/index/index/top',
+    //   //         method: "post",
+    //   //         data: {
+    //   //             Type: this.day,
+    //   //             Company:''
+    //   //         },
+    //   //         transformRequest: [
+    //   //             function(data) {
+    //   //                 let ret = "";
+    //   //                 for (let it in data) {
+    //   //                     ret +=
+    //   //                         encodeURIComponent(it) +
+    //   //                         "=" +
+    //   //                         encodeURIComponent(data[it]) +
+    //   //                         "&";
+    //   //                 }
+    //   //                 return ret;
+    //   //             }
+    //   //         ],
+    //   //         headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    //   //     }).then(function(res) {
+    //   //
+    //   //
+    //   //     })
+    //   // }
+    // }
 };
 </script>
 <style>
@@ -706,6 +789,15 @@ export default {
     /*    position: relative;*/
     /*    margin: 0 0 -13px;*/
     /*}*/
+    .blackDefault {
+        background: #eee;
+        color: #000;
+    }
+
+    .blueActive {
+        background: #00d1b2 !important;
+        color: #fff;
+    }
 </style>
 <style scoped>
    .el-col-5 {

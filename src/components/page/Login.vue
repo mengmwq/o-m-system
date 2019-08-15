@@ -37,11 +37,11 @@ export default {
     handleSubmit2(ev) {
       let that = this;
       this.$axios({
-        url: this.URL_API+"/bqs/backend/web/index.php/login/login",
+        url: "https://result.eolinker.com/WLs4PCQb718e2865c5262db31483fbf47c99e30041e7ed8?uri=out.ccsc58.cc/OMS/v1/public/index/login/index",
         method: "post",
         data: {
-          username: this.account,
-          pwd:this.checkPass
+            UserName: this.account,
+            PassWord:this.checkPass
         },
         transformRequest: [
           function(data) {
@@ -58,10 +58,11 @@ export default {
         ],
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       }).then(function(res) {
-        if (res.data.code == "0") {
+
+        if (res.data.code == "200") {
           window.sessionStorage.setItem('username',that.account);
-          window.sessionStorage.setItem('token',res.data.data.token);
-          window.sessionStorage.setItem('items',JSON.stringify(res.data.data.menu));
+         // window.sessionStorage.setItem('token',res.data.data.token);
+          window.sessionStorage.setItem('items',JSON.stringify(res.data.data));
          that.$router.push({path:'/home'});
 
         }else{
