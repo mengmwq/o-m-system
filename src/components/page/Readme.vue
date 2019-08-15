@@ -34,9 +34,9 @@
                                     <el-col :span="21" >
                                         <div id="orderChart" style="width:100%;height:100px; text-align: center"></div>
                                     </el-col>
-                                    <el-col :span="3"  style="height: 150px">
+                                    <el-col :span="3"  style="height: 150px;text-align: center">
                                         <div style="padding: 30px 0;font-weight: 800">{{countNow}}</div>
-                                        <div>今日订单(票)</div>
+                                        <div>{{changeL}}(票)</div>
                                     </el-col>
 
 
@@ -45,7 +45,7 @@
 
                                     <el-col :span="12"  style="border-right:1px solid #fff">
 
-                                        <div style="text-align: center;font-family: cursive">昨日</div>
+                                        <div style="text-align: center;font-family: cursive">{{changeDay}}</div>
                                         <div style="text-align: center;color:#e64242">{{countYesterday}}</div>
                                     </el-col>
                                     <el-col :span="12" >
@@ -215,7 +215,7 @@ export default {
         isday:false,
         isWeek :true,
         isMonth  :true,
-        isLoad:false,
+        isLoad:true,
         company:'',
         countNow:'',
         countYesterday:'',
@@ -227,7 +227,9 @@ export default {
         ratioBianGeng:'',
         ratioZhunShi:'',
         ratioYJ:'',
-        ratioXJ:''
+        ratioXJ:'',
+        changeDay:'昨日',
+        changeL:'今日订单'
 
 
   };
@@ -373,27 +375,33 @@ export default {
                 //日
                 this.isLoad = this.isWeek = this.isMonth = true;
                 this.isday = false;
-        
-        
+                this.changeDay ="昨日";
+                this.changeL ='今日订单';
+
+
                 this.getSearchData("day");
             } else if(Number(val) === 0) {
                 // 周
-        
+
                 this.isLoad = this.isday = this.isMonth = true;
                 this.isWeek= false;
-        
-        
-        
+                this.changeDay ="上周";
+                this.changeL ='本周订单';
+
+
+
                 this.getSearchData("week");
             }else{
                 //月
                 // 周
-        
+
                 this.isLoad = this.isday = this.isWeek = true;
                 this.isMonth =false;
-        
-        
+
+                this.changeDay ="上月";
+                this.changeL ='本月订单';
                 this.getSearchData("month");
+
             }
         },
       getSearchData(val){
@@ -431,19 +439,18 @@ export default {
               _this.countAnPai = res.data.data.countAnPai;
               _this.countWanChen = res.data.data.countWanChen;
               _this.countMonth =res.data.data.countMonth
-              
-            _this.isLoad = false;
+
+             _this.isLoad = false;
             var orderChart = echarts.init(document.getElementById('orderChart'));
             orderChart.setOption({
-
                 tooltip : {
                     trigger: 'axis'
                 },
                 grid:{
-                    x:10,
+                    x:20,
                     y:45,
-                    x2:5,
-                    y2:20,
+                    x2:10,
+                    y2:30,
                     borderWidth:1
                 },
                 legend: {
@@ -491,7 +498,7 @@ export default {
                             width: 1
                         },
                         data: res.data.data.countApp},
-                    
+
                     {
                         name: 'tms',
                         type: 'line',
@@ -514,11 +521,9 @@ export default {
     },
   mounted() {
       this.company = window.sessionStorage.getItem('compony');
-     this.getSearchData('day');
-      
+      this.getSearchData('day');
 
     //   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
-
       var IncubatorCharts = echarts.init(document.getElementById('IncubatorCharts'));
       var warmArea = echarts.init(document.getElementById('warmArea'));
       var ExceptionTable = echarts.init(document.getElementById('ExceptionTable'));
@@ -673,7 +678,7 @@ export default {
       //客户活跃度表
             var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
             var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
-            var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];   
+            var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];
             var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
       CustomerAtivity.setOption({
 
