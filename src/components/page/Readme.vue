@@ -35,7 +35,7 @@
                                         <div id="orderChart" style="width:100%;height:100px; text-align: center"></div>
                                     </el-col>
                                     <el-col :span="3"  style="height: 150px">
-                                        <div style="padding: 30px 0;font-weight: 800">888888</div>
+                                        <div style="padding: 30px 0;font-weight: 800">{{countNow}}</div>
                                         <div>今日订单(票)</div>
                                     </el-col>
 
@@ -46,12 +46,12 @@
                                     <el-col :span="12"  style="border-right:1px solid #fff">
 
                                         <div style="text-align: center;font-family: cursive">昨日</div>
-                                        <div style="text-align: center;color:#e64242">88</div>
+                                        <div style="text-align: center;color:#e64242">{{countYesterday}}</div>
                                     </el-col>
                                     <el-col :span="12" >
 
                                         <div style="text-align: center;font-family: cursive">累计</div>
-                                        <div style="text-align: center;color:#e64242">1250</div>
+                                        <div style="text-align: center;color:#e64242">{{countMonth}}</div>
                                     </el-col>
 
 
@@ -71,19 +71,19 @@
                         <el-col :span="18"  style="margin:0 0   0  0;display: flex;justify-content: space-between;padding:0;">
                             <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">指令下达</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp98799</span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countNow}}</span>
                             </div>
                             <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">指令取消</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp789654<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">占1.5%</font></span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countQuXiao}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">占1.5%</font></span>
                             </div>
                             <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">已安排</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp789654<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">变更率1.5%</font></span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countAnPai}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">变更率1.5%</font></span>
                             </div>
                             <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">取件完成</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp789654<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">准时率1.5%</font></span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countWanChen}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">准时率1.5%</font></span>
 
                             </div>
 
@@ -92,11 +92,11 @@
                         <el-col :span="5"  :offset="1" style="display: flex;justify-content: space-between;padding:0;">
                             <div style="background: #fff;height:50px;width:48%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">月结占比</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp25%</span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{ratioYJ}}</span>
                             </div>
                             <div style="background: #fff;height:50px;width:48%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                                 <span style="font-family: cursive">现金占比</span>
-                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp45%</span>
+                                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{ratioXJ}}</span>
                             </div>
                         </el-col>
                     </el-row>
@@ -217,6 +217,18 @@ export default {
         isMonth  :true,
         isLoad:false,
         company:'',
+        countNow:'',
+        countYesterday:'',
+        countMonth:'',
+        countQuXiao:'',
+        countAnPai:'',
+        countWanChen:'',
+        ratioQuXiao:'',
+        ratioBianGeng:'',
+        ratioZhunShi:'',
+        ratioYJ:'',
+        ratioXJ:''
+
 
   };
   },
@@ -355,14 +367,11 @@ export default {
             })
         },
         // 8.15 李洋   请求 top
-                CLSD(val) {
-            this.$emit("func");
-            this.limit = 20;
-            this.cur_page = 1;
-        
+        CLSD(val) {
+
             if (Number(val) === 1) {
                 //日
-                this.isLoad = this.isWeek = isMonth = true;
+                this.isLoad = this.isWeek = this.isMonth = true;
                 this.isday = false;
         
         
@@ -370,7 +379,7 @@ export default {
             } else if(Number(val) === 0) {
                 // 周
         
-                this.isLoad = this.isday = isMonth = true;
+                this.isLoad = this.isday = this.isMonth = true;
                 this.isWeek= false;
         
         
@@ -380,15 +389,16 @@ export default {
                 //月
                 // 周
         
-                this.isLoad = this.isday = isWeek = true;
-                this.isMonth =true;
+                this.isLoad = this.isday = this.isWeek = true;
+                this.isMonth =false;
         
         
                 this.getSearchData("month");
             }
         },
       getSearchData(val){
-          this.$axios({
+          let _this = this;
+          _this.$axios({
               url:'http://out.ccsc58.cc/OMS/v1/public/index/index/top',
               method: "post",
               data: {
@@ -410,6 +420,93 @@ export default {
               ],
             //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
           }).then(function(res) {
+             console.log(res.data.data)
+              _this.countNow = res.data.data.countNow;
+              _this.countQuXiao = res.data.data.countQuXiao;
+              _this.ratioYJ =res.data.data.ratioYJ;
+              _this.ratioXJ = res.data.data.ratioXJ;
+              _this.countYesterday = res.data.data.countYesterday;
+              _this.countYesterday = res.data.data.countYesterday;
+              _this.countQuXiao = res.data.data.countQuXiao;
+              _this.countAnPai = res.data.data.countAnPai;
+              _this.countWanChen = res.data.data.countWanChen;
+              _this.countMonth =res.data.data.countMonth
+              
+            _this.isLoad = false;
+            var orderChart = echarts.init(document.getElementById('orderChart'));
+            orderChart.setOption({
+
+                tooltip : {
+                    trigger: 'axis'
+                },
+                grid:{
+                    x:10,
+                    y:45,
+                    x2:5,
+                    y2:20,
+                    borderWidth:1
+                },
+                legend: {
+                    data:['web','app','tms'],
+                    right: 0,
+                    orient: 'vertical',
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        show : true,
+                        type : 'category',
+                        boundaryGap : false,
+                        data : res.data.data.ArrDay
+                    }
+                ],
+                yAxis : {
+                    type : 'value',
+                    show : false,
+                }
+                ,
+                series : [
+                    {
+                        name: 'web',
+                        type: 'line',
+                        itemStyle: {
+                            color: '#5b9bd5',
+                            borderColor: '#5b9bd5',
+                            borderWidth: 1
+                        },
+                        lineStyle: {
+                            width: 1
+                        },
+                        data: res.data.data.countWeb
+                    },
+                    {
+                        name: 'app',
+                        type: 'line',
+                        itemStyle: {
+                            color: '#ed7d31',
+                            borderColor: '#ed7d31',
+                            borderWidth: 1
+                        },
+                        lineStyle: {
+                            width: 1
+                        },
+                        data: res.data.data.countApp},
+                    
+                    {
+                        name: 'tms',
+                        type: 'line',
+                        itemStyle: {
+                            color: '#ff0000',
+                            borderColor: '#ff0000',
+                            borderWidth: 1
+                        },
+                        lineStyle: {
+                            width: 1
+                        },
+                        data: res.data.data.countTms
+                    }
+                ]
+            });
 
 
           })
@@ -574,74 +671,10 @@ export default {
           },]
       })
       //客户活跃度表
-      var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
-      var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
-      var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];   var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
-      var orderChart = echarts.init(document.getElementById('orderChart'));
-      orderChart.setOption({
-
-          tooltip : {
-              trigger: 'axis'
-          },
-          // grid: {
-          //     left: '3%',
-          //     top:'85%',
-          //     containLabel: true
-          // },
-          grid:{
-              x:10,
-              y:45,
-              x2:5,
-              y2:20,
-              borderWidth:1
-          },
-          legend: {
-              data:['web','app'],
-              right: 0,
-              orient: 'vertical',
-          },
-          calculable : true,
-          xAxis : [
-              {
-                  show : false,
-                  type : 'category',
-                  boundaryGap : false,
-                  data : ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-              }
-          ],
-          yAxis : {
-              type : 'value',
-              show : false,
-          }
-          ,
-          series : [
-              {
-                  name: 'web',
-                  type: 'line',
-                  itemStyle: {
-                      color: '#5b9bd5',
-                      borderColor: '#5b9bd5',
-                      borderWidth: 1
-                  },
-                  lineStyle: {
-                      width: 1
-                  },
-                  data: [123,154, 234, 421,120,390, 634,63,194, 234, 321,278,110, 534]
-              },
-              {
-                  name: 'app',
-                  type: 'line',
-                  itemStyle: {
-                      color: '#ed7d31',
-                      borderColor: '#ed7d31',
-                      borderWidth: 1
-                  },
-                  lineStyle: {
-                      width: 1
-                  },
-                  data: [63,194, 234, 321,778,110, 534,123,154, 234, 321,120,390, 634]}
-          ]
-      });
+            var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
+            var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
+            var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];   
+            var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
       CustomerAtivity.setOption({
 
           backgroundColor: '#fff',

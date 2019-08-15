@@ -36,7 +36,6 @@ export default {
   methods: {
     handleSubmit2(ev) {
       let that = this;
-      this.$axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
       this.$axios({
         url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
         method: "post",
@@ -67,7 +66,7 @@ export default {
          that.$router.push({path:'/home'});
 
         }else{
-          that.$message(res.data.message);
+          that.$message(res.data.msg);
         }
       });
 
