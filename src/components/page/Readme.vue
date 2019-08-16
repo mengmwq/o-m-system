@@ -129,8 +129,8 @@
                             </div>
                                 <div style="line-height: 50px;">
                                     <div>
-                                        <span :class="isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('area')">区域订单</span>
-                                        <span :class="!isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('type')">&nbsp&nbsp货物类型</span>
+                                        <span :class="isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('Area ')">区域订单</span>
+                                        <span :class="!isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('goods')">&nbsp&nbsp货物类型</span>
                                     </div>
                                 </div>
                                 <el-button size="mini" type="primary" class="btn-cancel" plain >More</el-button>
@@ -296,16 +296,16 @@ export default {
             this.$router.push({path:'/BoxType'})
         },
         getMeng(val){
-            val == 'area' ? this.isMeng = true : this.isMeng = false
+            val == 'Area' ? this.isMeng = true : this.isMeng = false
             // 这里 就是 请求接口  返回数据 走一下mengdo  这个方法
             // 只要3个数组   传对了   就ok   只处理数据
             // 写成死的了呢恩
-            if(val == 'area'){
+            if(val == 'Area'){
                 let a = ["华北区", "东北区", "华东区", "华中区","华南区" ,"西南区", "西北区"];
                 let b = [10,20,30,40,50,60,70];
                 let c = [100,200,300,400,500,600,500];
                 this.mengdou(a,b,c);
-            }else{
+            }else if(val=='goods'){
                 let a = ["药品","试剂","样本","器械","普货"];
                 let b = [34,33,37,34,40];
                 let c = [100,200,300,400,500];
@@ -444,7 +444,182 @@ export default {
             }
         },
         getOrdersGoodsData(val){
+            let _this=this;
+            _this.$axios({
+                url:"http://out.ccsc58.cc/OMS/v1/public/index/index/middleLeft",
+                method:'post',
+                data:{
+                    Type:val,
+                    Company:this.company,
+                    Type1:'Area'
+                }, transformRequest:[
+                    function (data) {
+                        let ret = "";
+                        for(let it in data){
+                            ret +=
+                                encodeURIComponent(it)+
+                                "="+
+                                encodeURIComponent(data[it])+
+                                "&";
 
+                        }
+                        return ret;
+                    }
+                ]
+
+            }).then(function (res) {
+                console.log(res,6)
+                var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
+//   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
+
+                //异常统计
+
+                //客户活跃度表
+                var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
+                var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
+                var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];
+                var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
+                CustomerAtivity.setOption({
+
+                    backgroundColor: '#fff',
+                    tooltip: {
+                        trigger: 'axis',
+                        // axisPointer: {
+                        //     type: 'cross'
+                        // }
+                    },
+                    grid:{
+                        x:10,
+                        y:45,
+                        x2:5,
+                        y2:20,
+                        borderWidth:1
+                    },
+                    legend: {
+                        x: 'center',
+                        y: '40px',
+                        textStyle: {
+                            color: '#000',
+                            fontSize: 13,
+                        },
+                        icon: 'circle',
+                        data: ['活跃', '失活','普通']
+                    },
+                    dataZoom: [{
+                        type: 'slider',
+                        show: true,
+                        height: 20,
+                        left: '10%',
+                        right: '10%',
+                        bottom: '2%',
+                        start: 50,
+                        end: 100,
+                        textStyle: {
+                            color: '#d4ffff',
+                            fontSize: 11,
+                        },
+                    }, {
+                        type: 'inside'
+                    }
+
+                    ],
+                    // grid: {
+                    //     right: '5%',
+                    //     bottom: '10%',
+                    //     left: '2%',
+                    //     top: '80px',
+                    //     containLabel: true
+                    // },
+                    xAxis: [{
+                        type: 'category',
+                        data: xData,
+                        name: '时间',
+                        nameTextStyle: {
+                            color: '#000'
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#eee'
+                            }
+                        },
+                        axisTick: {
+                            show: false,
+                        },
+                        axisLabel: {
+                            show: true,
+                            textStyle: {
+                                color: "#000",
+                                fontSize: 12,
+                            },
+                            //interval:0,
+                            //rotate:30
+                        },
+                    }],
+                    yAxis: [{
+
+                        type: 'value',
+                        show : false,
+                        nameTextStyle: {
+                            color: '#d4ffff'
+                        },
+                        position: 'left',
+                        axisLine: {
+                            lineStyle: {
+                                color: '#0B4CA9'
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: "#0B4CA9",
+                            }
+
+                        },
+                        axisLabel: {
+                            color: '#d4ffff',
+                            fontSize: 12,
+                        }
+                    }, ],
+                    series: [{
+                        name: '活跃',
+                        type: 'line',
+                        yAxisIndex: 0,
+                        symbolSize: 12,
+                        itemStyle: {
+                            normal: {
+                                color: '#FC30EE',
+                            }
+                        },
+                        data: yData1
+                    },
+                        {
+                            name: '失活',
+                            type: 'line',
+                            yAxisIndex: 0,
+                            symbolSize: 12,
+                            itemStyle: {
+                                normal: {
+                                    color: '#55A4D6',
+                                }
+                            },
+                            data: yData2
+                        },
+                        {
+                            name: '普通',
+                            type: 'line',
+                            yAxisIndex: 0,
+                            symbolSize: 12,
+                            itemStyle: {
+                                normal: {
+                                    color: '#0EF100',
+                                }
+                            },
+                            data: yData3
+                        },
+
+
+                    ]
+                })
+            })
         },
 
 
@@ -877,160 +1052,12 @@ export default {
   mounted() {
       this.company = window.sessionStorage.getItem('compony');
       this.getSearchData('day');
-      this.getAbnormalData('day')
-      this.getTemperatureBoxData('day')
+      this.getAbnormalData('day');
+      this.getTemperatureBoxData('day');
+      this.getOrdersGoodsData('day');
 
 
-      var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
-//   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
 
-      //异常统计
-
-      //客户活跃度表
-            var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
-            var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
-            var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];
-            var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
-      CustomerAtivity.setOption({
-
-          backgroundColor: '#fff',
-          tooltip: {
-              trigger: 'axis',
-              // axisPointer: {
-              //     type: 'cross'
-              // }
-          },
-          grid:{
-              x:10,
-              y:45,
-              x2:5,
-              y2:20,
-              borderWidth:1
-          },
-          legend: {
-              x: 'center',
-              y: '40px',
-              textStyle: {
-                  color: '#000',
-                  fontSize: 13,
-              },
-              icon: 'circle',
-              data: ['活跃', '失活','普通']
-          },
-          dataZoom: [{
-              type: 'slider',
-              show: true,
-              height: 20,
-              left: '10%',
-              right: '10%',
-              bottom: '2%',
-              start: 50,
-              end: 100,
-              textStyle: {
-                  color: '#d4ffff',
-                  fontSize: 11,
-              },
-          }, {
-              type: 'inside'
-          }
-
-          ],
-          // grid: {
-          //     right: '5%',
-          //     bottom: '10%',
-          //     left: '2%',
-          //     top: '80px',
-          //     containLabel: true
-          // },
-          xAxis: [{
-              type: 'category',
-              data: xData,
-              name: '时间',
-              nameTextStyle: {
-                  color: '#000'
-              },
-              axisLine: {
-                  lineStyle: {
-                      color: '#eee'
-                  }
-              },
-              axisTick: {
-                  show: false,
-              },
-              axisLabel: {
-                  show: true,
-                  textStyle: {
-                      color: "#000",
-                      fontSize: 12,
-                  },
-                  //interval:0,
-                  //rotate:30
-              },
-          }],
-          yAxis: [{
-
-              type: 'value',
-              show : false,
-              nameTextStyle: {
-                  color: '#d4ffff'
-              },
-              position: 'left',
-              axisLine: {
-                  lineStyle: {
-                      color: '#0B4CA9'
-                  }
-              },
-              splitLine: {
-                  lineStyle: {
-                      color: "#0B4CA9",
-                  }
-
-              },
-              axisLabel: {
-                  color: '#d4ffff',
-                  fontSize: 12,
-              }
-          }, ],
-          series: [{
-              name: '活跃',
-              type: 'line',
-              yAxisIndex: 0,
-              symbolSize: 12,
-              itemStyle: {
-                  normal: {
-                      color: '#FC30EE',
-                  }
-              },
-              data: yData1
-          },
-              {
-                  name: '失活',
-                  type: 'line',
-                  yAxisIndex: 0,
-                  symbolSize: 12,
-                  itemStyle: {
-                      normal: {
-                          color: '#55A4D6',
-                      }
-                  },
-                  data: yData2
-              },
-         {
-          name: '普通',
-              type: 'line',
-          yAxisIndex: 0,
-          symbolSize: 12,
-          itemStyle: {
-          normal: {
-              color: '#0EF100',
-          }
-      },
-          data: yData3
-      },
-
-
-  ]
-      })
 
   }
 };
