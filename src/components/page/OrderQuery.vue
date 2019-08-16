@@ -145,7 +145,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp冷藏车：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+                                                          <span>&nbsp&nbsp&nbsp&nbsp冷藏车：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> </span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -186,7 +186,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>下单时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">2018年12月5日</span></span>
+                                                          <span>取件时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">2018年12月5日</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
