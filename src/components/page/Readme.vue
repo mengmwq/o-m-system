@@ -295,25 +295,17 @@ export default {
         breakBoxType(){
             this.$router.push({path:'/BoxType'})
         },
+        // 点击  区域订单  货物类型  默认  日
         getMeng(val){
+            
             val == 'Area' ? this.isMeng = true : this.isMeng = false
             console.log(val)
+            this.isWeek = this.isMonth = true;
+            this.isday = false;
             // 这里 就是 请求接口  返回数据 走一下mengdo  这个方法
             // 只要3个数组   传对了   就ok   只处理数据
             // 写成死的了呢恩
-            if(val == 'Area'){
-                let a = ["华北区", "东北区", "华东区", "华中区","华南区" ,"西南区", "西北区"];
-                let b = [10,20,30,40,50,60,70];
-                let c = [100,200,300,400,500,600,500];
-               // this.getOrdersGoodsData('Area')
-                this.mengdou(a,b,c);
-            }else{
-                let a = ["药品","试剂","样本","器械","普货"];
-                let b = [34,33,37,34,40];
-                let c = [100,200,300,400,500];
-                this.mengdou(a,b,c);
-                //this.getOrdersGoodsData('goods')
-            }
+            this.getOrdersGoodsData(val, 'day');
         },
         // 定义 方法    只渲染图表   不处理数据
         // 先看下  图表需要的数据  是啥样
@@ -418,41 +410,33 @@ export default {
         },
         //货物
         OrdersGoods(val){
+            let sta = '';
+            this.isMeng == true ? sta = 'area' : sta = 'goods';
             if(Number(val)===1){
                 //日
                 this.isLoad = this.isWeek = this.isMonth = true;
                 this.isday = false;
-
-
-
-                this.getOrdersGoodsData("day");
+                this.getOrdersGoodsData(sta, "day");
             }else if(Number(val) === 0) {
                 // 周
-
                 this.isLoad = this.isday = this.isMonth = true;
                 this.isWeek= false;
-
-
-
-
-                this.getOrdersGoodsData("week");
+                this.getOrdersGoodsData(sta, "week");
             }else{
                 //月
                 // 周
-
                 this.isLoad = this.isday = this.isWeek = true;
                 this.isMonth =false;
-                this.getOrdersGoodsData("month");
-
+                this.getOrdersGoodsData(sta, "month");
             }
         },
-        getOrdersGoodsData(val){
+        getOrdersGoodsData(val,val1){
             let _this=this;
             _this.$axios({
                 url:"http://out.ccsc58.cc/OMS/v1/public/index/index/middleLeft",
                 method:'post',
                 data:{
-                    Type:val,
+                    Type: val1, // 日  周  月  
                     Company:this.company,
                     Type1:val
                 }, transformRequest:[
@@ -471,7 +455,13 @@ export default {
                 ]
 
             }).then(function (res) {
-                console.log(res)
+                _this.isLoad = false;
+                // console.log(res, '我是  middleLeft 的数据');
+                let a = res.data.data.X;
+                let b = res.data.data.Y;
+                let c = [];
+                // 成功后  只要3个数组   传对了   就ok   this.mengdou(a,b,c);
+                _this.mengdou(a,b,c);
             })
         },
 
@@ -907,10 +897,10 @@ export default {
       this.getSearchData('day');
       this.getAbnormalData('day')
       this.getTemperatureBoxData('day');
-      this.getOrdersGoodsData('day')
+      this.getOrdersGoodsData('area','day');
 
       var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
-      this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
+    //   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
 
       //异常统计
 
