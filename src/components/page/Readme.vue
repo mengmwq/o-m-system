@@ -109,10 +109,24 @@
                         <div class="shunli">
                             <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;padding: 0 12px">
                                 <div>
-                                    <el-button size="mini">日</el-button>
-                                    <el-button size="mini">周</el-button>
-                                    <el-button size="mini">月</el-button>
-                                </div>
+                                    <el-button
+                                        size="mini"
+                                        :class="isday ? 'blackDefault' : 'blueActive'"
+                                        @click="OrdersGoods(1)"
+                                    >日
+                                    </el-button>
+                                    <el-button
+                                        size="mini"
+                                        :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                        @click="OrdersGoods(0)"
+                                    >周
+                                    </el-button>
+                                    <el-button
+                                        size="mini"
+                                        :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                        @click="OrdersGoods(2)">月
+                                    </el-button>
+                            </div>
                                 <div style="line-height: 50px;">
                                     <div>
                                         <span :class="isMeng ? 'laomeng' : 'shimeng'" @click="getMeng('area')">区域订单</span>
@@ -124,12 +138,29 @@
 
                             <div style="width: 100%;height: 300px;background: #fff;" id="orderList" ></div>
                         </div>
+
                         <div style="background: #fff;height:50px;width:42.3%;display: flex;align-items: center;justify-content:space-around;border-radius: 8px">
                             <div class="shunli3">
                                 <div>
-                                    <el-button size="mini">日</el-button>
-                                    <el-button size="mini">周</el-button>
-                                    <el-button size="mini">月</el-button>
+
+                                        <el-button
+                                            size="mini"
+                                            :class="isday ? 'blackDefault' : 'blueActive'"
+                                            @click="Abnormal(1)"
+                                        >日
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                            @click="Abnormal(0)"
+                                        >周
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                            @click="Abnormal(2)">月
+                                        </el-button>
+
                                 </div>
                                 <div style="line-height: 50px;">
                                     <div style="font-family: cursive">
@@ -155,9 +186,23 @@
                             <div class="shunli3">
                                 <div style="border-bottom: 1px solid #ccc;    display: flex; align-items: center;justify-content: space-between;width: 100%;padding: 0 12px">
                                     <div>
-                                        <el-button size="mini">日</el-button>
-                                        <el-button size="mini">周</el-button>
-                                        <el-button size="mini">月</el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isday ? 'blackDefault' : 'blueActive'"
+                                            @click="TemperatureBox(1)"
+                                        >日
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                            @click="TemperatureBox(0)"
+                                        >周
+                                        </el-button>
+                                        <el-button
+                                            size="mini"
+                                            :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                            @click="TemperatureBox(2)">月
+                                        </el-button>
                                     </div>
                                     <div style="line-height: 50px;">
                                         <div style="font-family: cursive">
@@ -368,8 +413,318 @@ export default {
                     }]
             })
         },
+        //货物
+        OrdersGoods(val){
+            if(Number(val)===1){
+                //日
+                this.isLoad = this.isWeek = this.isMonth = true;
+                this.isday = false;
+
+
+
+                this.getOrdersGoodsData("day");
+            }else if(Number(val) === 0) {
+                // 周
+
+                this.isLoad = this.isday = this.isMonth = true;
+                this.isWeek= false;
+
+
+
+
+                this.getOrdersGoodsData("week");
+            }else{
+                //月
+                // 周
+
+                this.isLoad = this.isday = this.isWeek = true;
+                this.isMonth =false;
+                this.getOrdersGoodsData("month");
+
+            }
+        },
+        getOrdersGoodsData(val){
+
+        },
+
+
+        //温区及箱型   请求bottom
+        TemperatureBox(val){
+            if (Number(val) === 1) {
+                //日
+                this.isLoad = this.isWeek = this.isMonth = true;
+                this.isday = false;
+
+
+
+                this.getTemperatureBoxData("day");
+            } else if(Number(val) === 0) {
+                // 周
+
+                this.isLoad = this.isday = this.isMonth = true;
+                this.isWeek= false;
+
+
+
+
+                this.getTemperatureBoxData("week");
+            }else{
+                //月
+                // 周
+
+                this.isLoad = this.isday = this.isWeek = true;
+                this.isMonth =false;
+                this.getTemperatureBoxData("month");
+
+            }
+        },
+        getTemperatureBoxData(val){
+             let _this=this;
+             _this.$axios({
+                 url:'http://out.ccsc58.cc/OMS/v1/public/index/index/bottom',
+                 method:'post',
+                 data:{
+                     Type:val,
+                     Company:this.company
+                 },
+                 transformRequest:[
+                     function (data) {
+                     let ret = "";
+                     for(let it in data){
+                         ret +=
+                             encodeURIComponent(it)+
+                             "="+
+                             encodeURIComponent(data[it])+
+                             "&";
+
+                     }
+                         return ret;
+                     }
+                 ]
+             }).then(function (res) {
+                 console.log(res,4)
+                 _this.isLoad = false;
+                 var IncubatorCharts = echarts.init(document.getElementById('IncubatorCharts'));
+                 var warmArea = echarts.init(document.getElementById('warmArea'));
+
+                 //保温箱使用表
+                 IncubatorCharts.setOption({
+                     background:'#fff',
+                     tooltip : {
+                         trigger: 'axis'
+                     },
+                     grid:{
+                         x:50,
+                         y:10,
+                         x2:50,
+                         y2:50,
+                         borderWidth:1
+                     },
+                     xAxis: {
+                         axisLabel: {
+                             interval: 0,
+                             rotate: -40,
+                             textStyle: {
+                                 fontSize: 12,
+                                 color: '#000'
+                             }
+                         },
+                         boundaryGap : false,
+                         data : res.data.data.packageX
+                     },
+                     yAxis: {
+                         show : false,
+                         type: 'value'
+                     },
+                     series: [{
+                         data:res.data.data.packageY,
+                         type: 'line',
+                         itemStyle: {
+                             color: '#5b9bd5',
+                             borderColor: '#5b9bd5',
+                             borderWidth: 1
+                         },
+                     }]
+                 });
+                 //温区分布表
+                 warmArea.setOption({
+                     background:'#fff',
+                     title: {
+                         "text": "   温区分布(票)",
+
+                         textStyle: {
+                             color: '#000',
+                             fontSize: '12',
+
+                         },
+
+                     },
+                     tooltip : {
+                         trigger: 'axis'
+                     },
+                     grid:{
+                         x:50,
+                         y:0,
+                         x2:50,
+                         y2:50,
+                         borderWidth:1
+                     },
+
+                     xAxis: {
+                         axisLabel: {
+                             interval: 0,
+                             rotate: -40,
+                             textStyle: {
+                                 fontSize: 12,
+                                 color: '#000'
+                             }
+                         },
+                         boundaryGap : false,
+                         data : res.data.data.wdqjX
+                     },
+                     yAxis: {
+                         show : false,
+                         type: 'value'
+                     },
+                     series: [{
+                         data:res.data.data.wdqjY,
+                         type: 'line',
+                         itemStyle: {
+                             color: '#109F50',
+                             borderColor: '#109F50',
+                             borderWidth: 1
+                         },
+                     }]
+                 });
+
+             })
+        },
+        //异常统计图表渲染 请求middle  right
+        Abnormal(val) {
+
+            if (Number(val) === 1) {
+                //日
+                this.isLoad = this.isWeek = this.isMonth = true;
+                this.isday = false;
+
+
+
+                this.getAbnormalData("day");
+            } else if(Number(val) === 0) {
+                // 周
+
+                this.isLoad = this.isday = this.isMonth = true;
+                this.isWeek= false;
+
+
+
+
+                this.getAbnormalData("week");
+            }else{
+                //月
+                // 周
+
+                this.isLoad = this.isday = this.isWeek = true;
+                this.isMonth =false;
+                this.getAbnormalData("month");
+
+            }
+        },
+        getAbnormalData(val){
+          let _this = this;
+          _this.$axios({
+              url:'http://out.ccsc58.cc/OMS/v1/public/index/index/middleRight',
+              method: 'post',
+              data:{
+                  Type: val,
+                  Company:this.company
+              },
+              transformRequest: [
+                  function (data) {
+                     let ret = "";
+                     for(let it in data){
+                         ret +=
+                             encodeURIComponent(it) +
+                             "=" +
+                             encodeURIComponent(data[it]) +
+                             "&";
+                     }
+                      return ret;
+                  }
+              ]
+          }).then(function (res) {
+              console.log(res,8);
+              _this.isLoad = false;
+              var ExceptionTable = echarts.init(document.getElementById('ExceptionTable'));
+              ExceptionTable.setOption({
+                  background:'#fff',
+                  "tooltip": {
+                      "trigger": "axis"
+                  },
+                  grid:{
+                      x:10,
+                      y:45,
+                      x2:5,
+                      y2:20,
+                      borderWidth:1
+                  },
+                  "color": ["#45A2DF", "#1AB394", "#f29c00", ],
+                  "legend": {
+                      "top": "10",
+                      "data": ["客户取消", "内部取消","站点取消"],
+                      "itemGap": 10,
+                      "itemWidth": 15,
+                      "itemHeight": 12
+                  },
+                  "xAxis": [{
+                      "name": "区域",
+                      "type": "category",
+                      "axisTick": {
+                          "alignWithLabel": true
+                      },
+                      "data": res.data.data.X
+                  }],
+                  "yAxis": [{
+                      "type": "value",
+                      show:false
+                  }],
+                  "series": [{  name:'时间变更',
+                      type:'line',
+                      itemStyle : {  /*设置折线颜色*/
+                          normal : {  /* color:'#c4cddc'*/  } },
+                      data:res.data.data.change
+                  },{
+                      "data":res.data.data.custmerReason,
+                      "name": "客户取消",
+                      "stack": "one",
+                      "type": "bar",
+                      label: {
+                          show: true
+                      }
+                  }, {
+                      "data": res.data.data.insideReason,
+                      "name": "内部取消",
+                      "stack": "one",
+                      "type": "bar",
+                      label: {
+                          show: true
+                      }
+                  },
+                      {
+                          "data": res.data.data.siteReason,
+                          "name": "站点取消",
+                          "stack": "one",
+                          "type": "bar",
+                          label: {
+                              show: true
+                          }
+                      },]
+              })
+          })
+        },
+
         // 8.15 李洋   请求 top
-        CLSD(val) {
+          CLSD(val) {
 
             if (Number(val) === 1) {
                 //日
@@ -522,159 +877,15 @@ export default {
   mounted() {
       this.company = window.sessionStorage.getItem('compony');
       this.getSearchData('day');
+      this.getAbnormalData('day')
+      this.getTemperatureBoxData('day')
 
-    //   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
-      var IncubatorCharts = echarts.init(document.getElementById('IncubatorCharts'));
-      var warmArea = echarts.init(document.getElementById('warmArea'));
-      var ExceptionTable = echarts.init(document.getElementById('ExceptionTable'));
+
       var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
+//   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
 
-
-      //保温箱使用表
-      IncubatorCharts.setOption({
-          background:'#fff',
-          tooltip : {
-              trigger: 'axis'
-          },
-          grid:{
-              x:50,
-              y:10,
-              x2:50,
-              y2:50,
-              borderWidth:1
-          },
-          xAxis: {
-              axisLabel: {
-                  interval: 0,
-                  rotate: -40,
-                  textStyle: {
-                      fontSize: 12,
-                      color: '#000'
-                  }
-              },
-              boundaryGap : false,
-              data : ['12L','97L','150L','B箱','x927','托盘保温箱']
-          },
-          yAxis: {
-              show : false,
-              type: 'value'
-          },
-          series: [{
-              data: [820, 932, 901, 934, 1290, 1330, ],
-              type: 'line',
-              itemStyle: {
-                  color: '#5b9bd5',
-                  borderColor: '#5b9bd5',
-                  borderWidth: 1
-              },
-          }]
-      });
-      //温区分布表
-      warmArea.setOption({
-          background:'#fff',
-          title: {
-              "text": "   温区分布(票)",
-
-              textStyle: {
-                  color: '#000',
-                  fontSize: '12',
-
-              },
-
-          },
-          tooltip : {
-              trigger: 'axis'
-          },
-          grid:{
-              x:50,
-              y:0,
-              x2:50,
-              y2:50,
-              borderWidth:1
-          },
-
-          xAxis: {
-              axisLabel: {
-                  interval: 0,
-                  rotate: -40,
-                  textStyle: {
-                      fontSize: 12,
-                      color: '#000'
-                  }
-              },
-              boundaryGap : false,
-              data : ['0-30','20-30','-25-15','2-8','60-90','92-60']
-          },
-          yAxis: {
-              show : false,
-              type: 'value'
-          },
-          series: [{
-              data: [820, 932, 901, 934, 1290, 1330, ],
-              type: 'line',
-              itemStyle: {
-                  color: '#109F50',
-                  borderColor: '#109F50',
-                  borderWidth: 1
-              },
-          }]
-      });
       //异常统计
-      ExceptionTable.setOption({
-          background:'#fff',
-          "tooltip": {
-              "trigger": "axis"
-          },
-          grid:{
-              x:10,
-              y:45,
-              x2:5,
-              y2:20,
-              borderWidth:1
-          },
-          "color": ["#45A2DF", "#1AB394", "#f29c00", ],
-          "legend": {
-              "top": "10",
-              "data": ["客户取消", "内部取消",],
-              "itemGap": 10,
-              "itemWidth": 15,
-              "itemHeight": 12
-          },
-          "xAxis": [{
-              "name": "区域",
-              "type": "category",
-              "axisTick": {
-                  "alignWithLabel": true
-              },
-              "data": ["华北区", "东北区", "华东区", "华中区", "华南区", "西南区", "西北区", "合计", ]
-          }],
-          "yAxis": [{
-              "type": "value",
-              show:false
-          }],
-          "series": [{  name:'时间变更',
-              type:'line',
-              itemStyle : {  /*设置折线颜色*/
-                  normal : {  /* color:'#c4cddc'*/  } },
-              data:[23, 58, 37, 35, 16, 54,45,200]
-          },,{
-              "data": [5, 2, 5, 7, 5, 6,9,18],
-              "name": "客户取消",
-              "stack": "one",
-              "type": "bar",
-              label: {
-                  show: true
-              }
-          }, {
-              "data": [2, 5, 7, 5, 6, 5,4,20],
-              "name": "内部取消",
-              "stack": "one",
-              "type": "bar",
-              label: {
-                  show: true
-              }
-          },]
-      })
+
       //客户活跃度表
             var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
             var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
