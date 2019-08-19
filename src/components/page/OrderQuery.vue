@@ -1,5 +1,7 @@
 <template>
+
     <div style="padding:20px;overflow-y: scroll;height:100%;">
+        <div  v-loading="loading"  element-loading-text="拼命加载中" >
         <div style="display: flex;justify-content: space-between;">
             <div class="bo">
 <!--                // :class="{boActive:isCur===index}" 这个 是 相等的话 添加class 不相等就不添加  -->
@@ -49,7 +51,6 @@
                                         <div class="block"  >
                                             <el-date-picker
                                                 v-model="xdtime"
-
                                                 type="datetimerange"
                                                 value-format="yyyy-MM-dd HH:mm:ss"
                                                 range-separator="至"
@@ -72,27 +73,27 @@
                                         </div>
                                     </el-form-item>
 
-                                    <img src="../../assets/chaxun.png" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+                                    <img src="../../assets/chaxun.png" @click="getData" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
                                 </el-col>
                                 <el-col>
 
                                     <el-form-item label="始发城市">
-                                        <el-input v-model="Startcity"  style="width: 115px"></el-input>
+                                        <el-input v-model="City"  style="width: 115px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="目的城市 " >
-                                        <el-input v-model="Endcity"  style="width: 115px"></el-input>
+                                        <el-input v-model="GetCity"  style="width: 115px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="取件网络">
-                                        <el-input v-model="internet"></el-input>
+                                        <el-input v-model="CompanyNet"></el-input>
                                     </el-form-item>
                                     <el-form-item label="下单类型">
-                                        <el-select v-model="region"  style="width: 200px;">
-                                            <el-option key="bbk" label="所有" value="所有"></el-option>
-                                            <el-option key="xtc" label="APP" value="APP"></el-option>
-                                            <el-option key="imoo" label="客服" value="客服"></el-option>
+                                        <el-select v-model="OrderType"  style="width: 200px;">
+                                            <el-option key="TMS" label="TMS" value="TMS"></el-option>
+                                            <el-option key="APP " label="APP" value="APP"></el-option>
+                                            <el-option key="WEB " label="WEB" value="WEB"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                    <img src="../../assets/chongzhi.png" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+                                    <img src="../../assets/chongzhi.png" @click="refresh()"  alt="重置" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
                                 </el-col>
                             </el-row>
                         </el-form>
@@ -252,44 +253,48 @@
                                 label="货物类型"
                                 align="center"
 
-                                prop="name">
+                                prop="BusinessType">
                             </el-table-column>
                             <el-table-column
                                 label="货物名称"
                                 align="center"
 
-                                prop="category">
+                                prop="CargoName">
                             </el-table-column>
                             <el-table-column
                                 label="客户账号"
                                 align="center"
 
-                                prop="AccoutNumber">
+                                prop="AccountNumber">
                             </el-table-column>
                             <el-table-column
                                 label="收件人"
                                 align="center"
-                                prop="shoujian">
+                                prop="GetName">
                             </el-table-column>
                             <el-table-column
                                 class-name="curstomNum"
                                 label-class-name="aaa"
                                 label="要求取件时间"
                                 align="center"
-                                prop="time"
+                                prop="OrderTime"
                                >
                             </el-table-column>
                             <el-table-column
                                 align="center"
                                 label="时限"
 
-                                prop="shixian">
+                                prop="LimitTime">
                             </el-table-column>
                             <el-table-column
                                 align="center"
                                 label="是否到付"
 
-                                prop="isfu">
+                                prop="">
+                                <template slot-scope="scope" >
+                                    <span class='work' v-if="scope.row.OutPay == '0'"> 否</span>
+                                    <span class='fire' v-if="scope.row.OutPay == '1'" >到付</span>
+                                </template>
                             </el-table-column>
 
                             <el-table-column
@@ -298,15 +303,15 @@
                                 label="是否通知"
                                 align="center">
                                 <template slot-scope="scope" >
-                                    <span class='work' v-if="scope.row.istz == '是'"> {{scope.row.istz}}</span>
-                                    <span class='fire' v-if="scope.row.istz == '否'" ><img src="../../assets/laba.png" alt=""></span>
+                                    <span class='work' v-if="scope.row.OutPay == '1'"> 是</span>
+                                    <span class='fire' v-if="scope.row.OutPay == '0'" ><img src="../../assets/laba.png" alt=""></span>
                                 </template>
                             </el-table-column>
                             <el-table-column
 
                                 label="订单状态"
                                 align="center"
-                                prop="order">
+                                prop="Condition">
                             </el-table-column>
 <!--                            <el-table-column-->
 <!--                                label="录入人"-->
@@ -317,13 +322,13 @@
                                 label="下单方式"
 
                                 align="center"
-                                prop="xiadan">
+                                prop="downType">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="取件网络"
-                                prop="net">
+                                prop="NetCity">
                             </el-table-column>
 <!--                            <el-table-column-->
 <!--                                label="取件人"-->
@@ -345,12 +350,16 @@
         </el-row>
         <div class="pagination">
             <el-pagination
+
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
                 :page-sizes="[20,50, 100, 500, 2000]"
                 :page-size="20"
                 :current-page='cur_page'
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="ccc"
             ></el-pagination>
+        </div>
         </div>
 <!--        //点击取件时间出来的弹框-->
         <el-dialog
@@ -413,183 +422,106 @@
                 value1:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
-                ccc: 500, //总tiao数
+                ccc: 0, //总tiao数
                 staData: [{name:"所有"},{name:"指令下达"},{name:"指令取消"},{name:"指令安排"},{name:"完成"}],
                 isCur: 0,
-                xdtime:'',
+                xdtime:'',//下单时间
+                BeginTime:'',
+                EndTime:'',
                 sanja:false,
-                time:'',
+                time:'',//取件时间
+                BeginOrderTime:'',
+                EndOrderTime:'',
                 region:'',Startcity:'',
                 Endcity:'',
                 internet:'',
                 isMeng: false,
                 tongzhiFangshi:false,
-                tableData: [
-                    {
-                    id: '12987122',
-                    name: '药品',
-                    category: '试剂',
-                    AccoutNumber: '1205665',
-                    shoujian: '孟健康',
-                    time: '2019/12/15',
-                    shixian: '71H',
-                    isfu:'是',
-                    istz:'是',
-                    order:'指令下达',
-                    lururen: '孟孟',
-                    xiadan:'app',
-                    net:'杭州',
-                    qujianren:'小孟'
-                },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '否',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '老孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '是',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '否',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '是',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '否',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '是',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '否',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '是',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },
-                    {
-                        id: '565464545',
-                        name: '冰排',
-                        category: '试剂',
-                        AccoutNumber: '454545',
-                        shoujian: '孟健康',
-                        time: '2019/12/15',
-                        shixian: '71H',
-                        isfu: '是',
-                        istz: '是',
-                        order: '指令下达',
-                        lururen: '孟孟',
-                        xiadan: 'app',
-                        net: '杭州',
-                        qujianren: '小孟'
-                    },],
+                tableData: [],
+                City:'',//始发城市
+                GetCity:'',//目的城市
+                CompanyNet:'',//取件网络
+                OrderType:'',//下单类型
+
                 allotDialogVisible1:false,
+                loading:true,
 
             }
         },
+        mounted(){
+            this.company = window.sessionStorage.getItem('compony');
+            this.getData()
+        },
+
         methods:{
+            //重置
+            refresh(){
+                this.loading = true;
+                this.xdtime ='';
+                this.time = '';
+                this.OrderType='';
+                this.City='';
+                this.GetCity ='';
+                this.CompanyNet='';
+                this.getData();
+                this.loading = false;
+
+            },
+
+            //渲染表格数据
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderQuery',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        BeginTime: this.xdtime[0] || '',//下单开始时间
+                        EndTime: this.xdtime[1] || '', //下单结束时间
+                        BeginOrderTime:this.time[0]||'',//取件开始时间
+                        EndOrderTime:this.time[1]||'',//取件结束时间
+                        OrderType:this.OrderType,//下单类型
+                        City:this.City,//始发城市
+                        GetCity: this.GetCity,//目的城市
+                        CompanyNet: this.CompanyNet,//取件网络
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.loading = false
+                    _this.tableData = res.data.data.result;
+                    _this.ccc = res.data.data.count;
+
+                })
+
+
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
+            },
             //点击表格里边td的时候
             jumpDetails(row,column,cell,event){
 

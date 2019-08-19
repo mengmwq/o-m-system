@@ -304,7 +304,7 @@ export default {
             this.isday = false;
             // 这里 就是 请求接口  返回数据 走一下mengdo  这个方法
             // 只要3个数组   传对了   就ok   只处理数据
-            // 写成死的了呢恩
+
             this.getOrdersGoodsData(val, 'day');
         },
         // 定义 方法    只渲染图表   不处理数据
@@ -740,7 +740,6 @@ export default {
           })
         },
 
-        // 8.15 李洋   请求 top
           CLSD(val) {
 
             if (Number(val) === 1) {
@@ -799,7 +798,6 @@ export default {
               ],
             //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
           }).then(function(res) {
-
               _this.countNow = res.data.data.countNow;
               _this.countQuXiao = res.data.data.countQuXiao;
               _this.ratioYJ =res.data.data.ratioYJ;
@@ -809,7 +807,8 @@ export default {
               _this.countQuXiao = res.data.data.countQuXiao;
               _this.countAnPai = res.data.data.countAnPai;
               _this.countWanChen = res.data.data.countWanChen;
-              _this.countMonth =res.data.data.countMonth
+              _this.countMonth =res.data.data.countMonth;
+
 
              _this.isLoad = false;
             var orderChart = echarts.init(document.getElementById('orderChart'));
@@ -917,7 +916,7 @@ export default {
               // }
           },
           grid:{
-              x:10,  
+              x:10,
               y:45,
               x2:5,
               y2:20,
