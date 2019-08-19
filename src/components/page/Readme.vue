@@ -240,7 +240,7 @@
           </el-row>
         </el-col>
       </el-row>
-      
+
       <el-row style="margin-bottom: 50px;">
         <el-col>
           <el-row :gutter="24">
@@ -838,6 +838,7 @@ export default {
                 ]
             });
             });
+            
         })
     },
 
@@ -993,9 +994,9 @@ export default {
   mounted() {
     this.company = window.sessionStorage.getItem("compony");
     this.getSearchData("day").then(res => {
-    //   console.log(res, "aaaaa");
-    console.log(1111);
-      this.getAbnormalData('day')
+        this.getAbnormalData('day')
+        this.getOrdersGoodsData('area','day');
+
     });
     //   this.getSearchData('day');  // 顶部数据接口
     //   this.getAbnormalData('day')  // 右边数据接口
