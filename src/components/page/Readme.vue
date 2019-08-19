@@ -275,8 +275,6 @@ export default {
         ratioXJ:'',
         changeDay:'昨日',
         changeL:'今日订单'
-
-
   };
   },
   created(){
@@ -297,7 +295,7 @@ export default {
         },
         // 点击  区域订单  货物类型  默认  日
         getMeng(val){
-            
+
             val == 'Area' ? this.isMeng = true : this.isMeng = false
             console.log(val)
             this.isWeek = this.isMonth = true;
@@ -436,7 +434,7 @@ export default {
                 url:"http://out.ccsc58.cc/OMS/v1/public/index/index/middleLeft",
                 method:'post',
                 data:{
-                    Type: val1, // 日  周  月  
+                    Type: val1, // 日  周  月
                     Company:this.company,
                     Type1:val
                 }, transformRequest:[
