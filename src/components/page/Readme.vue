@@ -10,19 +10,19 @@
                                     <el-col :span="10" >
                                         <el-button
                                             size="mini"
-                                            :class="isday ? 'blackDefault' : 'blueActive'"
+                                            :class="isFirst == 1 ? 'blueActive' : 'blackDefault'"
                                             @click="CLSD(1)"
                                         >日
                                         </el-button>
                                         <el-button
                                             size="mini"
-                                            :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                            :class="isFirst == 0 ? 'blueActive' : 'blackDefault'"
                                             @click="CLSD(0)"
                                         >周
                                         </el-button>
                                         <el-button
                                             size="mini"
-                                            :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                            :class="isFirst == 2 ? 'blueActive' : 'blackDefault'"
                                             @click="CLSD(2)">月
                                         </el-button>
                                     </el-col>
@@ -111,19 +111,19 @@
                                 <div>
                                     <el-button
                                         size="mini"
-                                        :class="isday ? 'blackDefault' : 'blueActive'"
+                                        :class="isTwo == 1 ? 'blueActive' : 'blackDefault'"
                                         @click="OrdersGoods(1)"
                                     >日
                                     </el-button>
                                     <el-button
                                         size="mini"
-                                        :class="isWeek ? 'blackDefault' : 'blueActive'"
+                                        :class="isTwo == 0 ? 'blueActive' : 'blackDefault'"
                                         @click="OrdersGoods(0)"
                                     >周
                                     </el-button>
                                     <el-button
                                         size="mini"
-                                        :class="isMonth ? 'blackDefault' : 'blueActive'"
+                                        :class="isTwo == 2 ? 'blueActive' : 'blackDefault'"
                                         @click="OrdersGoods(2)">月
                                     </el-button>
                             </div>
@@ -257,6 +257,8 @@ export default {
     return {
         loading:false,
         isMeng: true,
+        isFirst: 1,
+        isTwo: 1,
         isday:false,
         isWeek :true,
         isMonth  :true,
@@ -412,19 +414,18 @@ export default {
             this.isMeng == true ? sta = 'area' : sta = 'goods';
             if(Number(val)===1){
                 //日
-                this.isLoad = this.isWeek = this.isMonth = true;
-                this.isday = false;
+                this.isTwo = 1;
+                this.isLoad = true;
                 this.getOrdersGoodsData(sta, "day");
             }else if(Number(val) === 0) {
                 // 周
-                this.isLoad = this.isday = this.isMonth = true;
-                this.isWeek= false;
+                this.isTwo = 0;
+                this.isLoad  = true;
                 this.getOrdersGoodsData(sta, "week");
             }else{
                 //月
-                // 周
-                this.isLoad = this.isday = this.isWeek = true;
-                this.isMonth =false;
+                this.isTwo = 2;
+                this.isLoad = true;
                 this.getOrdersGoodsData(sta, "month");
             }
         },
@@ -744,7 +745,7 @@ export default {
 
             if (Number(val) === 1) {
                 //日
-                this.isLoad = this.isWeek = this.isMonth = true;
+                this.isFirst = 1;
                 this.isday = false;
                 this.changeDay ="昨日";
                 this.changeL ='今日订单';
@@ -754,8 +755,8 @@ export default {
             } else if(Number(val) === 0) {
                 // 周
 
-                this.isLoad = this.isday = this.isMonth = true;
-                this.isWeek= false;
+                this.isLoad  = true;
+               this.isFirst = 0;
                 this.changeDay ="上周";
                 this.changeL ='本周订单';
 
@@ -766,9 +767,8 @@ export default {
                 //月
                 // 周
 
-                this.isLoad = this.isday = this.isWeek = true;
-                this.isMonth =false;
-
+                this.isLoad = true;
+                this.isFirst = 2;
                 this.changeDay ="上月";
                 this.changeL ='本月订单';
                 this.getSearchData("month");
@@ -917,7 +917,7 @@ export default {
               // }
           },
           grid:{
-              x:10,
+              x:10,  
               y:45,
               x2:5,
               y2:20,
