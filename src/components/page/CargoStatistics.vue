@@ -3,7 +3,7 @@
         <el-form :inline="true" class="demo-form-inline">
             <el-row>
                 <el-col>
-                    <el-form-item label="客户账号">
+                    <el-form-item label="区域">
                         <el-autocomplete
                             class="inline-input"
 
@@ -14,7 +14,7 @@
 
                         ></el-autocomplete>
                     </el-form-item>
-                    <el-form-item label="公司名称">
+                    <el-form-item label="网络公司">
                         <el-autocomplete
                             class="inline-input"
 
@@ -25,7 +25,7 @@
 
                         ></el-autocomplete>
                     </el-form-item>
-                    <el-form-item label="联系人">
+                    <el-form-item label="货物类型">
                         <el-autocomplete
                             class="inline-input"
 
@@ -37,7 +37,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col >
-                    <el-form-item label="省份">
+                    <el-form-item label="箱型">
                         <el-autocomplete
                             class="inline-input"
 
@@ -48,7 +48,18 @@
 
                         ></el-autocomplete>
                     </el-form-item>
-                    <el-form-item label="城市">
+                    <el-form-item label="客户账号">
+                    <el-autocomplete
+
+                        label-class-name="aaa"
+
+                        placeholder="请输入内容"
+                        :trigger-on-focus="false"
+                        :debounce=0
+
+                    ></el-autocomplete>
+                </el-form-item>
+                    <el-form-item label="订单号">
                         <el-autocomplete
                             class="inline-input"
 
@@ -74,8 +85,8 @@
             <el-row>
                 <el-col style="margin:10px 0" >
                     <div style="display: flex;align-items: center;justify-content: space-between">
-                        <div style="font-family: cursive;">共计:350条信息</div>
-                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>
+                        <div style="font-family: cursive;">订单量合计:350条信息</div>
+<!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                     </div>
 
                 </el-col>
@@ -85,46 +96,62 @@
                         stripe
                         :data="tableData"
                         style="width: 100%">
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
                         <el-table-column
-                            label="客户账号"
+                            label="区域"
 
                             prop="id"
                             align="center"
                         >
                         </el-table-column>
                         <el-table-column
-                            label="公司名称"
+                            label="网络公司"
                             align="center"
 
                             prop="name">
                         </el-table-column>
                         <el-table-column
-                            label="联系人"
+                            label="客户账号"
                             align="center"
-
-                            prop="category">
+                            class-name="curstomNum"
+                            label-class-name="aaa"
+                            prop="">
+                            <template slot-scope="scope">
+                                <el-popover trigger="hover" placement="top">
+                                    <p>客户账号: 2016024465</p>
+                                    <p>联系人: 萌萌</p>
+                                    <p>联系电话: 15001015750</p>
+                                    <p>公司名称: 孟氏集团</p>
+                                    <p>销售人员: 15001015750</p>
+                                    <p>结算方式: 孟氏集团</p>
+                                    <div slot="reference" class="name-wrapper">
+                                        <el-tag size="medium">{{ scope.row.category }}</el-tag>
+                                    </div>
+                                </el-popover>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                            label="联系电话"
+                            label="订单号"
                             align="center"
 
                             prop="AccoutNumber">
                         </el-table-column>
                         <el-table-column
-                            label="省份"
+                            label="货物类型"
                             align="center"
                             prop="shoujian">
                         </el-table-column>
 
                         <el-table-column
                             align="center"
-                            label="城市"
+                            label="件数"
 
                             prop="shixian">
                         </el-table-column>
                         <el-table-column
                             align="center"
-                            label="区域"
+                            label="下单时间"
 
                             prop="isfu">
                         </el-table-column>
@@ -132,12 +159,12 @@
 
                         <el-table-column
 
-                            label="街道"
+                            label="时限"
                             align="center"
                             prop="order">
                         </el-table-column>
                         <el-table-column
-                            label="详细地址"
+                            label="要求取件时间"
                             :show-overflow-tooltip="true"
                             align="center"
                             prop="xiadan">
@@ -145,17 +172,22 @@
                         <el-table-column
 
                             align="center"
-                            label="录入人"
+                            label="实际取件时间"
+                            prop="net">
+                        </el-table-column>
+                        <el-table-column
+
+                            align="center"
+                            label="温区"
+                            prop="net">
+                        </el-table-column>
+                        <el-table-column
+
+                            align="center"
+                            label="箱型数量"
                             prop="net">
                         </el-table-column>
 
-                        <el-table-column
-                            align="center"
-                            label="操作">
-                            <template slot-scope="scope">
-                                <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="editChild(scope.row)" >修改</el-button>
-                            </template>
-                        </el-table-column>
                     </el-table>
                 </el-col>
             </el-row>
@@ -170,86 +202,7 @@
             </div>
 
         </div>
-<!--        //新增页面模态框-->
-        <el-dialog
 
-            :visible.sync="addSendDetailsModel"
-          >
-            <div>
-
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="客户账号" prop="name">
-                        <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="公司名称" prop="company">
-                     <el-input v-model="ruleForm.company" ></el-input>
-                    </el-form-item>
-                    <el-row>
-                        <el-col :span="11">
-                            <el-form-item label="联系人" prop="region">
-                                <el-input v-model="ruleForm.region" ></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="13">
-                            <el-form-item label="联系方式" prop="phone">
-                                <el-input v-model="ruleForm.phone" ></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-
-                    <el-row>
-                        <el-col :span="11">
-                            <el-row>
-                                <el-col :span="12">
-                                    <el-form-item label="省份" prop="province">
-                                        <el-input v-model="ruleForm.province" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.area" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-col>
-                        <el-col :span="13">
-                            <el-col :span="12">
-                                <el-form-item label="区域" prop="area">
-                                    <el-input v-model="ruleForm.area" ></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="街道" prop=" street">
-                                    <el-input v-model="ruleForm. street" ></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-col>
-                    </el-row>
-
-
-
-                    <el-form-item label="详细地址" prop="desc">
-                        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-                        <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
-
-        </el-dialog>
-        //修改模态框
-        <el-dialog
-            title="修改客户信息"
-            :visible.sync="EditDetailsModel"
-        >
-            <div>
-
-
-            </div>
-
-        </el-dialog>
     </div>
 
 </template>
@@ -261,52 +214,16 @@
         name: "SenderManagement",
         data() {
             return {
-                ruleForm: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    area:'',
-                    city:'',
-                    street:'',
-                    province:'',
-                    desc: ''
-                },
-                rules: {
-                    name: [
-                        { required: true, message: '请输入客户账号', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                    ],
-                    company:[
-                        { required: true, message: '请输入公司名称', trigger: 'change' }
-                    ],
-                    region: [
-                        { required: true, message: '请输入联系人', trigger: 'change' }
-                    ],
-                    phone: [
-                        { required: true, message: '请输入联系方式', trigger: 'change' },
-                        {
-                            pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
-                            message: '手机号格式不对',
-                            trigger: 'blur'
-                        }
-
-
-                    ],
-                    desc: [
-                        { required: true, message: '请输入详细地址', trigger: 'blur' }
-                    ]
-                },
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 500, //总tiao数
                 addSendDetailsModel:false,
                 EditDetailsModel:false
-,                tableData: [
+                ,                tableData: [
                     {
                         id: '12987122',
                         name: '孟氏集团',
-                        category: '孟健康',
+                        category: '12345',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
@@ -319,7 +236,7 @@
                     {
                         id: '12987122',
                         name: '孟氏集团',
-                        category: '孟健康',
+                        category: '4654565',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
@@ -332,7 +249,7 @@
                     {
                         id: '135535',
                         name: '孟氏集团',
-                        category: '孟健康',
+                        category: '4546',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
@@ -345,7 +262,7 @@
                     {
                         id: '865',
                         name: '孟氏集团',
-                        category: '孟健康',
+                        category: '456468',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
@@ -358,7 +275,20 @@
                     {
                         id: '8655',
                         name: '孟氏集团',
-                        category: '孟健康',
+                        category: '9787945',
+                        AccoutNumber: '15001015750',
+                        shoujian: '山西',
+                        shixian: '临汾',
+                        isfu:'开发区',
+                        order:'建设路',
+                        xiadan:'山西省临汾市建设路120号',
+                        net:'孟孟',
+
+                    },
+                    {
+                        id: '12987122',
+                        name: '孟氏集团',
+                        category: '45465',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
@@ -420,49 +350,14 @@
                         net:'孟孟',
 
                     },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-             ],
+                ],
 
 
             }
         },
         methods:{
-            //修改页面
-            editChild(row){
-                this.ruleForm.name = row.id;
 
-                this.EditDetailsModel =true;
 
-            },
-            //新增按钮点击页面
-            addSendDetails(){
-              this.addSendDetailsModel = true
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            }
 
 
         }
@@ -471,10 +366,17 @@
 </script>
 
 <style >
-.divBut{
-    padding:20px;
-    overflow-y: scroll;height:100%;
-}
+    .curstomNum:not(.aaa) .cell {
+        color: #649EFE !important;
+
+    }
+    .curstomNum:not(.aaa) .cell:hover {
+        cursor: pointer;
+    }
+    .divBut{
+        padding:20px;
+        overflow-y: scroll;height:100%;
+    }
     .el-input__inner{
         height:35px;
     }

@@ -37,11 +37,11 @@ export default {
     handleSubmit2(ev) {
       let that = this;
       this.$axios({
-        url: this.URL_API+"/bqs/backend/web/index.php/login/login",
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
         method: "post",
         data: {
-          username: this.account,
-          pwd:this.checkPass
+            UserName: this.account,
+            PassWord:this.checkPass
         },
         transformRequest: [
           function(data) {
@@ -56,16 +56,17 @@ export default {
             return ret;
           }
         ],
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        // headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
       }).then(function(res) {
-        if (res.data.code == "0") {
+
+        if (res.data.code == "200") {
           window.sessionStorage.setItem('username',that.account);
-          window.sessionStorage.setItem('token',res.data.data.token);
-          window.sessionStorage.setItem('items',JSON.stringify(res.data.data.menu));
+         // window.sessionStorage.setItem('token',res.data.data.token);
+          window.sessionStorage.setItem('items',JSON.stringify(res.data.data));
          that.$router.push({path:'/home'});
 
         }else{
-          that.$message(res.data.message);
+          that.$message(res.data.msg);
         }
       });
 

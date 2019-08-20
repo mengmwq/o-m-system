@@ -16,13 +16,13 @@
                              style="width:40px; height:40px; border-radius: 50%;">
                         <div>
                             <a href="javascript:;" target="_blank">
-                                <el-dropdown-item> 孟健康</el-dropdown-item>
+                                <el-dropdown-item> {{TrueName}}</el-dropdown-item>
                             </a>
                             <a href="avascript:;" target="_blank">
-                                <el-dropdown-item>ID：12345678</el-dropdown-item>
+                                <el-dropdown-item>ID：{{Id}}</el-dropdown-item>
                             </a>
                             <a @click="handleAdd()">
-                                <el-dropdown-item>电话：15001015750 <i class="el-icon-mobile-phone" style="color: blue"></i></el-dropdown-item>
+                                <el-dropdown-item>电话：{{Mobile}} <i class="el-icon-mobile-phone" style="color: blue"></i></el-dropdown-item>
                             </a>
                         </div>
 
@@ -30,7 +30,7 @@
                     <div style="display: flex;justify-content: space-around;margin: 10px 0">
                         <div style="border-right: 1px solid #A3A3A3;padding:0 5px">
                             <p style="text-align: center;color:#A3A3A3">网络</p>
-                            <p>北京</p>
+                            <p>{{Company}}</p>
                         </div>
                         <div style="border-right: 1px solid #A3A3A3;padding:0 5px">
                             <p style="text-align: center;color:#A3A3A3">部门</p>
@@ -38,7 +38,7 @@
                         </div>
                         <div style="padding: 0 5px">
                             <p style="text-align: center;color:#A3A3A3">职位</p>
-                            <p>开发</p>
+                            <p>{{Operate}}</p>
                         </div>
                     </div>
                     <el-dropdown-item divided command="loginout" style="text-align: center">
@@ -77,7 +77,12 @@
         data() {
             return {
                 name: '',
+                Id:'',
+                Company:'',
+                Mobile:'',
+                Operate:'',
                 fullscreen: false,
+                TrueName:''
             }
         },
         computed: {
@@ -87,7 +92,20 @@
             }
         },
         mounted() {
-            this.initWeather()
+            this.initWeather();
+
+            let item =   window.sessionStorage.getItem("items");
+           this.TrueName = (JSON.parse(item).TrueName)
+            this.Id =  (JSON.parse(item).Id);
+            this.Mobile = (JSON.parse(item).Mobile);
+            this.Company = (JSON.parse(item).Company);
+
+            this.Operate = (JSON.parse(item).Operate)
+
+            window.sessionStorage.setItem('compony',this.Company)
+
+
+
 
         },
         methods: {
@@ -140,38 +158,9 @@
                 }
             },
             handleCommand(command) {
-                if (command == 'loginout') {
-                    // 退出
-                    let that = this;
-                    this.$axios({
-                        url: this.URL_API + "/bqs/backend/web/index.php/login/out",
-                        method: "post",
-                        data: {
-                            token: window.sessionStorage.getItem("token")
-
-                        },
-                        transformRequest: [
-                            function (data) {
-                                let ret = "";
-                                for (let it in data) {
-                                    ret +=
-                                        encodeURIComponent(it) +
-                                        "=" +
-                                        encodeURIComponent(data[it]) +
-                                        "&";
-                                }
-                                return ret;
-                            }
-                        ],
-                        headers: {"Content-Type": "application/x-www-form-urlencoded"}
-                    }).then(function (res) {
-                        if (res.data.code == "0") {
-                            sessionStorage.removeItem('username')
-                            that.$router.push('/login');
-
-                        }
-                    });
-
+                if(command == 'loginout'){
+                    sessionStorage.clear();
+                    this.$router.push('/login');
                 }
             }
         }

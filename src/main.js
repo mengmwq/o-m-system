@@ -18,26 +18,26 @@ Vue.prototype.$axios = axios;
 
 //判断 开发环境 生产环境
 if (process.env.NODE_ENV !== 'development') {
-    Vue.prototype.URL_API = 'http://www.zjcoldcloud.com';
+    Vue.prototype.URL_API = 'http://out.ccsc58.cc';
   } else {
     Vue.prototype.URL_API = 'api/';
 }
 
 // 全局路由守护 路由跳转时  判断是否登录
-router.beforeEach((to, from, next) => {
-    // 已登录,直接进入目标页面
-    let token = window.sessionStorage.getItem('token');
-    if(token == ''|| token == undefined){
-        if(to.path=='/login'){//如果是登录页面路径，就直接next()
-            next();
-          }else{//不然就跳转到登录；
-            next('/');
-          }
-
-    }else{
-        next();
-    }
-  })
+// router.beforeEach((to, from, next) => {
+//     // 已登录,直接进入目标页面
+//     let token = window.sessionStorage.getItem('token');
+//     if(token == ''|| token == undefined){
+//         if(to.path=='/login'){//如果是登录页面路径，就直接next()
+//             next();
+//           }else{//不然就跳转到登录；
+//             next('/');
+//           }
+//
+//     }else{
+//         next();
+//     }
+//   })
 
 
 
