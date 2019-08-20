@@ -275,7 +275,6 @@ export default {
 		this.cargoMsg.push(obj);
 
 
-	  console.log(this.cargoMsg); // 选择的温区  
     },
     prev() {
 
