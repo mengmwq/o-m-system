@@ -269,14 +269,6 @@ export default {
       this.active = 2;
 	  this.firstTitle = "已完成";
 	  this.selectTem = val.tem; // 当前选择的温区
-<<<<<<< HEAD
-
-	  let obj = {tem: this.selectTem, box:[], iceCar:[]}; 
-	  
-		this.cargoMsg.push(obj);
-
-
-=======
         let obj = {tem: this.selectTem, box:[], iceCar:[]};
         if(this.cargoMsg.length == 0){
             this.cargoMsg.push(obj);
@@ -294,7 +286,6 @@ export default {
             }
         }
 	  console.log(this.cargoMsg); // 选择的温区
->>>>>>> 62c249f90fa17977ab4b1d5c3590cad1918c5bcd
     },
     prev() {
 
