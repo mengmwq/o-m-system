@@ -60,8 +60,13 @@ export default new Router({
                     path:'/RecipientManagement',
                     component:resolve =>require(['../components/page/RecipientManagement.vue'],resolve),
                     meta:{keepAlive: true}
+                },
+                
+                {
+                    path:'/NetCompany',
+                    component:resolve =>require(['../components/page/NetCompany.vue'],resolve),
+                    meta:{keepAlive: true}
                 }
-
 
             ]
         },

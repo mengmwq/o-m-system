@@ -1,7 +1,5 @@
 <template>
-    <div>
-        箱型及温区统计
-    </div>
+    <div>箱型及温区统计</div>
 </template>
 
 <script>

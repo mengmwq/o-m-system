@@ -1,5 +1,5 @@
 <template>
-    <div>异常统计</div>
+    <div>日常统计</div>
 </template>
 
 <script>

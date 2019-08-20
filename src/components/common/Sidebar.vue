@@ -71,7 +71,7 @@ export default {
               name: "报表中心",
               son:[
                   {
-                      action:"ordersRtatistics",
+                      action:"OrdersRtatistics",
                       name:"订单统计"
                   },
                   {
