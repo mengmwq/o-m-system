@@ -342,59 +342,6 @@ import echarts from "echarts";
 export default {
   data: function() {
     return {
-<<<<<<< HEAD
-        loading:false,
-        isMeng: true,
-        isFirst: 1,
-        isTwo: 1,
-        isday:false,
-        isWeek :true,
-        isMonth  :true,
-        isLoad:true,
-        company:'',
-        countNow:'',
-        countYesterday:'',
-        countMonth:'',
-        countQuXiao:'',
-        countAnPai:'',
-        countWanChen:'',
-        ratioQuXiao:'',
-        ratioBianGeng:'',
-        ratioZhunShi:'',
-        ratioYJ:'',
-        ratioXJ:'',
-        changeDay:'昨日',
-        changeL:'今日订单'
-  };
-  },
-  created(){
-
-  },
-    methods: {
-        breakordersRtatistics(){
-            this.$router.push({path:'/ordersRtatistics'});
-        },
-        breakCustomerInformation(){
-            this.$router.push({path:'/CustomerInformation'})
-        },
-        breakDailyStatistical(){
-            this.$router.push({path:'/DailyStatistical'})
-        },
-        breakBoxType(){
-            this.$router.push({path:'/BoxType'})
-        },
-        // 点击  区域订单  货物类型  默认  日
-        getMeng(val){
-
-            val == 'Area' ? this.isMeng = true : this.isMeng = false
-            console.log(val)
-            this.isWeek = this.isMonth = true;
-            this.isday = false;
-            // 这里 就是 请求接口  返回数据 走一下mengdo  这个方法
-            // 只要3个数组   传对了   就ok   只处理数据
-
-            this.getOrdersGoodsData(val, 'day');
-=======
       loading: false,
       isMeng: true,
       isFirst: 1,
@@ -454,7 +401,6 @@ export default {
         tooltip: {},
         grid: {
           containLabel: true
->>>>>>> 5c305425db69447fe0ad66cc8563648d8d0b265b
         },
         grid: {
           x: 10,
@@ -483,73 +429,6 @@ export default {
                 color: "#82b0ec"
               }
             }
-<<<<<<< HEAD
-        },
-        getOrdersGoodsData(val,val1){
-            let _this=this;
-            _this.$axios({
-                url:"http://out.ccsc58.cc/OMS/v1/public/index/index/middleLeft",
-                method:'post',
-                data:{
-                    Type: val1, // 日  周  月
-                    Company:this.company,
-                    Type1:val
-                }, transformRequest:[
-                    function (data) {
-                        let ret = "";
-                        for(let it in data){
-                            ret +=
-                                encodeURIComponent(it)+
-                                "="+
-                                encodeURIComponent(data[it])+
-                                "&";
-
-                        }
-                        return ret;
-                    }
-                ]
-
-            }).then(function (res) {
-                _this.isLoad = false;
-                // console.log(res, '我是  middleLeft 的数据');
-                let a = res.data.data.X;
-                let b = res.data.data.Y;
-                let c = [];
-                // 成功后  只要3个数组   传对了   就ok   this.mengdou(a,b,c);
-                _this.mengdou(a,b,c);
-            })
-        },
-
-
-        //温区及箱型   请求bottom
-        TemperatureBox(val){
-            if (Number(val) === 1) {
-                //日
-                this.isLoad = this.isWeek = this.isMonth = true;
-                this.isday = false;
-
-
-
-                this.getTemperatureBoxData("day");
-            } else if(Number(val) === 0) {
-                // 周
-
-                this.isLoad = this.isday = this.isMonth = true;
-                this.isWeek= false;
-
-
-
-
-                this.getTemperatureBoxData("week");
-            }else{
-                //月
-                // 周
-
-                this.isLoad = this.isday = this.isWeek = true;
-                this.isMonth =false;
-                this.getTemperatureBoxData("month");
-
-=======
           }
         ],
         yAxis: [
@@ -569,7 +448,6 @@ export default {
             },
             axisLine: {
               show: false
->>>>>>> 5c305425db69447fe0ad66cc8563648d8d0b265b
             }
           }
         ],
@@ -667,120 +545,6 @@ export default {
               }
               return ret;
             }
-<<<<<<< HEAD
-        },
-        getAbnormalData(val){
-          let _this = this;
-          _this.$axios({
-              url:'http://out.ccsc58.cc/OMS/v1/public/index/index/middleRight',
-              method: 'post',
-              data:{
-                  Type: val,
-                  Company:this.company
-              },
-              transformRequest: [
-                  function (data) {
-                     let ret = "";
-                     for(let it in data){
-                         ret +=
-                             encodeURIComponent(it) +
-                             "=" +
-                             encodeURIComponent(data[it]) +
-                             "&";
-                     }
-                      return ret;
-                  }
-              ]
-          }).then(function (res) {
-
-              _this.isLoad = false;
-              var ExceptionTable = echarts.init(document.getElementById('ExceptionTable'));
-              ExceptionTable.setOption({
-                  background:'#fff',
-                  "tooltip": {
-                      "trigger": "axis"
-                  },
-                  grid:{
-                      x:10,
-                      y:45,
-                      x2:5,
-                      y2:20,
-                      borderWidth:1
-                  },
-                  "color": ["#45A2DF", "#1AB394", "#f29c00", ],
-                  "legend": {
-                      "top": "10",
-                      "data": ["客户取消", "内部取消","站点取消"],
-                      "itemGap": 10,
-                      "itemWidth": 15,
-                      "itemHeight": 12
-                  },
-                  "xAxis": [{
-                      "name": "区域",
-                      "type": "category",
-                      "axisTick": {
-                          "alignWithLabel": true
-                      },
-                      "data": res.data.data.X
-                  }],
-                  "yAxis": [{
-                      "type": "value",
-                      show:false
-                  }],
-                  "series": [{  name:'时间变更',
-                      type:'line',
-                      itemStyle : {  /*设置折线颜色*/
-                          normal : {  /* color:'#c4cddc'*/  } },
-                      data:res.data.data.change
-                  },{
-                      "data":res.data.data.custmerReason,
-                      "name": "客户取消",
-                      "stack": "one",
-                      "type": "bar",
-                      label: {
-                          show: true
-                      }
-                  }, {
-                      "data": res.data.data.insideReason,
-                      "name": "内部取消",
-                      "stack": "one",
-                      "type": "bar",
-                      label: {
-                          show: true
-                      }
-                  },
-                      {
-                          "data": res.data.data.siteReason,
-                          "name": "站点取消",
-                          "stack": "one",
-                          "type": "bar",
-                          label: {
-                              show: true
-                          }
-                      },]
-              })
-          })
-        },
-
-          CLSD(val) {
-
-            if (Number(val) === 1) {
-                //日
-                this.isFirst = 1;
-                this.isday = false;
-                this.changeDay ="昨日";
-                this.changeL ='今日订单';
-
-
-                this.getSearchData("day");
-            } else if(Number(val) === 0) {
-                // 周
-
-                this.isLoad  = true;
-               this.isFirst = 0;
-                this.changeDay ="上周";
-                this.changeL ='本周订单';
-=======
           ]
         })
         .then(function(res) {
@@ -793,7 +557,6 @@ export default {
           _this.mengdou(a, b, c);
         });
     },
->>>>>>> 5c305425db69447fe0ad66cc8563648d8d0b265b
 
     //温区及箱型   请求bottom
     TemperatureBox(val) {
@@ -872,34 +635,6 @@ export default {
                   color: "#000"
                 }
               },
-<<<<<<< HEAD
-              transformRequest: [
-                  function(data) {
-                      let ret = "";
-                      for (let it in data) {
-                          ret +=
-                              encodeURIComponent(it) +
-                              "=" +
-                              encodeURIComponent(data[it]) +
-                              "&";
-                      }
-                      return ret;
-                  }
-              ],
-            //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
-          }).then(function(res) {
-              _this.countNow = res.data.data.countNow;
-              _this.countQuXiao = res.data.data.countQuXiao;
-              _this.ratioYJ =res.data.data.ratioYJ;
-              _this.ratioXJ = res.data.data.ratioXJ;
-              _this.countYesterday = res.data.data.countYesterday;
-              _this.countYesterday = res.data.data.countYesterday;
-              _this.countQuXiao = res.data.data.countQuXiao;
-              _this.countAnPai = res.data.data.countAnPai;
-              _this.countWanChen = res.data.data.countWanChen;
-              _this.countMonth =res.data.data.countMonth;
-
-=======
               boundaryGap: false,
               data: res.data.data.packageX
             },
@@ -924,7 +659,6 @@ export default {
             background: "#fff",
             title: {
               text: "   温区分布(票)",
->>>>>>> 5c305425db69447fe0ad66cc8563648d8d0b265b
 
               textStyle: {
                 color: "#000",
@@ -1104,7 +838,7 @@ export default {
                 ]
             });
             });
-            
+
         })
     },
 
@@ -1138,82 +872,6 @@ export default {
         this.getSearchData("month");
       }
     },
-<<<<<<< HEAD
-  mounted() {
-      this.company = window.sessionStorage.getItem('compony');
-      this.getSearchData('day');
-      this.getAbnormalData('day')
-      this.getTemperatureBoxData('day');
-      this.getOrdersGoodsData('area','day');
-
-      var CustomerAtivity = echarts.init(document.getElementById('CustomerAtivity'));
-    //   this.mengdou(["华北区", "东北区", "华东区", "华中区", "西南区", "西北区"],[10,50,60,10,80,90],[100,300,500,400,600,100]);
-
-      //异常统计
-
-      //客户活跃度表
-            var xData = ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"];
-            var yData1 = [12, 5, 12, 46, 22, 24, 15, 5, 54, 18, 24, 18,];
-            var yData2 = [13, 7, 10, 38, 17, 28, 22, 12, 28, 19, 14, 19,];
-            var yData3 = [18, 45, 10, 28, 17, 8, 22, 12, 28, 9, 14, 19,];
-      CustomerAtivity.setOption({
-
-          backgroundColor: '#fff',
-          tooltip: {
-              trigger: 'axis',
-              // axisPointer: {
-              //     type: 'cross'
-              // }
-          },
-          grid:{
-              x:10,
-              y:45,
-              x2:5,
-              y2:20,
-              borderWidth:1
-          },
-          legend: {
-              x: 'center',
-              y: '40px',
-              textStyle: {
-                  color: '#000',
-                  fontSize: 13,
-              },
-              icon: 'circle',
-              data: ['活跃', '失活','普通']
-          },
-          dataZoom: [{
-              type: 'slider',
-              show: true,
-              height: 20,
-              left: '10%',
-              right: '10%',
-              bottom: '2%',
-              start: 50,
-              end: 100,
-              textStyle: {
-                  color: '#d4ffff',
-                  fontSize: 11,
-              },
-          }, {
-              type: 'inside'
-          }
-
-          ],
-          // grid: {
-          //     right: '5%',
-          //     bottom: '10%',
-          //     left: '2%',
-          //     top: '80px',
-          //     containLabel: true
-          // },
-          xAxis: [{
-              type: 'category',
-              data: xData,
-              name: '时间',
-              nameTextStyle: {
-                  color: '#000'
-=======
     getSearchData(val) {
       let _this = this;
       return new Promise((resolve, reject) => {
@@ -1259,7 +917,6 @@ export default {
             orderChart.setOption({
               tooltip: {
                 trigger: "axis"
->>>>>>> 5c305425db69447fe0ad66cc8563648d8d0b265b
               },
               grid: {
                 x: 20,
@@ -1339,6 +996,7 @@ export default {
     this.getSearchData("day").then(res => {
         this.getAbnormalData('day')
         this.getOrdersGoodsData('area','day');
+        this.getTemperatureBoxData('day')
 
     });
     //   this.getSearchData('day');  // 顶部数据接口
