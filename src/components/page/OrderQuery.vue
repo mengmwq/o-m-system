@@ -78,10 +78,10 @@
                                 <el-col>
 
                                     <el-form-item label="始发城市">
-                                        <el-input v-model="City"  style="width: 115px"></el-input>
+                                        <el-input v-model="City1"  style="width: 115px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="目的城市 " >
-                                        <el-input v-model="GetCity"  style="width: 115px"></el-input>
+                                        <el-input v-model="GetCity1"  style="width: 115px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="取件网络">
                                         <el-input v-model="CompanyNet"></el-input>
@@ -453,8 +453,8 @@
                 isMeng: false,
                 tongzhiFangshi:false,
                 tableData: [],
-                City:'',//始发城市
-                GetCity:'',//目的城市
+                City1:'',//始发城市
+                GetCity1:'',//目的城市
                 CompanyNet:'',//取件网络
                 OrderType:'',//下单类型
 
@@ -496,8 +496,8 @@
                 this.xdtime ='';
                 this.time = '';
                 this.OrderType='';
-                this.City='';
-                this.GetCity ='';
+                this.City1='';
+                this.GetCity1 ='';
                 this.CompanyNet='';
                 this.getData();
                 this.loading = false;
@@ -570,8 +570,8 @@
                         BeginOrderTime:this.time[0]||'',//取件开始时间
                         EndOrderTime:this.time[1]||'',//取件结束时间
                         OrderType:this.OrderType,//下单类型
-                        City:this.City,//始发城市
-                        GetCity: this.GetCity,//目的城市
+                        City:this.City1,//始发城市
+                        GetCity: this.GetCity1,//目的城市
                         CompanyNet: this.CompanyNet,//取件网络
                         Condition: this.currentSta,
 
