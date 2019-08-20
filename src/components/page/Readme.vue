@@ -99,7 +99,7 @@
               :span="18"
               style="margin:0 0   0  0;display: flex;justify-content: space-between;padding:0;"
             >
-              <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
+              <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: space-around;border-radius: 8px">
                 <span style="font-family: cursive">指令下达</span>
                 <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countNow}}</span>
               </div>

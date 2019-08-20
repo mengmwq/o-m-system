@@ -28,13 +28,13 @@
             <el-col>
                 <el-row :gutter="24">
                     <el-col :span="24" style="height: 80px; align-items: center;display: flex">
-                            <el-dropdown :hide-on-click="false" style="margin-right: 10px;">
+                            <el-dropdown :hide-on-click="true" style="margin-right: 10px;">
                                   <span class="el-dropdown-link">公司名称<i class="el-icon-arrow-down el-icon--right"></i>
                                   </span>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item>客户账号</el-dropdown-item>
                                     <el-dropdown-item>货物类型</el-dropdown-item>
-                                    <el-dropdown-item>委托书编号</el-dropdown-item>
+                                    <el-dropdown-item>订单号</el-dropdown-item>
                                     <el-dropdown-item >运单号码</el-dropdown-item>
                                 </el-dropdown-menu>
                            </el-dropdown>
@@ -105,7 +105,7 @@
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
                             row-key="id"
-
+                            height="700"
                             @cell-click="jumpDetails"
                             @expand-change ="rowClick"
                             :data="tableData"
@@ -140,12 +140,12 @@
 
 <!--                                                      </div>-->
                                                       <div v-for="(item,index) in Box" :key="index">
-                                                          <p style='padding:10px 0;'>温度区间：{{index}}</p>
-                                                          <div class="bioage">
-                                                              <span v-for="(item,k) in Box[index]" :key="k">
-                                                                  <span>包材选择:{{item.PackageName}}</span>
-                                                                  <span>件数:{{item.Jian}}</span>
-                                                              </span>
+                                                          <p style='padding:0px 0;'>温度区间：<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{index}}</font></p>
+                                                          <div >
+                                                              <div v-for="(item,k) in Box[index]" :key="k" >
+                                                                  <p style="margin: 20px 0">包材选择:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.PackageName}}</font></p>
+                                                                  <p style="margin: 20px 0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.Jian}}</font></p>
+                                                              </div>
                                                           </div>
                                                       </div>
                                                       <div  class="bioage">
@@ -438,6 +438,7 @@
                 limit: 20, //每页多少条
                 ccc: 0, //总tiao数
                 staData: [{name:"所有"},{name:"指令下达"},{name:"指令取消"},{name:"指令安排"},{name:"完成"}],
+                currentSta:"",
                 isCur: 0,
                 xdtime:'',//下单时间
                 BeginTime:'',
@@ -485,7 +486,7 @@
         },
         mounted(){
             this.company = window.sessionStorage.getItem('compony');
-            this.getData('')
+            this.getData();
         },
 
         methods:{
@@ -555,7 +556,7 @@
                 })
             },
             //渲染表格数据
-            getData(val){
+            getData(){
                 let _this = this;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderQuery',
@@ -572,7 +573,8 @@
                         City:this.City,//始发城市
                         GetCity: this.GetCity,//目的城市
                         CompanyNet: this.CompanyNet,//取件网络
-                        Condition:val
+                        Condition: this.currentSta,
+
                     },
                     transformRequest: [
                         function(data) {
@@ -637,19 +639,21 @@
             //指令状态的操作
             changeSta(val){
                 // 点击谁  就给谁加class   zajia  不会了
-                console.log(val)
+                // console.log(val)
+                this.cur_page = 1;
                 if(val  === "指令下达"){
-                    this.getData('指令下达')
-                }else if(val==="所有"){
-                    this.getData('')
-                }else if(val ==="指令取消"){
-                    this.getData('指令取消')
-                }else if(val=="指令安排"){
-                    this.getData('已安排')
-                }else if(val==="完成"){
-                    this.getData('取件完成')
+                    this.currentSta = '指令下达';
                 }
-
+                else if(val ==="指令取消"){
+                    this.currentSta = '指令取消';
+                }else if(val=="指令安排"){
+                    this.currentSta = '已安排';
+                }else if(val==="完成"){
+                    this.currentSta = '取件完成';
+                }else if(val==="所有"){
+                    this.currentSta = '';
+                }
+                this.getData();
 
             },
             development(){
