@@ -28,14 +28,14 @@
             <el-col>
                 <el-row :gutter="24">
                     <el-col :span="24" style="height: 80px; align-items: center;display: flex">
-                            <el-dropdown :hide-on-click="true" style="margin-right: 10px;">
+                            <el-dropdown trigger="click" :hide-on-click="false" @command="changeCompany" style="margin-right: 10px;">
                                   <span class="el-dropdown-link">公司名称<i class="el-icon-arrow-down el-icon--right"></i>
                                   </span>
                                 <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item>客户账号</el-dropdown-item>
-                                    <el-dropdown-item>货物类型</el-dropdown-item>
-                                    <el-dropdown-item>订单号</el-dropdown-item>
-                                    <el-dropdown-item >运单号码</el-dropdown-item>
+                                    <el-dropdown-item command="客户账号">客户账号</el-dropdown-item>
+                                    <el-dropdown-item command="货物类型">货物类型</el-dropdown-item>
+                                    <el-dropdown-item command="订单号">订单号</el-dropdown-item>
+                                    <el-dropdown-item command="运单号码">运单号码</el-dropdown-item>
                                 </el-dropdown-menu>
                            </el-dropdown>
                           <input type="text" >
@@ -490,6 +490,9 @@
         },
 
         methods:{
+            changeCompany(data){
+                console.log(data);
+            },
             //重置
             refresh(){
                 this.loading = true;
