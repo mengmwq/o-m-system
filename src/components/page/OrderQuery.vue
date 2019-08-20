@@ -14,7 +14,7 @@
                    根本不慌  有注释  没问题
 
     -->
-                <span v-for="(item,index) in staData" :key="index" :class="{boActive:isCur===index}" @click="isCur=index, changeSta(item.name)" >{{item.name}}</span>
+                <span v-for="(item,index) in staData" :key="index" :class="{boActive:isCur===index}" @click="isCur=index, changeSta(item.name)" v-model="c" >{{item.name}}</span>
 
 
             </div>
@@ -104,8 +104,10 @@
                         <el-table
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
+                            row-key="id"
 
                             @cell-click="jumpDetails"
+                            @expand-change ="rowClick"
                             :data="tableData"
                             style="width: 100%">
                             <el-table-column type="expand">
@@ -116,26 +118,35 @@
                                               <el-row :gutter="24">
                                                   <el-col :span="12" >
                                                       <div class="bioage">
-                                                          <span>始发地：河北-廊坊</span>
-                                                           <span>录入人：孟健康</span>
+                                                          <span>始发地：{{Depart}}-{{City}}</span>
+                                                           <span>录入人：{{entryname}}</span>
                                                       </div>
                                                       <div class="bioage">
-                                                          <span>目的地：山西-临汾</span>
+                                                          <span>目的地：{{GetDepart}}-{{GetCity}}</span>
 
-                                                          <span>取件人：孟孟</span>
+                                                          <span>取件人：{{GetName}}</span>
                                                       </div>
-                                                      <div class="bioage">
-                                                          <span>温度区间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+<!--                                                      <div class="bioage">-->
+<!--                                                          <span>温度区间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
 
-                                                      </div>
-                                                      <div  class="bioage">
-                                                          <span>包材选择：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+<!--                                                      </div>-->
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>包材选择：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
-                                                      </div>
-                                                      <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+<!--                                                      </div>-->
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
+<!--                                                      </div>-->
+                                                      <div v-for="(item,index) in Box" :key="index">
+                                                          <p style='padding:10px 0;'>温度区间：{{index}}</p>
+                                                          <div class="bioage">
+                                                              <span v-for="(item,k) in Box[index]" :key="k">
+                                                                  <span>包材选择:{{item.PackageName}}</span>
+                                                                  <span>件数:{{item.Jian}}</span>
+                                                              </span>
+                                                          </div>
                                                       </div>
                                                       <div  class="bioage">
                                                           <span>货物尺寸：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
@@ -150,7 +161,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>结算方式：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+                                                          <span>结算方式：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{SafeMoney}}</span></span>
 
                                                       </div>
 
@@ -183,7 +194,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>下单时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">2018年12月5日</span></span>
+                                                          <span>下单时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Indate}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -191,7 +202,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">我是孟健康</span></span>
+                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{note1}}</span></span>
 
                                                       </div>
 
@@ -204,33 +215,33 @@
                                        <el-col :span="10" :offset="1" >
                                             <h4 style="border-left: 4px solid #45A2DF">  &nbsp&nbsp客户信息：</h4>
                                            <div class="bioage">
-                                               <span>公司名称：上海科技有限公司</span>
+                                               <span>公司名称：{{Company}}</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>联系人：孟健康</span>
-                                               <span>科室：外科</span>
+                                               <span>联系人：{{Manager}}</span>
+                                               <span>科室：{{DepartMent}}</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>联系电话：15001015750</span>
+                                               <span>联系电话：{{Telephone}}</span>
                                                <span>城市、区域：北京</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>详细地址：上海科技有限公司</span>
+                                               <span>详细地址：{{Address}}</span>
                                            </div>
                                            <h4 style="border-left: 4px solid #45A2DF">  &nbsp&nbsp收件人信息：</h4>
                                            <div class="bioage">
-                                               <span>公司名称：上海科技有限公司</span>
+                                               <span>公司名称：{{GetCompany}}</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>联系人：孟健康</span>
-                                               <span>科室：外科</span>
+                                               <span>联系人：</span>
+                                               <span>科室：</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>联系电话：15001015750</span>
-                                               <span>城市、区域：北京</span>
+                                               <span>联系电话：{{GetTelephone}}</span>
+                                               <span>城市、区域：{{GetArea}}</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>详细地址：上海科技有限公司</span>
+                                               <span>详细地址：{{GetAddress}}</span>
                                            </div>
                                        </el-col>
                                    </el-row>
@@ -278,6 +289,7 @@
                                 label="要求取件时间"
                                 align="center"
                                 prop="OrderTime"
+                                :show-overflow-tooltip="true"
                                >
                             </el-table-column>
                             <el-table-column
@@ -419,6 +431,8 @@
         name: "orderManagement",
         data() {
             return {
+                Box:'',
+                c:'',
                 value1:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
@@ -445,12 +459,33 @@
 
                 allotDialogVisible1:false,
                 loading:true,
+                Depart:'',
+                City:'',
+                entryname:'',
+                GetCity:'',
+                GetDepart:'',
+                GetName:'',
+                PayWay:'',
+                SafeMoney:'',
+                Condition:'',
+                Indate:'',
+                note1:'',
+                Company:'',
+                Manager:'',
+                DepartMent:'',
+                Telephone:'',
+                Address:'',
+                GetCompany:'',
+                GetTelephone:'',
+                GetArea:'',
+                GetAddress:''
+
 
             }
         },
         mounted(){
             this.company = window.sessionStorage.getItem('compony');
-            this.getData()
+            this.getData('')
         },
 
         methods:{
@@ -467,9 +502,60 @@
                 this.loading = false;
 
             },
+            //表格展开详细
+            rowClick(row, event, column){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
+                    method:'post',
+                    data:{
+                        Company:this.company,
+                        id:row.id
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
 
+                }).then(function (res) {
+                    _this.Box = res.data.data.Box;
+
+                    _this.Depart =res.data.data.Depart;
+                    _this.City = res.data.data.City;
+                    _this.entryname =res.data.data.entryname;
+                    _this.GetDepart =res.data.data.GetDepart;
+                    _this.GetCity = res.data.data.GetCity;
+                    _this.GetName = res.data.data.GetName;
+                    _this.PayWay = res.data.data.PayWay;
+                    _this.SafeMoney = res.data.data.SafeMoney;
+                    _this.Condition = res.data.data.Condition
+                    _this.Indate =res.data.data.Indate;
+                    _this.note1 =res.data.data.note1;
+                    _this.Company = res.data.data.Company;
+                    _this.Manager = res.data.data.Manager;
+                    _this.DepartMent = res.data.data.DepartMent;
+                    _this.Telephone = res.data.data.Telephone;
+                    _this.Address = res.data.data.Address;
+                    _this.GetCompany =res.data.data.GetCompany;
+                    _this.GetTelephone = res.data.data.GetTelephone;
+                    _this.GetArea = res.data.data.GetArea;
+                    _this.GetAddress = res.data.data.GetAddress;
+
+
+
+                })
+            },
             //渲染表格数据
-            getData(){
+            getData(val){
                 let _this = this;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderQuery',
@@ -486,6 +572,7 @@
                         City:this.City,//始发城市
                         GetCity: this.GetCity,//目的城市
                         CompanyNet: this.CompanyNet,//取件网络
+                        Condition:val
                     },
                     transformRequest: [
                         function(data) {
@@ -547,9 +634,23 @@
             });
 
             },
+            //指令状态的操作
             changeSta(val){
                 // 点击谁  就给谁加class   zajia  不会了
                 console.log(val)
+                if(val  === "指令下达"){
+                    this.getData('指令下达')
+                }else if(val==="所有"){
+                    this.getData('')
+                }else if(val ==="指令取消"){
+                    this.getData('指令取消')
+                }else if(val=="指令安排"){
+                    this.getData('已安排')
+                }else if(val==="完成"){
+                    this.getData('取件完成')
+                }
+
+
             },
             development(){
 
@@ -558,7 +659,9 @@
 
 
 
-            }
+            },
+
+
         }
     }
 

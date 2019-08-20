@@ -584,127 +584,130 @@ export default {
     },
     getTemperatureBoxData(val) {
       let _this = this;
-      _this
-        .$axios({
-          url: "http://out.ccsc58.cc/OMS/v1/public/index/index/bottom",
-          method: "post",
-          data: {
-            Type: val,
-            Company: this.company
-          },
-          transformRequest: [
-            function(data) {
-              let ret = "";
-              for (let it in data) {
-                ret +=
-                  encodeURIComponent(it) +
-                  "=" +
-                  encodeURIComponent(data[it]) +
-                  "&";
-              }
-              return ret;
-            }
-          ]
+        return new Promise((resolve,reject)=> {
+            _this
+                .$axios({
+                    url: "http://out.ccsc58.cc/OMS/v1/public/index/index/bottom",
+                    method: "post",
+                    data: {
+                        Type: val,
+                        Company: this.company
+                    },
+                    transformRequest: [
+                        function (data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ]
+                })
+                .then(function (res) {
+                    _this.isLoad = false;
+                    var IncubatorCharts = echarts.init(
+                        document.getElementById("IncubatorCharts")
+                    );
+                    var warmArea = echarts.init(document.getElementById("warmArea"));
+
+                    //保温箱使用表
+                    IncubatorCharts.setOption({
+                        background: "#fff",
+                        tooltip: {
+                            trigger: "axis"
+                        },
+                        grid: {
+                            x: 50,
+                            y: 10,
+                            x2: 50,
+                            y2: 50,
+                            borderWidth: 1
+                        },
+                        xAxis: {
+                            axisLabel: {
+                                interval: 0,
+                                rotate: -40,
+                                textStyle: {
+                                    fontSize: 12,
+                                    color: "#000"
+                                }
+                            },
+                            boundaryGap: false,
+                            data: res.data.data.packageX
+                        },
+                        yAxis: {
+                            show: false,
+                            type: "value"
+                        },
+                        series: [
+                            {
+                                data: res.data.data.packageY,
+                                type: "line",
+                                itemStyle: {
+                                    color: "#5b9bd5",
+                                    borderColor: "#5b9bd5",
+                                    borderWidth: 1
+                                }
+                            }
+                        ]
+                    });
+                    //温区分布表
+                    warmArea.setOption({
+                        background: "#fff",
+                        title: {
+                            text: "   温区分布(票)",
+
+                            textStyle: {
+                                color: "#000",
+                                fontSize: "12"
+                            }
+                        },
+                        tooltip: {
+                            trigger: "axis"
+                        },
+                        grid: {
+                            x: 50,
+                            y: 0,
+                            x2: 50,
+                            y2: 50,
+                            borderWidth: 1
+                        },
+
+                        xAxis: {
+                            axisLabel: {
+                                interval: 0,
+                                rotate: -40,
+                                textStyle: {
+                                    fontSize: 12,
+                                    color: "#000"
+                                }
+                            },
+                            boundaryGap: false,
+                            data: res.data.data.wdqjX
+                        },
+                        yAxis: {
+                            show: false,
+                            type: "value"
+                        },
+                        series: [
+                            {
+                                data: res.data.data.wdqjY,
+                                type: "line",
+                                itemStyle: {
+                                    color: "#109F50",
+                                    borderColor: "#109F50",
+                                    borderWidth: 1
+                                }
+                            }
+                        ]
+                    });
+                });
         })
-        .then(function(res) {
-          _this.isLoad = false;
-          var IncubatorCharts = echarts.init(
-            document.getElementById("IncubatorCharts")
-          );
-          var warmArea = echarts.init(document.getElementById("warmArea"));
 
-          //保温箱使用表
-          IncubatorCharts.setOption({
-            background: "#fff",
-            tooltip: {
-              trigger: "axis"
-            },
-            grid: {
-              x: 50,
-              y: 10,
-              x2: 50,
-              y2: 50,
-              borderWidth: 1
-            },
-            xAxis: {
-              axisLabel: {
-                interval: 0,
-                rotate: -40,
-                textStyle: {
-                  fontSize: 12,
-                  color: "#000"
-                }
-              },
-              boundaryGap: false,
-              data: res.data.data.packageX
-            },
-            yAxis: {
-              show: false,
-              type: "value"
-            },
-            series: [
-              {
-                data: res.data.data.packageY,
-                type: "line",
-                itemStyle: {
-                  color: "#5b9bd5",
-                  borderColor: "#5b9bd5",
-                  borderWidth: 1
-                }
-              }
-            ]
-          });
-          //温区分布表
-          warmArea.setOption({
-            background: "#fff",
-            title: {
-              text: "   温区分布(票)",
-
-              textStyle: {
-                color: "#000",
-                fontSize: "12"
-              }
-            },
-            tooltip: {
-              trigger: "axis"
-            },
-            grid: {
-              x: 50,
-              y: 0,
-              x2: 50,
-              y2: 50,
-              borderWidth: 1
-            },
-
-            xAxis: {
-              axisLabel: {
-                interval: 0,
-                rotate: -40,
-                textStyle: {
-                  fontSize: 12,
-                  color: "#000"
-                }
-              },
-              boundaryGap: false,
-              data: res.data.data.wdqjX
-            },
-            yAxis: {
-              show: false,
-              type: "value"
-            },
-            series: [
-              {
-                data: res.data.data.wdqjY,
-                type: "line",
-                itemStyle: {
-                  color: "#109F50",
-                  borderColor: "#109F50",
-                  borderWidth: 1
-                }
-              }
-            ]
-          });
-        });
     },
     //异常统计图表渲染 请求middle  right
     Abnormal(val) {
@@ -994,8 +997,8 @@ export default {
   mounted() {
     this.company = window.sessionStorage.getItem("compony");
     this.getSearchData("day").then(res => {
-        this.getAbnormalData('day')
         this.getOrdersGoodsData('area','day');
+        this.getAbnormalData('day');
         this.getTemperatureBoxData('day')
 
     });
