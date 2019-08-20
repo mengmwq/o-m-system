@@ -28,19 +28,20 @@
             <el-col>
                 <el-row :gutter="24">
                     <el-col :span="24" style="height: 80px; align-items: center;display: flex">
-                            <el-dropdown trigger="click" :hide-on-click="false" @command="changeCompany" style="margin-right: 10px;">
-                                  <span class="el-dropdown-link">公司名称<i class="el-icon-arrow-down el-icon--right"></i>
+                            <el-dropdown trigger="click" :hide-on-click="false" @command="changeCompany" style="margin-right: 10px;" ref="messageDrop">
+                                  <span class="el-dropdown-link" style="width:150px;">{{showSearch}}<i class="el-icon-arrow-down el-icon--right"></i>
                                   </span>
                                 <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item command="公司名称">公司名称</el-dropdown-item>
                                     <el-dropdown-item command="客户账号">客户账号</el-dropdown-item>
                                     <el-dropdown-item command="货物类型">货物类型</el-dropdown-item>
                                     <el-dropdown-item command="订单号">订单号</el-dropdown-item>
                                     <el-dropdown-item command="运单号码">运单号码</el-dropdown-item>
                                 </el-dropdown-menu>
                            </el-dropdown>
-                          <input type="text" >
+                          <input type="text" v-model="searchData">
                         <img src="../../assets/chaxun.png" alt="查询图标" style="margin-left: 10px;margin-top: 0px;width: 23px;
-                        height: 23px;">
+                        height: 23px;" @click="getTabelData">
                         <p style="margin:0 10px;    flex: 1;justify-content: flex-end;display: flex;font-family: cursive" @click="development" >更多操作 &nbsp<i  style="margin: 10px 0 0 0; " :class="sanja ? 'sanjiao' : 'sanjiao2'" ></i></p>
                     </el-col>
                     <el-col :span="24" style=" align-items: center;display: flex;margin: 0;" >
@@ -139,6 +140,29 @@
 <!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
 <!--                                                      </div>-->
+
+
+
+                                                        <!-- <table>
+                                                            <tr>
+                                                                <th>温度区间</th>
+                                                                <th>包材</th>
+                                                                <th>个数</th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>2-8</td>
+                                                                    <td>30</td>
+                                                                    <td>2</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2-8</td>
+                                                                    <td>60</td>
+                                                                    <td>3</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table> -->
                                                       <div v-for="(item,index) in Box" :key="index">
                                                           <p style='padding:0px 0;'>温度区间：<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{index}}</font></p>
                                                           <div >
@@ -149,7 +173,11 @@
                                                           </div>
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>货物尺寸：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+                                                          <span>货物尺寸：
+                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> 
+                                                              <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
+                                                              <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
+                                                            </span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -431,6 +459,8 @@
         name: "orderManagement",
         data() {
             return {
+                showSearch:"请选择",
+                searchData: "",
                 Box:'',
                 c:'',
                 value1:'',
@@ -491,7 +521,15 @@
 
         methods:{
             changeCompany(data){
-                console.log(data);
+                // console.log(data);
+                this.$refs.messageDrop.hide()
+                this.showSearch = data;   // 选择的 那个
+            },
+            getTabelData(){
+                // console.log(this.showSearch,this.searchData);
+                this.cur_page = 1;
+                this.getData();
+
             },
             //重置
             refresh(){
@@ -577,6 +615,8 @@
                         GetCity: this.GetCity1,//目的城市
                         CompanyNet: this.CompanyNet,//取件网络
                         Condition: this.currentSta,
+                        // dataType: this.showSearch,
+                        // dataValue: this.searchData
 
                     },
                     transformRequest: [

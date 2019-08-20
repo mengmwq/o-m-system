@@ -94,6 +94,7 @@
                     <el-table
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
+                        height="400"
                         :data="tableData"
                         style="width: 100%">
                         <el-table-column type="selection" width="55">
@@ -123,8 +124,9 @@
                                     <p>联系人: 萌萌</p>
                                     <p>联系电话: 15001015750</p>
                                     <p>公司名称: 孟氏集团</p>
-                                    <p>销售人员: 15001015750</p>
-                                    <p>结算方式: 孟氏集团</p>
+                                    <p>销售人员: 萌萌</p>
+                                    <p>结算方式: 微信</p>
+                                    <p>客户类型: </p>
                                     <div slot="reference" class="name-wrapper">
                                         <el-tag size="medium">{{ scope.row.category }}</el-tag>
                                     </div>

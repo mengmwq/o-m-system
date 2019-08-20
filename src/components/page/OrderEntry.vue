@@ -227,13 +227,13 @@ export default {
       activeMenu: 1,
       active: 1,
       isFirst: true,
-	  boxNum: '',
-	  iceCarNum:'',
-	  selectTem:'',
+      boxNum: "",
+      iceCarNum: "",
+      selectTem: "",
       istemActive: Number,
       firstTitle: "进行中",
-	  towTitle: "进行中",
-	  cargoMsg:[],
+      towTitle: "进行中",
+      cargoMsg: [],
       temArea: [
         { tem: "2℃~8℃" },
         { tem: "20℃~80℃" },
@@ -242,11 +242,10 @@ export default {
       ],
       boxType: [],
       iceCar: [
-        { car: "4.2m冷藏车" ,num:""},
-        { car: "7.6m冷藏车" ,num:""},
-        { car: "9.6m冷藏车",num:"" }
-	  ],
-
+        { car: "4.2m冷藏车", num: "" },
+        { car: "7.6m冷藏车", num: "" },
+        { car: "9.6m冷藏车", num: "" }
+      ]
     };
   },
   created() {
@@ -258,66 +257,76 @@ export default {
       //哦
       this.istemActive = index;
       if (val.tem == "2℃~8℃") {
-        this.boxType = [{ box: "XS26",num:"" }, { box: "XS27",num:"" }, { box: "XS28",num:"" },{box:"xs29",num:""}];
+        this.boxType = [
+          { box: "XS26", num: "" },
+          { box: "XS27", num: "" },
+          { box: "XS28", num: "" },
+          { box: "xs29", num: "" }
+        ];
       } else if (val.tem == "20℃~80℃") {
-        this.boxType = [{ box: "XS30" ,num:"" }, { box: "XS321" ,num:"" }, { box: "XS32",num:"" }];
+        this.boxType = [
+          { box: "XS30", num: "" },
+          { box: "XS321", num: "" },
+          { box: "XS32", num: "" }
+        ];
       } else if (val.tem == "-25℃~-15℃") {
-        this.boxType = [{ box: "XS40" ,num:"" }, { box: "XS41",num:""  }, { box: "XS42",num:"" }];
+        this.boxType = [
+          { box: "XS40", num: "" },
+          { box: "XS41", num: "" },
+          { box: "XS42", num: "" }
+        ];
       } else if (val.tem == "-80℃~-40℃") {
-        this.boxType = [{ box: "XS50" ,num:"" }, { box: "XS51",num:"" }, { box: "XS52",num:"" }];
+        this.boxType = [
+          { box: "XS50", num: "" },
+          { box: "XS51", num: "" },
+          { box: "XS52", num: "" }
+        ];
       }
       this.active = 2;
-	  this.firstTitle = "已完成";
-	  this.selectTem = val.tem; // 当前选择的温区
-        let obj = {tem: this.selectTem, box:[], iceCar:[]};
-        if(this.cargoMsg.length == 0){
-            this.cargoMsg.push(obj);
-        }else if(this.cargoMsg.length == 3){
-            this.$message.error('最多只允许添加3个温区');
-        }else{
-            let init = true;
-            this.cargoMsg.forEach(item => {
-                if(this.selectTem == item.tem){
-                    init = false;
-                }
-            })
-            if(init){
-                this.cargoMsg.push(obj);
-            }
+      this.firstTitle = "已完成";
+      this.selectTem = val.tem; // 当前选择的温区
+      let obj = { tem: this.selectTem, box: [], iceCar: [] };
+      if (this.cargoMsg.length == 0) {
+        this.cargoMsg.push(obj);
+      } else {
+        let init = true;
+        this.cargoMsg.forEach(item => {
+          if (this.selectTem == item.tem) {
+            init = false;
+          }
+        });
+        if (init) {
+          this.cargoMsg.push(obj);
         }
-	  console.log(this.cargoMsg); // 选择的温区
+      }
+      console.log(this.cargoMsg); // 选择的温区
     },
     prev() {
+      //   [{tem:"",box:[{type:"",num:""}]},{},{}]
+      console.log(this.cargoMsg);
+    //   if (this.cargoMsg.length == 3) {
+    //     this.$message.error("最多只允许添加3个温区");
+    //   } else {
+        this.active = 1;
+        this.firstTitle = "进行中";
+        this.istemActive = -2;
+    //   }
+    },
+    isNull(val, index, tem) {
+      // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
 
-	//   [{tem:"",box:[{type:"",num:""}]},{},{}]
-	  console.log(this.cargoMsg);
-	  if(this.cargoMsg.length == 3){
-		this.$message.error('最多只允许添加3个温区');
-	  }else{
-		this.active = 1;
-		this.firstTitle = "进行中";
-		this.istemActive = -2;
-	  }
-	},
-	isNull(val,index,tem){
-		// 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
+      // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
+      // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
+      // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
+      let threeData = this.cargoMsg;
+      for (let i = 0; i < threeData.length; i++) {
+        if (this.selectTem == threeData[i].tem) {
+          threeData[i].box.push(val);
+        }
+      }
 
-
-		// 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
-		// val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
-		// this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
-		let threeData = this.cargoMsg;
-		for(let i=0;i<threeData.length;i++){
-
-			if(this.selectTem == threeData[i].tem){
-
-				threeData[i].box.push(val);
-			}
-		}
-
-		// console.log(threeData);
-
-	},
+      // console.log(threeData);
+    },
     spyDomChange(node) {
       if (this.activeMenu != node.name) this.activeMenu = node.name;
     },
