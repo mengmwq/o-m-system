@@ -75,17 +75,14 @@ export default {
                       name:"订单统计"
                   },
                   {
-                      action:"BoxType",
-                      name:"箱型及温区统计"
+                      action:"CargoStatistics",
+                      name:"货量统计"
                   },
                   {
-                      action:"DailyStatistical",
-                      name:"日常统计"
+                      action:"abnormalInformation",
+                      name:"异常信息"
                   },
-                  {
-                      action:"CustomerInformation",
-                      name:"客户信息"
-                  }
+
               ]
           }
       ]

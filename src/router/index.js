@@ -36,13 +36,13 @@ export default new Router({
                     meta:{keepAlive: true}
                 },
                 {
-                    path:'/BoxType' ,
-                    component:resolve => require(['../components/page/BoxType.vue'],resolve),
+                    path:'/CargoStatistics' ,
+                    component:resolve => require(['../components/page/CargoStatistics.vue'],resolve),
                     meta:{keepAlive: true}
                 },
                 {
-                    path:'/DailyStatistical',
-                    component:resolve => require(['../components/page/DailyStatistical.vue'],resolve),
+                    path:'/abnormalInformation',
+                    component:resolve => require(['../components/page/abnormalInformation.vue'],resolve),
                     meta:{keepAlive: true}
                 },
                 {
@@ -61,7 +61,7 @@ export default new Router({
                     component:resolve =>require(['../components/page/RecipientManagement.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-                
+
                 {
                     path:'/NetCompany',
                     component:resolve =>require(['../components/page/NetCompany.vue'],resolve),
