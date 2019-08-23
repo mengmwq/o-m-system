@@ -492,6 +492,17 @@
             },
             //新增按钮点击页面
             addSendDetails(){
+                this.ruleForm.name = '';
+                this.ruleForm.company = '';
+                this.ruleForm.region ='';
+                this.ruleForm.phone ='';
+                this.ruleForm.province = '';
+                this.ruleForm.city = '';
+                this.ruleForm.area = '';
+                this.ruleForm.street = '';
+                this.ruleForm.desc = '';
+                this.ruleForm.InName = '';
+                this.ID ='';
               this.addSendDetailsModel = true
             },
             submitForm(formName) {
@@ -577,9 +588,16 @@
 
                         }).then(function (res) {
                             console.log(res)
+                            if(res.data.code == 200){
+                                _this.EditDetailsModel =false;
+                                _this.getData()
+                            }else{
+                                _this.$message.error(res.data.msg);
+                            }
+
                         })
-                        alert('submit!');
-                        this.getData()
+                        // alert('submit!');
+
                     } else {
                         console.log('error submit!!');
                         return false;
