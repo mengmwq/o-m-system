@@ -39,15 +39,15 @@
 					<el-table :header-cell-style="{background:'#EFF3F8'}"  stripe @cell-click="jumpDetails" :data="tableData"   style="width: 100%">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
-						<el-table-column label="网络公司"  class-name="curstomNum" prop="netcompany" align="center"  label-class-name="aaa">
+						<el-table-column label="网络公司"   prop="netcompany" align="center" >
 						</el-table-column>
 						<el-table-column label="订单量" align="center" prop="ordernum">
 						</el-table-column>
-						<el-table-column label="指令下达" align="center" prop="sendcommand">
+						<el-table-column label="指令下达" class-name="curstomNum" align="center" prop="sendcommand" label-class-name="aaa">
 						</el-table-column>
 						<el-table-column label="指令取消" align="center" prop="commandcancel">
 						</el-table-column>
-						<el-table-column label="已安排" align="center" prop="arranged">
+						<el-table-column label="已安排" class-name="curstomNum" align="center" prop="arranged" label-class-name="aaa">
 						</el-table-column>
 
 						<el-table-column align="center" label="取件完成" prop="takefinish">
@@ -247,7 +247,7 @@
 			},
 			jumpDetails(row,column,cell,event){
 
-                if(column.label == '网络公司'){
+                if(column.label == '指令下达'||column.label == '已安排'){
                      this.$router.push({
                         path: "/NetCompany"
                     });

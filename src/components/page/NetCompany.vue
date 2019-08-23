@@ -16,7 +16,10 @@
 						<el-autocomplete class="inline-input" v-model="acount" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="订单状态">
-						<el-autocomplete class="inline-input" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>
+						<el-select v-model="orderstate" style="width: 200px;">
+							<el-option key="bbk" label="指令下单" value="指令下单"></el-option>
+							<el-option key="xtc" label="已安排" value="已安排"></el-option>
+						</el-select>
 					</el-form-item>
 				</el-col>
 				<el-col>
@@ -84,7 +87,7 @@
 
 		</div>
 		<el-dialog title="订单详情" :visible.sync="EditDetailsModel" style="border-bottom: 1px solid #000000;">
-			<div class="container">
+			<div class="container" style="font-family: cursive;">
 				<el-row style="display: flex;justify-content: space-between;align-items: center;">
 
 					<div style="flex: 1;justify-content:flex-start;align-items: center;">
@@ -119,7 +122,7 @@
 							目的地：<span>天津市</span>-<span>南开区</span>
 						</div>
 						<div class="grid-content">
-							订单状态：：<span>指令下达</span>
+							订单状态：<span>指令下达</span>
 						</div>
 					</el-col>
 				</el-row>
@@ -254,11 +257,11 @@
 						
 						
 					<div style="display:flex;align-items: center;">
-						<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px">
+						<img src="../../assets/printer.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
 						<span>下载</span>
 					</div>	
                     <div style="margin-left: 30px;display:flex;align-items: center;">
-						<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px">
+						<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
 						<span>打印</span>
 					</div>	
 				  	</div>
@@ -330,6 +333,7 @@
 						trigger: 'blur'
 					}]
 				},
+				orderstate:'',
 				inputperson: '李四',
 				orderType: '',
 				OrderTime: '',
