@@ -584,6 +584,7 @@
                             console.log(res)
                         })
                         alert('submit!');
+                        this.getData()
                     } else {
                         console.log('error submit!!');
                         return false;
