@@ -488,7 +488,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let _this = this;
-                        this.$axios({
+                        _this.$axios({
                             url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
                             method: 'post',
                             data: {
