@@ -94,6 +94,13 @@
                         :data="tableData"
                         style="width: 100%">
                         <el-table-column
+                            label="ID"
+
+                            prop="ID"
+                            align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
                             label="客户账号"
 
                             prop="AccountNumber"
@@ -231,7 +238,7 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.area" ></el-input>
+                                        <el-input v-model="ruleForm.city" ></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -243,8 +250,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="街道" prop=" street">
-                                    <el-input v-model="ruleForm. street" ></el-input>
+                                <el-form-item label="街道" prop="street">
+                                    <el-input v-model="ruleForm.street" ></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-col>
@@ -271,9 +278,19 @@
             <div>
 
                 <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="客户账号" prop="name" >
-                        <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
-                    </el-form-item>
+
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="客户账号" prop="name" >
+                                <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="录入人" prop="InName">
+                                <el-input v-model="ruleForm.InName" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
@@ -300,7 +317,7 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.area" ></el-input>
+                                        <el-input v-model="ruleForm.city" ></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -313,7 +330,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="街道" prop=" street">
-                                    <el-input v-model="ruleForm. street" ></el-input>
+                                    <el-input v-model="ruleForm.street" ></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-col>
@@ -325,7 +342,7 @@
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
                 </el-form>
@@ -357,7 +374,7 @@
                 rules: {
                     name: [
                         { required: true, message: '请输入客户账号', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+
                     ],
                     company:[
                         { required: true, message: '请输入公司名称', trigger: 'change' }
@@ -387,7 +404,7 @@
                 loading:true,
                 tableData: [],
                 AccountNumber1:'',
-
+                ID:'',
                 CompanyName:'',
                 Manager:'',
                 Depart:'',
@@ -454,7 +471,18 @@
             },
             //修改页面
             editChild(row){
-                this.ruleForm.name = row.id;
+                this.ruleForm.name = row.AccountNumber;
+                this.ruleForm.company = row.Company;
+                this.ruleForm.region =row.Manager;
+                this.ruleForm.phone =row.Telephone;
+                this.ruleForm.province = row.Depart;
+                this.ruleForm.city = row.City;
+                this.ruleForm.area = row.Area;
+                this.ruleForm.street = row.Roule;
+                this.ruleForm.desc = row.Address;
+                this.ruleForm.InName = row.InName;
+                this.ID =row.ID
+
 
                 this.EditDetailsModel =true;
 
@@ -466,6 +494,95 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        this.$refs[formName].validate((valid) => {
+                            if (valid) {
+                                let _this = this;
+                                _this.$axios({
+                                    url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addto',
+                                    method: 'post',
+                                    data: {
+                                        Company:this.company,
+                                        AccountNumber: this.ruleForm.name,
+                                        CompanyName:this.ruleForm.company,
+                                        Manager:this.ruleForm.region,
+                                        Telephone:this.ruleForm.phone,
+                                        Depart:this.ruleForm.province,
+                                        City:this.ruleForm.city,
+                                        Area:this.ruleForm.area,
+                                        Roule:this.ruleForm.street,
+                                        Address:this.ruleForm.desc,
+                                        InName:this.ruleForm.InName,
+
+                                    },
+                                    transformRequest: [
+                                        function(data) {
+                                            let ret = "";
+                                            for (let it in data) {
+                                                ret +=
+                                                    encodeURIComponent(it) +
+                                                    "=" +
+                                                    encodeURIComponent(data[it]) +
+                                                    "&";
+                                            }
+                                            return ret;
+                                        }
+                                    ],
+
+                                }).then(function (res) {
+                                    console.log(res)
+                                })
+                                alert('submit!');
+                            } else {
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        });
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            //x修改
+            EditForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let _this = this;
+                        _this.$axios({
+                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/changefrom',
+                            method: 'post',
+                            data: {
+                                Company:this.company,
+                                AccountNumber: this.ruleForm.name,
+                                CompanyName:this.ruleForm.company,
+                                Manager:this.ruleForm.region,
+                                Telephone:this.ruleForm.phone,
+                                Depart:this.ruleForm.province,
+                                City:this.ruleForm.city,
+                                Area:this.ruleForm.area,
+                                Roule:this.ruleForm.street,
+                                Address:this.ruleForm.desc,
+                                InName:this.ruleForm.InName,
+                                ID:this.ID
+                            },
+                            transformRequest: [
+                                function(data) {
+                                    let ret = "";
+                                    for (let it in data) {
+                                        ret +=
+                                            encodeURIComponent(it) +
+                                            "=" +
+                                            encodeURIComponent(data[it]) +
+                                            "&";
+                                    }
+                                    return ret;
+                                }
+                            ],
+
+                        }).then(function (res) {
+                            console.log(res)
+                        })
                         alert('submit!');
                     } else {
                         console.log('error submit!!');

@@ -85,7 +85,7 @@
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
                         :data="tableData"
-                        height="500"
+
                         style="width: 100%">
                         <el-table-column
                             label="ID"
@@ -268,19 +268,19 @@
             <div>
 
                 <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+
                     <el-row>
-                        <el-col :span="11">
+                        <el-col :span="12">
                             <el-form-item label="客户账号" prop="name" >
                                 <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="13">
+                        <el-col :span="12">
                             <el-form-item label="录入人" prop="InName">
                                 <el-input v-model="ruleForm.InName" ></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
@@ -307,7 +307,7 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="城市" prop="city">
-                                            <el-input v-model="ruleForm.city" ></el-input>
+                                        <el-input v-model="ruleForm.city" ></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -332,7 +332,7 @@
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                        <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
                 </el-form>
@@ -393,7 +393,7 @@
                 },
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
-                ccc: 500, //总tiao数
+                ccc: 0, //总tiao数
                 addSendDetailsModel:false,
                 EditDetailsModel:false
 ,               tableData: [],
@@ -475,8 +475,18 @@
             },
             //修改页面
             editChild(row){
-                this.ruleForm.name = row.id;
 
+                this.ruleForm.name = row.AccountNumber;
+                this.ruleForm.company = row.Company;
+                this.ruleForm.region =row.Manager;
+                this.ruleForm.phone =row.Telephone;
+                this.ruleForm.province = row.Depart;
+                this.ruleForm.city = row.City;
+                this.ruleForm.area = row.Area;
+                this.ruleForm.street = row.Roule;
+                this.ruleForm.desc = row.Address;
+                this.ruleForm.InName = row.InName;
+                this.ID =row.ID
                 this.EditDetailsModel =true;
 
             },
@@ -503,6 +513,53 @@
                                 Roule:this.ruleForm.street,
                                 Address:this.ruleForm.desc,
                                 InName:this.ruleForm.InName,
+                            },
+                            transformRequest: [
+                                function(data) {
+                                    let ret = "";
+                                    for (let it in data) {
+                                        ret +=
+                                            encodeURIComponent(it) +
+                                            "=" +
+                                            encodeURIComponent(data[it]) +
+                                            "&";
+                                    }
+                                    return ret;
+                                }
+                            ],
+
+                        }).then(function (res) {
+                            console.log(res)
+                        })
+                        alert('submit!');
+                        this.getData()
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            //x修改
+            EditForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let _this = this;
+                        _this.$axios({
+                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/changefrom',
+                            method: 'post',
+                            data: {
+                                Company:this.company,
+                                AccountNumber: this.ruleForm.name,
+                                CompanyName:this.ruleForm.company,
+                                Manager:this.ruleForm.region,
+                                Telephone:this.ruleForm.phone,
+                                Depart:this.ruleForm.province,
+                                City:this.ruleForm.city,
+                                Area:this.ruleForm.area,
+                                Roule:this.ruleForm.street,
+                                Address:this.ruleForm.desc,
+                                InName:this.ruleForm.InName,
+                                ID:this.ID
                             },
                             transformRequest: [
                                 function(data) {
