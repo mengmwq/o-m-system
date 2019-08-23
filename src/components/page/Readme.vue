@@ -105,15 +105,15 @@
               </div>
               <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                 <span style="font-family: cursive">指令取消</span>
-                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countQuXiao}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">占1.5%</font></span>
+                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countQuXiao}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">占{{ratioQuXiao}}</font></span>
               </div>
               <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                 <span style="font-family: cursive">已安排</span>
-                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countAnPai}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">变更率1.5%</font></span>
+                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countAnPai}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">变更率{{ratioBianGeng}}</font></span>
               </div>
               <div style="background: #fff;height:50px;width:23%;display: flex;align-items: center;justify-content: center;border-radius: 8px">
                 <span style="font-family: cursive">取件完成</span>
-                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countWanChen}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">准时率1.5%</font></span>
+                <span style="color:#5D9DD2;">&nbsp&nbsp&nbsp&nbsp{{countWanChen}}<br>&nbsp&nbsp&nbsp&nbsp<font style="font-size: 12px;color:#B6B6B6;font-family: cursive">准时率{{ratioZhunShi}}</font></span>
 
               </div>
 
@@ -359,11 +359,13 @@ export default {
       countWanChen: "",
       ratioQuXiao: "",
       ratioBianGeng: "",
-      ratioZhunShi: "",
+        ratioZhunShi: "",
       ratioYJ: "",
       ratioXJ: "",
       changeDay: "昨日",
-      changeL: "今日订单"
+      changeL: "今日订单",
+
+
     };
   },
   created() {},
@@ -778,7 +780,7 @@ export default {
                 color: ["#45A2DF", "#1AB394", "#f29c00"],
                 legend: {
                 top: "10",
-                data: ["客户取消", "内部取消", "站点取消"],
+                data: ["客户取消", "内部取消", "站点取消","时间变更"],
                 itemGap: 10,
                 itemWidth: 15,
                 itemHeight: 12
@@ -912,7 +914,9 @@ export default {
             _this.countAnPai = res.data.data.countAnPai;
             _this.countWanChen = res.data.data.countWanChen;
             _this.countMonth = res.data.data.countMonth;
-
+            _this.ratioQuXiao =res.data.data.ratioQuXiao;
+            _this.ratioBianGeng =res.data.data.ratioBianGeng;
+            _this.ratioZhunShi = res.data.data.ratioZhuShi;
             _this.isLoad = false;
             var orderChart = echarts.init(
               document.getElementById("orderChart")
@@ -931,7 +935,7 @@ export default {
               legend: {
                 data: ["web", "app", "tms"],
                 right: 0,
-                orient: "vertical"
+
               },
               calculable: true,
               xAxis: [

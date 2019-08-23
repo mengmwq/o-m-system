@@ -48,7 +48,7 @@
                         <el-form :inline="true" style="margin: 10px 0 0 0; " :class="isMeng ? 'isA' : 'isb'"  >
                             <el-row>
                                 <el-col>
-                                    <el-form-item label="下单时间"   >
+                                    <el-form-item label="下单时间"  style="margin-right: 30px;" >
                                         <div class="block"  >
                                             <el-date-picker
                                                 v-model="xdtime"
@@ -73,28 +73,28 @@
                                             </el-date-picker>
                                         </div>
                                     </el-form-item>
-
-                                    <img src="../../assets/chaxun.png" @click="getData" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+                                    <img src="../../assets/chongzhi.png" @click="refresh()"  alt="重置" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
                                 </el-col>
                                 <el-col>
 
                                     <el-form-item label="始发城市">
-                                        <el-input v-model="City1"  style="width: 115px"></el-input>
+                                        <el-input v-model="City1"  style="width: 158px"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="目的城市 " >
-                                        <el-input v-model="GetCity1"  style="width: 115px"></el-input>
+                                    <el-form-item label="目的城市 " style="margin-right: 30px;">
+                                        <el-input v-model="GetCity1"  style="width: 158px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="取件网络">
-                                        <el-input v-model="CompanyNet"></el-input>
+                                        <el-input v-model="CompanyNet" style="width: 158px"></el-input>
                                     </el-form-item>
                                     <el-form-item label="下单类型">
-                                        <el-select v-model="OrderType"  style="width: 200px;">
+                                        <el-select v-model="OrderType"  style="width: 159px;">
                                             <el-option key="TMS" label="TMS" value="TMS"></el-option>
                                             <el-option key="APP " label="APP" value="APP"></el-option>
                                             <el-option key="WEB " label="WEB" value="WEB"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                    <img src="../../assets/chongzhi.png" @click="refresh()"  alt="重置" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+                                    <img src="../../assets/chaxun.png" @click="getData" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+
                                 </el-col>
                             </el-row>
                         </el-form>
@@ -106,7 +106,7 @@
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
                             row-key="id"
-                            height="700"
+                            height="500"
                             @cell-click="jumpDetails"
                             @expand-change ="rowClick"
                             :data="tableData"
@@ -163,18 +163,18 @@
 
                                                             </tbody>
                                                         </table> -->
-                                                      <div v-for="(item,index) in Box" :key="index">
-                                                          <p style='padding:0px 0;'>温度区间：<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{index}}</font></p>
-                                                          <div >
-                                                              <div v-for="(item,k) in Box[index]" :key="k" >
-                                                                  <p style="margin: 20px 0">包材选择:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.PackageName}}</font></p>
-                                                                  <p style="margin: 20px 0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.Jian}}</font></p>
-                                                              </div>
-                                                          </div>
+                                                      <div v-for="(item,index) in Box" :key="index" style="margin:20px 0">
+                                                          <span style='padding:0px 0;font-size:14px'>温度箱型：<font style="background: rgb(238, 238, 238); padding: 5px 5px;border-radius: 5px;">{{index}}</font></span>
+
+                                                              <span v-for="(item,k) in Box[index]" :key="k" >
+                                                                  <span style="margin: 20px 0"><font style="">&nbsp&nbsp{{item.PackageName}}*{{item.Jian}}</font></span>
+<!--                                                                  <p style="margin: 20px 0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.Jian}}</font></p>-->
+                                                              </span>
+
                                                       </div>
                                                       <div  class="bioage">
                                                           <span>货物尺寸：
-                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> 
+                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span>
                                                               <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
                                                               <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
                                                             </span>
@@ -198,9 +198,9 @@
 
                                                   </el-col>
                                                   <el-col :span="11" :offset="1" >
-                                                      <div class="bioage" style="color: #fff">
-                                                           无
-                                                      </div>
+<!--                                                      <div class="bioage" style="color: #fff">-->
+<!--                                                           无-->
+<!--                                                      </div>-->
                                                       <div class="bioage">
                                                           <span>下单类型：客户下单</span>
 
@@ -459,7 +459,7 @@
         name: "orderManagement",
         data() {
             return {
-                showSearch:"请选择",
+                showSearch:"订单号",
                 searchData: "",
                 Box:'',
                 c:'',
@@ -467,7 +467,7 @@
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 0, //总tiao数
-                staData: [{name:"所有"},{name:"指令下达"},{name:"指令取消"},{name:"指令安排"},{name:"完成"}],
+                staData: [{name:"所有"},{name:"指令下达"},{name:"指令取消"},{name:"已安排"},{name:"取件完成"}],
                 currentSta:"",
                 isCur: 0,
                 xdtime:'',//下单时间
@@ -487,7 +487,6 @@
                 GetCity1:'',//目的城市
                 CompanyNet:'',//取件网络
                 OrderType:'',//下单类型
-
                 allotDialogVisible1:false,
                 loading:true,
                 Depart:'',
@@ -521,7 +520,7 @@
 
         methods:{
             changeCompany(data){
-                // console.log(data);
+                 console.log(data);
                 this.$refs.messageDrop.hide()
                 this.showSearch = data;   // 选择的 那个
             },
@@ -540,6 +539,7 @@
                 this.City1='';
                 this.GetCity1 ='';
                 this.CompanyNet='';
+                this.searchData ='',
                 this.getData();
                 this.loading = false;
 
@@ -615,8 +615,8 @@
                         GetCity: this.GetCity1,//目的城市
                         CompanyNet: this.CompanyNet,//取件网络
                         Condition: this.currentSta,
-                        // dataType: this.showSearch,
-                        // dataValue: this.searchData
+                         StateKey: this.showSearch,
+                        StateValue: this.searchData
 
                     },
                     transformRequest: [
@@ -637,7 +637,6 @@
                     _this.loading = false
                     _this.tableData = res.data.data.result;
                     _this.ccc = res.data.data.count;
-
                 })
 
 
@@ -839,6 +838,9 @@
         border-bottom: 1px solid #eee;
         font-family: cursive;
     }
+    .bo span:hover{
+        cursor: pointer;
+    }
     .bo span:first-of-type{
         padding: 15px 30px;
         border-left: none;
@@ -849,7 +851,9 @@
         border-bottom: none!important;
         background: #45A2DF!important;
         color: #fff;
+        cursor: pointer;
     }
+
     .fire{
         /*width:15px;*/
         /*height:15px;*/
