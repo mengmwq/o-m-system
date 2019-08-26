@@ -542,10 +542,12 @@
                         }).then(function (res) {
                             console.log(res)
                         })
-                        alert('submit!');
+                        this.$message.success("成功")
+                         this.addSendDetailsModel = false;
+                        
                         this.getData()
                     } else {
-                        console.log('error submit!!');
+                      this.$message.error("失败")
                         return false;
                     }
                 });

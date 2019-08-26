@@ -531,9 +531,9 @@
                                 }).then(function (res) {
                                     console.log(res)
                                 })
-                                alert('submit!');
+                                this.$message.success("成功")
                             } else {
-                                console.log('error submit!!');
+                                this.$message.error("失败")
                                 return false;
                             }
                         });
@@ -583,10 +583,11 @@
                         }).then(function (res) {
                             console.log(res)
                         })
+                         this.$message.success("成功")
                         alert('submit!');
                         this.getData()
                     } else {
-                        console.log('error submit!!');
+                       this.$message.success("失败")
                         return false;
                     }
                 });
