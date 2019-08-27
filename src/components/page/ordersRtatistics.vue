@@ -1,7 +1,7 @@
 <template>
 	<div class="divBut">
 		<el-form :inline="true" class="demo-form-inline">
-			<el-row style="display: flex;align-items: center;" >
+			<el-row style="display: flex;align-items: center;">
 				<el-col>
 					<el-form-item label="请选择时间范围">
 						<div class="block">
@@ -19,7 +19,7 @@
 
 					<div style="float: right;margin-top: 5px;">
 						<img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px">
-						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px">
+						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
 						<img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
 
 					</div>
@@ -36,21 +36,21 @@
 
 				</el-col>
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}"  stripe @cell-click="jumpDetails" :data="tableData"   style="width: 100%">
+					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
-						<el-table-column label="网络公司"   prop="netcompany" align="center" >
+						<el-table-column label="网络公司" prop="netcompany" align="center">
 						</el-table-column>
 						<el-table-column label="订单量" align="center" prop="ordernum">
 						</el-table-column>
 						<el-table-column label="指令下达" class-name="curstomNum" align="center" prop="sendcommand" label-class-name="aaa">
 						</el-table-column>
-						<el-table-column label="指令取消" align="center" prop="commandcancel">
+						<el-table-column label="指令取消" align="center" prop="commandcancel" class-name="curstomNum" label-class-name="aaa">
 						</el-table-column>
 						<el-table-column label="已安排" class-name="curstomNum" align="center" prop="arranged" label-class-name="aaa">
 						</el-table-column>
 
-						<el-table-column align="center" label="取件完成" prop="takefinish">
+						<el-table-column align="center" label="取件完成" prop="takefinish" class-name="curstomNum" label-class-name="aaa">
 						</el-table-column>
 						<el-table-column align="center" label="省份" prop="province">
 						</el-table-column>
@@ -135,6 +135,10 @@
 </template>
 
 <script>
+	import htmlToPdf from '../../js/htmlToPdf';
+//	import {aTypes,mTypes} from '~store/allReport';
+	import FileSaver from 'file-saver'
+    import XLSX from 'xlsx'
 	export default {
 		name: "OrdersRtatistics",
 		data() {
@@ -245,33 +249,46 @@
 				this.EditDetailsModel = true;
 
 			},
-			jumpDetails(row,column,cell,event){
+			jumpDetails(row, column, cell, event) {
 
-                if(column.label == '指令下达'||column.label == '已安排'){
-                     this.$router.push({
-                        path: "/NetCompany"
-                    });
-                }
-            },
-			//新增按钮点击页面
-			addSendDetails() {
-				this.addSendDetailsModel = true
+				if(column.label == '指令下达' || column.label == '已安排' || column.label == '指令取消' || column.label == '取件完成') {
+					this.$router.push({
+						path: "/NetCompany"
+					});
+				}
 			},
-			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						alert('submit!');
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-				});
-			},
-			resetForm(formName) {
-				this.$refs[formName].resetFields();
-			}
+			//点击下载数据
+			downloadtable() {
+			 var wb = XLSX.utils.table_to_book(document.querySelector('#tableData'))
+	 /* get binary string as output */
+			 var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+			 try {
+			   FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'order.xlsx')
+			 } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+			 return wbout
 
+			
+
+		},
+		//新增按钮点击页面
+		addSendDetails() {
+			this.addSendDetailsModel = true
+		},
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if(valid) {
+					alert('submit!');
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields();
 		}
+
+	}
 	}
 </script>
 

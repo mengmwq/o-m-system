@@ -72,7 +72,7 @@
                     </el-form-item>
                     <div style="float: right">
                         <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  >
-                        <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
+                        <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
                         <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px" >
 
 
@@ -96,6 +96,7 @@
                         stripe
                         height="400"
                         :data="tableData"
+                        id='tableData'
                         style="width: 100%">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
@@ -211,7 +212,7 @@
 
 <script>
 
-
+    import htmlToPdf from '../../js/htmlToPdf';
     export default {
         name: "SenderManagement",
         data() {
@@ -359,7 +360,9 @@
         },
         methods:{
 
-
+           downloadtable(){
+           	  htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
+           }
 
 
         }

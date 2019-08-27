@@ -35,7 +35,7 @@
 					</el-form-item>
 					<div style="float: right">
 						<img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px">
-						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px">
+						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
 						<img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
 
 					</div>
@@ -47,7 +47,7 @@
 			<el-row>
 
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData" style="width: 100%">
+					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData" style="width: 100%" id='tableData'>
 						<el-table-column type="selection" width="55">
 						</el-table-column>
 						<el-table-column label="客户账号" prop="acount" align="center">
@@ -86,13 +86,13 @@
 			</div>
 
 		</div>
-		<el-dialog title="订单详情" :visible.sync="EditDetailsModel" style="border-bottom: 1px solid #000000;">
-			<div class="container" style="font-family: cursive;">
+		<el-dialog title="订单详情" :visible.sync="EditDetailsModel"  style="border-bottom: 1px solid #000000;font-family: cursive;">
+			<div class="container" style="font-family: cursive;" id='pdfDom'>
 				<el-row style="display: flex;justify-content: space-between;align-items: center;">
 
 					<div style="flex: 1;justify-content:flex-start;align-items: center;">
-						<span>客户账号:</span>
-						<span style="color:#5D9DD2;">{{countNum}}</span>
+						<span style="font-family: cursive;">客户账号:</span>
+						<span style="font-family: cursive;color:#5D9DD2;">{{countNum}}</span>
 					</div>
 					<div style="justify-content:flex-end;align-items: center;">
 						<span>录入人:</span>
@@ -127,52 +127,50 @@
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-				  <el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
-				  	<div class="grid-content" style="width:50%;justify-content: flex-start;">
-				  		寄件方：<span>刘贵勋</span><span>1852121541</span>
-				  	</div>
-				  	<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>北京市昌平区生命科技园路18号</span></div>
-				  </el-col>
+					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+						<div class="grid-content" style="width:50%;justify-content: flex-start;">
+							寄件方：<span>刘贵勋</span><span>1852121541</span>
+						</div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>北京市昌平区生命科技园路18号</span></div>
+					</el-col>
 				</el-row>
 
 				<el-row class='linkinfo'>
-				  <el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
-				  	<div class="grid-content" style="width:50%;justify-content: flex-start;" >
-				  		收件方：<span>张彤</span>
-				  		<span>1556565411</span>
-				  	</div>
-				  	<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>天津市南开区三马路156号中心妇
+					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+						<div class="grid-content" style="width:50%;justify-content: flex-start;">
+							收件方：<span>张彤</span>
+							<span>1556565411</span>
+						</div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>天津市南开区三马路156号中心妇
 产科医院行政楼</span></div>
-				  </el-col>
+					</el-col>
 				</el-row>
-			    <el-row style='border: 1px solid #ccc;border-top: none;'>
+				<el-row style='border: 1px solid #ccc;border-top: none;'>
 					<el-col :span="12" style='border-right: 1px solid #ccc;'>
 						<div class="grid-content">
 							<span>货物类型:</span>
 							<span>试剂</span>
 						</div>
-						<div class="grid-content" >
+						<div class="grid-content">
 							<span>货物尺寸:</span>
 							<span>11*11*11</span>
 						</div>
-						<div class="grid-content" >
+						<div class="grid-content">
 							<span>温度及使用:</span>
 							<span>是</span>
 						</div>
-						<div class="grid-content" >
+						<div class="grid-content">
 							<span>保险:</span>
-							<span>是</span>
-							，
-							<span>5.241</span>
-							/
+							<span>是</span> ，
+							<span>5.241</span> /
 							<span>否</span>
 							<span>2000</span>
 						</div>
-						<div class="grid-content" >
+						<div class="grid-content">
 							<span>结算方式:</span>
 							<span>月结</span>
 						</div>
-						
+
 					</el-col>
 					<el-col :span="12">
 						<div class="grid-content">
@@ -185,14 +183,12 @@
 						</div>
 						<div class="grid-content">
 							<span>通知方式:</span>
-							<span>电话</span>
-							,
+							<span>电话</span> ,
 							<span>2019-05-04 14:12</span>
 						</div>
 						<div class="grid-content">
 							<span>处理情况:</span>
-							<span>已处理</span>
-							,
+							<span>已处理</span> ,
 							<span>2019-05-04 14:12</span>
 						</div>
 						<div class="grid-content">
@@ -202,74 +198,73 @@
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				  	<div class="grid-content" >温度区间</div>
-				  </el-col>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				    <div class="grid-content" >-90℃~-40℃</div>
-				  </el-col>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				  	 <div class="grid-content" >-20℃~-10℃</div>
-				  </el-col>
-				  <el-col :span="6">
-                     <div class="grid-content" >2℃~8℃</div>
-				  </el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content">温度区间</div>
+					</el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content">-90℃~-40℃</div>
+					</el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content">-20℃~-10℃</div>
+					</el-col>
+					<el-col :span="6">
+						<div class="grid-content">2℃~8℃</div>
+					</el-col>
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				  	<div class="grid-content" >保温箱型</div>
-				  </el-col>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				    <div class="grid-content" ><span>GB(小)</span>          * <span>1</span></div>
-				    <div class="grid-content" ><span>GB(大)</span>          * <span>1</span></div>
-				    <div class="grid-content" ><span>自备包材</span>          * <span>1</span></div>
-				  </el-col>
-				  <el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-				  	  <div class="grid-content" ><span>4L</span>          * <span>1</span></div>
-				  	  <div class="grid-content" ><span>56L</span>          * <span>1</span></div>
-				  </el-col>
-				  <el-col :span="6">
-                    <div class="grid-content" ><span>35L</span>          * <span>1</span></div>
-				  </el-col>
-				</el-row>
-                <el-row class='linkinfo'>
-				  <el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
-				  	<div class="grid-content" style="width:50%;justify-content: flex-start;">
-				  		件数：<span>6</span>
-				  	</div>
-				  	<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span>已付款</span></div>
-				  </el-col>
-				</el-row>
-                <el-row class='linkinfo'>
-				  <el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
-				  	<div class="grid-content" style="width:50%;justify-content: flex-start;">
-				  		取件人：<span>张三</span>
-				  	</div>
-				  	<div class="grid-content" style="width:50%;justify-content: flex-end;">要求取件时间：<span>2019-06-05 14:36</span></div>
-				  </el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content">保温箱型</div>
+					</el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content"><span>GB(小)</span> * <span>1</span></div>
+						<div class="grid-content"><span>GB(大)</span> * <span>1</span></div>
+						<div class="grid-content"><span>自备包材</span> * <span>1</span></div>
+					</el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content"><span>4L</span> * <span>1</span></div>
+						<div class="grid-content"><span>56L</span> * <span>1</span></div>
+					</el-col>
+					<el-col :span="6">
+						<div class="grid-content"><span>35L</span> * <span>1</span></div>
+					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-				  <el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
-				  	<div class="grid-content" style="width:50%;justify-content: flex-start;">
-				  		
-				  	</div>
-				  	<div class="grid-content" style="width:50%;height:40px;display:flex;align-items: center;">
-						
-						
-					<div style="display:flex;align-items: center;">
-						<img src="../../assets/printer.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
-						<span>下载</span>
-					</div>	
-                    <div style="margin-left: 30px;display:flex;align-items: center;">
-						<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
-						<span>打印</span>
-					</div>	
-				  	</div>
-				  </el-col>
+					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+						<div class="grid-content" style="width:50%;justify-content: flex-start;">
+							件数：<span>6</span>
+						</div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span>已付款</span></div>
+					</el-col>
 				</el-row>
-				
-			</div>
+				<el-row class='linkinfo'>
+					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+						<div class="grid-content" style="width:50%;justify-content: flex-start;">
+							取件人：<span>张三</span>
+						</div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">要求取件时间：<span>2019-06-05 14:36</span></div>
+					</el-col>
+				</el-row>
+			
 
+			</div>
+	<el-row class='linkinfo'>
+					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+						<div class="grid-content" style="width:50%;justify-content: flex-start;">
+
+						</div>
+						<div class="grid-content" style="width:50%;height:40px;display:flex;align-items: center;">
+
+							<div style="display:flex;align-items: center;" @click="orderdownload">
+								<img src="../../assets/printer.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
+								<span>下载</span>
+							</div>
+							<div style="margin-left: 30px;display:flex;align-items: center;" @click="print">
+								<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
+								<span  @click="print" v-print="'#printTest'">打印</span>
+							</div>
+						</div>
+					</el-col>
+				</el-row>
 		</el-dialog>
 
 	</div>
@@ -277,6 +272,9 @@
 </template>
 
 <script>
+	import htmlToPdf from '../../js/htmlToPdf';
+//	import Print from '../../js/print'
+   // Vue.use(Print) // 注册
 	export default {
 		name: "SenderManagement",
 		data() {
@@ -333,7 +331,7 @@
 						trigger: 'blur'
 					}]
 				},
-				orderstate:'',
+				orderstate: '',
 				inputperson: '李四',
 				orderType: '',
 				OrderTime: '',
@@ -433,6 +431,28 @@
 				this.ruleForm.name = row.id;
 
 				this.EditDetailsModel = true;
+
+			},
+			//点击下载-表格数据
+			downloadtable(){
+				 htmlToPdf.downloadPDF( document.querySelector('#tableData'),'订单统计');
+			},
+			//下载运单详情
+			orderdownload() {
+              htmlToPdf.downloadPDF( document.querySelector('#pdfDom'),'运单详情');
+			},
+			//打印运单详情
+			print(e) {
+                let subOutputRankPrint = document.querySelector('#pdfDom');
+                console.log(subOutputRankPrint.innerHTML);
+                let newContent =subOutputRankPrint.innerHTML;
+                let oldContent = document.body.innerHTML;
+                document.body.innerHTML = newContent;
+                window.print();
+                window.location.reload();
+                document.body.innerHTML = oldContent;
+                return false;
+            
 
 			},
 			//新增按钮点击页面
