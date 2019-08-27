@@ -1,68 +1,69 @@
 <template>
     <div class="divBut" >
+        <div  v-loading="loading"  element-loading-text="拼命加载中" >
         <el-form :inline="true" class="demo-form-inline">
             <el-row>
                 <el-col>
                     <el-form-item label="客户账号">
-                        <el-autocomplete
+                        <el-input
                             class="inline-input"
 
-
+                            v-model="AccountNumber1"
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
 
-                        ></el-autocomplete>
+                        ></el-input>
                     </el-form-item>
                     <el-form-item label="公司名称">
-                        <el-autocomplete
+                        <el-input
                             class="inline-input"
 
-
+                            v-model="CompanyName"
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
 
-                        ></el-autocomplete>
+                        ></el-input>
                     </el-form-item>
                     <el-form-item label="联系人">
-                        <el-autocomplete
+                        <el-input
                             class="inline-input"
-
+                            v-model="Manager"
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
 
-                        ></el-autocomplete>
+                        ></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col >
                     <el-form-item label="省份">
-                        <el-autocomplete
+                        <el-input
                             class="inline-input"
-
+                            v-model="Depart"
 
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
 
-                        ></el-autocomplete>
+                        ></el-input>
                     </el-form-item>
                     <el-form-item label="城市">
-                        <el-autocomplete
+                        <el-input
                             class="inline-input"
-
+                            v-model="City"
 
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
 
-                        ></el-autocomplete>
+                        ></el-input>
                     </el-form-item>
                     <div style="float: right">
-                        <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  >
+                        <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  @click="getData" >
                         <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
-                        <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px" >
+                        <img src="../../assets/chongzhi.png" alt=""  @click="refresh()"  style="width: 23px;height: 23px" >
 
 
                     </div>
@@ -74,7 +75,7 @@
             <el-row>
                 <el-col style="margin:10px 0" >
                     <div style="display: flex;align-items: center;justify-content: space-between">
-                        <div style="font-family: cursive;">共计:350条信息</div>
+                        <div style="font-family: cursive;">共计:{{ccc}}条信息</div>
                         <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>
                     </div>
 
@@ -84,11 +85,18 @@
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
                         :data="tableData"
+
                         style="width: 100%">
+                        <el-table-column
+                            label="ID"
+                            prop="ID"
+                            align="center"
+                        >
+                        </el-table-column>
                         <el-table-column
                             label="客户账号"
 
-                            prop="id"
+                            prop="AccountNumber"
                             align="center"
                         >
                         </el-table-column>
@@ -96,37 +104,37 @@
                             label="公司名称"
                             align="center"
 
-                            prop="name">
+                            prop="Company">
                         </el-table-column>
                         <el-table-column
                             label="联系人"
                             align="center"
 
-                            prop="category">
+                            prop="Manager">
                         </el-table-column>
                         <el-table-column
                             label="联系电话"
                             align="center"
 
-                            prop="AccoutNumber">
+                            prop="Telephone">
                         </el-table-column>
                         <el-table-column
                             label="省份"
                             align="center"
-                            prop="shoujian">
+                            prop="Depart">
                         </el-table-column>
 
                         <el-table-column
                             align="center"
                             label="城市"
 
-                            prop="shixian">
+                            prop="City">
                         </el-table-column>
                         <el-table-column
                             align="center"
                             label="区域"
 
-                            prop="isfu">
+                            prop="Area">
                         </el-table-column>
 
 
@@ -134,19 +142,19 @@
 
                             label="街道"
                             align="center"
-                            prop="order">
+                            prop="Roule">
                         </el-table-column>
                         <el-table-column
                             label="详细地址"
                             :show-overflow-tooltip="true"
                             align="center"
-                            prop="xiadan">
+                            prop="Address">
                         </el-table-column>
                         <el-table-column
 
                             align="center"
                             label="录入人"
-                            prop="net">
+                            prop="InName">
                         </el-table-column>
 
                         <el-table-column
@@ -161,6 +169,8 @@
             </el-row>
             <div class="pagination">
                 <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
                     :page-sizes="[20,50, 100, 500, 2000]"
                     :page-size="20"
                     :current-page='cur_page'
@@ -170,6 +180,7 @@
             </div>
 
         </div>
+        </div>
 <!--        //新增页面模态框-->
         <el-dialog
 
@@ -178,9 +189,19 @@
             <div>
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="客户账号" prop="name">
-                        <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
-                    </el-form-item>
+
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="客户账号" prop="name">
+                                <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="录入人" prop="InName">
+                                <el-input v-model="ruleForm.InName" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <el-form-item label="公司名称" prop="company">
                      <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
@@ -207,7 +228,7 @@
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.area" ></el-input>
+                                        <el-input v-model="ruleForm.city" ></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -220,7 +241,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="街道" prop=" street">
-                                    <el-input v-model="ruleForm. street" ></el-input>
+                                    <el-input v-model="ruleForm.street" ></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-col>
@@ -239,14 +260,82 @@
             </div>
 
         </el-dialog>
-        //修改模态框
+<!--        //修改模态框-->
         <el-dialog
             title="修改客户信息"
             :visible.sync="EditDetailsModel"
         >
             <div>
 
+                <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="客户账号" prop="name" >
+                                <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="录入人" prop="InName">
+                                <el-input v-model="ruleForm.InName" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-form-item label="公司名称" prop="company">
+                        <el-input v-model="ruleForm.company" ></el-input>
+                    </el-form-item>
+                    <el-row>
+                        <el-col :span="11">
+                            <el-form-item label="联系人" prop="region">
+                                <el-input v-model="ruleForm.region" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="13">
+                            <el-form-item label="联系方式" prop="phone">
+                                <el-input v-model="ruleForm.phone" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="11">
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-form-item label="省份" prop="province">
+                                        <el-input v-model="ruleForm.province" ></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="城市" prop="city">
+                                        <el-input v-model="ruleForm.city" ></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-col>
+                        <el-col :span="13">
+                            <el-col :span="12">
+                                <el-form-item label="区域" prop="area">
+                                    <el-input v-model="ruleForm.area" ></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="街道" prop=" street">
+                                    <el-input v-model="ruleForm.street" ></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-col>
+                    </el-row>
+
+
+
+                    <el-form-item label="详细地址" prop="desc">
+                        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
+                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                    </el-form-item>
+                </el-form>
             </div>
 
         </el-dialog>
@@ -270,12 +359,17 @@
                     city:'',
                     street:'',
                     province:'',
-                    desc: ''
+                    desc: '',
+                    InName:''
                 },
                 rules: {
                     name: [
                         { required: true, message: '请输入客户账号', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+
+                    ],
+                    InName:[
+                        { required: true, message: '请输入客户账号', trigger: 'blur' },
+
                     ],
                     company:[
                         { required: true, message: '请输入公司名称', trigger: 'change' }
@@ -299,161 +393,213 @@
                 },
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
-                ccc: 500, //总tiao数
+                ccc: 0, //总tiao数
                 addSendDetailsModel:false,
                 EditDetailsModel:false
-,                tableData: [
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '135535',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '865',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '8655',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-             ],
-
+,               tableData: [],
+                AccountNumber1:'',
+                loading:true,
+                CompanyName:'',
+                Manager:'',
+                Depart:'',
+                City:'',
 
             }
         },
+        mounted(){
+            this.company = window.sessionStorage.getItem('compony');
+            this.getData()
+        },
         methods:{
+            refresh(){
+                this.loading = true;
+                this.AccountNumber1 = '';
+                this.CompanyName='';
+                this.Depart='';
+                this.City ='';
+                this.Manager='';
+                this.getData();
+                this.loading = false;
+            },
+            //渲染页面
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/fromaddress',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        AccountNumber:this.AccountNumber1,
+                        CompanyName: this.CompanyName,
+                        Depart:this.Depart,
+                        City: this.City,
+                        Manager:this.Manager,
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.loading = false;
+                     _this.tableData = res.data.data.result;
+                    _this.ccc = res.data.data.sum;
+                })
+
+
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
+            },
             //修改页面
             editChild(row){
-                this.ruleForm.name = row.id;
 
+                this.ruleForm.name = row.AccountNumber;
+                this.ruleForm.company = row.Company;
+                this.ruleForm.region =row.Manager;
+                this.ruleForm.phone =row.Telephone;
+                this.ruleForm.province = row.Depart;
+                this.ruleForm.city = row.City;
+                this.ruleForm.area = row.Area;
+                this.ruleForm.street = row.Roule;
+                this.ruleForm.desc = row.Address;
+                this.ruleForm.InName = row.InName;
+                this.ID =row.ID
                 this.EditDetailsModel =true;
 
             },
             //新增按钮点击页面
             addSendDetails(){
+                this.ruleForm.name = '';
+                this.ruleForm.company = '';
+                this.ruleForm.region ='';
+                this.ruleForm.phone ='';
+                this.ruleForm.province = '';
+                this.ruleForm.city = '';
+                this.ruleForm.area = '';
+                this.ruleForm.street = '';
+                this.ruleForm.desc = '';
+                this.ruleForm.InName = '';
+                this.ID ='';
               this.addSendDetailsModel = true
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        let _this = this;
+                        _this.$axios({
+                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
+                            method: 'post',
+                            data: {
+                                Company:this.company,
+                                AccountNumber: this.ruleForm.name,
+                                CompanyName:this.ruleForm.company,
+                                Manager:this.ruleForm.region,
+                                Telephone:this.ruleForm.phone,
+                                Depart:this.ruleForm.province,
+                                City:this.ruleForm.city,
+                                Area:this.ruleForm.area,
+                                Roule:this.ruleForm.street,
+                                Address:this.ruleForm.desc,
+                                InName:this.ruleForm.InName,
+                            },
+                            transformRequest: [
+                                function(data) {
+                                    let ret = "";
+                                    for (let it in data) {
+                                        ret +=
+                                            encodeURIComponent(it) +
+                                            "=" +
+                                            encodeURIComponent(data[it]) +
+                                            "&";
+                                    }
+                                    return ret;
+                                }
+                            ],
+
+                        }).then(function (res) {
+                            console.log(res)
+                        })
+                        this.$message.success("成功")
+                         this.addSendDetailsModel = false;
+                        
+                        this.getData()
+                    } else {
+                      this.$message.error("失败")
+                        return false;
+                    }
+                });
+            },
+            //x修改
+            EditForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let _this = this;
+                        _this.$axios({
+                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/changefrom',
+                            method: 'post',
+                            data: {
+                                Company:this.company,
+                                AccountNumber: this.ruleForm.name,
+                                CompanyName:this.ruleForm.company,
+                                Manager:this.ruleForm.region,
+                                Telephone:this.ruleForm.phone,
+                                Depart:this.ruleForm.province,
+                                City:this.ruleForm.city,
+                                Area:this.ruleForm.area,
+                                Roule:this.ruleForm.street,
+                                Address:this.ruleForm.desc,
+                                InName:this.ruleForm.InName,
+                                ID:this.ID
+                            },
+                            transformRequest: [
+                                function(data) {
+                                    let ret = "";
+                                    for (let it in data) {
+                                        ret +=
+                                            encodeURIComponent(it) +
+                                            "=" +
+                                            encodeURIComponent(data[it]) +
+                                            "&";
+                                    }
+                                    return ret;
+                                }
+                            ],
+
+                        }).then(function (res) {
+                            console.log(res)
+                            if(res.data.code == 200){
+                                _this.EditDetailsModel =false;
+                                _this.getData()
+                            }else{
+                                _this.$message.error(res.data.msg);
+                            }
+
+                        })
+                        // alert('submit!');
+
                     } else {
                         console.log('error submit!!');
                         return false;
