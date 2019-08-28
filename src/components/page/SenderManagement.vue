@@ -510,23 +510,23 @@
                     if (valid) {
                         let _this = this;
                         _this.$axios({
-                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
+                            url: 'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
                             method: 'post',
                             data: {
-                                Company:this.company,
+                                Company: this.company,
                                 AccountNumber: this.ruleForm.name,
-                                CompanyName:this.ruleForm.company,
-                                Manager:this.ruleForm.region,
-                                Telephone:this.ruleForm.phone,
-                                Depart:this.ruleForm.province,
-                                City:this.ruleForm.city,
-                                Area:this.ruleForm.area,
-                                Roule:this.ruleForm.street,
-                                Address:this.ruleForm.desc,
-                                InName:this.ruleForm.InName,
+                                CompanyName: this.ruleForm.company,
+                                Manager: this.ruleForm.region,
+                                Telephone: this.ruleForm.phone,
+                                Depart: this.ruleForm.province,
+                                City: this.ruleForm.city,
+                                Area: this.ruleForm.area,
+                                Roule: this.ruleForm.street,
+                                Address: this.ruleForm.desc,
+                                InName: this.ruleForm.InName,
                             },
                             transformRequest: [
-                                function(data) {
+                                function (data) {
                                     let ret = "";
                                     for (let it in data) {
                                         ret +=
@@ -541,14 +541,14 @@
 
                         }).then(function (res) {
                             console.log(res)
+                            if (res.data.code == 200) {
+                                _this.$message.success("新增成功")
+                                _this.addSendDetailsModel = false;
+                                _this.getData()
+                            } else {
+                                _this.$message.error(res.data.msg);
+                            }
                         })
-                        this.$message.success("成功")
-                         this.addSendDetailsModel = false;
-                        
-                        this.getData()
-                    } else {
-                      this.$message.error("失败")
-                        return false;
                     }
                 });
             },
@@ -591,6 +591,7 @@
                         }).then(function (res) {
                             console.log(res)
                             if(res.data.code == 200){
+                                _this.$message.success("修改成功")
                                 _this.EditDetailsModel =false;
                                 _this.getData()
                             }else{
