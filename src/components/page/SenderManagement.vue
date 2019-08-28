@@ -62,7 +62,7 @@
                     </el-form-item>
                     <div style="float: right">
                         <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  @click="getData" >
-                        <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
+                        <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px"  @click="dataExport()">
                         <img src="../../assets/chongzhi.png" alt=""  @click="refresh()"  style="width: 23px;height: 23px" >
 
 
@@ -85,8 +85,14 @@
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
                         :data="tableData"
-
+                        ref="multipleTable"
                         style="width: 100%">
+                        <el-table-column
+                            type="selection"
+                            width="60"
+                            align="center"
+                        ></el-table-column>
+
                         <el-table-column
                             label="ID"
                             prop="ID"
@@ -397,6 +403,7 @@
                 addSendDetailsModel:false,
                 EditDetailsModel:false
 ,               tableData: [],
+                multipleSelection: [],
                 AccountNumber1:'',
                 loading:true,
                 CompanyName:'',
@@ -420,6 +427,67 @@
                 this.Manager='';
                 this.getData();
                 this.loading = false;
+            },
+            //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel
+            dataExport() {
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+                        //this.limit = 10000;
+                        // this.getData();
+                        import_file = this.tableData;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    // console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "ID",
+                            "客户账号",
+                            "公司名称",
+                            "联系人",
+                            "联系电话",
+
+
+                            "省份",
+                            "城市",
+                            "区域",
+                            "街道",
+                            "详细地址",
+                            "录入人",
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "ID",
+                            "AccountNumber",
+                            "Company",
+                            "Manager",
+                            "Telephone",
+
+                            "Depart",
+                            "City",
+                            "Area",
+                            "Roule",
+                            "Address",
+                            "InName"
+
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal, list);
+                        export_json_to_excel(tHeader, data, "收件人信息管理表");  // 这是  excel文件名
+                    });
+                });
+
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
             },
             //渲染页面
             getData(){
@@ -468,6 +536,11 @@
                 this.limit = val;
                 this.getData();
             },
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
             handleCurrentChange(val) {
                 this.loading = true;
                 this.cur_page = val;
@@ -510,23 +583,23 @@
                     if (valid) {
                         let _this = this;
                         _this.$axios({
-                            url:'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
+                            url: 'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addfrom',
                             method: 'post',
                             data: {
-                                Company:this.company,
+                                Company: this.company,
                                 AccountNumber: this.ruleForm.name,
-                                CompanyName:this.ruleForm.company,
-                                Manager:this.ruleForm.region,
-                                Telephone:this.ruleForm.phone,
-                                Depart:this.ruleForm.province,
-                                City:this.ruleForm.city,
-                                Area:this.ruleForm.area,
-                                Roule:this.ruleForm.street,
-                                Address:this.ruleForm.desc,
-                                InName:this.ruleForm.InName,
+                                CompanyName: this.ruleForm.company,
+                                Manager: this.ruleForm.region,
+                                Telephone: this.ruleForm.phone,
+                                Depart: this.ruleForm.province,
+                                City: this.ruleForm.city,
+                                Area: this.ruleForm.area,
+                                Roule: this.ruleForm.street,
+                                Address: this.ruleForm.desc,
+                                InName: this.ruleForm.InName,
                             },
                             transformRequest: [
-                                function(data) {
+                                function (data) {
                                     let ret = "";
                                     for (let it in data) {
                                         ret +=
@@ -541,14 +614,14 @@
 
                         }).then(function (res) {
                             console.log(res)
+                            if (res.data.code == 200) {
+                                _this.$message.success("新增成功")
+                                _this.addSendDetailsModel = false;
+                                _this.getData()
+                            } else {
+                                _this.$message.error(res.data.msg);
+                            }
                         })
-                        this.$message.success("成功")
-                         this.addSendDetailsModel = false;
-                        
-                        this.getData()
-                    } else {
-                      this.$message.error("失败")
-                        return false;
                     }
                 });
             },
@@ -591,6 +664,7 @@
                         }).then(function (res) {
                             console.log(res)
                             if(res.data.code == 200){
+                                _this.$message.success("修改成功")
                                 _this.EditDetailsModel =false;
                                 _this.getData()
                             }else{
