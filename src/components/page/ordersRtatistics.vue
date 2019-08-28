@@ -10,10 +10,13 @@
 						</div>
 					</el-form-item>
 					<el-form-item label="网络公司">
-						<el-select v-model="netcompanys" style="width: 200px;">
-							<el-option key="bbk" label="1" value="1"></el-option>
-							<el-option key="xtc" label="2" value="2"></el-option>
-							<el-option key="imoo" label="3" value="3"></el-option>
+						<el-select v-model="netcompanys"  style="width: 200px;">
+		                 <el-option
+		                  v-for="item in roles"
+		                  :key="item.id"
+		                  :label="item.Company"
+		                  :value="item.Company">
+		                </el-option>
 						</el-select>
 					</el-form-item>
 
@@ -31,38 +34,40 @@
 			<el-row>
 				<el-col style="margin:10px 0">
 					<div style="display: flex;align-items: center;justify-content: space-between">
-						<div style="font-family: cursive;">共计:350条信息</div>
+						<div style="font-family: cursive;">共计:{{ccc}}条信息</div>
 					</div>
 
 				</el-col>
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%">
+					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' height="500" stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
-						<el-table-column label="网络公司" prop="netcompany" align="center">
+						<el-table-column label="网络公司" prop="CompanyNet" align="center">
 						</el-table-column>
-						<el-table-column label="订单量" align="center" prop="ordernum">
+						<el-table-column label="订单量" align="center" prop="allpiao">
 						</el-table-column>
-						<el-table-column label="指令下达" class-name="curstomNum" align="center" prop="sendcommand" label-class-name="aaa">
+						<el-table-column label="指令下达" class-name="curstomNum" align="center" prop="xiada" label-class-name="aaa">
 						</el-table-column>
-						<el-table-column label="指令取消" align="center" prop="commandcancel" class-name="curstomNum" label-class-name="aaa">
+						<el-table-column label="指令取消" align="center" prop="quxiao" class-name="curstomNum" label-class-name="aaa">
 						</el-table-column>
-						<el-table-column label="已安排" class-name="curstomNum" align="center" prop="arranged" label-class-name="aaa">
-						</el-table-column>
-
-						<el-table-column align="center" label="取件完成" prop="takefinish" class-name="curstomNum" label-class-name="aaa">
-						</el-table-column>
-						<el-table-column align="center" label="省份" prop="province">
+						<el-table-column label="已安排" class-name="curstomNum" align="center" prop="anpai" label-class-name="aaa">
 						</el-table-column>
 
-						<el-table-column label="城市" align="center" prop="city">
+						<el-table-column align="center" label="取件完成" prop="wancheng" class-name="curstomNum" label-class-name="aaa">
+						</el-table-column>
+						<el-table-column align="center" label="省份" prop="Depart">
+						</el-table-column>
+
+						<el-table-column label="城市" align="center" prop="City">
 						</el-table-column>
 
 					</el-table>
 				</el-col>
 			</el-row>
 			<div class="pagination">
-				<el-pagination :page-sizes="[20,50, 100, 500, 2000]" :page-size="20" :current-page='cur_page' layout="total, sizes, prev, pager, next, jumper" :total="ccc"></el-pagination>
+				<div class="pagination">
+					<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[20,50, 100, 500, 2000]" :page-size="20" :current-page='cur_page' layout="total, sizes, prev, pager, next, jumper" :total="ccc"></el-pagination>
+				</div>
 			</div>
 
 		</div>
@@ -136,9 +141,9 @@
 
 <script>
 	import htmlToPdf from '../../js/htmlToPdf';
-//	import {aTypes,mTypes} from '~store/allReport';
+	//	import {aTypes,mTypes} from '~store/allReport';
 	import FileSaver from 'file-saver'
-    import XLSX from 'xlsx'
+	import XLSX from 'xlsx'
 	export default {
 		name: "OrdersRtatistics",
 		data() {
@@ -196,59 +201,104 @@
 						trigger: 'blur'
 					}]
 				},
+				roles:[],
 				netcompanys: '',
 				xdtime: '',
 				cur_page: 1, //当前页
 				limit: 20, //每页多少条
-				ccc: 500, //总tiao数
+				ccc: 0, //总tiao数
 				addSendDetailsModel: false,
 				EditDetailsModel: false,
-				tableData: [{
-						netcompany: '福建龙岩分控',
-						ordernum: '1',
-						sendcommand: '0',
-						commandcancel: '0',
-						arranged: '1',
-						takefinish: '1',
-						province: '福建',
-						city: '龙岩'
-
-					},
-
-					{
-						netcompany: '中集冷云北京分公司',
-						ordernum: '1',
-						sendcommand: '0',
-						commandcancel: '0',
-						arranged: '1',
-						takefinish: '1',
-						province: '北京',
-						city: '顺义'
-					},
-
-					{
-						netcompany: '福建龙岩分控2',
-						ordernum: '1',
-						sendcommand: '0',
-						commandcancel: '0',
-						arranged: '1',
-						takefinish: '1',
-						province: '福建',
-						city: '龙岩'
-
-					},
+				tableData: [
+					
 				],
 
 			}
 		},
+		mounted() {
+			this.company = window.sessionStorage.getItem('compony');
+			this.getData();
+			this.getnetData();
+		},
 		methods: {
-			//修改页面
-			editChild(row) {
-				this.ruleForm.name = row.id;
 
-				this.EditDetailsModel = true;
+			//渲染页面
+			getData() {
+				let _this = this;
+				_this.$axios({
+					url: 'http://out.ccsc58.cc/OMS/test/public/index/reportcenter/index',
+					method: "post",
+					data: {
+						PageSize: this.limit,
+						Page: this.cur_page, //当前页码
+						Company: this.company
+					},
+					transformRequest: [
+						function(data) {
+							let ret = "";
+							for(let it in data) {
+								ret +=
+									encodeURIComponent(it) +
+									"=" +
+									encodeURIComponent(data[it]) +
+									"&";
+							}
+							return ret;
+						}
+					],
+					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+				}).then(function(res) {
+					_this.loading = false;
+					_this.tableData = res.data.data.result;
+					_this.ccc = res.data.data.sum;
+					console.log(res)
+				})
 
 			},
+			//渲染页面
+			getnetData() {
+				let _this = this;
+				_this.$axios({
+					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checknet',
+					method: "post",
+					data: {
+						Company: this.company
+					},
+					transformRequest: [
+						function(data) {
+							let ret = "";
+							for(let it in data) {
+								ret +=
+									encodeURIComponent(it) +
+									"=" +
+									encodeURIComponent(data[it]) +
+									"&";
+							}
+							return ret;
+						}
+					],
+					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+				}).then(function(res) {
+					_this.roles = res.data.data;
+				})
+
+			},
+			handleSizeChange(val) {
+				this.loading = true;
+
+				// console.log(val); // 每页显示  条数
+				this.limit = val;
+				this.getData();
+				this.getnetData();
+				
+			},
+			handleCurrentChange(val) {
+				this.loading = true;
+				this.cur_page = val;
+				this.getData();
+				this.getnetData();
+			},
+           
 			jumpDetails(row, column, cell, event) {
 
 				if(column.label == '指令下达' || column.label == '已安排' || column.label == '指令取消' || column.label == '取件完成') {
@@ -259,36 +309,42 @@
 			},
 			//点击下载数据
 			downloadtable() {
-			 var wb = XLSX.utils.table_to_book(document.querySelector('#tableData'))
-	 /* get binary string as output */
-			 var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-			 try {
-			   FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'order.xlsx')
-			 } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-			 return wbout
-
-			
-
-		},
-		//新增按钮点击页面
-		addSendDetails() {
-			this.addSendDetailsModel = true
-		},
-		submitForm(formName) {
-			this.$refs[formName].validate((valid) => {
-				if(valid) {
-					alert('submit!');
-				} else {
-					console.log('error submit!!');
-					return false;
+				var wb = XLSX.utils.table_to_book(document.querySelector('#tableData'))
+				/* get binary string as output */
+				var wbout = XLSX.write(wb, {
+					bookType: 'xlsx',
+					bookSST: true,
+					type: 'array'
+				})
+				try {
+					FileSaver.saveAs(new Blob([wbout], {
+						type: 'application/octet-stream'
+					}), 'order.xlsx')
+				} catch(e) {
+					if(typeof console !== 'undefined') console.log(e, wbout)
 				}
-			});
-		},
-		resetForm(formName) {
-			this.$refs[formName].resetFields();
-		}
+				return wbout
 
-	}
+			},
+			//新增按钮点击页面
+			addSendDetails() {
+				this.addSendDetailsModel = true
+			},
+			submitForm(formName) {
+				this.$refs[formName].validate((valid) => {
+					if(valid) {
+						alert('submit!');
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+			},
+			resetForm(formName) {
+				this.$refs[formName].resetFields();
+			}
+
+		}
 	}
 </script>
 
