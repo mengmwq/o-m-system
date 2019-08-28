@@ -258,9 +258,9 @@
 								<img src="../../assets/printer.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
 								<span>下载</span>
 							</div>
-							<div style="margin-left: 30px;display:flex;align-items: center;" @click="print">
+							<div style="margin-left: 30px;display:flex;align-items: center;" @click="print" target="_blank">
 								<img src="../../assets/daochu.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">
-								<span  @click="print" v-print="'#printTest'">打印</span>
+								<span  @click="print" v-print="'#printTest'" >打印</span>
 							</div>
 						</div>
 					</el-col>
@@ -443,6 +443,7 @@
 			},
 			//打印运单详情
 			print(e) {
+			
                 let subOutputRankPrint = document.querySelector('#pdfDom');
                 console.log(subOutputRankPrint.innerHTML);
                 let newContent =subOutputRankPrint.innerHTML;
