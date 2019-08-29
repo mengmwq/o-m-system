@@ -688,9 +688,9 @@
                 }
                 else if(val ==="指令取消"){
                     this.currentSta = '指令取消';
-                }else if(val=="指令安排"){
+                }else if(val=="已安排"){
                     this.currentSta = '已安排';
-                }else if(val==="完成"){
+                }else if(val==="取件完成"){
                     this.currentSta = '取件完成';
                 }else if(val==="所有"){
                     this.currentSta = '';

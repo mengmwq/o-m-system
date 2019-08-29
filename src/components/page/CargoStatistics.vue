@@ -28,7 +28,7 @@
                     <el-form-item label="货物类型">
                         <el-autocomplete
                             class="inline-input"
-
+                            @focus="focus($event)"
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
                             :debounce=0
@@ -88,7 +88,6 @@
                         <div style="font-family: cursive;">订单量合计:350条信息</div>
 <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                     </div>
-
                 </el-col>
                 <el-col>
                     <el-table
@@ -133,6 +132,7 @@
                                     </div>
                                 </el-popover>
                             </template>
+
                         </el-table-column>
                         <el-table-column
                             label="订单号"
@@ -192,6 +192,8 @@
                         </el-table-column>
 
                     </el-table>
+
+
                 </el-col>
             </el-row>
             <div class="pagination">
@@ -217,12 +219,15 @@
         name: "SenderManagement",
         data() {
             return {
+
+
+
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 500, //总tiao数
                 addSendDetailsModel:false,
-                EditDetailsModel:false
-                ,                tableData: [
+                EditDetailsModel:false,
+                tableData: [
                     {
                         id: '12987122',
                         name: '孟氏集团',
@@ -358,11 +363,50 @@
 
             }
         },
-        methods:{
 
+        // mounted(){
+        //     let _this = this;
+        //     let contactDot = 0;
+        //     _this.tableData.forEach( (item,index) => {
+        //         if(index===0){
+        //             _this.spanArr.push(1)
+        //         }else{
+        //             if(item.id === _this.tableData[index-1].id){
+        //                 _this.spanArr[contactDot] += 1;
+        //                 _this.spanArr.push(0)
+        //             }else{
+        //                 contactDot = index
+        //                 _this.spanArr.push(1)
+        //             }
+        //         }
+        //     })
+        // },
+
+
+        methods:{
+            focus(event) {
+               console.log(1)
+            },
            downloadtable(){
            	  htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
-           }
+           },
+            // objectSpanMethod({row, column, rowIndex, columnIndex}){
+            //     if(columnIndex ===0){
+            //         if(this.spanArr[rowIndex]){
+            //             return {
+            //                 rowspan:this.spanArr[rowIndex],
+            //                 colspan:1
+            //             }
+            //         }else{
+            //             return {
+            //                 rowspan: 0,
+            //                 colspan: 0
+            //             }
+            //         }
+            //     }
+            // }
+
+
 
 
         }
@@ -371,6 +415,11 @@
 </script>
 
 <style >
+    .el-popover p {
+        height: 30px;
+        line-height: 30px;
+        text-align: left;;
+    }
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
 

@@ -102,7 +102,8 @@
 
             this.Operate = (JSON.parse(item).Operate)
 
-            window.sessionStorage.setItem('compony',this.Company)
+            window.sessionStorage.setItem('compony',this.Company);
+            window.sessionStorage.setItem('TrueName',this.TrueName)
 
 
 

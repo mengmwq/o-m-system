@@ -91,6 +91,7 @@
                     <el-table
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
+                        height="500"
                         ref="multipleTable"
                         :data="tableData"
                         style="width: 100%">
@@ -119,7 +120,7 @@
                         <el-table-column
                             label="公司名称"
                             align="center"
-
+                            :show-overflow-tooltip="true"
                             prop="Company">
                         </el-table-column>
                         <el-table-column
@@ -131,7 +132,7 @@
                         <el-table-column
                             label="联系电话"
                             align="center"
-
+                            :show-overflow-tooltip="true"
                             prop="Telephone">
                         </el-table-column>
                         <el-table-column
@@ -167,7 +168,7 @@
 
 
                         <el-table-column
-
+                            :show-overflow-tooltip="true"
                             label="街道"
                             align="center"
                             prop="Roule">
@@ -218,9 +219,11 @@
             <div>
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <el-form-item label="客户账号" prop="name">
-                        <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
-                    </el-form-item>
+                    <el-row>
+                        <el-form-item label="客户账号" prop="name">
+                            <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
+                        </el-form-item>
+                    </el-row>
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
@@ -289,16 +292,9 @@
                 <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
                     <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="客户账号" prop="name" >
-                                <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="录入人" prop="InName">
-                                <el-input v-model="ruleForm.InName" ></el-input>
-                            </el-form-item>
-                        </el-col>
+                        <el-form-item label="客户账号" prop="name" >
+                            <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
+                        </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
@@ -372,8 +368,7 @@
                 ruleForm: {
                     name: '',
                     region: '',
-                    date1: '',
-                    date2: '',
+                    InName:'',
                     area:'',
                     city:'',
                     street:'',
@@ -386,18 +381,18 @@
 
                     ],
                     company:[
-                        { required: true, message: '请输入公司名称', trigger: 'change' }
+                        { required: true, message: '请输入公司名称', trigger: 'blur' }
+                    ],
+                    InName:[
+                        { required: true, message: '请输入录入人', trigger: 'blur' },
+
                     ],
                     region: [
-                        { required: true, message: '请输入联系人', trigger: 'change' }
+                        { required: true, message: '请输入联系人', trigger: 'blur' }
                     ],
                     phone: [
-                        { required: true, message: '请输入联系方式', trigger: 'change' },
-                        {
-                            pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
-                            message: '手机号格式不对',
-                            trigger: 'blur'
-                        }
+                        { required: true, message: '请输入联系方式', trigger: 'blur' },
+
 
 
                     ],
@@ -423,11 +418,13 @@
             }
         },
         mounted(){
-            this.company = window.sessionStorage.getItem('compony');
+            this.company = window.sessionStorage.getItem('compony');//获取登录页公司组织
+            this.TrueName = window.sessionStorage.getItem('TrueName');
             this.getData()
         },
         methods:{
             refresh(){
+                this.cur_page = 1;
                 this.loading = true;
                 this.AccountNumber1 = '';
                 this.CompanyName='';
@@ -532,9 +529,15 @@
                     ],
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
-                    _this.loading = false;
-                    _this.tableData = res.data.data.result;
-                    _this.ccc = res.data.data.sum;
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                    }
+
                 })
 
 
@@ -599,6 +602,7 @@
                                         Roule: this.ruleForm.street,
                                         Address: this.ruleForm.desc,
                                         InName: this.ruleForm.InName,
+                                        TrueName:this.TrueName
 
                                     },
                                     transformRequest: [
@@ -650,7 +654,8 @@
                                 Roule:this.ruleForm.street,
                                 Address:this.ruleForm.desc,
                                 InName:this.ruleForm.InName,
-                                ID:this.ID
+                                ID:this.ID,
+                                TrueName:this.TrueName
                             },
                             transformRequest: [
                                 function(data) {
@@ -691,6 +696,9 @@
 </script>
 
 <style >
+    .curstomNum:not(.aaa) .cell {
+        color: #649EFE !important;
+    }
 .divBut{
     padding:20px;
     overflow-y: scroll;height:100%;

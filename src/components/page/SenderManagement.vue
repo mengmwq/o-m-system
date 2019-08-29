@@ -85,6 +85,7 @@
                         :header-cell-style="{background:'#EFF3F8'}"
                         stripe
                         :data="tableData"
+                        height="500"
                         ref="multipleTable"
                         style="width: 100%">
                         <el-table-column
@@ -94,7 +95,7 @@
                         ></el-table-column>
 
                         <el-table-column
-                            label="ID"
+                            label="编号"
                             prop="ID"
                             align="center"
                         >
@@ -109,7 +110,7 @@
                         <el-table-column
                             label="公司名称"
                             align="center"
-
+                            :show-overflow-tooltip="true"
                             prop="Company">
                         </el-table-column>
                         <el-table-column
@@ -121,7 +122,7 @@
                         <el-table-column
                             label="联系电话"
                             align="center"
-
+                            :show-overflow-tooltip="true"
                             prop="Telephone">
                         </el-table-column>
                         <el-table-column
@@ -197,16 +198,9 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
                     <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="客户账号" prop="name">
-                                <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="录入人" prop="InName">
-                                <el-input v-model="ruleForm.InName" ></el-input>
-                            </el-form-item>
-                        </el-col>
+                        <el-form-item label="客户账号" prop="name">
+                            <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
+                        </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
                      <el-input v-model="ruleForm.company" ></el-input>
@@ -276,16 +270,9 @@
                 <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
                     <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="客户账号" prop="name" >
-                                <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="录入人" prop="InName">
-                                <el-input v-model="ruleForm.InName" ></el-input>
-                            </el-form-item>
-                        </el-col>
+                        <el-form-item label="客户账号" prop="name" >
+                            <el-input v-model="ruleForm.name" style="width: 160px" disabled></el-input><font style="font-size: 12px;color: red;font-family: cursive;margin:0 5px"> * 账号不可修改</font>
+                        </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
@@ -346,7 +333,6 @@
 
         </el-dialog>
     </div>
-
 </template>
 
 <script>
@@ -359,8 +345,6 @@
                 ruleForm: {
                     name: '',
                     region: '',
-                    date1: '',
-                    date2: '',
                     area:'',
                     city:'',
                     street:'',
@@ -374,22 +358,17 @@
 
                     ],
                     InName:[
-                        { required: true, message: '请输入客户账号', trigger: 'blur' },
+                        { required: true, message: '请输入录入人', trigger: 'blur' },
 
                     ],
                     company:[
-                        { required: true, message: '请输入公司名称', trigger: 'change' }
+                        { required: true, message: '请输入公司名称', trigger: 'blur' }
                     ],
                     region: [
-                        { required: true, message: '请输入联系人', trigger: 'change' }
+                        { required: true, message: '请输入联系人', trigger: 'blur' }
                     ],
                     phone: [
-                        { required: true, message: '请输入联系方式', trigger: 'change' },
-                        {
-                            pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
-                            message: '手机号格式不对',
-                            trigger: 'blur'
-                        }
+                        { required: true, message: '请输入联系方式', trigger: 'blur' },
 
 
                     ],
@@ -400,10 +379,10 @@
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 0, //总tiao数
-                addSendDetailsModel:false,
-                EditDetailsModel:false
-,               tableData: [],
-                multipleSelection: [],
+                addSendDetailsModel:false,//add 模态框
+                EditDetailsModel:false,//bianji 模态框
+                tableData: [],
+                multipleSelection: [],//复选框
                 AccountNumber1:'',
                 loading:true,
                 CompanyName:'',
@@ -414,11 +393,14 @@
             }
         },
         mounted(){
-            this.company = window.sessionStorage.getItem('compony');
+            this.company = window.sessionStorage.getItem('compony');//获取登录页公司组织
+            this.TrueName = window.sessionStorage.getItem('TrueName');//获取登录页公司组织
+
             this.getData()
         },
         methods:{
             refresh(){
+                this.cur_page = 1;
                 this.loading = true;
                 this.AccountNumber1 = '';
                 this.CompanyName='';
@@ -522,13 +504,20 @@
                     ],
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
-                    _this.loading = false;
-                     _this.tableData = res.data.data.result;
-                    _this.ccc = res.data.data.sum;
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                    }
+
                 })
 
 
             },
+            //每页条数改变的时候
             handleSizeChange(val) {
                 this.loading = true;
 
@@ -536,11 +525,13 @@
                 this.limit = val;
                 this.getData();
             },
+            //复选框改变
             handleSelectionChange(val) {
                 // 选中的  当前条 数据
                 this.multipleSelection = val;
 
             },
+            //当前页改变
             handleCurrentChange(val) {
                 this.loading = true;
                 this.cur_page = val;
@@ -548,7 +539,6 @@
             },
             //修改页面
             editChild(row){
-
                 this.ruleForm.name = row.AccountNumber;
                 this.ruleForm.company = row.Company;
                 this.ruleForm.region =row.Manager;
@@ -597,6 +587,7 @@
                                 Roule: this.ruleForm.street,
                                 Address: this.ruleForm.desc,
                                 InName: this.ruleForm.InName,
+                                TrueName:this.TrueName
                             },
                             transformRequest: [
                                 function (data) {
@@ -645,7 +636,8 @@
                                 Roule:this.ruleForm.street,
                                 Address:this.ruleForm.desc,
                                 InName:this.ruleForm.InName,
-                                ID:this.ID
+                                ID:this.ID,
+                                TrueName:this.TrueName
                             },
                             transformRequest: [
                                 function(data) {
