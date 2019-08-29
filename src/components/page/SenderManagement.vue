@@ -480,7 +480,7 @@
                         ];
                         const list = res;
                         this.loading = false;
-                        const data = this.formatJson(filterVal, list);
+                        const data = this.formatJson(filterVal,list);
                         export_json_to_excel(tHeader, data, "收件人信息管理表");  // 这是  excel文件名
                     });
                 });

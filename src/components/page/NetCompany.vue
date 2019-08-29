@@ -2,7 +2,7 @@
 
 	<div class="divBut">
 		<div class="title">
-			<h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp中集冷云北京分公司</h2>
+			<h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0 15px">&nbsp{{netcompany}}</h2>
 			<!--<h3>中集冷云北京分公司</h3>-->
 		</div>
 		<el-form :inline="true" class="demo-form-inline">
@@ -340,6 +340,8 @@
 				cur_page: 1, //当前页
 				limit: 20, //每页多少条
 				ccc: 500, //总tiao数
+				netcompany:'',
+				condition:'',
 				addSendDetailsModel: false,
 				EditDetailsModel: false,
 				tableData: [{
@@ -424,6 +426,12 @@
 				],
 
 			}
+		},
+		mounted() {
+			console.log(this.$route.query.Company+','+this.$route.query.Condition)
+			this.company = window.sessionStorage.getItem('compony');
+			this.netcompany=this.$route.query.Company;
+			this.condition=this.$route.query.Condition;
 		},
 		methods: {
 			//修改页面
