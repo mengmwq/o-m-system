@@ -140,7 +140,7 @@
                         <el-table-column
                             align="center"
                             label="区域"
-
+                            :formatter="addtimesta2"
                             prop="Area">
                         </el-table-column>
 
@@ -399,6 +399,9 @@
             this.getData()
         },
         methods:{
+            addtimesta2(row, colume) {
+                return row.Area == null ? '暂无' : row.Area;
+            },
             refresh(){
                 this.cur_page = 1;
                 this.loading = true;
