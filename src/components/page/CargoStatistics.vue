@@ -25,40 +25,17 @@
 
                         ></el-autocomplete>
                     </el-form-item>
-                    <el-form-item label="货物类型">
-                        <el-autocomplete
-                            class="inline-input"
-                            @focus="focus($event)"
-                            placeholder="请输入内容"
-                            :trigger-on-focus="false"
-                            :debounce=0
-
-                        ></el-autocomplete>
-                    </el-form-item>
-                </el-col>
-                <el-col >
-                    <el-form-item label="箱型">
-                        <el-autocomplete
-                            class="inline-input"
-
-
-                            placeholder="请输入内容"
-                            :trigger-on-focus="false"
-                            :debounce=0
-
-                        ></el-autocomplete>
-                    </el-form-item>
                     <el-form-item label="客户账号">
-                    <el-autocomplete
+                        <el-autocomplete
 
-                        label-class-name="aaa"
+                            label-class-name="aaa"
 
-                        placeholder="请输入内容"
-                        :trigger-on-focus="false"
-                        :debounce=0
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                            :debounce=0
 
-                    ></el-autocomplete>
-                </el-form-item>
+                        ></el-autocomplete>
+                    </el-form-item>
                     <el-form-item label="订单号">
                         <el-autocomplete
                             class="inline-input"
@@ -70,6 +47,40 @@
 
                         ></el-autocomplete>
                     </el-form-item>
+
+                </el-col>
+                <el-col >
+                    <el-form-item label="温区">
+                        <el-autocomplete
+                            class="inline-input"
+
+
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                            :debounce=0
+
+                        ></el-autocomplete>
+                    </el-form-item>
+                    <el-form-item label="箱型">
+                        <el-autocomplete
+                            class="inline-input"
+
+
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                            :debounce=0
+
+                        ></el-autocomplete>
+                    </el-form-item>
+                    <el-form-item label="货物类型">
+                        <el-select v-model="region" filterable  placeholder="请选择">
+                            <el-option label="请选择" value=""></el-option>
+                            <el-option label="试剂" value="2"></el-option>
+                            <el-option label="药品" value="1"></el-option>
+                            <el-option label="待审核" value="0"></el-option>
+                        </el-select>
+                    </el-form-item>
+
                     <div style="float: right">
                         <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  >
                         <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
@@ -221,7 +232,7 @@
             return {
 
 
-
+                region:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 500, //总tiao数
