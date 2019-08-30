@@ -209,7 +209,7 @@
 				addSendDetailsModel: false,
 				EditDetailsModel: false,
 				tableData: [
-					
+
 				],
 
 			}
@@ -295,7 +295,7 @@
 					method: "post",
 					data: {
 						Company: this.company,
-						
+
 					},
 					transformRequest: [
 						function(data) {
@@ -323,7 +323,7 @@
 				this.limit = val;
 				this.getData();
 				//this.getnetData();
-				
+
 			},
 			handleCurrentChange(val) {
 				this.loading = true;
@@ -347,7 +347,7 @@
                 new Promise((resolve, reject) => {
                     import_file = this.multipleSelection;
                     if (import_file.length == 0) {
-                        
+
                         import_file = this.tableData;
 
                     }
@@ -389,7 +389,7 @@
              formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
-            
+
 			jumpDetails(row, column, cell, event) {
                console.log(row)
                console.log(column)
@@ -398,37 +398,37 @@
 				if(column.label == '指令下达' ) {
 					this.$router.push({
 						path: "/NetCompany",
-						query: { 
-			              Company: row.CompanyNet, 
+						query: {
+			              Company: row.CompanyNet,
 			              Condition: column.label
 			         }
 					});
 				}else if(column.label == '已安排'){
 					this.$router.push({
 						path: "/NetCompany",
-						query: { 
-			              Company: row.CompanyNet, 
+						query: {
+			              Company: row.CompanyNet,
 			              Condition: column.label
 			         }
 					});
 				}else if(column.label == '指令取消'){
 					this.$router.push({
 						path: "/NetCompany",
-						query: { 
-			              Company: row.CompanyNet, 
+						query: {
+			              Company: row.CompanyNet,
 			              Condition: column.label
 			         }
 					});
 				}else if( column.label == '取件完成'){
 					this.$router.push({
 						path: "/NetCompany",
-						query: { 
-			              Company: row.CompanyNet, 
+						query: {
+			              Company: row.CompanyNet,
 			              Condition: column.label
 			         }
 					});
 				}else{
-					
+
 				}
 			},
 
@@ -464,30 +464,24 @@
 		}
 	}
 </script>
-
 <style>
 	.divBut {
 		padding: 20px;
 		overflow-y: scroll;
 		height: 100%;
 	}
-	
 	.el-input__inner {
 		height: 35px;
 	}
-	
 	.el-table--striped .el-table__body tr.el-table__row--striped td {
 		background: #F9FAFD;
 	}
-	
 	.el-table .cell {
 		font-size: 10px;
 	}
-	
 	.el-form-item__label {
 		width: 120px !important;
 	}
-	
 	.curstomNum:not(.aaa) .cell {
 		color: #649EFE !important;
 	}
