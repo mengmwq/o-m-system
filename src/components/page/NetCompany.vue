@@ -1,6 +1,7 @@
 <template>
 
 	<div class="divBut">
+	  <div v-loading="loading"  element-loading-text="拼命加载中" >
 		<div class="title">
 			<h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0 15px">&nbsp{{netcompany}}</h2>
 			<!--<h3>中集冷云北京分公司</h3>-->
@@ -17,26 +18,31 @@
 					</el-form-item>
 					<el-form-item label="订单状态">
 						<el-select v-model="orderstate" style="width: 200px;">
-							<el-option key="bbk" label="指令下单" value="指令下单"></el-option>
-							<el-option key="xtc" label="已安排" value="已安排"></el-option>
+							<el-option key="bbk" label="指令下达" value="指令下达"></el-option>
+							<el-option key="xtc" label="指令取消" value="指令取消"></el-option>
+							<el-option key="yap" label="已安排" value="已安排"></el-option>
+							<el-option key="qjw" label="取件完成" value="取件完成"></el-option>
 						</el-select>
 					</el-form-item>
 				</el-col>
 				<el-col>
 					<el-form-item label="下单方式">
 						<el-select v-model="orderType" style="width: 200px;">
-							<el-option key="bbk" label="所有" value="所有"></el-option>
+							<el-option key="bbk" label="TMS" value="TMS"></el-option>
 							<el-option key="xtc" label="APP" value="APP"></el-option>
-							<el-option key="imoo" label="客服" value="客服"></el-option>
+							<el-option key="imoo" label="WEB" value="WEB"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="结算方式">
-						<el-autocomplete class="inline-input" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>
+						<el-select v-model="paytype" style="width: 200px;">
+							<el-option key="bbk" label="月结" value="月结"></el-option>
+							<el-option key="xtc" label="现金" value="现金"></el-option>
+						</el-select>
 					</el-form-item>
 					<div style="float: right">
-						<img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px">
-						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
-						<img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
+						<img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" @click="getData">
+						<img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport">
+						<img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px" @click="Reset">
 
 					</div>
 				</el-col>
@@ -47,35 +53,35 @@
 			<el-row>
 
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData" style="width: 100%" id='tableData'>
+					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData"  style="width: 100%" id='tableData'>
 						<el-table-column type="selection" width="55">
 						</el-table-column>
-						<el-table-column label="客户账号" prop="acount" align="center">
+						<el-table-column label="客户账号" prop="AccountNumber" align="center">
 						</el-table-column>
-						<el-table-column label="订单号" align="center" prop="ordernum">
+						<el-table-column label="订单号" align="center" prop="ID">
 						</el-table-column>
-						<el-table-column label="货物名称" align="center" prop="goodsname">
+						<el-table-column label="货物名称" align="center" prop="CargoName">
 						</el-table-column>
-						<el-table-column label="下单时间" align="center" prop="ordertime">
+						<el-table-column label="下单时间" align="center" prop="Indate"  :show-overflow-tooltip="true">
 						</el-table-column>
-						<el-table-column label="要求取件时间" align="center" prop="takegoodstime">
-						</el-table-column>
-
-						<el-table-column align="center" label="时限" prop="timelimit">
-						</el-table-column>
-						<el-table-column align="center" label="订单状态" prop="orderstate">
+						<el-table-column label="要求取件时间" align="center" prop="OrderTime" :show-overflow-tooltip="true">
 						</el-table-column>
 
-						<el-table-column label="下单方式" align="center" prop="ordertype">
+						<el-table-column align="center" label="时限" prop="LimitTime">
 						</el-table-column>
-						<el-table-column label="结算方式" align="center" prop="Settlement">
+						<el-table-column align="center" label="订单状态" prop="Condition">
 						</el-table-column>
-						<el-table-column align="center" label="录入人" prop="InputPerson">
+
+						<el-table-column label="下单方式" align="center" prop="OrderWay">
+						</el-table-column>
+						<el-table-column label="结算方式" align="center" prop="PayWay">
+						</el-table-column>
+						<el-table-column align="center" label="录入人" prop="entryname">
 						</el-table-column>
 
 						<el-table-column align="center" label="详情">
 							<template slot-scope="scope">
-								<el-button size="small" style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="editChild(scope.row)">详情</el-button>
+								<el-button size="small" style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="Orderdetail(scope.row)">详情</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -84,7 +90,7 @@
 			<div class="pagination">
 				<el-pagination :page-sizes="[20,50, 100, 500, 2000]" :page-size="20" :current-page='cur_page' layout="total, sizes, prev, pager, next, jumper" :total="ccc"></el-pagination>
 			</div>
-
+          </div>
 		</div>
 		<el-dialog title="订单详情" :visible.sync="EditDetailsModel"  style="border-bottom: 1px solid #000000;font-family: cursive;">
 			<div class="container" style="font-family: cursive;" id='pdfDom'>
@@ -331,6 +337,8 @@
 						trigger: 'blur'
 					}]
 				},
+				multipleSelection: [],
+				loading:true,
 				orderstate: '',
 				inputperson: '李四',
 				orderType: '',
@@ -342,100 +350,140 @@
 				ccc: 500, //总tiao数
 				netcompany:'',
 				condition:'',
+				paytype:'',
 				addSendDetailsModel: false,
 				EditDetailsModel: false,
-				tableData: [{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-					{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-					{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-					{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-					{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-					{
-						acount: '20160012',
-						ordernum: '3434454545',
-						goodsname: '胰岛素',
-						ordertime: '2019/07/18 13:27',
-						takegoodstime: '2019/07/20 19:46',
-						timelimit: '48H',
-						orderstate: '指令下达',
-						ordertype: 'APP',
-						Settlement: '月结',
-						InputPerson: '孟孟',
-
-					},
-
-				],
+				tableData: [],
 
 			}
 		},
 		mounted() {
-			console.log(this.$route.query.Company+','+this.$route.query.Condition)
 			this.company = window.sessionStorage.getItem('compony');
 			this.netcompany=this.$route.query.Company;
-			this.condition=this.$route.query.Condition;
+			this.orderstate=this.$route.query.Condition;
+			this.getData();
 		},
 		methods: {
+			//渲染页面
+			getData() {
+                var datetime='';
+                if(this.OrderTime==''){
+                    var datetime='';
+                }else{
+                	var d = new Date(this.OrderTime);
+                    var datetime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                }
+				
+				let _this = this;
+				_this.$axios({
+					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/details',
+					method: "post",
+					data: {
+						PageSize: this.limit,
+						Page: this.cur_page, //当前页码
+						Company: this.company,
+						CompanyNet:this.netcompany,
+						StartTime:datetime,
+						AccountNumber:this.acount,
+						OrderWay:this.orderType,
+						PayWay:this.paytype,
+						Condition:this.orderstate
+						
+					},
+					transformRequest: [
+						function(data) {
+							let ret = "";
+							for(let it in data) {
+								ret +=
+									encodeURIComponent(it) +
+									"=" +
+									encodeURIComponent(data[it]) +
+									"&";
+							}
+							return ret;
+						}
+					],
+					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+				}).then(function(res) {
+					_this.loading = false;
+					_this.tableData = res.data.data.result;
+					_this.ccc = res.data.data.sum;
+					console.log(res)
+				})
+
+			},
+	         
+	        Reset(){
+				this.OrderTime='';
+				this.acount='';
+				this.orderstate='';
+				this.orderType='';
+				this.paytype='';
+				this.getData();
+			}, 
+			dataExport() {
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+                        
+                        import_file = this.tableData;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    //console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "客户账号",
+                            "订单号",
+                            "货物名称",
+                            "下单时间",
+                            "要求取件时间",
+                            "时限",
+                            "订单状态",
+                            "下单方式",
+                            "结算方式",
+                            "录入人"
+                    
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "AccountNumber",
+                            "ID",
+                            "CargoName",
+                            "Indate",
+                            "OrderTime",
+                            "LimitTime",
+                            "Condition",
+                            "OrderWay",
+                            "PayWay",
+                            "entryname"
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal,list);
+                        export_json_to_excel(tHeader, data, "订单统计");  // 这是  excel文件名
+                    });
+                });
+
+            },
+             formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
+            },
+			
+			
+            
+
+			
 			//修改页面
-			editChild(row) {
+			Orderdetail(row) {
+				
+				console.log(row);
+				return false;
 				this.ruleForm.name = row.id;
 
 				this.EditDetailsModel = true;
@@ -451,7 +499,6 @@
 			},
 			//打印运单详情
 			print(e) {
-			
                 let subOutputRankPrint = document.querySelector('#pdfDom');
                 console.log(subOutputRankPrint.innerHTML);
                 let newContent =subOutputRankPrint.innerHTML;
@@ -461,8 +508,6 @@
                 window.location.reload();
                 document.body.innerHTML = oldContent;
                 return false;
-            
-
 			},
 			//新增按钮点击页面
 			addSendDetails() {

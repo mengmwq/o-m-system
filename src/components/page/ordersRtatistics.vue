@@ -1,5 +1,6 @@
 <template>
 	<div class="divBut">
+	 <div  v-loading="loading"  element-loading-text="拼命加载中" >
 		<el-form :inline="true" class="demo-form-inline">
 			<el-row style="display: flex;align-items: center;">
 				<el-col>
@@ -71,6 +72,7 @@
 				</div>
 			</div>
 
+		  </div>
 		</div>
 		<!--        //新增页面模态框-->
 		<el-dialog :visible.sync="addSendDetailsModel">
@@ -203,6 +205,7 @@
 				netcompanys: '',
 				multipleSelection: [],
 				xdtime: '',
+				 loading:true,
 				cur_page: 1, //当前页
 				limit: 20, //每页多少条
 				ccc: 0, //总tiao数
