@@ -194,14 +194,20 @@
                             <el-table-column
 
                                 align="center"
+                                label="延迟"
+                                prop="yanchi">
+                            </el-table-column>
+                            <el-table-column
+
+                                align="center"
                                 label="温区"
-                                prop="net">
+                                prop="wenqu">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="箱型数量"
-                                prop="net">
+                                prop="xianxin">
                             </el-table-column>
 
                         </el-table>
@@ -235,7 +241,7 @@
         data() {
             return {
 
-
+                yanchi:'',
                 region:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
@@ -245,134 +251,40 @@
                 tableData: [
                     {
                         id: '12987122',
-                        name: '孟氏集团',
+                        name: '石家庄公司',
                         category: '12345',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
                         isfu:'开发区',
                         order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
+                        net:'2019/08/02 9:00',
+                        xiadan:'2019/08/02 10:00',
+                        yanchi:'是',
+                        wenqu:'2℃~8℃',
+                        xianxin:'130L*2'
 
                     },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '4654565',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
 
-                    },
-                    {
-                        id: '135535',
-                        name: '孟氏集团',
-                        category: '4546',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
 
-                    },
+
                     {
                         id: '865',
-                        name: '孟氏集团',
+                        name: '石家庄公司',
+                        yanchi:'否',
                         category: '456468',
                         AccoutNumber: '15001015750',
                         shoujian: '山西',
                         shixian: '临汾',
                         isfu:'开发区',
                         order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
+                        xiadan:'2019/08/02 9:00',
+                        net:'2019/08/02 10:00',
+                        wenqu:'-25℃~-15℃',
+                        xianxin:'自备包材'
 
                     },
-                    {
-                        id: '8655',
-                        name: '孟氏集团',
-                        category: '9787945',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
 
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '45465',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
-                    {
-                        id: '12987122',
-                        name: '孟氏集团',
-                        category: '孟健康',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'山西省临汾市建设路120号',
-                        net:'孟孟',
-
-                    },
                 ],
 
 
