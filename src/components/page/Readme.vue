@@ -762,7 +762,7 @@ export default {
             })
             .then(function(res) {
             _this.isLoad = false;
-            var ExceptionTable = echarts.init(
+           let ExceptionTable = echarts.init(
                 document.getElementById("ExceptionTable")
             );
             ExceptionTable.setOption({

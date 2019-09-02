@@ -109,12 +109,12 @@
 					<el-col :span="12" style='border-right: 1px solid #ccc;'>
 						<div class="grid-content">
 							<span>订单号:</span>
-							<span>1311545465</span>
+							<span>{{orderID}}</span>
 						</div>
 						<div class="grid-content" style="margin:10px 0px;display: flex;justify-content:center; align-items: center;text-align: center;">
-							<h2>北京</h2>
+							<h2>{{sendCity}}</h2>
 							<span style="margin: 0 15px;">></span>
-							<h2>上海</h2>
+							<h2>{{getCity}}</h2>
 						</div>
 						<div class="grid-content" style="text-align: center;">
 							<span>感谢支持中集冷云，期待为您服务~</span>
@@ -122,84 +122,81 @@
 					</el-col>
 					<el-col :span="12" style="font-size: 16px;">
 						<div class="grid-content">
-							始发地：<span>北京市</span>-<span>昌平区</span>
+							始发地：<span>{{sendDepart}}</span>-<span>{{sendCity}}</span>
 						</div>
 						<div class="grid-content">
-							目的地：<span>天津市</span>-<span>南开区</span>
+							目的地：<span>{{getDepart}}</span>-<span>{{getCity}}</span>
 						</div>
 						<div class="grid-content">
-							订单状态：<span>指令下达</span>
+							订单状态：<span>{{orderstate}}</span>
 						</div>
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
 					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
-							寄件方：<span>刘贵勋</span><span>1852121541</span>
+							寄件方：<span>{{sendName}}</span><span style="margin-left: 10px;">{{sendTel}}</span><span style="margin-left: 10px;">{{sendCompany}}</span>
 						</div>
-						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>北京市昌平区生命科技园路18号</span></div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>{{sendAddress}}</span></div>
 					</el-col>
 				</el-row>
 
 				<el-row class='linkinfo'>
 					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
-							收件方：<span>张彤</span>
-							<span>1556565411</span>
+							收件方：<span>{{getName}}</span>
+							<span style="margin-left: 10px;">{{getTel}}</span><span style="margin-left: 10px;">{{getCompany}}</span>
 						</div>
-						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>天津市南开区三马路156号中心妇
-产科医院行政楼</span></div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>{{getAddress}}</span></div>
 					</el-col>
 				</el-row>
 				<el-row style='border: 1px solid #ccc;border-top: none;'>
 					<el-col :span="12" style='border-right: 1px solid #ccc;'>
 						<div class="grid-content">
 							<span>货物类型:</span>
-							<span>试剂</span>
+							<span>{{goodType}}</span>
 						</div>
 						<div class="grid-content">
 							<span>货物尺寸:</span>
-							<span>11*11*11</span>
+							<span>{{goodSize}}</span>
 						</div>
 						<div class="grid-content">
 							<span>温度及使用:</span>
-							<span>是</span>
+							<span>{{isWdj}}</span>
 						</div>
 						<div class="grid-content">
 							<span>保险:</span>
-							<span>是</span> ，
-							<span>5.241</span> /
-							<span>否</span>
-							<span>2000</span>
+							<span>{{isSafe}}</span> ，
+							<span>{{safePay}}</span>
 						</div>
 						<div class="grid-content">
 							<span>结算方式:</span>
-							<span>月结</span>
+							<span>{{payway}}</span>
 						</div>
 
 					</el-col>
 					<el-col :span="12">
 						<div class="grid-content">
 							<span>产品名称:</span>
-							<span>试剂</span>
+							<span>{{goodName}}</span>
 						</div>
 						<div class="grid-content">
 							<span>重量:</span>
-							<span>试剂</span>
+							<span>{{goodWight}}</span>
 						</div>
 						<div class="grid-content">
 							<span>通知方式:</span>
-							<span>电话</span> ,
-							<span>2019-05-04 14:12</span>
+							<span></span> 
+							<span></span>
 						</div>
 						<div class="grid-content">
 							<span>处理情况:</span>
-							<span>已处理</span> ,
-							<span>2019-05-04 14:12</span>
+							<span></span> 
+							<span></span>
 						</div>
 						<div class="grid-content">
 							<span>下单时间:</span>
-							<span>2019-05-02 14:12</span>
+							<span>{{ordertimer}}</span>
 						</div>
 					</el-col>
 				</el-row>
@@ -218,15 +215,15 @@
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
-					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
 						<div class="grid-content">保温箱型</div>
 					</el-col>
-					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
 						<div class="grid-content"><span>GB(小)</span> * <span>1</span></div>
 						<div class="grid-content"><span>GB(大)</span> * <span>1</span></div>
 						<div class="grid-content"><span>自备包材</span> * <span>1</span></div>
 					</el-col>
-					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
 						<div class="grid-content"><span>4L</span> * <span>1</span></div>
 						<div class="grid-content"><span>56L</span> * <span>1</span></div>
 					</el-col>
@@ -237,17 +234,17 @@
 				<el-row class='linkinfo'>
 					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
-							件数：<span>6</span>
+							件数：<span>{{jian}}</span>
 						</div>
-						<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span>已付款</span></div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span></span></div>
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
 					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
-							取件人：<span>张三</span>
+							取件人：<span>{{takeName}}</span>
 						</div>
-						<div class="grid-content" style="width:50%;justify-content: flex-end;">要求取件时间：<span>2019-06-05 14:36</span></div>
+						<div class="grid-content" style="width:50%;justify-content: flex-end;">要求取件时间：<span>{{orderTime}}</span></div>
 					</el-col>
 				</el-row>
 			
@@ -340,10 +337,10 @@
 				multipleSelection: [],
 				loading:true,
 				orderstate: '',
-				inputperson: '李四',
+				inputperson: '',
 				orderType: '',
 				OrderTime: '',
-				countNum: '20180030',
+				countNum: '',
 				acount: '',
 				cur_page: 1, //当前页
 				limit: 20, //每页多少条
@@ -354,7 +351,34 @@
 				addSendDetailsModel: false,
 				EditDetailsModel: false,
 				tableData: [],
-
+				orderdescinfo:{},
+				orderID:'',
+				sendCity:'',
+				getCity:'',
+				sendDepart:'',
+				getDepart:'',
+				Condition:'',
+				sendName:'',
+				sendTel:'',
+				sendCompany:'',
+				sendAddress:'',
+				getName:'',
+				getTel:'',
+				getCompany:'',
+				getAddress:'',
+				goodType:'',
+				goodName:'',
+				goodSize:'',
+				goodWight:'',
+				isWdj:'',
+				isSafe:'',
+				safePay:'',
+				payway:'',
+				jian:'',
+				takeName:'',
+				orderTime:'',
+				ordertimer:''//下单时间
+                
 			}
 		},
 		mounted() {
@@ -408,7 +432,7 @@
 					_this.loading = false;
 					_this.tableData = res.data.data.result;
 					_this.ccc = res.data.data.sum;
-					console.log(res)
+					//console.log(res)
 				})
 
 			},
@@ -475,18 +499,69 @@
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
 			
-			
-            
-
-			
 			//修改页面
 			Orderdetail(row) {
 				
-				console.log(row);
-				return false;
+				//console.log(row);
+				
 				this.ruleForm.name = row.id;
-
+				this.countNum = row.AccountNumber;
+                
+                let _this = this;
+				_this.$axios({
+					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/orderdetails',
+					method: "post",
+					data: {
+						Company: this.company,
+						ID:row.ID
+					},
+					transformRequest: [
+						function(data) {
+							let ret = "";
+							for(let it in data) {
+								ret +=
+									encodeURIComponent(it) +
+									"=" +
+									encodeURIComponent(data[it]) +
+									"&";
+							}
+							return ret;
+						}
+					],
+					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+				}).then(function(res) {
+					_this.loading = false;
+//					console.log(res.data.data)
+//					console.log(res.data.data.entryname)
+					_this.orderdescinfo = res.data[0];
+					_this.inputperson=res.data.data[0].entryname;
+					_this.orderID=res.data.data[0].ID;
+					_this.sendCity=res.data.data[0].City;
+					_this.getCity=res.data.data[0].GetCity;
+					_this.sendDepart=res.data.data[0].Depart;
+					_this.getDepart=res.data.data[0].GetDepart;
+					_this.sendName=res.data.data[0].Manager;
+					_this.sendTel=res.data.data[0].Telephone;
+					_this.sendAddress=res.data.data[0].Address;
+					_this.getName=res.data.data[0].GetName;
+					_this.getTel=res.data.data[0].GetTelephone;
+					_this.getAddress=res.data.data[0].GetAddress;
+					_this.goodType=res.data.data[0].BusinessType;
+					_this.goodName=res.data.data[0].CargoName;
+					_this.goodSize=res.data.data[0].CargoSize;
+					_this.goodWight=res.data.data[0].CWeight;
+					_this.isWdj=res.data.data[0].Name4;
+					_this.isSafe=res.data.data[0].SafeItem;
+					_this.safePay=res.data.data[0].SafePay;
+					_this.payway=res.data.data[0].PayWay;
+					_this.jian=res.data.data[0].Jian;
+					_this.takeName=res.data.data[0].TakesName=null?'':res.data.data[0].TakesName;
+					_this.orderTime=res.data.data[0].OrderTime;
+					_this.ordertimer=res.data.data[0].Indate;
+				})
+				
 				this.EditDetailsModel = true;
+				
 
 			},
 			//点击下载-表格数据
