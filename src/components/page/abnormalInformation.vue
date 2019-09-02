@@ -10,13 +10,10 @@
                                 </el-date-picker>
                             </div>
                         </el-form-item>
-
-
                         <div style="float: right;margin-top: 5px;">
                             <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
                             <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
-
                         </div>
                     </el-col>
 
@@ -27,9 +24,7 @@
 <!--                    <el-col style="margin:10px 0" >-->
 <!--                        <div style="display: flex;align-items: center;justify-content: space-between">-->
 <!--                            <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp异常统计</div>-->
-
 <!--                        </div>-->
-
 <!--                    </el-col>-->
                     <el-col>
                         <el-table
@@ -56,7 +51,7 @@
                                 label="网络公司"
                                 v-else
 
-                                prop="Area"
+                                prop="Area2"
                                 align="center"
                             >
                             </el-table-column>
@@ -98,79 +93,6 @@
 
 
             </div>
-<!--            <div style="background:#fff;padding: 10px;border-radius: 10px"  v-show="this.company!=='总部'">-->
-<!--                <el-row>-->
-<!--                    &lt;!&ndash;                    <el-col style="margin:10px 0" >&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        <div style="display: flex;align-items: center;justify-content: space-between">&ndash;&gt;-->
-<!--                    &lt;!&ndash;                            <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp异常统计</div>&ndash;&gt;-->
-
-<!--                    &lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--                    &lt;!&ndash;                    </el-col>&ndash;&gt;-->
-<!--                    <el-col>-->
-<!--                        <el-table-->
-<!--                            :header-cell-style="{background:'#EFF3F8'}"-->
-<!--                            stripe-->
-
-
-<!--                            border-->
-<!--                            ref="multipleTable"-->
-<!--                            :data="tableData2"-->
-<!--                            style="width: 100%">-->
-
-
-
-<!--                            <el-table-column-->
-<!--                                type="selection"-->
-<!--                                width="60"-->
-<!--                                align="center"-->
-<!--                            ></el-table-column>-->
-
-<!--                            <el-table-column-->
-<!--                                label="网络公司"-->
-
-<!--                                prop="Area"-->
-<!--                                align="center"-->
-<!--                            >-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                label="订单量"-->
-<!--                                align="center"-->
-<!--                                :show-overflow-tooltip="true"-->
-<!--                                prop="count">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                label="客户取消"-->
-<!--                                align="center"-->
-
-<!--                                prop="Manager">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                label="内部取消"-->
-<!--                                align="center"-->
-<!--                                :show-overflow-tooltip="true"-->
-<!--                                prop="Telephone">-->
-<!--                            </el-table-column>-->
-<!--                            <el-table-column-->
-<!--                                label="时间变更"-->
-<!--                                align="center"-->
-
-<!--                            >-->
-<!--                            </el-table-column>-->
-
-<!--                            <el-table-column-->
-<!--                                align="center"-->
-<!--                                label="操作">-->
-<!--                                <template slot-scope="scope">-->
-<!--                                    <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row)">详情</el-button>-->
-<!--                                </template>-->
-<!--                            </el-table-column>-->
-<!--                        </el-table>-->
-<!--                    </el-col>-->
-<!--                </el-row>-->
-
-
-<!--            </div>-->
 
         </div>
 
@@ -186,7 +108,6 @@
             return {
                 xdtime:'',
                 loading:false,
-                zongbuXinxi:false,
                 company:'',
                 tableData0:[],
                 tableData:[
@@ -227,28 +148,26 @@
                 tableData2:[
                     {
                         count: '1',
-                        Area: '北京分公司',
+                        Area2: '北京分公司',
 
                     },
                     {
                         count: '1',
-                        Area: '石家庄分控',
+                        Area2: '石家庄分控',
                     },
                     {
                         count: '1',
-                        Area: '衡水分控',
+                        Area2: '衡水分控',
                     },
                     {
                         count: '1',
-                        Area: '张家口分控',
+                        Area2: '张家口分控',
                     },
                     {
                         count: '7',
-                        Area: '合计',
+                        Area2: '合计',
                     },
-                ]
-
-
+                ],
             }
         },
         mounted() {
@@ -259,15 +178,13 @@
                 this.tableData0 = this.tableData2;
             }
 
-
         },
         methods: {
             DetailsChild(row){
                 this.$router.push({
                     path: "/abnormalInformationDetails",
                     query: {
-                        Area: row.Area,
-
+                        Area:  this.company  == "总部"?row.Area:row.Area2,
                     }
 
 

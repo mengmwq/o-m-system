@@ -50,7 +50,7 @@
                     <el-form-item label="网络公司">
                         <el-autocomplete
                             class="inline-input"
-                            v-model="Area"
+                            v-model="Area2"
 
                             placeholder="请输入内容"
                             :trigger-on-focus="false"
@@ -170,7 +170,7 @@
 
                             align="center"
                             label="网络公司"
-                            prop="net">
+                            prop="Area2">
                         </el-table-column>
                         <el-table-column
 
@@ -322,6 +322,7 @@
                 addSendDetailsModel: false,
                 EditDetailsModel: false,
                 company: '',
+                NEX:'',
                 tableData: [
                     {
                         Area: '华北',
@@ -366,6 +367,7 @@
         },
         mounted() {
             this.Area = this.$route.query.Area;
+            this.Area2 = this.$route.query.Area;
             this.company = window.sessionStorage.getItem('compony');
         },
         methods: {
