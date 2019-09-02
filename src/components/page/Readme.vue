@@ -397,7 +397,7 @@ export default {
     // 先看下  图表需要的数据  是啥样
     // xArr  ["华北区", "东北区", "华东区", "华中区", "西南区", "西北区",]
     mengdou(xArr, yArr, zArr) {
-      var orderList = echarts.init(document.getElementById("orderList"));
+      let orderList = echarts.init(document.getElementById("orderList"));
       orderList.setOption({
         color: ["#45A2DF"],
         tooltip: {},
@@ -611,7 +611,7 @@ export default {
                 })
                 .then(function (res) {
                     _this.isLoad = false;
-                    var IncubatorCharts = echarts.init(
+                    let IncubatorCharts = echarts.init(
                         document.getElementById("IncubatorCharts")
                     );
                     var warmArea = echarts.init(document.getElementById("warmArea"));

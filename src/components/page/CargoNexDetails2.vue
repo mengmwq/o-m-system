@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <div style="background: #eee;padding: 20px ">区域订单>网络公司</div>
-        <div class="divBut">
+    <div class="divBut">
+        <div style="background: #eee;padding: 20px ">货物类型>网络公司</div>
+        <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
 
                 <el-form :inline="true" class="demo-form-inline">
                     <el-row style="display: flex;align-items: center;">
                         <el-col>
-                            <el-form-item label="区域">
+                            <el-form-item label="货物类型">
                                 <el-input
                                     class="inline-input"
 
-                                    v-model="ares"
+                                    v-model="huowu"
                                     placeholder="请输入内容"
                                     :trigger-on-focus="false"
                                     :debounce=0
@@ -46,10 +46,9 @@
                     <el-row>
                         <el-col style="margin:10px 0" >
                             <div style="display: flex;align-items: center;justify-content: space-between">
-                                <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp异常统计</div>
-
+                                <div style="font-family: cursive;float: right">订单量合计:350条信息</div>
+                                <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                             </div>
-
                         </el-col>
                         <el-col>
                             <el-table
@@ -137,19 +136,19 @@
                 xdtime:'',
                 loading:false,
                 Nex:'',
-                ares:'',
+                huowu:'',
                 tableData:[
                     {
-                        count: '12987122',
-                        Area: '试剂',
+                        count: '石家庄公司',
+                        Area: '药品',
                     },
                     {
-                        count: '12987122',
-                        Area: '试剂',
+                        count: '重庆公司',
+                        Area: '药品',
                     },
                     {
-                        count: '12987122',
-                        Area: '试剂',
+                        count: '呼和浩特公司',
+                        Area: '药品',
                     },
                 ],
 
@@ -157,13 +156,18 @@
             }
         },
         mounted() {
+            this.huowu = this.$route.query.huowu;
             this.company = window.sessionStorage.getItem('compony');
 
         },
         methods: {
             DetailsChild(row){
                 this.$router.push({
-                    path: "/CargoStatisticsDetails",
+                    path: "/CargoStatisticsDetails2",
+                    query: {
+                        Nex:  row.count,
+                       yaopin:row.Area
+                    }
 
                 });
 

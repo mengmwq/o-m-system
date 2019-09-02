@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <div style="background: #eee;padding: 20px ">区域订单>网络公司</div>
-        <div class="divBut">
+    <div class="divBut">
+        <div style="background: #eee;padding: 20px "    v-if="company == '总部'">区域订单>{{Area}}</div>
+
+        <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
 
@@ -12,7 +13,7 @@
                                 <el-input
                                     class="inline-input"
 
-                                    v-model="ares"
+                                    v-model="Area"
                                     placeholder="请输入内容"
                                     :trigger-on-focus="false"
                                     :debounce=0
@@ -44,22 +45,23 @@
                 </el-form>
                 <div style="background:#fff;padding: 10px;border-radius: 10px">
                     <el-row>
+
                         <el-col style="margin:10px 0" >
                             <div style="display: flex;align-items: center;justify-content: space-between">
-                                <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp异常统计</div>
-
+                                <div style="font-family: cursive;float: right">订单量合计:350条信息</div>
+                                <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                             </div>
-
                         </el-col>
+
                         <el-col>
                             <el-table
                                 :header-cell-style="{background:'#EFF3F8'}"
                                 stripe
-                                height="500"
+
                                 ref="multipleTable"
                                 :data="tableData"
-                                style="width: 100%">
 
+                                style="width: 100%">
 
 
                                 <el-table-column
@@ -116,9 +118,19 @@
                             </el-table>
                         </el-col>
                     </el-row>
+                    <div class="pagination">
+                        <el-pagination
+                            :page-sizes="[20,50, 100, 500, 2000]"
+                            :page-size="20"
+                            :current-page='cur_page'
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="ccc"
+                        ></el-pagination>
+                    </div>
 
 
                 </div>
+
 
             </div>
 
@@ -134,21 +146,25 @@
         name: "OrdersRtatistics",
         data() {
             return {
+                company:'',
+                cur_page: 1,//当前页
+                limit: 20, //每页多少条
+                ccc: 500, //总tiao数
                 xdtime:'',
                 loading:false,
                 Nex:'',
-                ares:'',
+                Area:'',
                 tableData:[
                     {
-                        count: '12987122',
+                        count: '石家庄公司',
                         Area: '华北区',
                     },
                     {
-                        count: '12987122',
+                        count: '重庆公司',
                         Area: '华北区',
                     },
                     {
-                        count: '12987122',
+                        count: '呼和浩特公司',
                         Area: '华北区',
                     },
                 ],
@@ -157,6 +173,9 @@
             }
         },
         mounted() {
+            this.Area = this.$route.query.Area;
+            this.Area2 = this.$route.query.Area;
+
             this.company = window.sessionStorage.getItem('compony');
 
         },
@@ -164,6 +183,10 @@
             DetailsChild(row){
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
+                    query: {
+                        Nex:  row.count,
+                    }
+
 
                 });
 

@@ -4,7 +4,7 @@
             <el-form :inline="true" class="demo-form-inline">
                 <el-row style="display: flex;align-items: center;">
                     <el-col>
-                        <el-form-item label="请选择时间范围">
+                        <el-form-item >
                             <div class="block">
                                 <el-date-picker v-model="xdtime" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                                 </el-date-picker>
@@ -37,7 +37,7 @@
                         stripe
 
                         ref="multipleTable"
-                        :data="tableData"
+                        :data="tableData0"
                         style="width: 100%">
 
 
@@ -50,8 +50,15 @@
 
                         <el-table-column
                             label="区域"
-
+                            v-if="company == '总部'"
                             prop="Area"
+                            align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                            label="网络公司"
+                            v-else
+                            prop="Area2"
                             align="center"
                         >
                         </el-table-column>
@@ -122,7 +129,7 @@
                             <el-table-column
                                 label="货物类型"
 
-                                prop="Area"
+                                prop="huowu"
                                 align="center"
                             >
                             </el-table-column>
@@ -177,8 +184,10 @@
         name: "OrdersRtatistics",
         data() {
             return {
+                tableData0:[],
                 xdtime:'',
                 loading:false,
+                company:'',
                 tableData:[
                     {
                         count: '12987122',
@@ -197,22 +206,45 @@
                         Area: '合计',
                     },
                 ],
+                tableData1:[
+                    {
+                        count: '1',
+                        Area2: '北京分公司',
+
+                    },
+                    {
+                        count: '1',
+                        Area2: '石家庄分控',
+                    },
+                    {
+                        count: '1',
+                        Area2: '衡水分控',
+                    },
+                    {
+                        count: '1',
+                        Area2: '张家口分控',
+                    },
+                    {
+                        count: '7',
+                        Area2: '合计',
+                    },
+                ],
                 tableData2:[
                     {
                         count: '1',
-                        Area: '药品',
+                        huowu: '药品',
                     },
                     {
                         count: '2',
-                        Area: '试剂',
+                        huowu: '试剂',
                     },
                     {
                         count: '3',
-                        Area: '样本',
+                        huowu: '样本',
                     },
                     {
                         count: '3',
-                        Area: '合计',
+                        huowu: '合计',
                     },
                 ],
 
@@ -221,19 +253,41 @@
         },
         mounted() {
             this.company = window.sessionStorage.getItem('compony');
-
+            if(this.company  == "总部"){
+                this.tableData0 = this.tableData;
+            }else{
+                this.tableData0 = this.tableData1;
+            }
         },
         methods: {
             DetailsChild(row){
-                this.$router.push({
-                    path: "/CargoNexDetails",
+                if(this.company  == "总部"){
+                    this.$router.push({
+                        path: "/CargoNexDetails",
+                        query: {
+                            Area:  this.company  == "总部"?row.Area:row.Area2,
+                        }
 
-                });
+                    });
+                }else{
+                    this.$router.push({
+                        path: "/CargoStatisticsDetails",
+                        query: {
+                            Area:  this.company  == "总部"?row.Area:row.Area2,
+                    }
+
+                    });
+                }
+
+
 
             },
             DetailsChild2(row){
                 this.$router.push({
                     path: "/CargoNexDetails2",
+                    query: {
+                        huowu:  row.huowu
+                    }
 
                 });
 

@@ -20,7 +20,7 @@
                         <el-form-item label="网络公司">
                             <el-autocomplete
                                 class="inline-input"
-                                v-model="Area2"
+                                v-model="Nex"
 
 
                                 placeholder="请输入内容"
@@ -77,7 +77,7 @@
                             ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="货物类型">
-                            <el-select v-model="region" filterable  placeholder="请选择">
+                            <el-select v-model="yaopin" filterable  placeholder="请选择">
                                 <el-option label="请选择" value=""></el-option>
                                 <el-option label="试剂" value="2"></el-option>
                                 <el-option label="药品" value="1"></el-option>
@@ -100,15 +100,15 @@
                 <el-row>
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
-                          <el-form  label-width="80px">
-                            <el-form-item label="延迟" >
-                                <el-radio-group v-model="resource">
-                                    <el-radio label="全部"></el-radio>
-                                    <el-radio label="是"></el-radio>
-                                    <el-radio label="否"></el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                          </el-form>
+                            <el-form  label-width="80px">
+                                <el-form-item label="延迟" >
+                                    <el-radio-group v-model="resource">
+                                        <el-radio label="全部"></el-radio>
+                                        <el-radio label="是"></el-radio>
+                                        <el-radio label="否"></el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-form>
                             <div style="font-family: cursive;">订单量合计:350条信息</div>
                             <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                         </div>
@@ -123,6 +123,13 @@
                             id='tableData'
                             style="width: 100%">
                             <el-table-column type="selection" width="55">
+                            </el-table-column>
+                            <el-table-column
+                                label="货物类型"
+
+                                prop="huowul"
+                                align="center"
+                            >
                             </el-table-column>
                             <el-table-column
                                 label="区域"
@@ -165,11 +172,11 @@
 
                                 prop="AccoutNumber">
                             </el-table-column>
-                            <el-table-column
-                                label="货物类型"
-                                align="center"
-                                prop="shoujian">
-                            </el-table-column>
+<!--                            <el-table-column-->
+<!--                                label="货物类型"-->
+<!--                                align="center"-->
+<!--                                prop="shoujian">-->
+<!--                            </el-table-column>-->
 
                             <el-table-column
                                 align="center"
@@ -252,6 +259,8 @@
         name: "SenderManagement",
         data() {
             return {
+                huowul:'',
+                yaopin:'',
                 company:'',
                 resource:'',
                 Nex:'',
@@ -266,7 +275,8 @@
                 EditDetailsModel:false,
                 tableData: [
                     {
-                        id: '12987122',
+                        huowul:'试剂',
+                        id: '华北',
                         name: '石家庄公司',
                         category: '12345',
                         AccoutNumber: '15001015750',
@@ -283,7 +293,8 @@
                     },
 
                     {
-                        id: '12987122',
+                        huowul:'试剂',
+                        id: '东北',
                         name: '石家庄公司',
                         category: '12345',
                         AccoutNumber: '15001015750',
@@ -302,7 +313,8 @@
 
 
                     {
-                        id: '865',
+                        huowul:'试剂',
+                        id: '东北',
                         name: '石家庄公司',
                         yanchi:'否',
                         category: '456468',
@@ -343,6 +355,7 @@
             this.Area = this.$route.query.Area;
             this.Area2 = this.$route.query.Area;
             this.Nex = this.$route.query.Nex;
+            this.yaopin = this.$route.query.yaopin;
             this.company = window.sessionStorage.getItem('compony');
 
         },
