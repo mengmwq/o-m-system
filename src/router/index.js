@@ -41,6 +41,21 @@ export default new Router({
                     meta:{keepAlive: true}
                 },
                 {
+                    path:'/CargoStatisticsDetails' ,
+                    component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoNexDetails2' ,
+                    component:resolve => require(['../components/page/CargoNexDetails2.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoNexDetails' ,
+                    component:resolve => require(['../components/page/CargoNexDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
                     path:'/abnormalInformationDetails',
                     component:resolve => require(['../components/page/abnormalInformationDetails.vue'],resolve),
                     meta:{keepAlive: true}
