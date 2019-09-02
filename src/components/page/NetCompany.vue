@@ -205,30 +205,77 @@
 						<div class="grid-content">温度区间</div>
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-						<div class="grid-content">-90℃~-40℃</div>
+						     <div v-for="(value, key, index) in boxs" >
+						     	
+						     	<span v-if="index==0">{{key}}</span>
+                             </div>
+	
+					</el-col>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 25px;'>
+						     <div v-for="(value, key, index) in boxs" >
+						     	
+						     	<span v-if="index==1">{{key}}</span>
+                             </div>
+	
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						     <div v-for="(value, key, index) in boxs" >
+						     	
+						     	<span v-if="index==2">{{key}}</span>
+                             </div>
+	
+					</el-col>
+					<!--<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
+						<div class="grid-content">-90℃~-40℃</div>
+					</el-col>-->
+					<!--<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						<div class="grid-content">-20℃~-10℃</div>
 					</el-col>
 					<el-col :span="6">
 						<div class="grid-content">2℃~8℃</div>
-					</el-col>
+					</el-col>-->
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
 						<div class="grid-content">保温箱型</div>
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
-						<div class="grid-content"><span>GB(小)</span> * <span>1</span></div>
+						<!--<div class="grid-content"><span>GB(小)</span> * <span>1</span></div>
 						<div class="grid-content"><span>GB(大)</span> * <span>1</span></div>
-						<div class="grid-content"><span>自备包材</span> * <span>1</span></div>
+						<div class="grid-content"><span>自备包材</span> * <span>1</span></div>-->
+						 <div v-for="(value, key, index) in boxs" class="grid-content">
+						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
+						     	<span v-if="index==0">
+						     		 <div v-for="(value1, key1) in value" class="grid-content">
+								     	<span v-if="index==0">{{value1.PackageName}}</span> * <span>{{value1.Jian}}</span>
+								     <!--	<span v-if="index==0">{{value1}}</span>-->
+		                             </div>
+						     	</span>
+                             </div>
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
-						<div class="grid-content"><span>4L</span> * <span>1</span></div>
-						<div class="grid-content"><span>56L</span> * <span>1</span></div>
+						 <div v-for="(value, key, index) in boxs" class="grid-content">
+						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
+						     	<span v-if="index==1">
+						     		 <div v-for="(value, key) in value" class="grid-content">
+								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
+								     	
+		                             </div>
+		                             <!--<span >{{value}}</span>-->
+						     	</span>
+                             </div>
 					</el-col>
 					<el-col :span="6">
-						<div class="grid-content"><span>35L</span> * <span>1</span></div>
+						 <div v-for="(value, key, index) in boxs" class="grid-content">
+						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
+						     	<span v-if="index==2">
+						     		 <div v-for="(value, key) in value" class="grid-content">
+								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
+								     	
+		                             </div>
+		                             <!--<span >{{value}}</span>-->
+						     	</span>
+                             </div>
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
@@ -377,8 +424,9 @@
 				jian:'',
 				takeName:'',
 				orderTime:'',
-				ordertimer:''//下单时间
-                
+				ordertimer:'',//下单时间
+               boxs:''				
+               
 			}
 		},
 		mounted() {
@@ -438,6 +486,7 @@
 			},
 	         
 	        Reset(){
+	        	
 				this.OrderTime='';
 				this.acount='';
 				this.orderstate='';
@@ -499,7 +548,7 @@
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
 			
-			//修改页面
+			//查看订单详情
 			Orderdetail(row) {
 				
 				//console.log(row);
@@ -558,6 +607,10 @@
 					_this.takeName=res.data.data[0].TakesName=null?'':res.data.data[0].TakesName;
 					_this.orderTime=res.data.data[0].OrderTime;
 					_this.ordertimer=res.data.data[0].Indate;
+					_this.boxs=res.data.data[0].Box;
+					console.log(_this.boxs,888)
+					
+				
 				})
 				
 				this.EditDetailsModel = true;
@@ -570,10 +623,13 @@
 			},
 			//下载运单详情
 			orderdownload() {
+			
               htmlToPdf.downloadPDF( document.querySelector('#pdfDom'),'运单详情');
 			},
 			//打印运单详情
 			print(e) {
+					console.log(JSON.stringify(this.boxs));
+	        	return false;
                 let subOutputRankPrint = document.querySelector('#pdfDom');
                 console.log(subOutputRankPrint.innerHTML);
                 let newContent =subOutputRankPrint.innerHTML;
@@ -584,10 +640,7 @@
                 document.body.innerHTML = oldContent;
                 return false;
 			},
-			//新增按钮点击页面
-			addSendDetails() {
-				this.addSendDetailsModel = true
-			},
+
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
