@@ -41,6 +41,11 @@ export default new Router({
                     meta:{keepAlive: true}
                 },
                 {
+                    path:'/abnormalInformationDetails',
+                    component:resolve => require(['../components/page/abnormalInformationDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
                     path:'/abnormalInformation',
                     component:resolve => require(['../components/page/abnormalInformation.vue'],resolve),
                     meta:{keepAlive: true}

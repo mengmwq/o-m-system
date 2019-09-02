@@ -44,6 +44,7 @@
 					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' height="500" stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
+
 						<el-table-column label="网络公司" prop="CompanyNet" align="center">
 						</el-table-column>
 						<el-table-column label="订单量" align="center" prop="allpiao">

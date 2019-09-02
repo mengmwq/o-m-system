@@ -139,7 +139,7 @@
                             label="下单量"
                             align="center"
 
-                            prop="xiadanliang">
+                            prop="count">
                         </el-table-column>
                         <el-table-column
                             label="活跃度"
@@ -474,7 +474,7 @@
                             "Company",
                             "Manager",
                             "Telephone",
-                            "xiadanliang",
+                            "count",
                             "huoyue",
                             "Depart",
                             "City",
