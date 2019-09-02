@@ -75,70 +75,7 @@
 
 		  </div>
 		</div>
-		<!--        //新增页面模态框-->
-		<el-dialog :visible.sync="addSendDetailsModel">
-			<div>
 
-				<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-					<el-form-item label="客户账号" prop="name">
-						<el-input v-model="ruleForm.name" style="width: 160px"></el-input>
-					</el-form-item>
-					<el-form-item label="公司名称" prop="company">
-						<el-input v-model="ruleForm.company"></el-input>
-					</el-form-item>
-					<el-row>
-						<el-col :span="11">
-							<el-form-item label="联系人" prop="region">
-								<el-input v-model="ruleForm.region"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="13">
-							<el-form-item label="联系方式" prop="phone">
-								<el-input v-model="ruleForm.phone"></el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-
-					<el-row>
-						<el-col :span="11">
-							<el-row>
-								<el-col :span="12">
-									<el-form-item label="省份" prop="province">
-										<el-input v-model="ruleForm.province"></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="12">
-									<el-form-item label="城市" prop="city">
-										<el-input v-model="ruleForm.area"></el-input>
-									</el-form-item>
-								</el-col>
-							</el-row>
-						</el-col>
-						<el-col :span="13">
-							<el-col :span="12">
-								<el-form-item label="区域" prop="area">
-									<el-input v-model="ruleForm.area"></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col :span="12">
-								<el-form-item label="街道" prop=" street">
-									<el-input v-model="ruleForm. street"></el-input>
-								</el-form-item>
-							</el-col>
-						</el-col>
-					</el-row>
-
-					<el-form-item label="详细地址" prop="desc">
-						<el-input type="textarea" v-model="ruleForm.desc"></el-input>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-						<el-button @click="resetForm('ruleForm')">重置</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
-
-		</el-dialog>
 	</div>
 
 </template>
@@ -436,10 +373,6 @@
 				}
 			},
 
-			//新增按钮点击页面
-			addSendDetails() {
-				this.addSendDetailsModel = true
-			},
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
