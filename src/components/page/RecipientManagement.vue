@@ -346,7 +346,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item >
                         <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -362,7 +362,6 @@
 
 
     export default {
-
         data() {
             return {
                 ruleForm: {

@@ -5,7 +5,7 @@
 
                 <router-view v-if='isRouterAlive'></router-view>
 
-        </navigation>>
+        </navigation>
     </div>
 </template>
 <script>
