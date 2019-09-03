@@ -16,7 +16,7 @@
                         <el-form-item label="网络公司" v-show="this.company !=='总部'">
                             <el-autocomplete
                                 class="inline-input"
-                                v-model="NEX"
+                                v-model="Area2"
                                 placeholder="请输入内容"
                                 :trigger-on-focus="false"
                                 :debounce=0
