@@ -189,7 +189,7 @@
                       </el-tab-pane>
                     </el-tabs>
                   </div>
-                  
+
                 </div>
 
               </div>
@@ -202,7 +202,7 @@
             <span class="save" @click="prev">上一步</span>
           </el-col>
           <el-col :span="24">
-            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;要求取件时间</h2>  
+            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;要求取件时间</h2>
             <div>
               <el-date-picker
                 v-model="value1"
@@ -230,101 +230,114 @@
           :gutter="24"
           style="margin: 0"
         >
-          <!-- <el-col :span="24">
-            <h3>Step1 基本信息</h3>
+           <el-col :span="24">
+               <el-collapse v-model="activeNames" @change="handleChange">
+                   <el-collapse-item title="Step1 基本信息" name="0">
+                       <table>
+                           <tr>
+                               <td class='table_td'>客户账号</td>
+                               <!-- <td>{{TMSorder.tms_order_code}}</td> -->
+                               <!-- <td class='table_td'>TMS运单号</td>
+                               <td>{{TMSorder.tms_way_code}}</td>
+                               <td class='table_td'>设备号</td>
+                               <td>{{TMSorder.device_code}}</td> -->
+                           </tr>
+                           <tr>
+                               <td class='table_td'>寄件人</td>
+                               <!-- <td>{{TMSorder.tms_get_goods_man}}</td> -->
+                               <td class='table_td'>发货人电话</td>
+                               <!-- <td>{{TMSorder.tms_get_goods_phone}}</td> -->
+                               <td class='table_td'>发货时间</td>
+                               <!-- <td>{{TMSorder.tms_get_goods_plan_time}}</td> -->
+                           </tr>
+                           <tr>
+                               <td class='table_td'>收货人</td>
+                               <!-- <td>{{TMSorder.tms_send_goods_man}}</td> -->
+                               <td class='table_td'>收货人电话</td>
+                               <!-- <td>{{TMSorder.tms_send_goods_phone}}</td> -->
+                               <td class='table_td'>时限</td>
+                               <!-- <td>{{TMSorder.plan_time}}</td> -->
+                           </tr>
+                           <tr>
+                               <td class='table_td'>发货人地址</td>
+                               <!-- <td>{{TMSorder.tms_get_goods_address}}</td> -->
+                               <!-- <td>{{TMSorder.tms_get_goods_company}}</td> -->
+                               <td class='table_td'>收货人地址</td>
+                               <!-- <td>{{TMSorder.tms_send_goods_address}}</td> -->
+                               <!-- <td>{{TMSorder.tms_send_goods_company}}</td> -->
+                           </tr>
+                       </table>
+                   </el-collapse-item>
+                   <el-collapse-item title="Step2 货物信息" name="1">
+                       <table>
+                           <tr>
+                               <th>序号</th>
+                               <th>温度区间</th>
+                               <th>器具</th>
+                               <th>数量</th>
+                               <th>操作</th>
+                           </tr>
+                           <tr v-for="(item,index) in cargList" :key="index">
+                               <td>{{index+1}}</td>
+                               <td>{{item.tem}}</td>
+                               <td>{{item.box}}</td>
+                               <td>
+                                   <span class="circle">-</span>
+                                   <span>{{item.num}}</span>
+                                   <span class="circle">+</span>
+                               </td>
+                               <td><span>删除</span></td>
+                           </tr>
+                       </table>
+                       <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
+                           <div>要求取件时间：2019年11月</div>
+                           <div style="margin:0 20px">时限要求：24H</div>
+                           <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
+                               <img :src="item" alt="" @click='isHover($event)'>
+                           </div>
+                          <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
+                       </div>
+                   </el-collapse-item>
+                   <el-collapse-item title="Step3 其他" name="2">
+                       <table>
+                           <tr>
+                               <td class='table_td'>取件网络</td>
+                                <td>dhjodo</td>
+                               <td></td>
+                               <td></td>
 
-          </el-col> -->
-          <el-collapse v-model="activeNames" @change="handleChange">
-    <el-collapse-item title="Step1 基本信息" name="0">
-      <table>
-          <tr>
-            <td class='table_td'>客户账号</td>
-            <!-- <td>{{TMSorder.tms_order_code}}</td> -->
-            <!-- <td class='table_td'>TMS运单号</td>
-            <td>{{TMSorder.tms_way_code}}</td>
-            <td class='table_td'>设备号</td>
-            <td>{{TMSorder.device_code}}</td> -->
-          </tr>
-          <tr>
-            <td class='table_td'>寄件人</td>
-            <!-- <td>{{TMSorder.tms_get_goods_man}}</td> -->
-            <td class='table_td'>发货人电话</td>
-            <!-- <td>{{TMSorder.tms_get_goods_phone}}</td> -->
-            <td class='table_td'>发货时间</td>
-            <!-- <td>{{TMSorder.tms_get_goods_plan_time}}</td> -->
-          </tr>
-          <tr>
-            <td class='table_td'>收货人</td>
-            <!-- <td>{{TMSorder.tms_send_goods_man}}</td> -->
-            <td class='table_td'>收货人电话</td>
-            <!-- <td>{{TMSorder.tms_send_goods_phone}}</td> -->
-            <td class='table_td'>时限</td>
-            <!-- <td>{{TMSorder.plan_time}}</td> -->
-          </tr>
-          <tr>
-            <td class='table_td'>发货人地址</td>
-            <!-- <td>{{TMSorder.tms_get_goods_address}}</td> -->
-            <!-- <td>{{TMSorder.tms_get_goods_company}}</td> -->
-            <td class='table_td'>收货人地址</td>
-            <!-- <td>{{TMSorder.tms_send_goods_address}}</td> -->
-            <!-- <td>{{TMSorder.tms_send_goods_company}}</td> -->
-          </tr>
-      </table>
-  </el-collapse-item>
-  <el-collapse-item title="Step2 货物信息" name="1">
-      <table>
-        <tr>
-          <th>序号</th>
-          <th>温度区间</th>
-          <th>器具</th>
-          <th>数量</th>
-          <th>操作</th>
-        </tr>
-          <tr v-for="(item,index) in cargList" :key="index">
-            <td>{{index+1}}</td>
-            <td>{{item.tem}}</td>
-            <td>{{item.box}}</td>
-            <td>
-              <span class="circle">-</span>
-              <span>{{item.num}}</span>
-              <span class="circle">+</span>
-            </td>
-            <td><span>删除</span></td>
-          </tr>
-      </table>
-  </el-collapse-item>
-  <el-collapse-item title="Step3 其他" name="2">
-    <table>
-          <tr>
-            <td class='table_td'>姓名</td>
-            <!-- <td>{{getbox.get_box_man}}</td> -->
-            <td class='table_td'>电话</td>
-            <!-- <td>{{getbox.get_box_phone}}</td> -->
-            <td class='table_td'>地址</td>
-            <!-- <td>{{getbox.get_box_address}}</td> -->
-          </tr>
-          <tr>
-            <td class='table_td'>规定时间</td>
-            <!-- <td>{{getbox.get_box_plan_time | formatDate}}</td> -->
-            <td class='table_td'>到达时间</td>
-            <!-- <td>{{getbox.get_box_now_time | formatDate}}</td> -->
-          </tr>
-      </table>
-      <div class='isPhoto'>
-          <div>照片：</div>
-          <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
-              <img :src="item" alt="" @click='isHover($event)'>
-          </div>
-         <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
-      </div>
-  </el-collapse-item>
-    <el-collapse-item title="Step4 特殊需求" name="3">
-      <div>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
-      </div>
-  </el-collapse-item>
-  </el-collapse>
+
+                           </tr>
+                           <tr>
+                               <td class='table_td'>是否投保</td>
+                                <td>是</td>
+                               <td class='table_td'>温度计使用</td>
+                                <td>使用</td>
+                           </tr>
+                       </table>
+                       <div class='isPhoto'>
+<!--                           <div>照片：</div>-->
+                           <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
+                               <img :src="item" alt="" @click='isHover($event)'>
+                           </div>
+                          <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
+                       </div>
+                   </el-collapse-item>
+                   <el-collapse-item title="Step4 特殊需求" name="3">
+                       <div>
+                           <textarea name="" id="" cols="100" rows="10"></textarea>
+                       </div>
+                   </el-collapse-item>
+               </el-collapse>
+
+          </el-col>
+            <el-col style="margin: 30px 0;display: flex;justify-content: center">
+                <el-button type="primary">提交</el-button>
+                <el-button type="success">取消</el-button>
+            </el-col>
+
         </el-row>
+
       </div>
 
     </div>
@@ -569,7 +582,7 @@ table {
 }
 .table_td {
   background-color: #eff4f6;
-  } 
+  }
   .circle{
     width:15px;
     height:15px;
