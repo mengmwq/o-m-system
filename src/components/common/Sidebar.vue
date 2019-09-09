@@ -34,8 +34,6 @@
                     </el-menu-item>
                 </template>
             </template>
-
-
         </el-menu>
     </div>
 </template>
@@ -190,7 +188,7 @@ export default {
         font-size: 16px;
     }
     .el-submenu__title {
-        color: #fff;
+        color: #ddd;
         font-family: cursive;
         font-size: 16px;
     }
@@ -203,6 +201,9 @@ export default {
 
 </style>
 <style scoped>
+    .el-menu-item{
+        color:#606266;
+    }
     .sidebar {
         display: block;
         position: absolute;

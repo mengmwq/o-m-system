@@ -11,6 +11,7 @@
        <el-form-item>
           <el-input type="text" auto-complete="off" placeholder="用户名" v-model="account"></el-input>
        </el-form-item>
+
        <el-form-item style="margin-bottom: 10px">
            <el-input type="password" auto-complete="off" placeholder="密码" v-model="checkPass"
                      @keyup.enter.native="handleSubmit2"></el-input>
