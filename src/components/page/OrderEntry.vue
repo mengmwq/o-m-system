@@ -6,13 +6,13 @@
         <a
           :class="{active:activeMenu == 'a'}"
           @click="scrollTo('a')"
-        ><i class="el-icon-star-off"></i><br></br>订单信息</a>
+        ><i class="el-icon-star-off"></i><br />订单信息</a>
       </li>
       <li>
         <a
           :class="{active:activeMenu == 'b'}"
           @click="scrollTo('b')"
-        ><i class="el-icon-date"></i><br></br>订单预览</a>
+        ><i class="el-icon-date"></i><br />订单预览</a>
       </li>
 
     </ul>
@@ -130,7 +130,7 @@
           style="margin: 0"
         >
           <el-col :span="24">
-            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
+            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;货物信息</h2>
 
             <div style="display:flex;">
               <el-steps
@@ -171,7 +171,7 @@
                           	:key="index" >
                             <span>{{item.box}}</span>
 
-							<input type="text" value="" v-model='item.num' style='width:20%;' @input="isNull(item,index)">
+							<input type="text" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)">
 
 							<span>个</span>
                           </div>
@@ -182,14 +182,14 @@
                         <div class="temFirst">
 							<div v-for="(item,index) in iceCar" :key="index">
 								<span>{{item.car}}</span>
-								<input type="text" v-model="item.num" style='width:20%;' @input="isNull(item,index,item1)">
+								<input type="text" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)">
 								<span>辆</span>
 							</div>
                         </div>
                       </el-tab-pane>
                     </el-tabs>
                   </div>
-                  <button @click="prev"> 上一步 </button>
+                  
                 </div>
 
               </div>
@@ -197,7 +197,29 @@
             </div>
 
           </el-col>
-
+          <el-col :span="24" style="text-align:right;">
+            <!-- <button @click="prev"> 上一步 </button> -->
+            <span class="save" @click="prev">上一步</span>
+          </el-col>
+          <el-col :span="24">
+            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;要求取件时间</h2>  
+            <div>
+              <el-date-picker
+                v-model="value1"
+                type="datetime"
+                placeholder="选择日期时间">
+              </el-date-picker>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;时限要求</h2>
+            <div class="limit">
+              <span v-for="(item,index) in tiemLimit" :key="index">{{item.limit}}</span>
+            </div>
+          </el-col>
+          <el-col :span="24" style="text-align:right;margin-bottom:20px;">
+            <span class="save">保存</span>
+          </el-col>
         </el-row>
       </div>
       <div
@@ -208,9 +230,100 @@
           :gutter="24"
           style="margin: 0"
         >
-          <el-col>
-            订单预览表页面
-          </el-col>
+          <!-- <el-col :span="24">
+            <h3>Step1 基本信息</h3>
+
+          </el-col> -->
+          <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse-item title="Step1 基本信息" name="0">
+      <table>
+          <tr>
+            <td class='table_td'>客户账号</td>
+            <!-- <td>{{TMSorder.tms_order_code}}</td> -->
+            <!-- <td class='table_td'>TMS运单号</td>
+            <td>{{TMSorder.tms_way_code}}</td>
+            <td class='table_td'>设备号</td>
+            <td>{{TMSorder.device_code}}</td> -->
+          </tr>
+          <tr>
+            <td class='table_td'>寄件人</td>
+            <!-- <td>{{TMSorder.tms_get_goods_man}}</td> -->
+            <td class='table_td'>发货人电话</td>
+            <!-- <td>{{TMSorder.tms_get_goods_phone}}</td> -->
+            <td class='table_td'>发货时间</td>
+            <!-- <td>{{TMSorder.tms_get_goods_plan_time}}</td> -->
+          </tr>
+          <tr>
+            <td class='table_td'>收货人</td>
+            <!-- <td>{{TMSorder.tms_send_goods_man}}</td> -->
+            <td class='table_td'>收货人电话</td>
+            <!-- <td>{{TMSorder.tms_send_goods_phone}}</td> -->
+            <td class='table_td'>时限</td>
+            <!-- <td>{{TMSorder.plan_time}}</td> -->
+          </tr>
+          <tr>
+            <td class='table_td'>发货人地址</td>
+            <!-- <td>{{TMSorder.tms_get_goods_address}}</td> -->
+            <!-- <td>{{TMSorder.tms_get_goods_company}}</td> -->
+            <td class='table_td'>收货人地址</td>
+            <!-- <td>{{TMSorder.tms_send_goods_address}}</td> -->
+            <!-- <td>{{TMSorder.tms_send_goods_company}}</td> -->
+          </tr>
+      </table>
+  </el-collapse-item>
+  <el-collapse-item title="Step2 货物信息" name="1">
+      <table>
+        <tr>
+          <th>序号</th>
+          <th>温度区间</th>
+          <th>器具</th>
+          <th>数量</th>
+          <th>操作</th>
+        </tr>
+          <tr v-for="(item,index) in cargList" :key="index">
+            <td>{{index+1}}</td>
+            <td>{{item.tem}}</td>
+            <td>{{item.box}}</td>
+            <td>
+              <span class="circle">-</span>
+              <span>{{item.num}}</span>
+              <span class="circle">+</span>
+            </td>
+            <td><span>删除</span></td>
+          </tr>
+      </table>
+  </el-collapse-item>
+  <el-collapse-item title="Step3 其他" name="2">
+    <table>
+          <tr>
+            <td class='table_td'>姓名</td>
+            <!-- <td>{{getbox.get_box_man}}</td> -->
+            <td class='table_td'>电话</td>
+            <!-- <td>{{getbox.get_box_phone}}</td> -->
+            <td class='table_td'>地址</td>
+            <!-- <td>{{getbox.get_box_address}}</td> -->
+          </tr>
+          <tr>
+            <td class='table_td'>规定时间</td>
+            <!-- <td>{{getbox.get_box_plan_time | formatDate}}</td> -->
+            <td class='table_td'>到达时间</td>
+            <!-- <td>{{getbox.get_box_now_time | formatDate}}</td> -->
+          </tr>
+      </table>
+      <div class='isPhoto'>
+          <div>照片：</div>
+          <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
+              <img :src="item" alt="" @click='isHover($event)'>
+          </div>
+         <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
+      </div>
+  </el-collapse-item>
+    <el-collapse-item title="Step4 特殊需求" name="3">
+      <div>
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+      </div>
+  </el-collapse-item>
+  </el-collapse>
         </el-row>
       </div>
 
@@ -224,6 +337,8 @@ export default {
   name: "test",
   data() {
     return {
+      activeNames: ["0"],
+       value1: '',
       activeMenu: 1,
       active: 1,
       isFirst: true,
@@ -245,13 +360,18 @@ export default {
         { car: "4.2m冷藏车", num: "" },
         { car: "7.6m冷藏车", num: "" },
         { car: "9.6m冷藏车", num: "" }
-      ]
+      ],
+      tiemLimit:[{limit:'24H'},{limit:'72H'},{limit:'36H'},{limit:'48H'}],
+      cargList:[{tem:'2-8',box:'xs28',num:2},{tem:'15-25',box:'xs46',num:4}]
     };
   },
   created() {
     scrollWatch.setContainer("#scrollDom");
   },
   methods: {
+        handleChange(val) {
+      console.log(val);
+    },
     next(val, index) {
       //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
       //哦
@@ -286,19 +406,19 @@ export default {
       this.firstTitle = "已完成";
       this.selectTem = val.tem; // 当前选择的温区
       let obj = { tem: this.selectTem, box: [], iceCar: [] };
-      if (this.cargoMsg.length == 0) {
+      // if (this.cargoMsg.length == 0) {
         this.cargoMsg.push(obj);
-      } else {
-        let init = true;
-        this.cargoMsg.forEach(item => {
-          if (this.selectTem == item.tem) {
-            init = false;
-          }
-        });
-        if (init) {
-          this.cargoMsg.push(obj);
-        }
-      }
+      // } else {
+      //   let init = true;
+      //   this.cargoMsg.forEach(item => {
+      //     if (this.selectTem == item.tem) {
+      //       init = false;
+      //     }
+      //   });
+      //   if (init) {
+      //     this.cargoMsg.push(obj);
+      //   }
+      // }
       console.log(this.cargoMsg); // 选择的温区
     },
     prev() {
@@ -414,4 +534,49 @@ h1 {
 .el-form-item__label {
   width: 100px !important;
 }
+.limit {
+  display: flex;
+  justify-content: flex-start;
+  flex-flow:wrap;
+}
+.limit span{
+  padding: 5px 20px;
+  margin: 5px 10px;
+  border:1px solid #ccc;
+  color:#ccc;
+  text-align: center;
+  border-radius: 5px;
+}
+.save{
+  padding: 5px 20px;
+  border:1px solid #ccc;
+  color: #000;
+  border-radius:5px;
+}
+td,
+th {
+  border: solid #ccc;
+  border-width: 0px 1px 1px 0px;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+table {
+  border: solid #ccc;
+  border-width: 1px 0px 0px 1px;
+  border-collapse: collapse;
+  width: 100%;
+}
+.table_td {
+  background-color: #eff4f6;
+  } 
+  .circle{
+    width:15px;
+    height:15px;
+    border:1px solid #000;
+    border-radius:50%;
+    display:inline-block;
+    line-height:15px;
+    text-align:center;
+  }
 </style>
