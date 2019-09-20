@@ -119,6 +119,7 @@
         },
         mounted() {
             this.company = window.sessionStorage.getItem('compony');
+
             // if(this.company  == "总部"){
             //     this.tableData0 = this.tableData;
             // }else{
