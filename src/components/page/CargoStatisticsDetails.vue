@@ -1,0 +1,477 @@
+<template>
+    <div class="divBut">
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'">区域订单>网络公司>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>
+        <div  >
+            <el-form :inline="true" class="demo-form-inline">
+                <el-row>
+                    <el-col>
+                        <el-form-item label="区域" v-show="this.company == '总部'">
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="Area"
+
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+                        <el-form-item label="网络公司">
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="CompanyNet"
+
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+                        <el-form-item label="客户账号">
+                            <el-autocomplete
+
+                                label-class-name="aaa"
+                                v-model="AccountNumber"
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+                        <el-form-item label="订单号">
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="ID"
+
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+
+                    </el-col>
+                    <el-col >
+                        <el-form-item label="温区">
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="WDQJ"
+
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+                        <el-form-item label="箱型">
+                            <el-autocomplete
+                                class="inline-input"
+                                v-model="PackageName"
+
+
+                                placeholder="请输入内容"
+                                :trigger-on-focus="false"
+                                :debounce=0
+
+                            ></el-autocomplete>
+                        </el-form-item>
+                        <el-form-item label="货物类型">
+                            <el-select v-model="GoodsType" filterable  placeholder="请选择">
+                                <el-option label="请选择" value=""></el-option>
+                                <el-option label="试剂" value="2"></el-option>
+                                <el-option label="药品" value="1"></el-option>
+                                <el-option label="待审核" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <div style="float: right">
+                            <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px" @click="getData" >
+                            <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
+                            <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px" >
+
+
+                        </div>
+                    </el-col>
+
+                </el-row>
+            </el-form>
+            <div style="background:#fff;padding: 10px;border-radius: 10px">
+                <el-row>
+                    <el-col style="margin:10px 0" >
+                        <div style="display: flex;align-items: center;justify-content: space-between">
+                          <el-form  label-width="80px">
+                            <el-form-item label="延迟" >
+                                <el-radio-group v-model="Delay">
+                                    <el-radio label="全部"></el-radio>
+                                    <el-radio label="是"></el-radio>
+                                    <el-radio label="否"></el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                          </el-form>
+                            <div style="font-family: cursive;">订单量合计:350条信息</div>
+                            <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
+                        </div>
+                    </el-col>
+                    <el-col>
+                        <el-table
+                            :header-cell-style="{background:'#EFF3F8'}"
+                            stripe
+                            height="400"
+
+                            :data="tableData"
+                            id='tableData'
+                            style="width: 100%">
+                            <el-table-column type="selection" width="55">
+                            </el-table-column>
+                            <el-table-column
+                                label="区域"
+                                v-if="this,company == '总部'"
+                                prop="Area"
+                                align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                label="网络公司"
+                                align="center"
+
+                                prop="CompanyNet">
+                            </el-table-column>
+                            <el-table-column
+                                label="客户账号"
+                                align="center"
+                                class-name="curstomNum"
+                                label-class-name="aaa"
+                                prop="">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>客户账号: {{scope.row.AccountNumber}}</p>
+                                        <p>联系人: {{scope.row.Manager}}</p>
+                                        <p>联系电话: {{scope.row.Telephone}}</p>
+                                        <p>公司名称: {{scope.row.UnitName}}</p>
+                                        <p>销售人员: {{scope.row.SaleName}}</p>
+                                        <p>结算方式: {{scope.row.CountType}}</p>
+                                        <p>客户类型:{{scope.row.CompanyType}} </p>
+                                        <div slot="reference" class="name-wrapper">
+                                            <el-tag size="medium">{{ scope.row.AccountNumber }}</el-tag>
+                                        </div>
+                                    </el-popover>
+                                </template>
+
+                            </el-table-column>
+                            <el-table-column
+                                label="订单号"
+                                align="center"
+
+                                prop="id">
+                            </el-table-column>
+                            <el-table-column
+                                label="货物类型"
+                                align="center"
+                                prop="BusinessType">
+                            </el-table-column>
+
+                            <el-table-column
+                                align="center"
+                                label="件数"
+
+                                prop="Jian">
+                            </el-table-column>
+                            <el-table-column
+                                align="center"
+                                label="下单时间"
+                                :show-overflow-tooltip="true"
+                                prop="Indate">
+                            </el-table-column>
+
+
+                            <el-table-column
+
+                                label="时限"
+                                align="center"
+                                prop="LimitTime">
+                            </el-table-column>
+                            <el-table-column
+                                label="要求取件时间"
+                                :show-overflow-tooltip="true"
+                                align="center"
+                                prop="OrderTime">
+                            </el-table-column>
+                            <el-table-column
+
+                                align="center"
+                                label="实际取件时间"
+                                :show-overflow-tooltip="true"
+                                prop="TakeTimes">
+                            </el-table-column>
+                            <el-table-column
+
+                                align="center"
+                                label="延迟"
+                                prop="Delay">
+                            </el-table-column>
+                            <el-table-column
+
+                                align="center"
+                                label="温区"
+                                prop="WDQJ">
+                            </el-table-column>
+                            <el-table-column
+
+                                align="center"
+                                label="箱型数量"
+                                prop="">
+                                <template slot-scope="scope">
+                                    <span>{{scope.row.PackageName}}*</span>
+                                    <span>{{scope.row.PackageJian}}</span>
+                                </template>
+
+                            </el-table-column>
+
+                        </el-table>
+
+
+                    </el-col>
+                </el-row>
+                <div class="pagination">
+                    <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :page-sizes="[20,50, 100, 500, 2000]"
+                        :page-size="20"
+                        :current-page='cur_page'
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="ccc"
+                    ></el-pagination>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</template>
+
+<script>
+
+    import htmlToPdf from '../../js/htmlToPdf';
+    export default {
+        name: "SenderManagement",
+        data() {
+            return {
+                company:'',
+                resource:'',
+                Nex:'',
+                Area:'',
+                Area2:'',
+                yanchi:'',
+                region:'',
+                cur_page: 1,//当前页
+                limit: 20, //每页多少条
+                ccc: 500, //总tiao数
+                addSendDetailsModel:false,
+                EditDetailsModel:false,
+                tableData: [],
+                NeCompanyNetx:'',
+                CompanyNet:'',
+                WDQJ:'',
+                ID:'',
+                GoodsType:'',
+                PackageName:'',
+                Delay:'',
+                AccountNumber: '',
+                multipleSelection:''
+
+
+            }
+        },
+        mounted() {
+            this.Area = this.$route.query.Area;
+            // this.Area2 = this.$route.query.Area;
+            this.CompanyNet = this.$route.query.CompanyNet;
+            this.company = window.sessionStorage.getItem('compony');
+            this.getData()
+
+        },
+
+
+        methods:{
+
+            focus(event) {
+                console.log(1)
+            },
+            downloadtable(){
+//              htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+
+                        import_file = this.tableData;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    //console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "区域",
+                            "网络公司",
+                            "客户账号",
+                            "订单号",
+                            "货物类型",
+                            "件数",
+                            "下单时间",
+                            "时限",
+                            "要求取件时间",
+                            "实际取件时间",
+                            "延时",
+                            "温区",
+                            "箱型数量"
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "Area",
+                            "CompanyNet",
+                            "AccountNumber",
+                            "id",
+                            "GoodsType",
+                            "Jian",
+                            "Indate",
+                            "LimitTime",
+                            "OrderTime",
+                            "TakeTimes",
+                            "Delay",
+                            "WDQJ",
+                            "PackageName"
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal,list);
+                        export_json_to_excel(tHeader, data, "区域订单");  // 这是  excel文件名
+                    });
+                });
+            },
+            //获取表格
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodsdetails',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        Area:this.Area||'',
+                        CompanyNet: this.CompanyNet||'',
+                        AccountNumber:this.AccountNumber,
+                        Delay:this.Delay,
+                        ID:this.ID,
+                        GoodsType:this.GoodsType,
+                        WDQJ:this.WDQJ,
+                        PackageName:this.PackageName
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                        _this.loading = false;
+                    }
+
+                })
+
+
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
+            },
+
+
+
+
+
+
+        }
+    }
+
+</script>
+
+<style >
+    .el-popover p {
+        height: 30px;
+        line-height: 30px;
+        text-align: left;;
+    }
+    .curstomNum:not(.aaa) .cell {
+        color: #649EFE !important;
+
+    }
+    .curstomNum:not(.aaa) .cell:hover {
+        cursor: pointer;
+    }
+    .divBut{
+        padding:20px;
+        overflow-y: scroll;height:100%;
+    }
+    .el-input__inner{
+        height:35px;
+    }
+    .el-table--striped .el-table__body tr.el-table__row--striped td {
+        background: #F9FAFD;
+    }
+    .el-table .cell{
+        font-size: 10px;
+    }
+    .el-form-item__label {
+
+        width: 68px;}
+</style>

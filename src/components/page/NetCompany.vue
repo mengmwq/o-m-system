@@ -10,7 +10,7 @@
 			<el-row>
 				<el-col>
 					<el-form-item label="下单时间">
-						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">s
+						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">
 						</el-date-picker>
 					</el-form-item>
 					<el-form-item label="客户账号">
@@ -186,12 +186,12 @@
 						</div>
 						<div class="grid-content">
 							<span>通知方式:</span>
-							<span></span> 
+							<span></span>
 							<span></span>
 						</div>
 						<div class="grid-content">
 							<span>处理情况:</span>
-							<span></span> 
+							<span></span>
 							<span></span>
 						</div>
 						<div class="grid-content">
@@ -206,24 +206,24 @@
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						     <div v-for="(value, key, index) in boxs" >
-						     	
+
 						     	<span v-if="index==0">{{key}}</span>
                              </div>
-	
+
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 25px;'>
 						     <div v-for="(value, key, index) in boxs" >
-						     	
+
 						     	<span v-if="index==1">{{key}}</span>
                              </div>
-	
+
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						     <div v-for="(value, key, index) in boxs" >
-						     	
+
 						     	<span v-if="index==2">{{key}}</span>
                              </div>
-	
+
 					</el-col>
 					<!--<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						<div class="grid-content">-90℃~-40℃</div>
@@ -259,7 +259,7 @@
 						     	<span v-if="index==1">
 						     		 <div v-for="(value, key) in value" class="grid-content">
 								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
-								     	
+
 		                             </div>
 		                             <!--<span >{{value}}</span>-->
 						     	</span>
@@ -271,7 +271,7 @@
 						     	<span v-if="index==2">
 						     		 <div v-for="(value, key) in value" class="grid-content">
 								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
-								     	
+
 		                             </div>
 		                             <!--<span >{{value}}</span>-->
 						     	</span>
@@ -294,7 +294,7 @@
 						<div class="grid-content" style="width:50%;justify-content: flex-end;">要求取件时间：<span>{{orderTime}}</span></div>
 					</el-col>
 				</el-row>
-			
+
 
 			</div>
 	<el-row class='linkinfo'>
@@ -425,8 +425,8 @@
 				takeName:'',
 				orderTime:'',
 				ordertimer:'',//下单时间
-               boxs:''				
-               
+               boxs:''
+
 			}
 		},
 		mounted() {
@@ -445,7 +445,7 @@
                 	var d = new Date(this.OrderTime);
                     var datetime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                 }
-				
+
 				let _this = this;
 				_this.$axios({
 					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/details',
@@ -460,7 +460,7 @@
 						OrderWay:this.orderType,
 						PayWay:this.paytype,
 						Condition:this.orderstate
-						
+
 					},
 					transformRequest: [
 						function(data) {
@@ -484,23 +484,23 @@
 				})
 
 			},
-	         
+
 	        Reset(){
-	        	
+
 				this.OrderTime='';
 				this.acount='';
 				this.orderstate='';
 				this.orderType='';
 				this.paytype='';
 				this.getData();
-			}, 
+			},
 			dataExport() {
                 this.loading = true;
                 let import_file;
                 new Promise((resolve, reject) => {
                     import_file = this.multipleSelection;
                     if (import_file.length == 0) {
-                        
+
                         import_file = this.tableData;
 
                     }
@@ -521,7 +521,7 @@
                             "下单方式",
                             "结算方式",
                             "录入人"
-                    
+
                         ];
                         // 这就是 对应的 字段
                         const filterVal = [
@@ -547,6 +547,7 @@
              formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
+
 			handleSizeChange(val) {
 				this.loading = true;
 
@@ -567,14 +568,15 @@
                 this.multipleSelection = val;
 
             },
+
 			//查看订单详情
 			Orderdetail(row) {
-				
+
 				//console.log(row);
-				
+
 				this.ruleForm.name = row.id;
 				this.countNum = row.AccountNumber;
-                
+
                 let _this = this;
 				_this.$axios({
 					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/orderdetails',
@@ -628,12 +630,12 @@
 					_this.ordertimer=res.data.data[0].Indate;
 					_this.boxs=res.data.data[0].Box;
 					console.log(_this.boxs,888)
-					
-				
+
+
 				})
-				
+
 				this.EditDetailsModel = true;
-				
+
 
 			},
 			//点击下载-表格数据
@@ -642,7 +644,7 @@
 			},
 			//下载运单详情
 			orderdownload() {
-			
+
               htmlToPdf.downloadPDF( document.querySelector('#pdfDom'),'运单详情');
 			},
 			//打印运单详情
@@ -684,31 +686,31 @@
 		overflow-y: scroll;
 		height: 100%;
 	}
-	
+
 	.el-dialog__header {
 		border-bottom: 1px solid #CCCCCC;
 	}
-	
+
 	.divBut .title h3 {
 		margin: 5px 0 15px;
 	}
-	
+
 	.el-input__inner {
 		height: 35px;
 	}
-	
+
 	.el-table--striped .el-table__body tr.el-table__row--striped td {
 		background: #F9FAFD;
 	}
-	
+
 	.el-table .cell {
 		font-size: 10px;
 	}
-	
+
 	.el-form-item__label {
 		width: 68px;
 	}
-	
+
 	.el-dialog__body {
 		padding: 5px 15px;
 		color: #606266;

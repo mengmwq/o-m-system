@@ -507,7 +507,7 @@
                     ],
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
-                    if(res.data.code == 200){
+                    if(res.data.code == 200||400){
                         _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;

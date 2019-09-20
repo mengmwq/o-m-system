@@ -6,6 +6,7 @@ Vue.use(Router);
 export default new Router({
     routes: [
 
+
         {
             path: '/',
             redirect: '/login'
@@ -40,6 +41,27 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoStatistics.vue'],resolve),
                     meta:{keepAlive: true}
                 },
+                {
+                    path:'/CargoStatisticsDetails' ,
+                    component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoStatisticsDetails2' ,
+                    component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoNexDetails2' ,
+                    component:resolve => require(['../components/page/CargoNexDetails2.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoNexDetails' ,
+                    component:resolve => require(['../components/page/CargoNexDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                //异常信息页面路由
                 {
                     path:'/abnormalInformationDetails',
                     component:resolve => require(['../components/page/abnormalInformationDetails.vue'],resolve),
@@ -80,5 +102,7 @@ export default new Router({
             component: resolve => require(['../components/page/Login.vue'], resolve)
 
         },
+
+
     ]
 })
