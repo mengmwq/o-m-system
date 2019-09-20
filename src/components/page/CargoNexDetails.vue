@@ -36,7 +36,7 @@
                             <div style="float: right;margin-top: 5px;">
                                 <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
                                 <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
-                                <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
+                                <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
 
                             </div>
                         </el-col>
@@ -48,7 +48,7 @@
 
                         <el-col style="margin:10px 0" >
                             <div style="display: flex;align-items: center;justify-content: space-between">
-                                <div style="font-family: cursive;float: right">订单量合计:350条信息</div>
+                                <div style="font-family: cursive;float: right">订单量合计:{{ccc}}条信息</div>
                                 <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                             </div>
                         </el-col>
@@ -179,6 +179,17 @@
 
         },
         methods: {
+            //刷新页面渲染数据
+            refresh(){
+                this.cur_page = 1;
+                this.loading = true;
+
+               // this.Area='';
+
+                this.Nex='';
+                this.getData();
+                this.loading = false;
+            },
             //获取区域
             getAreaData() {
                 let _this = this;

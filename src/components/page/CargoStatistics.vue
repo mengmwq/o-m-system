@@ -15,7 +15,7 @@
                         <div style="float: right;margin-top: 5px;">
                             <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
-                            <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
+                            <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
 
                         </div>
                     </el-col>
@@ -209,6 +209,15 @@
             this.getData()
         },
         methods: {
+            //刷新页面渲染数据
+            refresh(){
+                this.cur_page = 1;
+                this.loading = true;
+
+                this.xdtime='';
+                this.getData();
+                this.loading = false;
+            },
             //渲染页面
             getData(){
                 let _this = this;

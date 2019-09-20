@@ -168,7 +168,7 @@
         methods: {
             DetailsChild(row){
                 this.$router.push({
-                    path: "/CargoStatisticsDetails2",
+                    path: "/CargoStatisticsDetails",
                     query: {
                         Nex:  row.count,
                        yaopin:row.Area

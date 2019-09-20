@@ -43,57 +43,37 @@
                             ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="订单号">
-                            <el-autocomplete
-                                class="inline-input"
+                            <el-input
+
                                 v-model="ID"
 
 
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
+                            ></el-input>
                         </el-form-item>
 
                     </el-col>
                     <el-col >
                         <el-form-item label="温区">
-                            <el-autocomplete
-                                class="inline-input"
-                                v-model="WDQJ"
-
-
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
+                            <el-input  v-model="WDQJ"></el-input>
                         </el-form-item>
                         <el-form-item label="箱型">
-                            <el-autocomplete
-                                class="inline-input"
-                                v-model="PackageName"
-
-
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
+                            <el-input v-model="PackageName"></el-input>
                         </el-form-item>
                         <el-form-item label="货物类型">
                             <el-select v-model="GoodsType" filterable  placeholder="请选择">
                                 <el-option label="请选择" value=""></el-option>
-                                <el-option label="试剂" value="2"></el-option>
-                                <el-option label="药品" value="1"></el-option>
-                                <el-option label="待审核" value="0"></el-option>
+                                <el-option label="试剂" value="试剂"></el-option>
+                                <el-option label="药品" value="药品"></el-option>
+                                <el-option label="样品" value="样品"></el-option>
+                                <el-option label="普货" value="普货"></el-option>
+                                <el-option label="器械" value="器械"></el-option>
                             </el-select>
                         </el-form-item>
 
                         <div style="float: right">
                             <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px" @click="getData" >
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
-                            <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px" >
+                            <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
 
 
                         </div>
@@ -108,13 +88,13 @@
                           <el-form  label-width="80px">
                             <el-form-item label="延迟" >
                                 <el-radio-group v-model="Delay">
-                                    <el-radio label="全部"></el-radio>
+                                    <el-radio label="全部" value=""></el-radio>
                                     <el-radio label="是"></el-radio>
                                     <el-radio label="否"></el-radio>
                                 </el-radio-group>
                             </el-form-item>
                           </el-form>
-                            <div style="font-family: cursive;">订单量合计:350条信息</div>
+                            <div style="font-family: cursive;">订单量合计:{{ccc}}条信息</div>
                             <!--                        <el-button  plain  style="background: #649EFE;color:#fff" @click="addSendDetails()">新增</el-button>-->
                         </div>
                     </el-col>
@@ -270,6 +250,7 @@
                 Nex:'',
                 Area:'',
                 Area2:'',
+                loading:true,
                 yanchi:'',
                 region:'',
                 cur_page: 1,//当前页
@@ -297,7 +278,20 @@
 
 
         methods:{
+            //刷新页面渲染数据
+            refresh(){
+                this.cur_page = 1;
+                this.loading = true;
 
+                this.ID='';
+                this.PackageName;
+                this.WDQJ = '';
+                this.GoodsType = '';
+
+                this.AccountNumber='';
+                this.getData();
+                this.loading = false;
+            },
             focus(event) {
                 console.log(1)
             },
@@ -342,7 +336,7 @@
                 }).then(function(res) {
 
 
-                    if(res.data.code == 200){
+                    if(res.data.code == 200||400){
                         _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
