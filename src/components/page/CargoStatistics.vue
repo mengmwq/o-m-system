@@ -13,7 +13,7 @@
 
 
                         <div style="float: right;margin-top: 5px;">
-                            <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
+                            <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
                             <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
 
@@ -58,7 +58,7 @@
                         <el-table-column
                             label="网络公司"
                             v-else
-                            prop="Area2"
+                            prop="Company"
                             align="center"
                         >
                         </el-table-column>
@@ -66,23 +66,24 @@
                             label="客户数量"
                             align="center"
                             :show-overflow-tooltip="true"
-                            prop="count">
+                            prop="KHnumber">
                         </el-table-column>
                         <el-table-column
                             label="订单量"
                             align="center"
 
-                            prop="Manager">
+                            prop="Piao">
                         </el-table-column>
                         <el-table-column
                             label="件数"
                             align="center"
                             :show-overflow-tooltip="true"
-                            prop="Telephone">
+                            prop="Jian">
                         </el-table-column>
                         <el-table-column
                             label="取件准时率"
                             align="center"
+                            prop="ZhunShi"
 
                         >
                         </el-table-column>
@@ -129,7 +130,7 @@
                             <el-table-column
                                 label="货物类型"
 
-                                prop="huowu"
+                                prop="BusinessType"
                                 align="center"
                             >
                             </el-table-column>
@@ -137,23 +138,24 @@
                                 label="客户数量"
                                 align="center"
                                 :show-overflow-tooltip="true"
-                                prop="count">
+                                prop="KHnumber">
                             </el-table-column>
                             <el-table-column
                                 label="订单量"
                                 align="center"
 
-                                prop="Manager">
+                                prop="Piao">
                             </el-table-column>
                             <el-table-column
                                 label="件数"
                                 align="center"
                                 :show-overflow-tooltip="true"
-                                prop="Telephone">
+                                prop="Jian">
                             </el-table-column>
                             <el-table-column
                                 label="取件准时率"
                                 align="center"
+                                prop="ZhunShi"
 
                             >
                             </el-table-column>
@@ -186,66 +188,12 @@
             return {
                 tableData0:[],
                 xdtime:'',
-                loading:false,
+                loading:true,
                 company:'',
-                tableData:[
-                    {
-                        count: '12987122',
-                        Area: '华北区',
-                    },
-                    {
-                        count: '12987122',
-                        Area: '东北区',
-                    },
-                    {
-                        count: '12987122',
-                        Area: '西南区',
-                    },
-                    {
-                        count: '12987122',
-                        Area: '合计',
-                    },
-                ],
-                tableData1:[
-                    {
-                        count: '1',
-                        Area2: '北京分公司',
 
-                    },
-                    {
-                        count: '1',
-                        Area2: '石家庄分控',
-                    },
-                    {
-                        count: '1',
-                        Area2: '衡水分控',
-                    },
-                    {
-                        count: '1',
-                        Area2: '张家口分控',
-                    },
-                    {
-                        count: '7',
-                        Area2: '合计',
-                    },
-                ],
+
                 tableData2:[
-                    {
-                        count: '1',
-                        huowu: '药品',
-                    },
-                    {
-                        count: '2',
-                        huowu: '试剂',
-                    },
-                    {
-                        count: '3',
-                        huowu: '样本',
-                    },
-                    {
-                        count: '3',
-                        huowu: '合计',
-                    },
+
                 ],
 
 
@@ -253,19 +201,66 @@
         },
         mounted() {
             this.company = window.sessionStorage.getItem('compony');
-            if(this.company  == "总部"){
-                this.tableData0 = this.tableData;
-            }else{
-                this.tableData0 = this.tableData1;
-            }
+            // if(this.company  == "总部"){
+            //     this.tableData0 = this.tableData;
+            // }else{
+            //     this.tableData0 = this.tableData1;
+            // }
+            this.getData()
         },
         methods: {
+            //渲染页面
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodsindex',
+                    method: "post",
+                    data: {
+
+                        Company:this.company,
+                        StartTime:this.xdtime[0]||'',
+                        EndTime:this.xdtime[1]||'',
+
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    console.log(res);
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData0 = res.data.data.net;
+                        _this.tableData2 = res.data.data.goods
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                    }
+
+                })
+
+
+            },
             DetailsChild(row){
                 if(this.company  == "总部"){
                     this.$router.push({
                         path: "/CargoNexDetails",
                         query: {
-                            Area:  this.company  == "总部"?row.Area:row.Area2,
+                            Area:  this.company  == "总部"?row.Area:row.Company,
                         }
 
                     });
@@ -273,7 +268,7 @@
                     this.$router.push({
                         path: "/CargoStatisticsDetails",
                         query: {
-                            Area:  this.company  == "总部"?row.Area:row.Area2,
+                            CompanyNet:  this.company  == "总部"?row.Area:row.Company,
                     }
 
                     });
@@ -286,7 +281,7 @@
                 this.$router.push({
                     path: "/CargoNexDetails2",
                     query: {
-                        huowu:  row.huowu
+                        BusinessType:  row.BusinessType
                     }
 
                 });

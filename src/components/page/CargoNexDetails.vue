@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "    v-if="company == '总部'">区域订单>{{Area}}</div>
+        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()">区域订单> </span>{{Area}}</div>
 
         <div >
 
@@ -10,31 +10,31 @@
                     <el-row style="display: flex;align-items: center;">
                         <el-col>
                             <el-form-item label="区域">
-                                <el-input
-                                    class="inline-input"
-
-                                    v-model="Area"
-                                    placeholder="请输入内容"
-                                    :trigger-on-focus="false"
-                                    :debounce=0
-
-                                ></el-input>
+                                <el-select v-model="Area" filterable style="width: 200px;" @focus="focus($event)">
+                                    <!--<el-option label="请选择" value=""></el-option>-->
+                                    <el-option
+                                        v-for="item in roles"
+                                        :key="item.ROW_NUMBER"
+                                        :label="item.Area"
+                                        :value="item.Area">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                             <el-form-item label="网络公司">
-                                <el-input
-                                    class="inline-input"
-
-                                    v-model="Nex"
-                                    placeholder="请输入内容"
-                                    :trigger-on-focus="false"
-                                    :debounce=0
-
-                                ></el-input>
+                                <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
+                                    <!--<el-option label="请选择" value=""></el-option>-->
+                                    <el-option
+                                        v-for="item in ComPanN"
+                                        :key="item.ROW_NUMBER"
+                                        :label="item.Company"
+                                        :value="item.Company">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
 
 
                             <div style="float: right;margin-top: 5px;">
-                                <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
+                                <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
                                 <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
                                 <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
 
@@ -81,29 +81,31 @@
                                     label="网络公司"
                                     align="center"
                                     :show-overflow-tooltip="true"
-                                    prop="count">
+                                    prop="CompanyNet">
                                 </el-table-column>
                                 <el-table-column
                                     label="客户数量"
                                     align="center"
 
-                                    prop="Manager">
+                                    prop="KHnumber">
                                 </el-table-column>
                                 <el-table-column
                                     label="订单量"
                                     align="center"
                                     :show-overflow-tooltip="true"
-                                    prop="Telephone">
+                                    prop="Piao">
                                 </el-table-column>
                                 <el-table-column
                                     label="件数"
                                     align="center"
+                                    prop="Jian"
 
                                 >
                                 </el-table-column>
                                 <el-table-column
                                     label="取件准时率"
                                     align="center"
+                                    prop="ZhunShi"
 
                                 >
                                 </el-table-column>
@@ -120,6 +122,8 @@
                     </el-row>
                     <div class="pagination">
                         <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
                             :page-sizes="[20,50, 100, 500, 2000]"
                             :page-size="20"
                             :current-page='cur_page'
@@ -146,27 +150,19 @@
         name: "OrdersRtatistics",
         data() {
             return {
+                roles:[],
+                companyN:'',
                 company:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
-                ccc: 500, //总tiao数
+                ccc: 0, //总tiao数
                 xdtime:'',
-                loading:false,
+                loading:true,
                 Nex:'',
                 Area:'',
+                ComPanN:[],
                 tableData:[
-                    {
-                        count: '石家庄公司',
-                        Area: '华北区',
-                    },
-                    {
-                        count: '重庆公司',
-                        Area: '华北区',
-                    },
-                    {
-                        count: '呼和浩特公司',
-                        Area: '华北区',
-                    },
+
                 ],
 
 
@@ -174,17 +170,155 @@
         },
         mounted() {
             this.Area = this.$route.query.Area;
-            this.Area2 = this.$route.query.Area;
+            this.companyN = this.$route.query.Company;
 
             this.company = window.sessionStorage.getItem('compony');
+            this.getData()
+            this.getnetData()
+            this.getAreaData()
 
         },
         methods: {
+            //获取区域
+            getAreaData() {
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea\n',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.roles = res.data.data;
+                })
+
+            },
+            //huoqu
+            getnetData() {
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkareanet',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+                        Area:this.Area
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.ComPanN = res.data.data;
+                })
+
+            },
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodssecond',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        Area:this.Area,
+                        companyNet: this.Nex,
+
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                        _this.loading = false;
+                    }
+
+                })
+
+
+            },
+            //
+            focus(event){
+                this.getnetData();
+                this.getAreaData()
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
+            },
+            //点击区域订单跳到前一个页面
+            linkLast(){
+                this.$router.push({
+                        path: "/CargoStatistics",
+
+
+                    })
+            },
             DetailsChild(row){
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {
-                        Nex:  row.count,
+                        Area:  row.Area,
+                        CompanyNet:row.CompanyNet
                     }
 
 

@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'">区域订单>网络公司>{{Nex}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'">区域订单>网络公司>{{CompanyNet}}</div>
         <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>
         <div  >
             <el-form :inline="true" class="demo-form-inline">
@@ -9,6 +9,7 @@
                         <el-form-item label="区域" v-show="this.company == '总部'">
                             <el-autocomplete
                                 class="inline-input"
+                                v-model="Area"
 
 
                                 placeholder="请输入内容"
@@ -20,7 +21,7 @@
                         <el-form-item label="网络公司">
                             <el-autocomplete
                                 class="inline-input"
-                                v-model="Area2"
+                                v-model="CompanyNet"
 
 
                                 placeholder="请输入内容"
@@ -33,6 +34,7 @@
                             <el-autocomplete
 
                                 label-class-name="aaa"
+                                v-model="AccountNumber"
 
                                 placeholder="请输入内容"
                                 :trigger-on-focus="false"
@@ -43,6 +45,7 @@
                         <el-form-item label="订单号">
                             <el-autocomplete
                                 class="inline-input"
+                                v-model="ID"
 
 
                                 placeholder="请输入内容"
@@ -57,6 +60,7 @@
                         <el-form-item label="温区">
                             <el-autocomplete
                                 class="inline-input"
+                                v-model="WDQJ"
 
 
                                 placeholder="请输入内容"
@@ -68,6 +72,7 @@
                         <el-form-item label="箱型">
                             <el-autocomplete
                                 class="inline-input"
+                                v-model="PackageName"
 
 
                                 placeholder="请输入内容"
@@ -77,7 +82,7 @@
                             ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="货物类型">
-                            <el-select v-model="region" filterable  placeholder="请选择">
+                            <el-select v-model="GoodsType" filterable  placeholder="请选择">
                                 <el-option label="请选择" value=""></el-option>
                                 <el-option label="试剂" value="2"></el-option>
                                 <el-option label="药品" value="1"></el-option>
@@ -86,7 +91,7 @@
                         </el-form-item>
 
                         <div style="float: right">
-                            <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"  >
+                            <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px" @click="getData" >
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
                             <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px" >
 
@@ -102,7 +107,7 @@
                         <div style="display: flex;align-items: center;justify-content: space-between">
                           <el-form  label-width="80px">
                             <el-form-item label="延迟" >
-                                <el-radio-group v-model="resource">
+                                <el-radio-group v-model="Delay">
                                     <el-radio label="全部"></el-radio>
                                     <el-radio label="是"></el-radio>
                                     <el-radio label="否"></el-radio>
@@ -118,7 +123,7 @@
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
                             height="400"
-                            :span-method="objectSpanMethod"
+
                             :data="tableData"
                             id='tableData'
                             style="width: 100%">
@@ -127,7 +132,7 @@
                             <el-table-column
                                 label="区域"
                                 v-if="this,company == '总部'"
-                                prop="id"
+                                prop="Area"
                                 align="center"
                             >
                             </el-table-column>
@@ -135,7 +140,7 @@
                                 label="网络公司"
                                 align="center"
 
-                                prop="name">
+                                prop="CompanyNet">
                             </el-table-column>
                             <el-table-column
                                 label="客户账号"
@@ -145,15 +150,15 @@
                                 prop="">
                                 <template slot-scope="scope">
                                     <el-popover trigger="hover" placement="top">
-                                        <p>客户账号: 2016024465</p>
-                                        <p>联系人: 萌萌</p>
-                                        <p>联系电话: 15001015750</p>
-                                        <p>公司名称: 孟氏集团</p>
-                                        <p>销售人员: 萌萌</p>
-                                        <p>结算方式: 微信</p>
-                                        <p>客户类型: </p>
+                                        <p>客户账号: {{scope.row.AccountNumber}}</p>
+                                        <p>联系人: {{scope.row.Manager}}</p>
+                                        <p>联系电话: {{scope.row.Telephone}}</p>
+                                        <p>公司名称: {{scope.row.UnitName}}</p>
+                                        <p>销售人员: {{scope.row.SaleName}}</p>
+                                        <p>结算方式: {{scope.row.CountType}}</p>
+                                        <p>客户类型:{{scope.row.CompanyType}} </p>
                                         <div slot="reference" class="name-wrapper">
-                                            <el-tag size="medium">{{ scope.row.category }}</el-tag>
+                                            <el-tag size="medium">{{ scope.row.AccountNumber }}</el-tag>
                                         </div>
                                     </el-popover>
                                 </template>
@@ -163,25 +168,25 @@
                                 label="订单号"
                                 align="center"
 
-                                prop="AccoutNumber">
+                                prop="id">
                             </el-table-column>
                             <el-table-column
                                 label="货物类型"
                                 align="center"
-                                prop="shoujian">
+                                prop="BusinessType">
                             </el-table-column>
 
                             <el-table-column
                                 align="center"
                                 label="件数"
 
-                                prop="shixian">
+                                prop="Jian">
                             </el-table-column>
                             <el-table-column
                                 align="center"
                                 label="下单时间"
-
-                                prop="isfu">
+                                :show-overflow-tooltip="true"
+                                prop="Indate">
                             </el-table-column>
 
 
@@ -189,37 +194,43 @@
 
                                 label="时限"
                                 align="center"
-                                prop="order">
+                                prop="LimitTime">
                             </el-table-column>
                             <el-table-column
                                 label="要求取件时间"
                                 :show-overflow-tooltip="true"
                                 align="center"
-                                prop="xiadan">
+                                prop="OrderTime">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="实际取件时间"
-                                prop="net">
+                                :show-overflow-tooltip="true"
+                                prop="TakeTimes">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="延迟"
-                                prop="yanchi">
+                                prop="Delay">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="温区"
-                                prop="wenqu">
+                                prop="WDQJ">
                             </el-table-column>
                             <el-table-column
 
                                 align="center"
                                 label="箱型数量"
-                                prop="xianxin">
+                                prop="">
+                                <template slot-scope="scope">
+                                    <span>{{scope.row.PackageName}}*</span>
+                                    <span>{{scope.row.PackageJian}}</span>
+                                </template>
+
                             </el-table-column>
 
                         </el-table>
@@ -229,6 +240,8 @@
                 </el-row>
                 <div class="pagination">
                     <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
                         :page-sizes="[20,50, 100, 500, 2000]"
                         :page-size="20"
                         :current-page='cur_page'
@@ -264,125 +277,26 @@
                 ccc: 500, //总tiao数
                 addSendDetailsModel:false,
                 EditDetailsModel:false,
-                tableData: [
-                    {
-                        id: '12987122',
-                        name: '石家庄公司',
-                        category: '12345',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        net:'2019/08/02 9:00',
-                        xiadan:'2019/08/02 10:00',
-                        yanchi:'是',
-                        wenqu:'2℃~8℃',
-                        xianxin:'130L*2'
-
-                    },
-
-                    {
-                        id: '12987122',
-                        name: '石家庄公司',
-                        category: '12345',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        net:'2019/08/02 9:00',
-                        xiadan:'2019/08/02 10:00',
-                        yanchi:'是',
-                        wenqu:'2℃~8℃',
-                        xianxin:'130L*2'
-
-                    },
-
-
-
-                    {
-                        id: '865',
-                        name: '石家庄公司',
-                        yanchi:'否',
-                        category: '456468',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'2019/08/02 9:00',
-                        net:'2019/08/02 10:00',
-                        wenqu:'-25℃~-15℃',
-                        xianxin:'自备包材'
-
-                    },
-                    {
-                        id: '865',
-                        name: '石家庄公司',
-                        yanchi:'否',
-                        category: '456468',
-                        AccoutNumber: '15001015750',
-                        shoujian: '山西',
-                        shixian: '临汾',
-                        isfu:'开发区',
-                        order:'建设路',
-                        xiadan:'2019/08/02 9:00',
-                        net:'2019/08/02 10:00',
-                        wenqu:'-25℃~-15℃',
-                        xianxin:'自备包材'
-
-                    },
-
-                ],
+                tableData: [],
+                NeCompanyNetx:'',
+                CompanyNet:'',WDQJ:'',ID:'',GoodsType:'',PackageName:'',Delay:'',AccountNumber: '',
 
 
             }
         },
         mounted() {
             this.Area = this.$route.query.Area;
-            this.Area2 = this.$route.query.Area;
-            this.Nex = this.$route.query.Nex;
+            // this.Area2 = this.$route.query.Area;
+            this.CompanyNet = this.$route.query.CompanyNet;
             this.company = window.sessionStorage.getItem('compony');
+            this.getData()
 
         },
 
-        // mounted(){
-        //     let _this = this;
-        //     let contactDot = 0;
-        //     _this.tableData.forEach( (item,index) => {
-        //         if(index===0){
-        //             _this.spanArr.push(1)
-        //         }else{
-        //             if(item.id === _this.tableData[index-1].id){
-        //                 _this.spanArr[contactDot] += 1;
-        //                 _this.spanArr.push(0)
-        //             }else{
-        //                 contactDot = index
-        //                 _this.spanArr.push(1)
-        //             }
-        //         }
-        //     })
-        // },
+
 
 
         methods:{
-            objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-                if (columnIndex === 0 ||columnIndex === 1
-                    ||columnIndex === 2||columnIndex === 3||columnIndex === 4||columnIndex === 5||columnIndex === 6||columnIndex ===7||columnIndex === 8||columnIndex === 9||columnIndex === 10||columnIndex === 11 ) {
-                    if (rowIndex % 2=== 0) {
-                        return {
-                            rowspan: 2,
-                            colspan: 1
-                        };
-                    } else {
-                        return {
-                            rowspan: 0,
-                            colspan: 0
-                        };
-                    }
-                }
-            },
 
             focus(event) {
                 console.log(1)
@@ -390,6 +304,76 @@
             downloadtable(){
                 htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
             },
+            //获取表格
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodsdetails',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        Area:this.Area||'',
+                        CompanyNet: this.CompanyNet||'',
+                        AccountNumber:this.AccountNumber,
+                        Delay:this.Delay,
+                        ID:this.ID,
+                        GoodsType:this.GoodsType,
+                        WDQJ:this.WDQJ,
+                        PackageName:this.PackageName
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                        _this.loading = false;
+                    }
+
+                })
+
+
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
+            },
+
 
 
 

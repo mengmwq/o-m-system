@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px ">货物类型>网络公司</div>
+        <div style="background: #eee;padding: 20px ">{{BusinessType}}>网络公司</div>
         <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
@@ -12,7 +12,7 @@
                                 <el-input
                                     class="inline-input"
 
-                                    v-model="huowu"
+                                    v-model="BusinessType"
                                     placeholder="请输入内容"
                                     :trigger-on-focus="false"
                                     :debounce=0
@@ -70,7 +70,7 @@
                                 <el-table-column
                                     label="货物类型"
 
-                                    prop="Area"
+                                    prop="BusinessType"
                                     align="center"
                                 >
                                 </el-table-column>
@@ -78,7 +78,7 @@
                                     label="网络公司"
                                     align="center"
                                     :show-overflow-tooltip="true"
-                                    prop="count">
+                                    prop="CompanyNet">
                                 </el-table-column>
                                 <el-table-column
                                     label="客户数量"
@@ -90,17 +90,19 @@
                                     label="订单量"
                                     align="center"
                                     :show-overflow-tooltip="true"
-                                    prop="Telephone">
+                                    prop="Piao">
                                 </el-table-column>
                                 <el-table-column
                                     label="件数"
                                     align="center"
+                                    prop="Jian"
 
                                 >
                                 </el-table-column>
                                 <el-table-column
                                     label="取件准时率"
                                     align="center"
+                                    prop="ZhunShi"
 
                                 >
                                 </el-table-column>
@@ -116,7 +118,17 @@
                         </el-col>
                     </el-row>
 
-
+                    <div class="pagination">
+                        <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :page-sizes="[20,50, 100, 500, 2000]"
+                            :page-size="20"
+                            :current-page='cur_page'
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="ccc"
+                        ></el-pagination>
+                    </div>
                 </div>
 
             </div>
@@ -137,28 +149,21 @@
                 loading:false,
                 Nex:'',
                 huowu:'',
+                cur_page: 1,//当前页
+                limit: 20, //每页多少条
+                ccc: 500, //总tiao数
+                BusinessType:'',
                 tableData:[
-                    {
-                        count: '石家庄公司',
-                        Area: '药品',
-                    },
-                    {
-                        count: '重庆公司',
-                        Area: '药品',
-                    },
-                    {
-                        count: '呼和浩特公司',
-                        Area: '药品',
-                    },
+
                 ],
 
 
             }
         },
         mounted() {
-            this.huowu = this.$route.query.huowu;
+            this.BusinessType = this.$route.query.BusinessType;
             this.company = window.sessionStorage.getItem('compony');
-
+            this.getData()
         },
         methods: {
             DetailsChild(row){
@@ -171,6 +176,68 @@
 
                 });
 
+            },
+            //获取表格
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/typesecond',
+                    method: "post",
+                    data: {
+                        PageSize:this.limit,
+                        Page: this.cur_page,//当前页码
+                        Company:this.company,
+                        GoodsType:this.BusinessType
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData = res.data.data.result;
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
+                        _this.loading = false;
+                    }
+
+                })
+
+
+            },
+            handleSizeChange(val) {
+                this.loading = true;
+
+                // console.log(val); // 每页显示  条数
+                this.limit = val;
+                this.getData();
+            },
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+            handleCurrentChange(val) {
+                this.loading = true;
+                this.cur_page = val;
+                this.getData();
             },
         }
     }

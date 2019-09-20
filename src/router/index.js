@@ -6,6 +6,7 @@ Vue.use(Router);
 export default new Router({
     routes: [
 
+
         {
             path: '/',
             redirect: '/login'
@@ -60,6 +61,7 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoNexDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
+                //异常信息页面路由
                 {
                     path:'/abnormalInformationDetails',
                     component:resolve => require(['../components/page/abnormalInformationDetails.vue'],resolve),
@@ -100,5 +102,7 @@ export default new Router({
             component: resolve => require(['../components/page/Login.vue'], resolve)
 
         },
+
+
     ]
 })

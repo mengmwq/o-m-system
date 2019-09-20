@@ -11,9 +11,10 @@
                             </div>
                         </el-form-item>
                         <div style="float: right;margin-top: 5px;">
-                            <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
-                            <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
-                            <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
+                            <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" @click="getData">
+                            <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport()"  v-if="company == '总部'">
+                            <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport2()"  v-if="company !== '总部'">
+                            <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
                         </div>
                     </el-col>
 
@@ -51,7 +52,7 @@
                                 label="网络公司"
                                 v-else
 
-                                prop="Area2"
+                                prop="Company"
                                 align="center"
                             >
                             </el-table-column>
@@ -59,23 +60,24 @@
                                 label="订单量"
                                 align="center"
                                 :show-overflow-tooltip="true"
-                                prop="count">
+                                prop="Piao">
                             </el-table-column>
                             <el-table-column
                                 label="客户取消"
                                 align="center"
 
-                                prop="Manager">
+                                prop="cancelAccount">
                             </el-table-column>
                             <el-table-column
                                 label="内部取消"
                                 align="center"
                                 :show-overflow-tooltip="true"
-                                prop="Telephone">
+                                prop="cancelSelf">
                             </el-table-column>
                             <el-table-column
                                 label="时间变更"
                                 align="center"
+                                prop="cancelChange"
 
                            >
                             </el-table-column>
@@ -107,88 +109,203 @@
         data() {
             return {
                 xdtime:'',
-                loading:false,
+
                 company:'',
                 tableData0:[],
-                tableData:[
-                    {
-                    count: '1',
-                    Area: '华北区',
-                    },
+                loading:true,
+                multipleSelection:[]
 
-                    {
-                        count: '1',
-                        Area: '东北区',
-                    },
-                    {
-                        count: '1',
-                        Area: '华东区',
-                    },
-                    {
-                        count: '1',
-                        Area: '华中区',
-                    },
-                    {
-                        count: '1',
-                        Area: '华南区',
-                    },
-                    {
-                        count: '1',
-                        Area: '西南区',
-                    },
-                    {
-                        count: '1',
-                        Area: '西北区',
-                    },
-                    {
-                        count: '7',
-                        Area: '合计',
-                    },
-                ],
-                tableData2:[
-                    {
-                        count: '1',
-                        Area2: '北京分公司',
-
-                    },
-                    {
-                        count: '1',
-                        Area2: '石家庄分控',
-                    },
-                    {
-                        count: '1',
-                        Area2: '衡水分控',
-                    },
-                    {
-                        count: '1',
-                        Area2: '张家口分控',
-                    },
-                    {
-                        count: '7',
-                        Area2: '合计',
-                    },
-                ],
             }
         },
         mounted() {
             this.company = window.sessionStorage.getItem('compony');
-            if(this.company  == "总部"){
-                this.tableData0 = this.tableData;
-            }else{
-                this.tableData0 = this.tableData2;
-            }
-
+            // if(this.company  == "总部"){
+            //     this.tableData0 = this.tableData;
+            // }else{
+            //     this.tableData0 = this.tableData2;
+            // }
+            this.getData()
         },
         methods: {
-            DetailsChild(row){
-                this.$router.push({
-                    path: "/abnormalInformationDetails",
-                    query: {
-                        Area:  this.company  == "总部"?row.Area:row.Area2,
+            //刷新页面渲染数据
+            refresh(){
+                this.cur_page = 1;
+                this.loading = true;
+
+                this.xdtime='';
+                this.getData();
+                this.loading = false;
+            },
+            //daochu
+            //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel
+            dataExport() {
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+                        //this.limit = 10000;
+                        // this.getData();
+                        import_file = this.tableData0;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    // console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "区域",
+                            "订单量",
+                            "客户取消",
+                            "内部取消",
+                            "时间变更",
+
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "Area",
+                            "Piao",
+                            "cancelAccount",
+                            "cancelSelf",
+                            "cancelChange",
+
+
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal, list);
+                        export_json_to_excel(tHeader, data, "异常信息表");  // 这是  excel文件名
+                    });
+                });
+
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
+            },
+            //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel
+            dataExport2() {
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+                        //this.limit = 10000;
+                        // this.getData();
+                        import_file = this.tableData0;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    // console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "网络公司",
+                            "订单量",
+                            "客户取消",
+                            "内部取消",
+                            "时间变更",
+
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "Company",
+                            "Piao",
+                            "cancelAccount",
+                            "cancelSelf",
+                            "cancelChange",
+
+
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal, list);
+                        export_json_to_excel(tHeader, data, "异常信息表");  // 这是  excel文件名
+                    });
+                });
+
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
+            },
+            getData(){
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/abnormalindex',
+                    method: "post",
+                    data: {
+
+                        Company:this.company,
+                        StartTime:this.xdtime[0]||'',
+                        EndTime:this.xdtime[1]||'',
+
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    console.log(res);
+
+                    if(res.data.code == 200){
+                        _this.$message.success(res.data.msg)
+                        _this.loading = false;
+                        _this.tableData0 = res.data.data;
+
+                        _this.ccc = res.data.data.sum;
+                    }else{
+                        _this.$message.error(res.data.msg)
                     }
 
+                })
 
-                });
+
+            },
+            DetailsChild(row){
+                if(this.company  == "总部"){
+                    this.$router.push({
+                        path: "/abnormalInformationDetails",
+                        query: {
+                            // if(this.company  == "总部"){
+                            //     this.tableData0 = this.tableData;
+                            // }else{
+                            //     this.tableData0 = this.tableData2;
+                            // }
+                            Area:  this.company  == "总部"?row.Area:row.Company,
+                        }
+
+                    });
+                }else{
+                    this.$router.push({
+                        path: "/abnormalInformationDetails",
+                        query: {
+                            // if(this.company  == "总部"){
+                            //     this.tableData0 = this.tableData;
+                            // }else{
+                            //     this.tableData0 = this.tableData2;
+                            // }
+                            CompanyNet:  this.company  == "总部"?row.Area:row.Company,
+                        }
+                    });
+                }
+
 
             },
         }

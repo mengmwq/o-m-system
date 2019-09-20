@@ -236,36 +236,69 @@
                        <table>
                            <tr>
                                <td class='table_td'>客户账号</td>
-                               <!-- <td>{{TMSorder.tms_order_code}}</td> -->
-                               <!-- <td class='table_td'>TMS运单号</td>
-                               <td>{{TMSorder.tms_way_code}}</td>
-                               <td class='table_td'>设备号</td>
-                               <td>{{TMSorder.device_code}}</td> -->
+                                <td>2016121</td>
+                               <td class='table_td'></td>
+                               <td style="color:#fff;">江苏省/南通市/遂川区</td>
+
                            </tr>
                            <tr>
-                               <td class='table_td'>寄件人</td>
-                               <!-- <td>{{TMSorder.tms_get_goods_man}}</td> -->
-                               <td class='table_td'>发货人电话</td>
-                               <!-- <td>{{TMSorder.tms_get_goods_phone}}</td> -->
-                               <td class='table_td'>发货时间</td>
-                               <!-- <td>{{TMSorder.tms_get_goods_plan_time}}</td> -->
+                               <td class='table_td'>寄件人
+
+                               </td>
+                                <td>梦健康
+                                    <span style="border-left: 1px solid #ddd ;border-right:1px solid #ddd;padding: 13px">
+                                       &nbsp&nbsp 结算方式
+                                    </span>
+                                    <span>
+                                        &nbsp&nbsp月结
+                                    </span>
+                                </td>
+                                <td class='table_td'>收件人</td>
+                                <td>mmm</td>
                            </tr>
                            <tr>
-                               <td class='table_td'>收货人</td>
-                               <!-- <td>{{TMSorder.tms_send_goods_man}}</td> -->
-                               <td class='table_td'>收货人电话</td>
-                               <!-- <td>{{TMSorder.tms_send_goods_phone}}</td> -->
-                               <td class='table_td'>时限</td>
-                               <!-- <td>{{TMSorder.plan_time}}</td> -->
+                               <td class='table_td'>公司名称</td>
+                                <td>国药物流有限公司</td>
+                               <td class='table_td'>公司名称</td>
+                                <td>国药控股南通</td>
                            </tr>
                            <tr>
-                               <td class='table_td'>发货人地址</td>
-                               <!-- <td>{{TMSorder.tms_get_goods_address}}</td> -->
-                               <!-- <td>{{TMSorder.tms_get_goods_company}}</td> -->
-                               <td class='table_td'>收货人地址</td>
-                               <!-- <td>{{TMSorder.tms_send_goods_address}}</td> -->
-                               <!-- <td>{{TMSorder.tms_send_goods_company}}</td> -->
+                               <td class='table_td'>联系电话</td>
+                                <td>1500101678</td>
+                               <td class='table_td'>联系电话</td>
+                                <td>137847550-0-90</td>
                            </tr>
+                           <tr>
+                               <td class='table_td'>部门/科室</td>
+                               <td>1500101678</td>
+                               <td class='table_td'>部门/科室</td>
+                               <td>137847550-0-90</td>
+                           </tr>
+                           <tr>
+                               <td class='table_td'>保险费率</td>
+                               <td>0.02%</td>
+                               <td class='table_td'>城市/区域</td>
+                               <td>江苏省/南通市/遂川区</td>
+                           </tr>
+                           <tr>
+                               <td class='table_td'>城市/区域</td>
+                               <td>江苏省/南通市/遂川区</td>
+                               <td class='table_td'>收件详细地址</td>
+                               <td>江苏省南通市通富北路89号</td>
+
+                           </tr>
+                           <tr>
+                               <td class='table_td'>取件详细地址</td>
+                               <td>江苏省南通市通富北路89号</td>
+                               <td class='table_td'></td>
+                               <td style="color:#fff;">江苏省/南通市/遂川区</td>
+
+
+                           </tr>
+
+
+
+
                        </table>
                    </el-collapse-item>
                    <el-collapse-item title="Step2 货物信息" name="1">
@@ -470,6 +503,32 @@ export default {
 };
 </script>
 <style scoped>
+    td,
+    th {
+        border: solid #ccc;
+        border-width: 0px 1px 1px 0px;
+        padding: 10px 0px;
+        text-align: center;
+    }
+
+    table {
+        border: solid #ccc;
+        border-width: 1px 0px 0px 1px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .table_td {
+        background-color: #eff4f6;
+    }
+    .circle{
+        width:15px;
+        height:15px;
+        border:1px solid #000;
+        border-radius:50%;
+        display:inline-block;
+        line-height:15px;
+        text-align:center;
+    }
 .bioage {
   margin: 20px 0;
 }
@@ -566,30 +625,5 @@ h1 {
   color: #000;
   border-radius:5px;
 }
-td,
-th {
-  border: solid #ccc;
-  border-width: 0px 1px 1px 0px;
-  padding: 10px 0px;
-  text-align: center;
-}
 
-table {
-  border: solid #ccc;
-  border-width: 1px 0px 0px 1px;
-  border-collapse: collapse;
-  width: 100%;
-}
-.table_td {
-  background-color: #eff4f6;
-  }
-  .circle{
-    width:15px;
-    height:15px;
-    border:1px solid #000;
-    border-radius:50%;
-    display:inline-block;
-    line-height:15px;
-    text-align:center;
-  }
 </style>
