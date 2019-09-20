@@ -260,7 +260,14 @@
                 EditDetailsModel:false,
                 tableData: [],
                 NeCompanyNetx:'',
-                CompanyNet:'',WDQJ:'',ID:'',GoodsType:'',PackageName:'',Delay:'',AccountNumber: '',
+                CompanyNet:'',
+                WDQJ:'',
+                ID:'',
+                GoodsType:'',
+                PackageName:'',
+                Delay:'',
+                AccountNumber: '',
+                multipleSelection:''
 
 
             }
@@ -273,8 +280,6 @@
             this.getData()
 
         },
-
-
 
 
         methods:{
@@ -296,7 +301,60 @@
                 console.log(1)
             },
             downloadtable(){
-                htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
+//              htmlToPdf.downloadPDF( document.querySelector('#tableData'),'货量统计');
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+
+                        import_file = this.tableData;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    //console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "区域",
+                            "网络公司",
+                            "客户账号",
+                            "订单号",
+                            "货物类型",
+                            "件数",
+                            "下单时间",
+                            "时限",
+                            "要求取件时间",
+                            "实际取件时间",
+                            "延时",
+                            "温区",
+                            "箱型数量"
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "Area",
+                            "CompanyNet",
+                            "AccountNumber",
+                            "id",
+                            "GoodsType",
+                            "Jian",
+                            "Indate",
+                            "LimitTime",
+                            "OrderTime",
+                            "TakeTimes",
+                            "Delay",
+                            "WDQJ",
+                            "PackageName"
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal,list);
+                        export_json_to_excel(tHeader, data, "区域订单");  // 这是  excel文件名
+                    });
+                });
             },
             //获取表格
             getData(){
@@ -349,6 +407,9 @@
                 })
 
 
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
             },
             handleSizeChange(val) {
                 this.loading = true;

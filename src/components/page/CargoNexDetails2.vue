@@ -34,7 +34,7 @@
 
                             <div style="float: right;margin-top: 5px;">
                                 <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
-                                <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
+                                <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport">
                                 <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
 
                             </div>
@@ -156,6 +156,7 @@
                 tableData:[
 
                 ],
+                multipleSelection:''
 
 
             }
@@ -238,6 +239,53 @@
                 this.loading = true;
                 this.cur_page = val;
                 this.getData();
+            },
+              dataExport() {
+                this.loading = true;
+                let import_file;
+                new Promise((resolve, reject) => {
+                    import_file = this.multipleSelection;
+                    if (import_file.length == 0) {
+
+                        import_file = this.tableData;
+
+                    }
+                    resolve(import_file);
+                }).then(res => {
+                    //console.log(res);return;
+                    require.ensure([], () => {
+                        const {export_json_to_excel} = require("../../js/Export2Excel");
+                        // 这就是表头 展示的表头
+                        const tHeader = [
+                            "货物类型",
+                            "网路公司",
+                            "客户数量",
+                            "订单量",
+                            "件数",
+                            "取件准时率"
+                           
+
+                        ];
+                        // 这就是 对应的 字段
+                        const filterVal = [
+                            "BusinessType",
+                            "CompanyNet",
+                            "KHnumber",
+                            "Piao",
+                            "Jian",
+                            "ZhunShi"
+                          
+                        ];
+                        const list = res;
+                        this.loading = false;
+                        const data = this.formatJson(filterVal,list);
+                        export_json_to_excel(tHeader, data, "区域订单-货量统计");  // 这是  excel文件名
+                    });
+                });
+
+            },
+            formatJson: function (filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]));
             },
         }
     }

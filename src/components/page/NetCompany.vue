@@ -53,7 +53,7 @@
 			<el-row>
 
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData"  style="width: 100%" id='tableData'>
+					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData" height="400"  style="width: 100%;" id='tableData'>
 						<el-table-column type="selection" width="55">
 						</el-table-column>
 						<el-table-column label="客户账号" prop="AccountNumber" align="center">
@@ -88,7 +88,7 @@
 				</el-col>
 			</el-row>
 			<div class="pagination">
-				<el-pagination :page-sizes="[20,50, 100, 500, 2000]" :page-size="20" :current-page='cur_page' layout="total, sizes, prev, pager, next, jumper" :total="ccc"></el-pagination>
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[20,50, 100, 500, 2000]" :page-size="20" :current-page='cur_page' layout="total, sizes, prev, pager, next, jumper" :total="ccc"></el-pagination>
 			</div>
           </div>
 		</div>
@@ -546,6 +546,27 @@
             },
              formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
+            },
+
+			handleSizeChange(val) {
+				this.loading = true;
+
+				// console.log(val); // 每页显示  条数
+				this.limit = val;
+				this.getData();
+				//this.getnetData();
+
+			},
+			handleCurrentChange(val) {
+				this.loading = true;
+				this.cur_page = val;
+				this.getData();
+				//this.getnetData();
+			},
+			handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
             },
 
 			//查看订单详情
