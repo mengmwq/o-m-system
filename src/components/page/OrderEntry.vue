@@ -39,23 +39,26 @@
                 ref="form"
                 label-width="100px"
               >
-                <el-col
-                  :span="12"
-                  style="padding:0"
-                >
-                  <el-form-item label="客户账号">
-                    <el-input></el-input>
-                  </el-form-item>
-                </el-col>
+                  <el-row>
+                      <el-col
+                          :span="12"
+                          style="padding:0"
+                      >
+                          <el-form-item label="客户账号">
+                              <el-input></el-input>
+                          </el-form-item>
+                      </el-col>
 
-                <el-col
-                  :span="12"
-                  style="padding:0"
-                >
-                  <el-form-item>
-                    <el-input></el-input>
-                  </el-form-item>
-                </el-col>
+                      <el-col
+                          :span="12"
+                          style="padding:0"
+                      >
+                          <el-form-item>
+                              <el-input></el-input>
+                          </el-form-item>
+                      </el-col>
+                  </el-row>
+
 
                 <el-form-item label="公司名称">
                   <el-input></el-input>
