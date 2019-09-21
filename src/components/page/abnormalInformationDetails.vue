@@ -253,7 +253,7 @@
             if(this.Area=="合计"){
                 this.Area =''
             }else if(this.CompanyNet == "合计"){
-                console.log(window.sessionStorage.getItem('abnorData'),'李洋');
+                console.log(window.sessionStorage.getItem('abnorData'),'梦健康');
                 let abnorData = JSON.parse(window.sessionStorage.getItem('abnorData'));
                 let arr = [];
                 abnorData.forEach((item,index) => {
