@@ -35,13 +35,13 @@
 
                             <div style="float: right;margin-top: 5px;">
                                 <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
-<<<<<<< HEAD
-                                <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" >
-                                <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
-=======
                                 <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport" >
-                                <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
->>>>>>> 4038019d47ded4eb00f339c876a23906686d8db4
+
+                                <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
+
+
+
+
 
                             </div>
                         </el-col>
@@ -365,7 +365,7 @@
                             "订单量",
                             "件数",
                             "取件准时率"
-                           
+
 
                         ];
                         // 这就是 对应的 字段
@@ -376,7 +376,7 @@
                             "Piao",
                             "Jian",
                             "ZhunShi"
-                          
+
                         ];
                         const list = res;
                         this.loading = false;
@@ -389,7 +389,7 @@
             formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
-            
+
         }
     }
 </script>

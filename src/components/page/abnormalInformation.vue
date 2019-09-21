@@ -290,10 +290,13 @@
                             //     this.tableData0 = this.tableData2;
                             // }
                             Area:  this.company  == "总部"?row.Area:row.Company,
+
                         }
 
                     });
                 }else{
+                    window.sessionStorage.setItem('abnorData',JSON.stringify(this.tableData0));
+
                     this.$router.push({
                         path: "/abnormalInformationDetails",
                         query: {
@@ -303,6 +306,7 @@
                             //     this.tableData0 = this.tableData2;
                             // }
                             CompanyNet:  this.company  == "总部"?row.Area:row.Company,
+
                         }
                     });
                 }
