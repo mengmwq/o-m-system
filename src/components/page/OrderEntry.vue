@@ -429,8 +429,11 @@ export default {
     };
   },
   created() {
-    scrollWatch.setContainer("#scrollDom");
+    // 第二次 进来  没走    问题
 
+    scrollWatch.setContainer("#scrollDom");
+    console.log(1111);
+    console.log(this.$route.query.AccountNumber);
     // 客户账号
     this.accoutNum =
       this.$route.query.AccountNumber == undefined
@@ -581,18 +584,14 @@ export default {
     isClick(val,isType){
       if(isType == 'box'){
         // 箱型数量 输入中
-        console.log(this.boxType,'老孟');
-        this.boxType.forEach((item,index)=>{
-          if(item.num == ''){
-            this.isDisabled1 = false;
-          }else{
-            this.isDisabled1 = true;
-          }
-        })
+        console.log(this.boxType,'老孟'); 
+        // 循环判断 数量有值  isDisabled1 = true   没值  isDisabled1 = false
+        
 
       }else if(isType == 'car'){
         // 冷藏车数量 输入中
 
+        
       }
     },
     spyDomChange(node) {

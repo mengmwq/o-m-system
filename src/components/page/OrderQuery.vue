@@ -520,7 +520,7 @@
 
         methods:{
             oneMoreOrder(row){
-
+                    console.log(row.AccountNumber,'我是传入');
                     this.$router.push({
                         path: "/OrderEntry",
                         query: { AccountNumber: row.AccountNumber }

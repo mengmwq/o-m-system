@@ -1,7 +1,9 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'">区域订单>网络公司>{{CompanyNet}}</div>
-        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()">区域订单</span>><span @click="backCargoNexDetails">网络公司</span>>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()">区域订单</span>>{{CompanyNet}}</div>
+
+<!--        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>-->
         <div  >
             <el-form :inline="true" class="demo-form-inline">
                 <el-row>
@@ -296,6 +298,18 @@
                 this.AccountNumber='';
                 this.getData();
                 this.loading = false;
+            },
+            //跳到区域订单首页
+            backargoStatistics(){
+                this.$router.push({
+                        path: "/CargoStatistics",
+
+            })
+            },
+            backCargoNexDetails(){
+                this.$router.push({
+                    path:'/CargoNexDetails'
+                })
             },
             focus(event) {
                 console.log(1)

@@ -209,14 +209,9 @@
                         :total="ccc"
                     ></el-pagination>
                 </div>
-
             </div>
-
         </div>
-
-
     </div>
-
 </template>
 
 <script>
@@ -257,6 +252,16 @@
             this.CompanyNet = this.$route.query.CompanyNet;
             if(this.Area=="合计"){
                 this.Area =''
+            }else if(this.CompanyNet == "合计"){
+                console.log(window.sessionStorage.getItem('abnorData'),'李洋');
+                let abnorData = JSON.parse(window.sessionStorage.getItem('abnorData'));
+                let arr = [];
+                abnorData.forEach((item,index) => {
+                    arr.push(item.Company);
+                })
+                this.CompanyNet = arr.join(',');
+                console.log(this.CompanyNet)
+                // this.CompanyNet =
             }
             this.Nex = this.$route.query.Nex;
             this.company = window.sessionStorage.getItem('compony');
@@ -276,10 +281,11 @@
                 this.xdtime='';
                 this.EntryName = '';
                 this.ID = '';
-
+                this.Area = '';
                 this.AccountNumber = '';
                 this.CompanyArea = '';
                 this.value1 = '',
+                this.CompanyNet = '';
                 this.CompanyNet = '';
                 this.getData();
                 this.loading = false;
@@ -289,7 +295,7 @@
             getAreaData() {
                 let _this = this;
                 _this.$axios({
-                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea\n',
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea',
                     method: "post",
                     data: {
                         Company: this.company,

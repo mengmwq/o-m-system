@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px ">{{BusinessType}}>网络公司</div>
+        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()">{{BusinessType==null ?'暂无':BusinessType}}</span>>网络公司</div>
         <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
@@ -163,10 +163,20 @@
         },
         mounted() {
             this.BusinessType = this.$route.query.BusinessType;
+            console.log(this.BusinessType,4)
             this.company = window.sessionStorage.getItem('compony');
             this.getData()
         },
         methods: {
+            //跳到区域订单页面
+            backCargoStatistics(){
+                this.$router.push({
+                    path:'/CargoStatistics',
+                    }
+
+                )
+            },
+
             DetailsChild(row){
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
@@ -263,7 +273,7 @@
                             "订单量",
                             "件数",
                             "取件准时率"
-                           
+
 
                         ];
                         // 这就是 对应的 字段
@@ -274,7 +284,7 @@
                             "Piao",
                             "Jian",
                             "ZhunShi"
-                          
+
                         ];
                         const list = res;
                         this.loading = false;
