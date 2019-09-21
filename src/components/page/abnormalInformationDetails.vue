@@ -209,14 +209,9 @@
                         :total="ccc"
                     ></el-pagination>
                 </div>
-
             </div>
-
         </div>
-
-
     </div>
-
 </template>
 
 <script>
@@ -286,10 +281,11 @@
                 this.xdtime='';
                 this.EntryName = '';
                 this.ID = '';
-
+                this.Area = '';
                 this.AccountNumber = '';
                 this.CompanyArea = '';
                 this.value1 = '',
+                this.CompanyNet = '';
                 this.CompanyNet = '';
                 this.getData();
                 this.loading = false;
