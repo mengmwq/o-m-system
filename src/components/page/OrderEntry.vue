@@ -33,42 +33,48 @@
         >
 
           <el-col :span="12">
-            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp寄件人信息</h2>
+            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
             <div class="bioage">
               <el-form
                 ref="form"
                 label-width="100px"
               >
+              <el-row>
                 <el-col
                   :span="12"
-                  style="padding:0"
+                 
                 >
                   <el-form-item label="客户账号">
-                    <el-input></el-input>
+                    <el-input v-model="accoutNum" @blur="getManMsg"></el-input>
                   </el-form-item>
                 </el-col>
 
+                <!--  月结  现金-->
                 <el-col
                   :span="12"
-                  style="padding:0"
+                  
                 >
                   <el-form-item>
-                    <el-input></el-input>
+                    <el-input v-model="ManMsg.CountType"></el-input>
                   </el-form-item>
                 </el-col>
+        </el-row>
 
+               
                 <el-form-item label="公司名称">
-                  <el-input></el-input>
+                  <el-input v-model="ManMsg.Company"></el-input>
                 </el-form-item>
                 <el-form-item label="寄件人">
-                  <el-input></el-input>
+                  <el-input v-model="ManMsg.Manager"></el-input>
                 </el-form-item>
+              
+                <el-row>
                 <el-col
                   :span="12"
                   style="padding:0"
                 >
                   <el-form-item label="部门/科室">
-                    <el-input></el-input>
+                    <el-input v-model="ManMsg.Manager"></el-input>
                   </el-form-item>
                 </el-col>
 
@@ -77,17 +83,19 @@
                   style="padding:0"
                 >
                   <el-form-item label="保险费率">
-                    <el-input></el-input>
+                    <el-input v-model="ManMsg.SafeRate"></el-input>
                   </el-form-item>
                 </el-col>
+            </el-row>
+
                 <el-form-item label="联系电话">
-                  <el-input></el-input>
+                  <el-input v-model="ManMsg.Telephone"></el-input>
                 </el-form-item>
                 <el-form-item label="城市区域">
-                  <el-input></el-input>
+                  <el-input v-model="ManMsg.cityArea"></el-input>
                 </el-form-item>
                 <el-form-item label="详细地址">
-                  <el-input></el-input>
+                  <el-input v-model="ManMsg.Address"></el-input>
                 </el-form-item>
 
               </el-form>
@@ -155,7 +163,7 @@
 
                       @click="next(item1,index)"
                       :class="{temActive: istemActive == index,temDefault: istemActive != index}"
-                    >{{item1.tem}}</span>
+                    >{{item1.WDQJ}}</span>
                   </div>
                   <!-- <button @click="next"> 下一步 </button> -->
                 </div>
@@ -164,25 +172,25 @@
                   <div>{{towTitle}}</div>
                   <div>
                     <el-tabs>
-                      <el-tab-pane label="箱型">
+                      <el-tab-pane label="箱型" :disabled="isDisabled">
                         <div class="temFirst">
                           <div
 						  	v-for="(item,index) in boxType"
                           	:key="index" >
-                            <span>{{item.box}}</span>
+                            <span>{{item.PackageType}}</span>
 
-							<input type="text" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)">
+							<input type="text" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)" @input="isClick(item,'box')">
 
 							<span>个</span>
                           </div>
 
                         </div>
                       </el-tab-pane>
-                      <el-tab-pane label="冷藏专用车">
+                      <el-tab-pane label="冷藏专用车" :disabled="isDisabled1">
                         <div class="temFirst">
 							<div v-for="(item,index) in iceCar" :key="index">
 								<span>{{item.car}}</span>
-								<input type="text" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)">
+								<input type="text" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)" @input="isClick(item,'car')">
 								<span>辆</span>
 							</div>
                         </div>
@@ -247,10 +255,10 @@
                                </td>
                                 <td>梦健康
                                     <span style="border-left: 1px solid #ddd ;border-right:1px solid #ddd;padding: 13px">
-                                       &nbsp&nbsp 结算方式
+                                       &nbsp;&nbsp; 结算方式
                                     </span>
                                     <span>
-                                        &nbsp&nbsp月结
+                                        &nbsp;&nbsp;月结
                                     </span>
                                 </td>
                                 <td class='table_td'>收件人</td>
@@ -383,8 +391,12 @@ export default {
   name: "test",
   data() {
     return {
+      accoutNum: "", // 客户账号
+      isDisabled1:false,
+      isDisabled: false,
+      ManMsg: {},
       activeNames: ["0"],
-       value1: '',
+      value1: "",
       activeMenu: 1,
       active: 1,
       isFirst: true,
@@ -396,10 +408,7 @@ export default {
       towTitle: "进行中",
       cargoMsg: [],
       temArea: [
-        { tem: "2℃~8℃" },
-        { tem: "20℃~80℃" },
-        { tem: "-25℃~-15℃" },
-        { tem: "-80℃~-40℃" }
+
       ],
       boxType: [],
       iceCar: [
@@ -407,53 +416,129 @@ export default {
         { car: "7.6m冷藏车", num: "" },
         { car: "9.6m冷藏车", num: "" }
       ],
-      tiemLimit:[{limit:'24H'},{limit:'72H'},{limit:'36H'},{limit:'48H'}],
-      cargList:[{tem:'2-8',box:'xs28',num:2},{tem:'15-25',box:'xs46',num:4}]
+      tiemLimit: [
+        { limit: "24H" },
+        { limit: "72H" },
+        { limit: "36H" },
+        { limit: "48H" }
+      ],
+      cargList: [
+        { tem: "2-8", box: "xs28", num: 2 },
+        { tem: "15-25", box: "xs46", num: 4 }
+      ]
     };
   },
   created() {
     scrollWatch.setContainer("#scrollDom");
+
+    // 客户账号
+    this.accoutNum =
+      this.$route.query.AccountNumber == undefined
+        ? ""
+        : this.$route.query.AccountNumber;
+    this.getManMsg();
+    this.getTem();
   },
   methods: {
-        handleChange(val) {
+    getManMsg() {
+      let that = this;
+      this.$axios({
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/tomsg",
+        method: "post",
+        data: { AccountNumber: that.accoutNum },
+        transformRequest: [
+          function(data) {
+            let ret = "";
+            for (let it in data) {
+              ret +=
+                encodeURIComponent(it) +
+                "=" +
+                encodeURIComponent(data[it]) +
+                "&";
+            }
+            return ret;
+          }
+        ],
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).then(function(res) {
+        if (res.data.code == "200") {
+          that.ManMsg = res.data.data;
+          that.ManMsg.cityArea = that.ManMsg.City + "/" + that.ManMsg.Area;
+        } else {
+          that.ManMsg = {};
+        }
+      });
+    },
+    getTem() {
+      let that = this;
+      this.$axios({
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
+        method: "post",
+        data: { WDQJ: "" },
+        transformRequest: [
+          function(data) {
+            let ret = "";
+            for (let it in data) {
+              ret +=
+                encodeURIComponent(it) +
+                "=" +
+                encodeURIComponent(data[it]) +
+                "&";
+            }
+            return ret;
+          }
+        ],
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).then(function(res) {
+        if (res.data.code == "200") {
+          that.temArea = res.data.data;
+        } else {
+          that.temArea = {};
+        }
+      });
+    },
+    handleChange(val) {
       console.log(val);
     },
     next(val, index) {
       //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
       //哦
+            let that = this;
+      this.$axios({
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
+        method: "post",
+        data: { WDQJ: val.WDQJ },
+        transformRequest: [
+          function(data) {
+            let ret = "";
+            for (let it in data) {
+              ret +=
+                encodeURIComponent(it) +
+                "=" +
+                encodeURIComponent(data[it]) +
+                "&";
+            }
+            return ret;
+          }
+        ],
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      }).then(function(res) {
+        if (res.data.code == "200") {
+          that.boxType = res.data.data;
+        } else {
+          that.boxType = {};
+        }
+      });
+
+
       this.istemActive = index;
-      if (val.tem == "2℃~8℃") {
-        this.boxType = [
-          { box: "XS26", num: "" },
-          { box: "XS27", num: "" },
-          { box: "XS28", num: "" },
-          { box: "xs29", num: "" }
-        ];
-      } else if (val.tem == "20℃~80℃") {
-        this.boxType = [
-          { box: "XS30", num: "" },
-          { box: "XS321", num: "" },
-          { box: "XS32", num: "" }
-        ];
-      } else if (val.tem == "-25℃~-15℃") {
-        this.boxType = [
-          { box: "XS40", num: "" },
-          { box: "XS41", num: "" },
-          { box: "XS42", num: "" }
-        ];
-      } else if (val.tem == "-80℃~-40℃") {
-        this.boxType = [
-          { box: "XS50", num: "" },
-          { box: "XS51", num: "" },
-          { box: "XS52", num: "" }
-        ];
-      }
+
       this.active = 2;
       this.firstTitle = "已完成";
       this.selectTem = val.tem; // 当前选择的温区
       let obj = { tem: this.selectTem, box: [], iceCar: [] };
       // if (this.cargoMsg.length == 0) {
-        this.cargoMsg.push(obj);
+      this.cargoMsg.push(obj);
       // } else {
       //   let init = true;
       //   this.cargoMsg.forEach(item => {
@@ -470,13 +555,13 @@ export default {
     prev() {
       //   [{tem:"",box:[{type:"",num:""}]},{},{}]
       console.log(this.cargoMsg);
-    //   if (this.cargoMsg.length == 3) {
-    //     this.$message.error("最多只允许添加3个温区");
-    //   } else {
-        this.active = 1;
-        this.firstTitle = "进行中";
-        this.istemActive = -2;
-    //   }
+      //   if (this.cargoMsg.length == 3) {
+      //     this.$message.error("最多只允许添加3个温区");
+      //   } else {
+      this.active = 1;
+      this.firstTitle = "进行中";
+      this.istemActive = -2;
+      //   }
     },
     isNull(val, index, tem) {
       // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
@@ -491,7 +576,24 @@ export default {
         }
       }
 
-      // console.log(threeData);
+      console.log(threeData,'箱型和car');
+    },
+    isClick(val,isType){
+      if(isType == 'box'){
+        // 箱型数量 输入中
+        console.log(this.boxType,'老孟');
+        this.boxType.forEach((item,index)=>{
+          if(item.num == ''){
+            this.isDisabled1 = false;
+          }else{
+            this.isDisabled1 = true;
+          }
+        })
+
+      }else if(isType == 'car'){
+        // 冷藏车数量 输入中
+
+      }
     },
     spyDomChange(node) {
       if (this.activeMenu != node.name) this.activeMenu = node.name;
@@ -503,32 +605,32 @@ export default {
 };
 </script>
 <style scoped>
-    td,
-    th {
-        border: solid #ccc;
-        border-width: 0px 1px 1px 0px;
-        padding: 10px 0px;
-        text-align: center;
-    }
+td,
+th {
+  border: solid #ccc;
+  border-width: 0px 1px 1px 0px;
+  padding: 10px 0px;
+  text-align: center;
+}
 
-    table {
-        border: solid #ccc;
-        border-width: 1px 0px 0px 1px;
-        border-collapse: collapse;
-        width: 100%;
-    }
-    .table_td {
-        background-color: #eff4f6;
-    }
-    .circle{
-        width:15px;
-        height:15px;
-        border:1px solid #000;
-        border-radius:50%;
-        display:inline-block;
-        line-height:15px;
-        text-align:center;
-    }
+table {
+  border: solid #ccc;
+  border-width: 1px 0px 0px 1px;
+  border-collapse: collapse;
+  width: 100%;
+}
+.table_td {
+  background-color: #eff4f6;
+}
+.circle {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 15px;
+  text-align: center;
+}
 .bioage {
   margin: 20px 0;
 }
@@ -609,21 +711,20 @@ h1 {
 .limit {
   display: flex;
   justify-content: flex-start;
-  flex-flow:wrap;
+  flex-flow: wrap;
 }
-.limit span{
+.limit span {
   padding: 5px 20px;
   margin: 5px 10px;
-  border:1px solid #ccc;
-  color:#ccc;
+  border: 1px solid #ccc;
+  color: #ccc;
   text-align: center;
   border-radius: 5px;
 }
-.save{
+.save {
   padding: 5px 20px;
-  border:1px solid #ccc;
+  border: 1px solid #ccc;
   color: #000;
-  border-radius:5px;
+  border-radius: 5px;
 }
-
 </style>

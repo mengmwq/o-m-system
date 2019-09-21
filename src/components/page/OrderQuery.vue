@@ -379,7 +379,7 @@
                                 align="center"
                                 label="操作">
                                 <template slot-scope="scope">
-                                    <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain >再一单</el-button>
+                                    <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click="oneMoreOrder(scope.row)">再一单</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -519,6 +519,19 @@
         },
 
         methods:{
+            oneMoreOrder(row){
+
+                    this.$router.push({
+                        path: "/OrderEntry",
+                        query: { AccountNumber: row.AccountNumber }
+                    });
+             
+            },
+
+
+
+
+
             changeCompany(data){
                  console.log(data);
                 this.$refs.messageDrop.hide()
@@ -660,12 +673,6 @@
 
 
                     this.allotDialogVisible1=true
-                }else if(column.label == '操作'){
-
-                    this.$router.push({
-                        path: "/OrderEntry",
-                        query: { id: row.id }
-                    });
                 }else if(row.istz == "否"){
                    this.tongzhiFangshi =true
                 }
