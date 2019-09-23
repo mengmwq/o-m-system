@@ -16,17 +16,17 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="网络公司" v-show="this.company !=='总部'">
-                            <el-input v-model="CompanyNet"></el-input>
+<!--                            <el-input v-model="CompanyNet"></el-input>-->
 
-<!--                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">-->
-<!--                                &lt;!&ndash;<el-option label="请选择" value=""></el-option>&ndash;&gt;-->
-<!--                                <el-option-->
-<!--                                    v-for="item in ComPanN"-->
-<!--                                    :key="item.ROW_NUMBER"-->
-<!--                                    :label="item.Company"-->
-<!--                                    :value="item.Company">-->
-<!--                                </el-option>-->
-<!--                            </el-select>-->
+                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in ComPanNFk"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.Company"
+                                    :value="item.Company">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
 
                         <el-form-item label="客户账号">
@@ -63,7 +63,7 @@
                                 <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
                                     <!--<el-option label="请选择" value=""></el-option>-->
                                     <el-option
-                                        v-for="item in ComPanN"
+                                        v-for="item in ComPanNFk"
                                         :key="item.ROW_NUMBER"
                                         :label="item.Company"
                                         :value="item.Company">
@@ -224,6 +224,7 @@
             return {
                 roles:[],
                 ComPanN:[],
+                ComPanNFk:[],
                 CompanyNet:'',
                 Nex:'',
                 AccountNumber:'',
@@ -267,7 +268,8 @@
             this.company = window.sessionStorage.getItem('compony');
             this.getData();
             this.getAreaData();
-            this.getnetData()
+            this.getnetData();
+            this.getnetDataFk();
             // if(this.company  == "总部"){
             //     this.tableData0 = this.tableData;
             // }else{
@@ -290,7 +292,36 @@
                 this.getData();
                 this.loading = false;
             },
+            getnetDataFk(){
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/fknet',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+                        fkNet:this.CompanyNet
 
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.ComPanNFk = res.data.data;
+                })
+
+            },
             //获取区域
             getAreaData() {
                 let _this = this;

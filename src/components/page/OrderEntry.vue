@@ -42,7 +42,7 @@
               <el-row>
                 <el-col
                   :span="12"
-                 
+
                 >
                   <el-form-item label="客户账号">
                     <el-input v-model="accoutNum" @blur="getManMsg"></el-input>
@@ -52,7 +52,7 @@
                 <!--  月结  现金-->
                 <el-col
                   :span="12"
-                  
+
                 >
                   <el-form-item>
                     <el-input v-model="ManMsg.CountType"></el-input>
@@ -60,14 +60,14 @@
                 </el-col>
         </el-row>
 
-               
+
                 <el-form-item label="公司名称">
                   <el-input v-model="ManMsg.Company"></el-input>
                 </el-form-item>
                 <el-form-item label="寄件人">
                   <el-input v-model="ManMsg.Manager"></el-input>
                 </el-form-item>
-              
+
                 <el-row>
                 <el-col
                   :span="12"
@@ -109,8 +109,8 @@
                 label-width="100px"
               >
 
-                <el-form-item label="城市区域">
-                  <el-input></el-input>
+                <el-form-item label="城市区域" >
+                  <el-input v-model="GetCity"></el-input>
                 </el-form-item>
                 <el-form-item label="公司名称">
                   <el-input></el-input>
@@ -171,7 +171,7 @@
                 <div v-if="active===2">
                   <div>{{towTitle}}</div>
                   <div>
-                    <el-tabs>
+                    <el-tabs >
                       <el-tab-pane label="箱型" :disabled="isDisabled">
                         <div class="temFirst">
                           <div
@@ -179,7 +179,7 @@
                           	:key="index" >
                             <span>{{item.PackageType}}</span>
 
-							<input type="text" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)" @input="isClick(item,'box')">
+							<input type="number" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)" @input="isClick(item,'box')">
 
 							<span>个</span>
                           </div>
@@ -189,8 +189,8 @@
                       <el-tab-pane label="冷藏专用车" :disabled="isDisabled1">
                         <div class="temFirst">
 							<div v-for="(item,index) in iceCar" :key="index">
-								<span>{{item.car}}</span>
-								<input type="text" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)" @input="isClick(item,'car')">
+								<span>{{item.PackageType}}</span>
+								<input type="number" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)" @input="isClick(item,'car')" >
 								<span>辆</span>
 							</div>
                         </div>
@@ -215,6 +215,9 @@
               <el-date-picker
                 v-model="value1"
                 type="datetime"
+
+
+                value-format="yyyy-MM-dd HH:mm:ss"
                 placeholder="选择日期时间">
               </el-date-picker>
             </div>
@@ -226,7 +229,7 @@
             </div>
           </el-col>
           <el-col :span="24" style="text-align:right;margin-bottom:20px;">
-            <span class="save">保存</span>
+            <span class="save" @click="saveCargo">保存</span>
           </el-col>
         </el-row>
       </div>
@@ -244,7 +247,7 @@
                        <table>
                            <tr>
                                <td class='table_td'>客户账号</td>
-                                <td>2016121</td>
+                                <td>{{accoutNum}}</td>
                                <td class='table_td'></td>
                                <td style="color:#fff;">江苏省/南通市/遂川区</td>
 
@@ -253,12 +256,12 @@
                                <td class='table_td'>寄件人
 
                                </td>
-                                <td>梦健康
+                                <td>{{ManMsg.Manager}}
                                     <span style="border-left: 1px solid #ddd ;border-right:1px solid #ddd;padding: 13px">
                                        &nbsp;&nbsp; 结算方式
                                     </span>
                                     <span>
-                                        &nbsp;&nbsp;月结
+                                        &nbsp;&nbsp;{{ManMsg.CountType}}
                                     </span>
                                 </td>
                                 <td class='table_td'>收件人</td>
@@ -286,11 +289,11 @@
                                <td class='table_td'>保险费率</td>
                                <td>0.02%</td>
                                <td class='table_td'>城市/区域</td>
-                               <td>江苏省/南通市/遂川区</td>
+                               <td>{{GetCity}}</td>
                            </tr>
                            <tr>
                                <td class='table_td'>城市/区域</td>
-                               <td>江苏省/南通市/遂川区</td>
+                               <td>WGOIHIOWEJIEW;J </td>
                                <td class='table_td'>收件详细地址</td>
                                <td>江苏省南通市通富北路89号</td>
 
@@ -320,18 +323,18 @@
                            </tr>
                            <tr v-for="(item,index) in cargList" :key="index">
                                <td>{{index+1}}</td>
-                               <td>{{item.tem}}</td>
-                               <td>{{item.box}}</td>
+                               <td>{{item.WDQJ}}</td>
+                               <td>{{item.PackageType}}</td>
                                <td>
-                                   <span class="circle">-</span>
+<!--                                   <span class="circle">-</span>-->
                                    <span>{{item.num}}</span>
-                                   <span class="circle">+</span>
+<!--                                   <span class="circle">+</span>-->
                                </td>
-                               <td><span>删除</span></td>
+                               <td @click="deleteInfor(index+1)"><span>删除</span></td>
                            </tr>
                        </table>
                        <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
-                           <div>要求取件时间：2019年11月</div>
+                           <div>要求取件时间：{{value1}}</div>
                            <div style="margin:0 20px">时限要求：24H</div>
                            <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
                                <img :src="item" alt="" @click='isHover($event)'>
@@ -373,7 +376,7 @@
 
           </el-col>
             <el-col style="margin: 30px 0;display: flex;justify-content: center">
-                <el-button type="primary">提交</el-button>
+                <el-button type="primary" @click="submitFrom()">提交</el-button>
                 <el-button type="success">取消</el-button>
             </el-col>
 
@@ -410,11 +413,12 @@ export default {
       temArea: [
 
       ],
+        GetCity:'',
       boxType: [],
       iceCar: [
-        { car: "4.2m冷藏车", num: "" },
-        { car: "7.6m冷藏车", num: "" },
-        { car: "9.6m冷藏车", num: "" }
+        { PackageType: "4.2m冷藏车", num: "" },
+        { PackageType: "7.6m冷藏车", num: "" },
+        { PackageType: "9.6m冷藏车", num: "" }
       ],
       tiemLimit: [
         { limit: "24H" },
@@ -422,18 +426,21 @@ export default {
         { limit: "36H" },
         { limit: "48H" }
       ],
-      cargList: [
-        { tem: "2-8", box: "xs28", num: 2 },
-        { tem: "15-25", box: "xs46", num: 4 }
-      ]
+      cargList: [ //货物信息
+
+      ],
+      newCargList:[], // 过度数组  用于点击保存时赋值给遍历的数组
+      newcargList: {}, // 存储温度区间 数量
+      item1: ''
+
+
+
     };
   },
   created() {
     // 第二次 进来  没走    问题
 
     scrollWatch.setContainer("#scrollDom");
-    console.log(1111);
-    console.log(this.$route.query.AccountNumber);
     // 客户账号
     this.accoutNum =
       this.$route.query.AccountNumber == undefined
@@ -443,6 +450,72 @@ export default {
     this.getTem();
   },
   methods: {
+      //提交所有
+
+      submitFrom(){
+          console.log(this.cargList,8)
+          let that = this;
+          this.$axios({
+              url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index",
+              method: "post",
+              data: {
+                  AccountNumber:this.accoutNum,
+                  Box: JSON.stringify(this.cargList ),
+                  IsWdj:'使用',
+                  CargoName:'',
+                  GoodsType:'试剂',
+                  Manager:'1',
+                  GetName:'1',
+                  Address:'1',
+                  GetAddress:'1',
+                  City:'1',
+                  GetCity:'1',
+                  Depart:'1',
+                  GetDepart:'1',
+                  Company:'1',
+                  GetCompany:'1',
+                  Telephone:'1',
+                  GetTelephone:'1',
+                  OrderTime:'1',
+                  LimitTime:'1',
+                  EntryName:'1',
+                  CountType:'1',
+                  SafeRate:'1',
+                  Note:'1',
+                  SafeItem:'1',
+                  SafePay:'',
+              },
+              transformRequest: [
+                  function(data) {
+                      let ret = "";
+                      for (let it in data) {
+                          ret +=
+                              encodeURIComponent(it) +
+                              "=" +
+                              encodeURIComponent(data[it]) +
+                              "&";
+                      }
+                      return ret;
+                  }
+              ],
+              headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          }).then(function(res) {
+              console.log(res,33)
+              // if (res.data.code == "200") {
+              //     that.ManMsg = res.data.data;
+              //     that.ManMsg.cityArea = that.ManMsg.City + "/" + that.ManMsg.Area;
+              // } else {
+              //     that.ManMsg = {};
+              // }
+          });
+      },
+    deleteInfor(ind) { // 删除货物信息
+        this.cargList = this.cargList.splice(ind)
+    },
+    saveCargo() {
+        this.cargList = this.newCargList
+        // this.newCargList = [] // 如果点击保存重新选择
+    },
     getManMsg() {
       let that = this;
       this.$axios({
@@ -501,12 +574,13 @@ export default {
       });
     },
     handleChange(val) {
-      console.log(val);
+      // console.log(val);
     },
     next(val, index) {
       //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
-      //哦
-            let that = this;
+      this.newcargList.WDQJ = val.WDQJ
+      this.newcargList.ROW_NUMBER = val.ROW_NUMBER
+      let that = this;
       this.$axios({
         url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
         method: "post",
@@ -553,11 +627,11 @@ export default {
       //     this.cargoMsg.push(obj);
       //   }
       // }
-      console.log(this.cargoMsg); // 选择的温区
+      //console.log(this.cargoMsg); // 选择的温区
     },
     prev() {
       //   [{tem:"",box:[{type:"",num:""}]},{},{}]
-      console.log(this.cargoMsg);
+      //console.log(this.cargoMsg);
       //   if (this.cargoMsg.length == 3) {
       //     this.$message.error("最多只允许添加3个温区");
       //   } else {
@@ -568,7 +642,6 @@ export default {
     },
     isNull(val, index, tem) {
       // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
-
       // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
       // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
       // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
@@ -578,21 +651,46 @@ export default {
           threeData[i].box.push(val);
         }
       }
+      this.newCargList.push(val)
 
-      console.log(threeData,'箱型和car');
+
+      //console.log(threeData,'箱型和car');
     },
+      //判断 箱型冷藏车只能选一个
     isClick(val,isType){
-      if(isType == 'box'){
-        // 箱型数量 输入中
-        console.log(this.boxType,'老孟'); 
-        // 循环判断 数量有值  isDisabled1 = true   没值  isDisabled1 = false
-        
+      let _this = this;
+      let boxArr = []; // boxArr.length 箱型数量
+      let carArr = [];
+      val.ROW_NUMBER = this.newcargList.ROW_NUMBER
+      val.WDQJ = this.newcargList.WDQJ
+      this.boxType.forEach(item => {
+          if(item.num) {
+              boxArr.push(item.num)
+          }
+      })
+        _this.iceCar.forEach(item => {
+            if(item.num) {
+                carArr.push(item.num)
+            }
+        })
+        if(isType == 'box'){
+            // 箱型数量 输入中
+            // console.log(this.boxType,'老孟');
+            // 循环判断 数量有值  isDisabled1 = true   没值  isDisabled1 = false
+            if(boxArr.length > 0) {
+                _this.isDisabled1 = true
+            } else {
+                _this.isDisabled1 = false
+            }
+        }else if(isType == 'car'){
+            // 冷藏车数量 输入中
 
-      }else if(isType == 'car'){
-        // 冷藏车数量 输入中
-
-        
-      }
+            if(carArr.length > 0) {
+                _this.isDisabled = true
+            } else {
+                _this.isDisabled = false
+            }
+        }
     },
     spyDomChange(node) {
       if (this.activeMenu != node.name) this.activeMenu = node.name;

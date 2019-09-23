@@ -21,16 +21,15 @@
                             ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="网络公司">
-                            <el-autocomplete
-                                class="inline-input"
-                                v-model="CompanyNet"
-
-
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
+                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in ComPanNFk"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.Company"
+                                    :value="item.Company">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="客户账号">
                             <el-autocomplete
@@ -247,6 +246,7 @@
         name: "SenderManagement",
         data() {
             return {
+                ComPanNFk:[],
                 company:'',
                 resource:'',
                 Nex:'',
@@ -278,13 +278,46 @@
             this.Area = this.$route.query.Area;
             // this.Area2 = this.$route.query.Area;
             this.CompanyNet = this.$route.query.CompanyNet;
+
+
             this.company = window.sessionStorage.getItem('compony');
-            this.getData()
+            this.getData();
+            this.getnetDataFk();
 
         },
 
 
         methods:{
+            getnetDataFk(){
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/fknet',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+                        fkNet:this.CompanyNet
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.ComPanNFk = res.data.data;
+                })
+
+            },
             //刷新页面渲染数据
             refresh(){
                 this.cur_page = 1;

@@ -164,6 +164,9 @@
         mounted() {
             this.BusinessType = this.$route.query.BusinessType;
             console.log(this.BusinessType,4)
+            if(this.BusinessType=="合计"){
+                this.BusinessType ='';
+            }
             this.company = window.sessionStorage.getItem('compony');
             this.getData()
         },
@@ -181,8 +184,8 @@
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {
-                        Nex:  row.count,
-                       yaopin:row.Area
+                        CompanyNet:  row.CompanyNet,
+                        BusinessType:row.BusinessType
                     }
 
                 });

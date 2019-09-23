@@ -177,7 +177,9 @@
         mounted() {
             this.Area = this.$route.query.Area;
             this.companyN = this.$route.query.Company;
-
+            if(this.Area=="合计"){
+                this.Area ='';
+            }
             this.company = window.sessionStorage.getItem('compony');
             this.getData()
             this.getnetData()
