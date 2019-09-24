@@ -166,7 +166,7 @@
 			getData() {
 				let _this = this;
 				_this.$axios({
-					url: 'http://out.ccsc58.cc/OMS/test/public/index/reportcenter/index',
+					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/index',
 					method: "post",
 					data: {
 						PageSize: this.limit,
@@ -189,6 +189,7 @@
 					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
 				}).then(function(res) {
 					_this.loading = false;
+					_this.$message.success(res.data.msg)
 					_this.tableData = res.data.data.result;
 					_this.ccc = res.data.data.sum;
 					console.log(res)
@@ -198,7 +199,7 @@
 			queryData() {
 				let _this = this;
 				_this.$axios({
-					url: 'http://out.ccsc58.cc/OMS/test/public/index/reportcenter/index',
+					url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/index',
 					method: "post",
 					data: {
 						Company:this.company,
@@ -254,6 +255,7 @@
 					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
 				}).then(function(res) {
 					_this.roles = res.data.data;
+					_this.$message.success(res.data.msg)
 				})
 
 			},

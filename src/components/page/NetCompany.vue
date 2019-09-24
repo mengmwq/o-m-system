@@ -207,21 +207,21 @@
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						     <div v-for="(value, key, index) in boxs" >
 
-						     	<span v-if="index==0">{{key}}</span>
+						     	<span v-if="index==0">{{key}}℃</span>
                              </div>
 
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 25px;'>
 						     <div v-for="(value, key, index) in boxs" >
 
-						     	<span v-if="index==1">{{key}}</span>
+						     	<span v-if="index==1">{{key}}℃</span>
                              </div>
 
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						     <div v-for="(value, key, index) in boxs" >
 
-						     	<span v-if="index==2">{{key}}</span>
+						     	<span v-if="index==2">{{key}}℃</span>
                              </div>
 
 					</el-col>
@@ -478,6 +478,7 @@
 					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
 				}).then(function(res) {
 					_this.loading = false;
+					_this.$message.success(res.data.msg);
 					_this.tableData = res.data.data.result;
 					_this.ccc = res.data.data.sum;
 					//console.log(res)
@@ -601,6 +602,7 @@
 					//   headers: { "Content-Type": "application/x-www-form-urlencoded" }
 				}).then(function(res) {
 					_this.loading = false;
+					 _this.$message.success(res.data.msg);
 //					console.log(res.data.data)
 //					console.log(res.data.data.entryname)
 					_this.orderdescinfo = res.data[0];
