@@ -430,6 +430,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                  <el-button type="primary" size="mini" >save</el-button>
+                  <el-button @click="allotDialogVisible1 = false">取 消</el-button>
             </span>
         </el-dialog>
 <!--        点击是否通知-->
@@ -448,6 +449,30 @@
             </div>
             <span slot="footer" class="dialog-footer">
                  <el-button type="primary" size="mini" >save</el-button>
+            </span>
+        </el-dialog>
+<!--        //quxiao-->
+        <el-dialog
+            title="确定要取消订单？"
+            :visible.sync="quxiaoFangshi"
+            width="20%">
+            <div>
+
+                <el-form ref="form" label-width="80px" style="margin:10px 0 0 0">
+                    <el-form-item label="原因类型">
+                        <el-select v-model="CityCode" placeholder="请选择">
+                            <el-option label="客户原因" value="客户原因"></el-option>
+                            <el-option label="内部原因" value="内部原因"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="内容描述">
+                        <el-input type="textarea"  v-model="neirong" ></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                 <el-button type="primary" size="mini" @click="cacelOrder()" >save</el-button>
+                 <el-button @click="quxiaoFangshi = false">取 消</el-button>
             </span>
         </el-dialog>
     </div>
@@ -473,8 +498,10 @@
                 xdtime:'',//下单时间
                 BeginTime:'',
                 EndTime:'',
+                neirong:'',
                 sanja:false,
                 time:'',//取件时间
+                CityCode:'',
                 BeginOrderTime:'',
                 EndOrderTime:'',
                 region:'',Startcity:'',
@@ -482,6 +509,7 @@
                 internet:'',
                 isMeng: false,
                 tongzhiFangshi:false,
+                quxiaoFangshi:false,
                 tableData: [],
                 City1:'',//始发城市
                 GetCity1:'',//目的城市
@@ -525,7 +553,7 @@
                         path: "/OrderEntry",
                         query: { AccountNumber: row.AccountNumber }
                     });
-             
+
             },
 
 
@@ -559,6 +587,7 @@
             },
             //表格展开详细
             rowClick(row, event, column){
+
                 let _this = this;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
@@ -666,6 +695,46 @@
                 this.cur_page = val;
                 this.getData();
             },
+            cacelOrder(){
+
+                let _this = this;
+
+                this.id = window.sessionStorage.getItem('id')
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/cancel',
+                    method: "post",
+                    data: {
+                        entryname:this.entryname,
+                        id:this.id,
+                        Company:this.company,
+                        CityCode:this.CityCode,
+                        Note :this.neirong
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    if (res.data.code == 200) {
+                        _this.$message.success("取消成功")
+                        _this.quxiaoFangshi = false;
+                        _this.getData()
+                    } else {
+                        _this.$message.error(res.data.msg);
+                    }
+                })
+            },
             //点击表格里边td的时候
             jumpDetails(row,column,cell,event){
 
@@ -675,6 +744,15 @@
                     this.allotDialogVisible1=true
                 }else if(row.istz == "否"){
                    this.tongzhiFangshi =true
+                }
+
+                if(row.Condition == '指令下达'){
+
+                    this.quxiaoFangshi = true;
+                    window.sessionStorage.setItem('id',row.id);
+
+
+
                 }
             },
 

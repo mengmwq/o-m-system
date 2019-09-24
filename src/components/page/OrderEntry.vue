@@ -224,8 +224,14 @@
           </el-col>
           <el-col :span="24">
             <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;时限要求</h2>
-            <div class="limit">
-              <span v-for="(item,index) in tiemLimit" :key="index">{{item.limit}}</span>
+            <div >
+<!--              <span v-for="(item,index) in tiemLimit" :key="index">{{item.limit}}</span>-->
+                <el-radio-group v-model="LimitTime">
+                        <el-radio :label="24">24H</el-radio>
+                    <el-radio :label="72">72H</el-radio>
+                    <el-radio :label="36">36H</el-radio>
+                    <el-radio :label="48">48H</el-radio>
+                </el-radio-group>
             </div>
           </el-col>
           <el-col :span="24" style="text-align:right;margin-bottom:20px;">
@@ -335,7 +341,7 @@
                        </table>
                        <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
                            <div>要求取件时间：{{value1}}</div>
-                           <div style="margin:0 20px">时限要求：24H</div>
+                           <div style="margin:0 20px">时限要求：{{LimitTime}}H</div>
                            <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
                                <img :src="item" alt="" @click='isHover($event)'>
                            </div>
@@ -416,17 +422,15 @@ export default {
       firstTitle: "进行中",
       towTitle: "进行中",
       cargoMsg: [],
-        temArea: [],
-        GetCompany: '',
-        GetName: '',
-        GetCity: '',
-        GetTelephone: '',
-        GetAddress:'',
-        Note:'',
-
-
-        boxType: [],
-
+      temArea: [],
+      GetCompany: '',
+      GetName: '',
+      GetCity: '',
+      GetTelephone: '',
+      GetAddress:'',
+      Note:'',
+      LimitTime:'',
+      boxType: [],
       iceCar: [
         { PackageType: "4.2m冷藏车", num: "" },
         { PackageType: "7.6m冷藏车", num: "" },
@@ -464,7 +468,21 @@ export default {
       //提交所有
 
       submitFrom(){
-          console.log(this.cargList,8)
+         // console.log(this.cargList,8)
+          this.cargList.forEach(item => {
+               console.log(item.WDQJ,7)
+              var arr = [];
+
+              for (let i = 0; i < item.WDQJ.length; i++) {
+
+                      arr.push(i);
+
+              }
+console.log(arr)
+             //var arr= [];
+             //item[WDQJ]=
+          })
+
           let that = this;
           this.$axios({
               url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index",
@@ -671,7 +689,8 @@ export default {
       this.newCargList.push(val)
 
 
-      //console.log(threeData,'箱型和car');
+
+      console.log(threeData,'箱型和car');
     },
       //判断 箱型冷藏车只能选一个
     isClick(val,isType){
