@@ -543,6 +543,7 @@
         },
         mounted(){
             this.company = window.sessionStorage.getItem('compony');
+            this.TrueName = window.sessionStorage.getItem('TrueName')
             this.getData();
         },
 
@@ -704,7 +705,7 @@
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/cancel',
                     method: "post",
                     data: {
-                        entryname:this.entryname,
+                        entryname:this.TrueName,
                         id:this.id,
                         Company:this.company,
                         CityCode:this.CityCode,

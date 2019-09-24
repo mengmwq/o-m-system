@@ -91,26 +91,7 @@ export default {
 };
 </script>
 <style>
-    .el-input__inner {
-        -webkit-appearance: none;
-        /*background-color: #fff;*/
-        background-image: none;
-        border-radius: 20px;
-        border: 1px solid #dcdfe6;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        color: #606266;
-        display: inline-block;
-        font-size: inherit;
-        height: 40px;
-        line-height: 40px;
-        outline: 0;
-        padding: 0 15px;
-        -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-        transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-        width: 100%;
 
-    }
 </style>
 <style lang="css" scoped>
 @import "../../css/style.css";
@@ -125,6 +106,26 @@ export default {
   margin: 180px auto;
   width: 350px;
   /*border: 2px solid #8492a6;*/
+
+}
+.el-input__inner {
+    -webkit-appearance: none;
+    /*background-color: #fff;*/
+    background-image: none;
+    border-radius: 20px;
+    border: 1px solid #dcdfe6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
 
 }
 
