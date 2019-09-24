@@ -729,6 +729,8 @@
                     if (res.data.code == 200) {
                         _this.$message.success("取消成功")
                         _this.quxiaoFangshi = false;
+                        this.CityCode ='';
+                        this.neirong = '';
                         _this.getData()
                     } else {
                         _this.$message.error(res.data.msg);
