@@ -63,7 +63,7 @@
                                 <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
                                     <!--<el-option label="请选择" value=""></el-option>-->
                                     <el-option
-                                        v-for="item in ComPanNFk"
+                                        v-for="item in ComPanN"
                                         :key="item.ROW_NUMBER"
                                         :label="item.Company"
                                         :value="item.Company">
