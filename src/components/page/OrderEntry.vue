@@ -113,19 +113,19 @@
                   <el-input v-model="GetCity"></el-input>
                 </el-form-item>
                 <el-form-item label="公司名称">
-                  <el-input></el-input>
+                  <el-input v-model="GetCompany"></el-input>
                 </el-form-item>
                 <el-form-item label="收件人">
-                  <el-input></el-input>
+                  <el-input v-model="GetName"></el-input>
                 </el-form-item>
                 <el-form-item label="部门/科室">
                   <el-input></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话">
-                  <el-input></el-input>
+                  <el-input v-model="GetTelephone"></el-input>
                 </el-form-item>
                 <el-form-item label="详细地址">
-                  <el-input></el-input>
+                  <el-input v-model="GetAddress"></el-input>
                 </el-form-item>
 
               </el-form>
@@ -265,19 +265,19 @@
                                     </span>
                                 </td>
                                 <td class='table_td'>收件人</td>
-                                <td>mmm</td>
+                                <td>{{GetName}}</td>
                            </tr>
                            <tr>
                                <td class='table_td'>公司名称</td>
-                                <td>国药物流有限公司</td>
+                                <td>{{ManMsg.Company}}</td>
                                <td class='table_td'>公司名称</td>
-                                <td>国药控股南通</td>
+                                <td>{{GetCompany}}</td>
                            </tr>
                            <tr>
                                <td class='table_td'>联系电话</td>
-                                <td>1500101678</td>
+                                <td>{{ManMsg.Telephone}}</td>
                                <td class='table_td'>联系电话</td>
-                                <td>137847550-0-90</td>
+                                <td>{{GetTelephone}}</td>
                            </tr>
                            <tr>
                                <td class='table_td'>部门/科室</td>
@@ -287,20 +287,20 @@
                            </tr>
                            <tr>
                                <td class='table_td'>保险费率</td>
-                               <td>0.02%</td>
+                               <td>{{ManMsg.SafeRate}}</td>
                                <td class='table_td'>城市/区域</td>
                                <td>{{GetCity}}</td>
                            </tr>
                            <tr>
                                <td class='table_td'>城市/区域</td>
-                               <td>WGOIHIOWEJIEW;J </td>
+                               <td>{{ManMsg.cityArea}} </td>
                                <td class='table_td'>收件详细地址</td>
-                               <td>江苏省南通市通富北路89号</td>
+                               <td>{{GetAddress}}</td>
 
                            </tr>
                            <tr>
                                <td class='table_td'>取件详细地址</td>
-                               <td>江苏省南通市通富北路89号</td>
+                               <td>{{ManMsg.Address}}</td>
                                <td class='table_td'></td>
                                <td style="color:#fff;">江苏省/南通市/遂川区</td>
 
@@ -330,7 +330,7 @@
                                    <span>{{item.num}}</span>
 <!--                                   <span class="circle">+</span>-->
                                </td>
-                               <td @click="deleteInfor(index+1)"><span>删除</span></td>
+                               <td @click="deleteInfor(index)"><span>删除</span></td>
                            </tr>
                        </table>
                        <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
@@ -354,9 +354,15 @@
                            </tr>
                            <tr>
                                <td class='table_td'>是否投保</td>
-                                <td>是</td>
+                                <td><input type="radio" />是 <input type="radio" />否</td>
                                <td class='table_td'>温度计使用</td>
                                 <td>使用</td>
+                           </tr>
+                           <tr>
+                               <td class='table_td'>冷车派送</td>
+                               <td>是</td>
+                               <td class='table_td'>付款方式</td>
+                               <td>使用</td>
                            </tr>
                        </table>
                        <div class='isPhoto'>
@@ -369,7 +375,7 @@
                    </el-collapse-item>
                    <el-collapse-item title="Step4 特殊需求" name="3">
                        <div>
-                           <textarea name="" id="" cols="100" rows="10"></textarea>
+                           <textarea name="" id="" cols="100" rows="10" v-model="Note"></textarea>
                        </div>
                    </el-collapse-item>
                </el-collapse>
@@ -410,11 +416,17 @@ export default {
       firstTitle: "进行中",
       towTitle: "进行中",
       cargoMsg: [],
-      temArea: [
+        temArea: [],
+        GetCompany: '',
+        GetName: '',
+        GetCity: '',
+        GetTelephone: '',
+        GetAddress:'',
+        Note:'',
 
-      ],
-        GetCity:'',
-      boxType: [],
+
+        boxType: [],
+
       iceCar: [
         { PackageType: "4.2m冷藏车", num: "" },
         { PackageType: "7.6m冷藏车", num: "" },
@@ -432,7 +444,6 @@ export default {
       newCargList:[], // 过度数组  用于点击保存时赋值给遍历的数组
       newcargList: {}, // 存储温度区间 数量
       item1: ''
-
 
 
     };
@@ -509,8 +520,14 @@ export default {
               // }
           });
       },
-    deleteInfor(ind) { // 删除货物信息
-        this.cargList = this.cargList.splice(ind)
+    deleteInfor(index) { // 删除货物信息
+         console.log(index,7)
+
+            // this.cargList = this.cargList.splice(index)
+            // alert('你删除了第'+index+'个');
+
+
+
     },
     saveCargo() {
         this.cargList = this.newCargList
