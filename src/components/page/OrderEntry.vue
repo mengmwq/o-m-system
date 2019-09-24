@@ -454,6 +454,8 @@ export default {
       cargoMsg: [],
       temArea: [],
       GetCompany: '',
+        Company:'',
+        Telephone:'',
       GetName: '',
       GetCity: '',
       GetTelephone: '',
@@ -479,6 +481,7 @@ export default {
       newCargList:[], // 过度数组  用于点击保存时赋值给遍历的数组
       newcargList: {}, // 存储温度区间 数量
       item1: '',
+      cargListObj: {}
 
     };
   },
@@ -502,13 +505,19 @@ export default {
       submitFrom(){
           console.log(this.cargList,8)
           this.cargList.forEach(item => {
-               console.log(item.WDQJ,7)
+               console.log(item,7)
               var arr = [];
+              this.cargListObj = {[item.WDQJ] : {
+                      "PackageType":item.PackageType,
+                      "num":item.num
+                  }
+              }
 
 
              //var arr= [];
              //item[WDQJ]=
           })
+          console.log(this.cargListObj,99);
 
           let that = this;
           this.$axios({
@@ -516,30 +525,30 @@ export default {
               method: "post",
               data: {
                   AccountNumber:this.accoutNum,
-                  Box: JSON.stringify(this.cargList ),
+                  Box: JSON.stringify(this.cargListObj),
                   IsWdj:'使用',
                   CargoName:'',
                   GoodsType:'试剂',
-                  Manager:'1',
-                  GetName:'1',
-                  Address:'1',
-                  GetAddress:'1',
-                  City:'1',
-                  GetCity:'1',
+                  Manager:this.ManMsg.Manager,
+                  GetName:this.GetName,
+                  Address:this.ManMsg.Address,
+                  GetAddress:this.GetAddress,
+                  City:'衡水市',
+                  GetCity:this.GetCity,
                   Depart:'1',
                   GetDepart:'1',
-                  Company:'1',
-                  GetCompany:'1',
-                  Telephone:'1',
-                  GetTelephone:'1',
-                  OrderTime:'1',
-                  LimitTime:'1',
-                  EntryName:'1',
-                  CountType:'1',
-                  SafeRate:'1',
-                  Note:'1',
+                  Company:this.ManMsg.Company,
+                  GetCompany:this.GetCompany,
+                  Telephone:this.ManMsg.Telephone,
+                  GetTelephone:this.GetTelephone,
+                  OrderTime:this.value1,
+                  LimitTime:this.LimitTime,
+                  EntryName:this.EntryName,
+                  CountType:this.CountType,
+                  SafeRate:this.SafeRate,
+                  Note:this.Note,
                   SafeItem:'1',
-                  SafePay:'',
+                  SafePay:'1',
               },
               transformRequest: [
                   function(data) {

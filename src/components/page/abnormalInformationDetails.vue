@@ -522,6 +522,7 @@
             },
             //获取表格
             getData(){
+
                 let _this = this;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/abnormaldetails',
@@ -562,6 +563,8 @@
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
+
+                        _this.CompanyNet = '';
                     }else{
                         _this.$message.error(res.data.msg)
                         _this.loading = false;

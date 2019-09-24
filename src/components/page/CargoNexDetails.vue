@@ -295,6 +295,7 @@
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
+                        _this.Nex ='';
                     }else{
                         _this.$message.error(res.data.msg)
                         _this.loading = false;
