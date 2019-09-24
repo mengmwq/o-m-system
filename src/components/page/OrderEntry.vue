@@ -253,7 +253,7 @@
                        <table>
                            <tr>
                                <td class='table_td'>客户账号</td>
-                                <td>{{accoutNum}}</td>
+                                <td >{{accoutNum}}</td>
                                <td class='table_td'></td>
                                <td style="color:#fff;">江苏省/南通市/遂川区</td>
 
@@ -360,15 +360,45 @@
                            </tr>
                            <tr>
                                <td class='table_td'>是否投保</td>
-                                <td><input type="radio" />是 <input type="radio" />否</td>
+                                <td>
+                                    <div>
+                                        <input type="radio" name="isTrue" />投保
+                                        <input type="text"  placeholder="请输入金额">
+                                        <input type="radio" name="isTrue" />不投保
+                                        <input type="text" placeholder="请输入金额">
+                                    </div>
+                                </td>
                                <td class='table_td'>温度计使用</td>
-                                <td>使用</td>
+                               <td>
+                                   <div>
+                                       <input type="radio" name="isTrue" />使用
+
+                                       <input type="radio" name="isTrue" />不使用
+
+                                   </div>
+                               </td>
+
                            </tr>
                            <tr>
+
                                <td class='table_td'>冷车派送</td>
-                               <td>是</td>
+                               <td>
+                                   <div>
+                                       <input type="radio" name="isTrue" />是
+                                       <input type="text"  placeholder="请输入金额">
+                                       <input type="radio" name="isTrue" />否
+
+                                   </div>
+                               </td>
                                <td class='table_td'>付款方式</td>
-                               <td>使用</td>
+                               <td>
+                                   <div>
+                                       <input type="radio" name="isTrue" />收件人
+                                       <input type="text"  placeholder="请输入金额">
+                                       <input type="radio" name="isTrue" />发件人
+                                       <input type="text" placeholder="请输入金额">
+                                   </div>
+                               </td>
                            </tr>
                        </table>
                        <div class='isPhoto'>
@@ -431,6 +461,7 @@ export default {
       Note:'',
       LimitTime:'',
       boxType: [],
+      listData:{},
       iceCar: [
         { PackageType: "4.2m冷藏车", num: "" },
         { PackageType: "7.6m冷藏车", num: "" },
@@ -447,12 +478,13 @@ export default {
       ],
       newCargList:[], // 过度数组  用于点击保存时赋值给遍历的数组
       newcargList: {}, // 存储温度区间 数量
-      item1: ''
-
+      item1: '',
 
     };
   },
   created() {
+    this.listData = this.$route.query.listData
+      console.log(this.$route.query)
     // 第二次 进来  没走    问题
 
     scrollWatch.setContainer("#scrollDom");
@@ -468,17 +500,12 @@ export default {
       //提交所有
 
       submitFrom(){
-         // console.log(this.cargList,8)
+          console.log(this.cargList,8)
           this.cargList.forEach(item => {
                console.log(item.WDQJ,7)
               var arr = [];
 
-              for (let i = 0; i < item.WDQJ.length; i++) {
 
-                      arr.push(i);
-
-              }
-console.log(arr)
              //var arr= [];
              //item[WDQJ]=
           })
@@ -539,10 +566,11 @@ console.log(arr)
           });
       },
     deleteInfor(index) { // 删除货物信息
-         console.log(index,7)
+         console.log(index)
+        console.log(this.cargList)
 
-            // this.cargList = this.cargList.splice(index)
-            // alert('你删除了第'+index+'个');
+            this.cargList.splice(index,1)
+            alert('你删除了第'+index+'个');
 
 
 

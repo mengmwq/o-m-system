@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()">区域订单> </span>{{Area}}</div>
+        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer">区域订单> </span>{{Area}}</div>
 
         <div >
 
@@ -119,8 +119,9 @@
                                     align="center"
                                     label="操作">
                                     <template slot-scope="scope">
-                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row)">详情</el-button>
+                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row,tabelName)">详情</el-button>
                                     </template>
+
                                 </el-table-column>
                             </el-table>
                         </el-col>
@@ -175,6 +176,7 @@
             }
         },
         mounted() {
+            this.tabelName = this.$route.query.tabelName;
             this.Area = this.$route.query.Area;
             this.companyN = this.$route.query.Company;
             if(this.Area=="合计"){
@@ -202,7 +204,7 @@
             getAreaData() {
                 let _this = this;
                 _this.$axios({
-                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea\n',
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea',
                     method: "post",
                     data: {
                         Company: this.company,
@@ -332,12 +334,13 @@
 
                     })
             },
-            DetailsChild(row){
+            DetailsChild(row,type){
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {
                         Area:  row.Area,
-                        CompanyNet:row.CompanyNet
+                        CompanyNet:row.CompanyNet,
+                        tabelName:type
                     }
 
 

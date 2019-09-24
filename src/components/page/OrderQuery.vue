@@ -549,11 +549,46 @@
 
         methods:{
             oneMoreOrder(row){
-                    console.log(row.AccountNumber,'我是传入');
-                    this.$router.push({
+                let _this = this;
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
+                    method:'post',
+                    data:{
+                        Company:this.company,
+                        id:row.id
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+
+                }).then(function (res) {
+                    console.log(res)
+                    _this.resData = res.data.data;
+                    _this.$router.push({
                         path: "/OrderEntry",
-                        query: { AccountNumber: row.AccountNumber }
+                        query: {
+                            AccountNumber: row.AccountNumber ,
+                            listData:_this.resData
+                        }
                     });
+
+
+                })
+                    // console.log(row.AccountNumber,'我是传入');
+                    // this.$router.push({
+                    //     path: "/OrderEntry",
+                    //     query: { AccountNumber: row.AccountNumber }
+                    // });
 
             },
 

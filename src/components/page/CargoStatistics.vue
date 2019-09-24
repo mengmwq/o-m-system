@@ -92,7 +92,7 @@
                             align="center"
                             label="操作">
                             <template slot-scope="scope">
-                                <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row)">详情</el-button>
+                                <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row,'区域订单')">详情</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -164,7 +164,7 @@
                                 align="center"
                                 label="操作">
                                 <template slot-scope="scope">
-                                    <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild2(scope.row)">详情</el-button>
+                                    <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild2(scope.row,'货物类型')">详情</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -264,12 +264,13 @@
 
 
             },
-            DetailsChild(row){
+            DetailsChild(row,type){
                 if(this.company  == "总部"){
                     this.$router.push({
                         path: "/CargoNexDetails",
                         query: {
                             Area:  this.company  == "总部"?row.Area:row.Company,
+                            tabelName:type
                         }
 
                     });
@@ -278,6 +279,7 @@
                         path: "/CargoStatisticsDetails",
                         query: {
                             CompanyNet:  this.company  == "总部"?row.Area:row.Company,
+                            tabelName:type
                     }
 
                     });
@@ -285,12 +287,14 @@
 
 
 
+
             },
-            DetailsChild2(row){
+            DetailsChild2(row,type){
                 this.$router.push({
                     path: "/CargoNexDetails2",
                     query: {
-                        BusinessType:  row.BusinessType
+                        BusinessType:  row.BusinessType,
+                        tabelName:type
                     }
 
                 });

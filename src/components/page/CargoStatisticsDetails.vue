@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()">区域订单</span>><span @click="backCargoNexDetails">网络公司</span>>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()">{{tabelName}}</span>><span @click="backCargoNexDetails">网络公司</span>>{{CompanyNet}}</div>
         <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()">区域订单</span>>{{CompanyNet}}</div>
 
 <!--        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>-->
@@ -86,7 +86,7 @@
                 <el-row>
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
-                          <el-form  label-width="80px">
+                          <el-form  label-width="80px!important">
                             <el-form-item label="延迟" >
                                 <el-radio-group v-model="Delay">
                                     <el-radio label="全部" value=""></el-radio>
@@ -246,6 +246,7 @@
         name: "SenderManagement",
         data() {
             return {
+                tabelName:'',
                 ComPanNFk:[],
                 company:'',
                 resource:'',
@@ -269,12 +270,13 @@
                 PackageName:'',
                 Delay:'',
                 AccountNumber: '',
-                multipleSelection:''
+                multipleSelection:'',
 
 
             }
         },
         mounted() {
+            this.tabelName = this.$route.query.tabelName;
             this.Area = this.$route.query.Area;
             // this.Area2 = this.$route.query.Area;
             this.CompanyNet = this.$route.query.CompanyNet;

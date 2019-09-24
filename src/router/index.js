@@ -46,11 +46,11 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-                {
-                    path:'/CargoStatisticsDetails2' ,
-                    component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
-                    meta:{keepAlive: true}
-                },
+                // {
+                //     path:'/CargoStatisticsDetails2' ,
+                //     component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
+                //     meta:{keepAlive: true}
+                // },
                 {
                     path:'/CargoNexDetails2' ,
                     component:resolve => require(['../components/page/CargoNexDetails2.vue'],resolve),
