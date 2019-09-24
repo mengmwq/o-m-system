@@ -174,14 +174,14 @@
                                                       </div>
                                                       <div  class="bioage">
                                                           <span>货物尺寸：
-                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span>
+                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>
                                                               <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
                                                               <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
                                                             </span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp重量：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp温度计: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>
+                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp重量：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp温度计: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -189,7 +189,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>结算方式：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{SafeMoney}}</span></span>
+                                                          <span>结算方式：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 15px;border-radius: 5px;">{{SafeMoney}}</span></span>
 
                                                       </div>
 
@@ -206,19 +206,26 @@
 
                                                       </div>
                                                       <div class="bioage">
-                                                          <span>通知方式：客户下单</span>
+                                                          <span>通知人：{{MName}}</span>
+                                                      </div>
+                                                      <div class="bioage">
+                                                          <span>通知方式：{{MNote}}</span>
+
+                                                      </div>
+                                                      <div class="bioage">
+                                                          <span>通知时间：{{MTime}}</span>
 
                                                       </div>
                                                       <div  class="bioage">
                                                           <span>是否完成：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">是</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">2019/5/12</span></span>
 
                                                       </div>
-                                                      <div  class="bioage">
-                                                          <span>指令取消：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">天气原因</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">2019/5/12</span></span>
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>指令取消：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">天气原因</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">1</span></span>-->
 
-                                                      </div>
+<!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>指令完成：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">1110556</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">2019/5/12</span></span>
+                                                          <span>指令状态：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">1</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -226,7 +233,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>取件时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">2018年12月5日</span></span>
+                                                          <span>取件时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -343,8 +350,8 @@
                                 label="是否通知"
                                 align="center">
                                 <template slot-scope="scope" >
-                                    <span class='work' v-if="scope.row.OutPay == '1'"> 是</span>
-                                    <span class='fire' v-if="scope.row.OutPay == '0'" ><img src="../../assets/laba.png" alt=""></span>
+                                    <span class='work' v-if="scope.row.IsMessage == '1'"> 已通知</span>
+                                    <span class='fire' v-if="scope.row.IsMessage == '0'" ><img src="../../assets/laba.png" alt=""></span>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -443,12 +450,12 @@
                 <el-form ref="form"  style="margin:10px 0 0 0">
 
                     <el-form-item >
-                        <el-input></el-input>
+                        <el-input v-model="MNote"></el-input>
                     </el-form-item>
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
-                 <el-button type="primary" size="mini" >save</el-button>
+                 <el-button type="primary" size="mini" @click="cacelTzhi()">save</el-button>
             </span>
         </el-dialog>
 <!--        //quxiao-->
@@ -488,6 +495,7 @@
                 searchData: "",
                 Box:'',
                 c:'',
+                IsMessage:'',
                 value1:'',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
@@ -519,6 +527,7 @@
                 loading:true,
                 Depart:'',
                 City:'',
+                MNote:'',
                 entryname:'',
                 GetCity:'',
                 GetDepart:'',
@@ -536,7 +545,11 @@
                 GetCompany:'',
                 GetTelephone:'',
                 GetArea:'',
-                GetAddress:''
+                GetAddress:'',
+
+                MTime:'',
+                MName:'',
+
 
 
             }
@@ -656,10 +669,10 @@
                     _this.GetCity = res.data.data.GetCity;
                     _this.GetName = res.data.data.GetName;
                     _this.PayWay = res.data.data.PayWay;
-                    _this.SafeMoney = res.data.data.SafeMoney;
-                    _this.Condition = res.data.data.Condition
+                    _this.SafeMoney = res.data.data.SafeMoney||'无';
+                    _this.Condition = res.data.data.Condition;
                     _this.Indate =res.data.data.Indate;
-                    _this.note1 =res.data.data.note1;
+                    _this.note1 =res.data.data.note1||'无';
                     _this.Company = res.data.data.Company;
                     _this.Manager = res.data.data.Manager;
                     _this.DepartMent = res.data.data.DepartMent;
@@ -669,6 +682,10 @@
                     _this.GetTelephone = res.data.data.GetTelephone;
                     _this.GetArea = res.data.data.GetArea;
                     _this.GetAddress = res.data.data.GetAddress;
+                    _this.MNote = res.data.data.MNote;
+                    _this.MTime = res.data.data.MTime;
+                    _this.MName = res.data.data.MName;
+
 
 
 
@@ -731,6 +748,47 @@
                 this.cur_page = val;
                 this.getData();
             },
+            //通知方式
+            cacelTzhi(){
+                let _this = this;
+                this.id = window.sessionStorage.getItem('id')
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/notice',
+                    method: "post",
+                    data: {
+
+                        id:this.id,
+                        Company:this.company,
+                        MNote:this.MNote,
+                        MName :'mwq'
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    if (res.data.code == 200) {
+                        _this.$message.success("修改通知状态成功");
+                        _this.tongzhiFangshi = false;
+
+                        _this.MNote = '';
+                        _this.getData()
+                    } else {
+                        _this.$message.error(res.data.msg);
+                    }
+                })
+            },
             cacelOrder(){
 
                 let _this = this;
@@ -775,13 +833,15 @@
             },
             //点击表格里边td的时候
             jumpDetails(row,column,cell,event){
-
+                console.log(row.IsMessage,7)
                 if(column.label == '要求取件时间'){
 
 
                     this.allotDialogVisible1=true
-                }else if(row.istz == "否"){
-                   this.tongzhiFangshi =true
+                }else if(row.IsMessage == 0){
+                   this.tongzhiFangshi = true;
+                    window.sessionStorage.setItem('id',row.id);
+
                 }
 
                 if(row.Condition == '指令下达'){

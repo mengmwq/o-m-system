@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()">{{BusinessType==null ?'暂无':BusinessType}}</span>>网络公司</div>
+        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{BusinessType==null ?'暂无':BusinessType}}</span>>网络公司</div>
         <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >

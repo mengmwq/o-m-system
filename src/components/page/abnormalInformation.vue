@@ -266,7 +266,7 @@
                     console.log(res);
 
                     if(res.data.code == 200){
-                       // _this.$message.success(res.data.msg)
+                        _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData0 = res.data.data;
 

@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer">区域订单> </span>{{Area}}</div>
+        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer;color: deepskyblue;">区域订单> </span>{{Area}}</div>
 
         <div >
 

@@ -1,7 +1,7 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()">{{tabelName}}</span>><span @click="backCargoNexDetails">网络公司</span>>{{CompanyNet}}</div>
-        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()">{{tabelName}}</span>>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>><span>网络公司</span>>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>>{{CompanyNet}}</div>
 
 <!--        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>-->
         <div  >
