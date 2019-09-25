@@ -3,6 +3,15 @@
         <div  v-loading="loading"  element-loading-text="拼命加载中" >
             <el-form :inline="true" class="demo-form-inline">
                 <el-row>
+
+                    <el-col style="margin:10px 0" >
+                        <div style="display: flex;align-items: center;justify-content: space-between">
+                            <div  v-if="this.company == '总部'"> <span style="font-family: cursive;color: deepskyblue;" @click="backAbnormalInformation()">&nbsp&nbsp异常信息</span>><span style="font-family: cursive;" >{{Area==''?'合计':Area}}</span></div>
+                            <div  v-else> <span style="font-family: cursive;color: deepskyblue;" @click="backAbnormalInformation()">&nbsp&nbsp异常信息</span>><span style="font-family: cursive;" >{{CompanyNet=='' ?'合计':CompanyNet}}</span></div>
+
+                        </div>
+
+                    </el-col>
                     <el-col>
                         <el-form-item label="区域" v-show="this.company =='总部'">
                             <el-select v-model="Area" filterable style="width: 200px;" @focus="focus($event)">
@@ -102,6 +111,8 @@
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
                             border
+                            ref="multipleTable"
+                            @selection-change="handleSelectionChange"
                             height="400"
                             :data="tableData"
                             id='tableData'
@@ -254,15 +265,16 @@
             if(this.Area=="合计"){
                 this.Area =''
             }else if(this.CompanyNet == "合计"){
-                console.log(window.sessionStorage.getItem('abnorData'),'梦健康');
-                let abnorData = JSON.parse(window.sessionStorage.getItem('abnorData'));
-                let arr = [];
-                abnorData.forEach((item,index) => {
-                    arr.push(item.Company);
-                })
-                this.CompanyNet = arr.join(',');
-                console.log(this.CompanyNet)
-                // this.CompanyNet =
+                // console.log(window.sessionStorage.getItem('abnorData'),'梦健康');
+                // let abnorData = JSON.parse(window.sessionStorage.getItem('abnorData'));
+                // let arr = [];
+                // abnorData.forEach((item,index) => {
+                //     arr.push(item.Company);
+                // })
+                // this.CompanyNet = arr.join(',');
+                // console.log(this.CompanyNet)
+                // // this.CompanyNet =
+                this.CompanyNet ='';
             }
             this.Nex = this.$route.query.Nex;
             this.company = window.sessionStorage.getItem('compony');
@@ -277,6 +289,18 @@
             // }
         },
         methods: {
+            //导出时  选中几条下载几条出来
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+            //总部跳转到前一页
+            backAbnormalInformation(){
+                this.$router.push({
+                    path: "/abnormalInformation",
+                })
+            },
             refresh(){
                 this.cur_page = 1;
                 this.loading = true;

@@ -6,7 +6,7 @@ import html2canvas from 'html2canvas';//加导出pdf
 import JsPDF from 'jspdf';
 import Print from 'vue-print-nb'
 Vue.use(Print);
-import Navigation from 'vue-navigation'
+// import Navigation from 'vue-navigation'  //这是缓存的插件
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
@@ -14,7 +14,7 @@ import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 import vueScrollwatch from "./lib/vue-scrollwatch"
 Vue.use(vueScrollwatch)
 
-Vue.use(Navigation, {router})
+// Vue.use(Navigation, {router})
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 // Vue.config.productionTip = false;// 去除console提示

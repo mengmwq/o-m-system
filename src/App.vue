@@ -1,11 +1,11 @@
 <template>
     <div id="app" >
-        <!-- <router-view v-if='isRouterAlive'></router-view> -->
-        <navigation>
+         <router-view v-if='isRouterAlive'></router-view>
+<!--        <navigation>-->
 
-                <router-view v-if='isRouterAlive'></router-view>
+<!--                <router-view v-if='isRouterAlive'></router-view>-->
 
-        </navigation>
+<!--        </navigation>-->       //这是做缓存 要写的e
     </div>
 </template>
 <script>

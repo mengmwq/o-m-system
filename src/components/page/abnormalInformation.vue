@@ -33,6 +33,8 @@
                             stripe
                             border
                             ref="multipleTable"
+                            @selection-change="handleSelectionChange"
+
                             :data="tableData0"
                             style="width: 100%">
                             <el-table-column
@@ -105,11 +107,10 @@
 <script>
 
     export default {
-        name: "OrdersRtatistics",
+        name: "abnormalInformation",
         data() {
             return {
-                xdtime:'',
-
+                xdtime:'',//时间
                 company:'',
                 tableData0:[],
                 loading:true,
@@ -119,23 +120,16 @@
         },
         mounted() {
             this.company = window.sessionStorage.getItem('compony');
-
-            // if(this.company  == "总部"){
-            //     this.tableData0 = this.tableData;
-            // }else{
-            //     this.tableData0 = this.tableData2;
-            // }
             this.getData()
         },
         methods: {
             //刷新页面渲染数据
             refresh(){
-                this.cur_page = 1;
                 this.loading = true;
-
+                this.cur_page = 1;
                 this.xdtime='';
                 this.getData();
-                this.loading = false;
+
             },
             //daochu
             //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel
@@ -186,7 +180,7 @@
             formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
-            //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel
+            //导出   导出时需要依赖xlsx file-saver Blob.js  Export2Excel    分控导出
             dataExport2() {
                 this.loading = true;
                 let import_file;
@@ -210,8 +204,6 @@
                             "客户取消",
                             "内部取消",
                             "时间变更",
-
-
                         ];
                         // 这就是 对应的 字段
                         const filterVal = [
@@ -220,8 +212,6 @@
                             "cancelAccount",
                             "cancelSelf",
                             "cancelChange",
-
-
                         ];
                         const list = res;
                         this.loading = false;
@@ -234,19 +224,17 @@
             formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
             },
+            //获取表格数据
             getData(){
                 let _this = this;
+                _this.loading = true;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/abnormalindex',
                     method: "post",
                     data: {
-
                         Company:this.company,
                         StartTime:this.xdtime[0]||'',
                         EndTime:this.xdtime[1]||'',
-
-
-
                     },
                     transformRequest: [
                         function(data) {
@@ -263,10 +251,10 @@
                     ],
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
-                    console.log(res);
+                    console.log(res,8888);
 
                     if(res.data.code == 200){
-                        _this.$message.success(res.data.msg)
+                        //_this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData0 = res.data.data;
 
@@ -279,6 +267,14 @@
 
 
             },
+
+            //导出时  选中几条下载几条出来
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
+
             DetailsChild(row){
                 if(this.company  == "总部"){
                     this.$router.push({
@@ -290,12 +286,15 @@
                             //     this.tableData0 = this.tableData2;
                             // }
                             Area:  this.company  == "总部"?row.Area:row.Company,
+                            StartTime:this.xdtime[0]||'',
+                            EndTime:this.xdtime[1]||'',
+
 
                         }
 
                     });
                 }else{
-                    window.sessionStorage.setItem('abnorData',JSON.stringify(this.tableData0));
+                    //window.sessionStorage.setItem('abnorData',JSON.stringify(this.tableData0));    分控本来需要传所有现在传空的
 
                     this.$router.push({
                         path: "/abnormalInformationDetails",
@@ -306,6 +305,8 @@
                             //     this.tableData0 = this.tableData2;
                             // }
                             CompanyNet:  this.company  == "总部"?row.Area:row.Company,
+                            StartTime:this.xdtime[0]||'',
+                            EndTime:this.xdtime[1]||'',
 
                         }
                     });
