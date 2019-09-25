@@ -62,7 +62,7 @@ export default {
                 name:"订单查询"
                },
                 {
-                    action:"OrderEntry",
+                    action:"OrderEntry2",
                     name:"订单录入"
                 }
             ]

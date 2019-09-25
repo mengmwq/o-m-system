@@ -355,7 +355,7 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-
+                                class-name="Condition"
                                 label="订单状态"
                                 align="center"
                                 prop="Condition">
@@ -587,13 +587,13 @@
                 }).then(function (res) {
                     console.log(res)
                     _this.resData = res.data.data;
-                    _this.$router.push({
+                  /*  _this.$router.push({
                         path: "/OrderEntry",
                         query: {
                             AccountNumber: row.AccountNumber ,
                             listData:_this.resData
                         }
-                    });
+                    });*/
 
 
                 })
@@ -833,18 +833,20 @@
             },
             //点击表格里边td的时候
             jumpDetails(row,column,cell,event){
-                console.log(row.IsMessage,7)
+                // console.log(cell.IsMessage,7)
+                console.log(row,column,cell,event)
                 if(column.label == '要求取件时间'){
 
 
                     this.allotDialogVisible1=true
-                }else if(row.IsMessage == 0){
+                    console.log(1)
+                }else if(row.IsMessage == 0 && column.label == '是否通知'){
                    this.tongzhiFangshi = true;
                     window.sessionStorage.setItem('id',row.id);
 
                 }
 
-               else if(row.Condition == '指令下达'){
+               else if(row.Condition == '指令下达' && column.property == 'Condition'){
 
                     this.quxiaoFangshi = true;
                     window.sessionStorage.setItem('id',row.id);

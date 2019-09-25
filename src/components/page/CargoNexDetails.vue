@@ -338,6 +338,7 @@
                     })
             },
             DetailsChild(row,type){
+                console.log(type)
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {
