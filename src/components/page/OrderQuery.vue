@@ -172,18 +172,18 @@
                                                               </span>
 
                                                       </div>
-                                                      <div  class="bioage">
-                                                          <span>货物尺寸：
-                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>
-                                                              <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
-                                                              <!-- <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> -->
-                                                            </span>
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>货物尺寸：-->
+<!--                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>-->
+<!--                                                              &lt;!&ndash; <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
+<!--                                                              &lt;!&ndash; <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
+<!--                                                            </span>-->
 
-                                                      </div>
-                                                      <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp重量：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp温度计: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>
+<!--                                                      </div>-->
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp重量：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp温度计: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>-->
 
-                                                      </div>
+<!--                                                      </div>-->
                                                       <div  class="bioage">
                                                           <span>&nbsp&nbsp&nbsp&nbsp冷藏车：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> </span>
 
@@ -844,7 +844,7 @@
 
                 }
 
-                if(row.Condition == '指令下达'){
+               else if(row.Condition == '指令下达'){
 
                     this.quxiaoFangshi = true;
                     window.sessionStorage.setItem('id',row.id);

@@ -46,18 +46,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col>
-                        <el-form-item label="录入时间">
-                            <div class="block">
+<!--                        <el-form-item label="录入时间">-->
+<!--                            <div class="block">-->
 
-                                <el-date-picker
-                                    v-model="value1"
-                                    type="datetime"
-                                    placeholder="选择日期时间"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                >
-                                </el-date-picker>
-                            </div>
-                        </el-form-item>
+<!--                                <el-date-picker-->
+<!--                                    v-model="value1"-->
+<!--                                    type="datetime"-->
+<!--                                    placeholder="选择日期时间"-->
+<!--                                    value-format="yyyy-MM-dd HH:mm:ss"-->
+<!--                                >-->
+<!--                                </el-date-picker>-->
+<!--                            </div>-->
+<!--                        </el-form-item>-->
                         <el-form-item label="网络公司" v-show="this.company =='总部'">
 
                                 <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
@@ -564,7 +564,7 @@
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
 
-                        _this.CompanyNet = '';
+                       // _this.CompanyNet = '';
                     }else{
                         _this.$message.error(res.data.msg)
                         _this.loading = false;

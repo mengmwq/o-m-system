@@ -9,10 +9,10 @@
 		<el-form :inline="true" class="demo-form-inline">
 			<el-row>
 				<el-col>
-					<el-form-item label="下单时间">
-						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">
-						</el-date-picker>
-					</el-form-item>
+<!--					<el-form-item label="下单时间">-->
+<!--						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">-->
+<!--						</el-date-picker>-->
+<!--					</el-form-item>-->
 					<el-form-item label="客户账号">
 						<el-autocomplete class="inline-input" v-model="acount" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>
 					</el-form-item>
