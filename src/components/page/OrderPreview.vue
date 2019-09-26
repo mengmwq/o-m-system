@@ -14,63 +14,62 @@
                                 <table>
                                     <tr>
                                         <td class='table_td'>客户账号</td>
-                                        <td >1</td>
-                                        <td class='table_td'></td>
-                                        <td style="color:#fff;">江苏省/南通市/遂川区</td>
-
+                                        <td >{{accoutNum}}</td>
+                                        <td class='table_td'>结算方式</td>
+                                        <td >{{paytype}}</td>
+                                        <td class='table_td'>收货编码</td>
+                                        <td>{{GetCode}}</td>
                                     </tr>
-                                    <tr>
-                                        <td class='table_td'>寄件人
-
-                                        </td>
-                                        <td>1
-                                            <span style="border-left: 1px solid #ddd ;border-right:1px solid #ddd;padding: 13px">
-                                       &nbsp;&nbsp; 结算方式
-                                    </span>
-                                            <span>
-                                        1
-                                    </span>
-                                        </td>
-                                        <td class='table_td'>收件人</td>
-                                        <td>1</td>
-                                    </tr>
+                                  
                                     <tr>
                                         <td class='table_td'>公司名称</td>
-                                        <td>1</td>
+                                        <td colspan="3">{{GetCompany}}</td>
+                                        <td class='table_td'>收货人</td>
+                                        <td >{{GetName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class='table_td'>寄件人</td>
+                                        <td >{{Manager}}</td>
+                                        <td class='table_td'>部门科室</td>
+                                        <td >{{PartManter}}</td>
                                         <td class='table_td'>公司名称</td>
-                                        <td>1</td>
+                                        <td>{{Company}}</td>
                                     </tr>
-                                    <tr>
+                                   <tr>
                                         <td class='table_td'>联系电话</td>
-                                        <td>1</td>
+                                        <td >{{Telephone}}</td>
+                                        <td class='table_td'>中心号</td>
+                                        <td >{{PartManter}}</td>
                                         <td class='table_td'>联系电话</td>
-                                        <td>1</td>
+                                        <td>{{GetTelephone}}</td>
                                     </tr>
                                     <tr>
-                                        <td class='table_td'>部门/科室</td>
-                                        <td>1500101678</td>
-                                        <td class='table_td'>部门/科室</td>
-                                        <td>137847550-0-90</td>
+                                        <td class='table_td'>项目编号</td>
+                                        <td>{{xmnum}}</td>
+                                        <td class='table_td'>协议号</td>
+                                        <td>{{xynum}}</td>
+                                         <td class='table_td'>部门/科室</td>
+                                        <td>{{GetPartment}}</td>
                                     </tr>
                                     <tr>
+                                    	<td class='table_td'>城市区域</td>
+                                        <td>{{Derp}}{{City}}{{Area}}</td>
                                         <td class='table_td'>保险费率</td>
-                                        <td>1</td>
+                                        <td></td>
                                         <td class='table_td'>城市/区域</td>
-                                        <td>1</td>
+                                        <td>{{GetDerp}}{{GetCity}}{{GetArea}}</td>
+                                        
                                     </tr>
                                     <tr>
-                                        <td class='table_td'>城市/区域</td>
-                                        <td>1 </td>
+                                        <td class='table_td'>详细地址</td>
+                                        <td colspan="3">{{Detiladdress}} </td>
                                         <td class='table_td'>收件详细地址</td>
-                                        <td>1</td>
+                                        <td colspan="2">{{GetDetiladdress}}</td>
 
                                     </tr>
                                     <tr>
-                                        <td class='table_td'>取件详细地址</td>
-                                        <td>1</td>
-                                        <td class='table_td'></td>
-                                        <td style="color:#fff;">江苏省/南通市/遂川区</td>
-
+                                        <td class='table_td'>取件网络</td>
+                                        <td colspan="5">{{GetNetwork}}</td>
 
                                     </tr>
 
@@ -109,34 +108,32 @@
                                    <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
                                 </div>
                             </el-collapse-item>
-                            <el-collapse-item title="Step3 其他" name="2">
+                            <el-collapse-item title="Step3 其他信息" name="2">
                                 <table>
-                                    <tr>
+                                    <!--<tr>
                                         <td class='table_td'>取件网络</td>
                                         <td>dhjodo</td>
                                         <td></td>
                                         <td></td>
 
 
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td class='table_td'>是否投保</td>
                                         <td>
-                                            <div>
+                                            <!--<div>
                                                 <input type="radio" name="isTrue" />投保
                                                 <input type="text"  placeholder="请输入金额">
                                                 <input type="radio" name="isTrue" />不投保
                                                 <input type="text" placeholder="请输入金额">
-                                            </div>
+                                            </div>-->
+                                            <span>否</span>
+                                            <span>2000</span>
                                         </td>
                                         <td class='table_td'>温度计使用</td>
                                         <td>
-                                            <div>
-                                                <input type="radio" name="isTrue" />使用
-
-                                                <input type="radio" name="isTrue" />不使用
-
-                                            </div>
+                                           <span>不使用</span>
+                                          
                                         </td>
 
                                     </tr>
@@ -144,22 +141,26 @@
 
                                         <td class='table_td'>冷车派送</td>
                                         <td>
-                                            <div>
+                                            <!--<div>
                                                 <input type="radio" name="isTrue" />是
                                                 <input type="text"  placeholder="请输入金额">
                                                 <input type="radio" name="isTrue" />否
 
-                                            </div>
+                                            </div>-->
+                                              <span>是</span>
+                                            <span>500</span>
                                         </td>
                                         <td class='table_td'>付款方式</td>
                                         <td>
-                                            <div>
-                                                <input type="radio" name="isTrue" />收件人
-                                                <input type="text"  placeholder="请输入金额">
-                                                <input type="radio" name="isTrue" />发件人
-                                                <input type="text" placeholder="请输入金额">
-                                            </div>
+                                            <span>收件人</span>
+                                            <span>500元</span>
                                         </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                    	<td>特殊需求</td>
+                                    	<td colspan="5"> <textarea name="" id=""  style="width: 98%;height: 80px;" v-model="Note"></textarea></td>
+                                    	
                                     </tr>
                                 </table>
                                 <div class='isPhoto'>
@@ -170,11 +171,11 @@
                                    <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
                                 </div>
                             </el-collapse-item>
-                            <el-collapse-item title="Step4 特殊需求" name="3">
+                            <!--<el-collapse-item title="Step4 特殊需求" name="3">
                                 <div>
-                                    <textarea name="" id="" cols="100" rows="10" v-model="Note"></textarea>
+                                    <textarea name="" id=""  style="width: 98%;height: 80px;" v-model="Note"></textarea>
                                 </div>
-                            </el-collapse-item>
+                            </el-collapse-item>-->
                         </el-collapse>
 
                     </el-col>
@@ -216,15 +217,29 @@
                 Company:'',
                 Telephone:'',
                 GetName: '',
-                GetCity: '',
+                Manager:'',//寄件人
                 GetTelephone: '',
                 GetAddress:'',
                 Note:'',
+                PartManter:'',
                 LimitTime:'',
                 boxType: [],
                 listData:{},
-
-
+                GetCode:'',//收货编码
+                paytype:'',//结算方式
+                xmnum:'',//项目号
+                xynum:'',//协议号
+                xmnum:'',//项目号
+                GetPartment:'',//收件人部门科室
+                GetDerp:'',//收件省份
+                GetCity:'',//收件城市
+                GetArea:'',//收件区域
+                Derp:'',//寄件省份
+                City:'',//寄件城市
+                Area:'',//寄件区域
+                Detiladdress:'',//寄件人详细地址
+                GetDetiladdress:'',//寄件人详细地址
+                GetNetwork:''
             };
         },
     }

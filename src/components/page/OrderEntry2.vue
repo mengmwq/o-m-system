@@ -12,6 +12,7 @@
                             <el-form
                                 ref="form"
                                 label-width="100px!important"
+                                :inline="true"
                             >
                                 <el-row>
                                     <el-col
@@ -113,6 +114,7 @@
                                     >
                                         <el-form-item label="省/市/区">
                                             <el-cascader
+                                                style="width:200px"
                                                 v-model="val"
                                                 :options="areaOptions"
                                                 @change="handleItemChange"
