@@ -47,7 +47,7 @@
 
 						<el-table-column label="网络公司" prop="CompanyNet" align="center">
 						</el-table-column>
-						<el-table-column label="订单量" align="center" prop="allpiao">
+						<el-table-column label="订单量" align="center" prop="allpiao" class-name="curstomNum" label-class-name="aaa">
 						</el-table-column>
 						<el-table-column label="指令下达" class-name="curstomNum" align="center" prop="xiada" label-class-name="aaa">
 						</el-table-column>
@@ -368,6 +368,14 @@
 						query: {
 			              Company: row.CompanyNet,
 			              Condition: column.label
+			         }
+					});
+				}else if( column.label == '订单量'){
+					this.$router.push({
+						path: "/NetCompany",
+						query: {
+			              Company: row.CompanyNet,
+			              Condition:'全部'
 			         }
 					});
 				}else{
