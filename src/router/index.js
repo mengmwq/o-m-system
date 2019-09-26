@@ -67,12 +67,7 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-<<<<<<< HEAD
-              
 
-
-=======
->>>>>>> 9092d6823f202509ad2325aff10f3b1bc29bbae7
                 //异常信息页面路由
                 {
                     path:'/abnormalInformationDetails',
