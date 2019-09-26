@@ -52,7 +52,7 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="部门/科室">
-                                            <el-input></el-input>
+                                            <el-input v-model="Department"  placeholder="选填"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -65,7 +65,7 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="项目编号">
-                                            <el-input v-model="ManMsg.Cid"></el-input>
+                                            <el-input v-model="ManMsg.Cid2" placeholder="选填"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -75,7 +75,7 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="中心号">
-                                            <el-input v-model="ManMsg.Manager"></el-input>
+                                            <el-input v-model="ManMsg.zxNumber" placeholder="选填"></el-input>
                                         </el-form-item>
 
                                         <!--                                        <el-form-item label="保险费率">-->
@@ -99,7 +99,7 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="协议号">
-                                            <el-input v-model="ManMsg.Manager"></el-input>
+                                            <el-input v-model="ManMsg.XyNumber" placeholder="选填"></el-input>
                                         </el-form-item>
 
 
@@ -149,7 +149,7 @@
                         <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">
                             收件人信息&nbsp&nbsp</h2>
                         <div class="bioage">
-                            <el-form ref="form" label-width="100px">
+                            <el-form ref="form" label-width="100px!important">
                                 <el-form-item label="收货编码">
                                     <el-select v-model="SName" placeholder="请选择" @change="currentSel">
 
@@ -169,7 +169,7 @@
                                     <el-input v-model="GetName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="部门/科室">
-                                    <el-input></el-input>
+                                    <el-input v-model="GetDepartment" placeholder="选填"  ></el-input>
                                 </el-form-item>
                                 <el-form-item label="联系电话">
                                     <el-input v-model="GetTelephone"></el-input>
@@ -211,8 +211,8 @@
                                     v-if="isFirst"
                                     style="flex:1;"
                                 >
-                                    <div>{{firstTitle}}</div>
-                                    <div>温区选择（任意温区）</div>
+                                    <div style="font-weight: 600;">{{firstTitle}}</div>
+                                    <div style="font-family: cursive;padding: 5px 0;">温区选择（任意温区）</div>
                                     <div class="temFirst">
                     <span
                         v-for="(item1,index) in temArea"
@@ -269,6 +269,7 @@
 
                     <el-col :span="24" style="text-align:right;">
                         <!-- <button @click="prev"> 上一步 </button> -->
+                        <span class="save" @click="quxiao">取消</span>
                         <span class="save" @click="prev">保存</span>
                     </el-col>
 
@@ -352,15 +353,15 @@
                                         <span>是否投保 &nbsp;&nbsp;</span>
                                         <el-checkbox label="1">是 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
                                         </el-checkbox>
-                                        <el-checkbox label="12">否 &nbsp;&nbsp;<input value="2000" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        <el-checkbox label="12">否 &nbsp;&nbsp;<input value="2000" :disabled="true" style="width: 80px;border-left: none;border-top: none;border-right: none;text-align: center"></input>
                                         </el-checkbox>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-checkbox label="1">是 &nbsp;&nbsp;<input value="500" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        <el-checkbox label="1" v-model="isTou">是 &nbsp;&nbsp;<input value="500" style="width: 80px;border-left: none;border-top: none;border-right: none"  v-model="isMoney"></input>
                                         </el-checkbox>
-                                        <el-checkbox label="12">否 &nbsp;&nbsp;</el-checkbox>
+                                        <el-checkbox label="12" v-model="NisTou">否 &nbsp;&nbsp;</el-checkbox>
 
                                     </div>
                                 </el-col>
@@ -368,15 +369,15 @@
                                     <div style="margin-left: 50px">
                                     <span>
                                         温度计使用&nbsp;&nbsp;</span>
-                                        <el-checkbox label="1">使用 &nbsp;&nbsp;</el-checkbox>
-                                        <el-checkbox label="12">不使用 &nbsp;&nbsp;</el-checkbox>
+                                        <el-checkbox label="1" v-model="isSy">使用 &nbsp;&nbsp;</el-checkbox>
+                                        <el-checkbox label="12" v-model="NisSy">不使用 &nbsp;&nbsp;</el-checkbox>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-checkbox label="1">发件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        <el-checkbox label="1" v-model="fj">发件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="fjValue"></input>
                                         </el-checkbox>
-                                        <el-checkbox label="12">收件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        <el-checkbox label="12" v-model="sj">收件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="sjValue"></input>
                                         </el-checkbox>
 
                                     </div>
@@ -417,8 +418,21 @@
         name: "test",
         data() {
             return {
+                NisSy:'',
+                isSy:'',
+                fj:'',
+                sj:'',
+                fjValue:'',
+                sjValue:'',
+                isMoney:'',
+                NisTou:'',
+                isTou:'',
                 teshuNeed:'',
                 otherLimitTime:'',
+                XyNumber:'',
+                zxNumber:'',
+                GetDepartment:'',
+                Department:'',
                 isShow:false,
                 GetTelephone:'',
                 showSearch: "药品",
@@ -450,7 +464,6 @@
                 Telephone: '',
                 GetName: '',
                 GetCity: '',
-
                 GetAddress: '',
                 Note: '',
                 LimitTime: '',
@@ -470,8 +483,7 @@
                 cargList: [ //货物信息
 
                 ],
-                newCargList: [], // 过度数组  用于点击保存时赋值给遍历的数组
-                newcargList: {}, // 存储温度区间 数量
+
                 item1: '',
                 cargListObj: {},
                 SNameArr: [],
@@ -479,9 +491,6 @@
             };
         },
         created() {
-            // this.listData = this.$route.query.listData
-            // (this.$route.query)
-            // // 第二次 进来  没走    问题
             this.getManMsg();
             this.getTem();
 
@@ -495,89 +504,7 @@
                 // 省市区
                 this.val2 = val;
             },
-            //提交所有
-            //
-            // submitFrom() {
-            //     (this.cargList, 8)
-            //     this.cargList.forEach(item => {
-            //         (item, 7)
-            //         var arr = [];
-            //         this.cargListObj = {
-            //             [item.WDQJ]: {
-            //                 "PackageType": item.PackageType,
-            //                 "num": item.num
-            //             }
-            //         }
-            //
-            //
-            //         //var arr= [];
-            //         //item[WDQJ]=
-            //     })
-            //     (this.cargListObj, 99);
-            //
-            //     let that = this;
-            //     this.$axios({
-            //         url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index",
-            //         method: "post",
-            //         data: {
-            //             AccountNumber: this.accoutNum,
-            //             Box: JSON.stringify(this.cargListObj),
-            //             IsWdj: '使用',
-            //             CargoName: '',
-            //             GoodsType: '试剂',
-            //             Manager: this.ManMsg.Manager,
-            //             GetName: this.GetName,
-            //             Address: this.ManMsg.Address,
-            //             GetAddress: this.GetAddress,
-            //             City: '衡水市',
-            //             GetCity: this.GetCity,
-            //             Depart: '1',
-            //             GetDepart: '1',
-            //             Company: this.ManMsg.Company,
-            //             GetCompany: this.GetCompany,
-            //             Telephone: this.ManMsg.Telephone,
-            //             GetTelephone: this.GetTelephone,
-            //             OrderTime: this.qujianTime,
-            //             LimitTime: this.LimitTime,
-            //             EntryName: this.EntryName,
-            //             CountType: this.CountType,
-            //             SafeRate: this.SafeRate,
-            //             Note: this.Note,
-            //             SafeItem: '1',
-            //             SafePay: '1',
-            //         },
-            //         transformRequest: [
-            //             function (data) {
-            //                 let ret = "";
-            //                 for (let it in data) {
-            //                     ret +=
-            //                         encodeURIComponent(it) +
-            //                         "=" +
-            //                         encodeURIComponent(data[it]) +
-            //                         "&";
-            //                 }
-            //                 return ret;
-            //             }
-            //         ],
-            //         headers: {"Content-Type": "application/x-www-form-urlencoded"}
-            //     }).then(function (res) {
-            //         (res, 33)
-            //         // if (res.data.code == "200") {
-            //         //     that.ManMsg = res.data.data;
-            //         //     that.ManMsg.cityArea = that.ManMsg.City + "/" + that.ManMsg.Area;
-            //         // } else {
-            //         //     that.ManMsg = {};
-            //         // }
-            //     });
-            // },
-            // deleteInfor(index) { // 删除货物信息
-            //     (index)
-            //     (this.cargList)
-            //     this.cargList.splice(index, 1)
-            //     alert('你删除了第' + index + '个');
-            //
-            //
-            // },
+
           /*  选择货物名称那个方法*/
             changeCompany(data) {
                 (data);
@@ -586,12 +513,14 @@
             },
             // 保存的时候
             saveCargo() {
-            let orderData ={
+                let orderData ={
                     accoutNum:this.accoutNum,
                     CountType :this.ManMsg.CountType,
                     Company:this.ManMsg.Company,
                     Manager:this.ManMsg.Manager,
-                    Cid:this.ManMsg.Cid,
+                    Cid2:this.ManMsg.Cid2,
+                    XyNumber:this.ManMsg.XyNumber,
+                    zxNumber:this.ManMsg.zxNumber,
                     Telephone:this.ManMsg.Telephone,
                     SafeRate:this.ManMsg.SafeRate,
                     Address: this.ManMsg.Address,
@@ -599,18 +528,30 @@
                     GetCompany:this.GetCompany,
                     GetName:this.GetName,
                     GetTelephone:this.GetTelephone,
-                    GetAddress:this.GetAddress
+                    GetAddress:this.GetAddress,
+                    Department:this.Department,
+                    GetDepartment:this.GetDepartment,
+                    showSearch:this.showSearch,//货物类型
+                    searchData:this.searchData,
+                    qujianTime:this.qujianTime,
+                    LimitTime:this.LimitTime,
+                    otherLimitTime:this.otherLimitTime,
+                    isMoney:this.isMoney,
+                    isTou:this.isTou,
+                    NisTou:this.NisTou,
+                    NisSy:this.NisSy,
+                    isSy:this.isSy,
+                    fj:this. fj,
+                    sj:this.sj,
+                    fjValue: this.fjValue,
+                    sjValue: this.sjValue,
+                    teshuNeed:this.teshuNeed
                 };
-               // console.log(JSON.stringify(orderData))
                 this.$router.push({
                     path: "/OrderPreview",
                     query: {
-                        orderData:JSON.stringify(orderData),
-
-
+                        orderData:orderData,
                     }
-
-
                 })
 
             },
@@ -758,8 +699,6 @@
             //请求箱型
             next(val, index) {
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
-                this.newcargList.WDQJ = val.WDQJ
-                this.newcargList.ROW_NUMBER = val.ROW_NUMBER
                 let that = this;
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
@@ -815,9 +754,9 @@
                 //   if (this.cargoMsg.length == 3) {
                 //     this.$message.error("最多只允许添加3个温区");
                 //   } else {
-                // this.active = 1;
-                // this.firstTitle = "进行中";
-                // this.istemActive = -2;
+                this.active = 1;
+                this.firstTitle = "进行中";
+                this.istemActive = -2;
                 //   }
             },
             isNull(val, index, tem) {
@@ -832,18 +771,24 @@
                         threeData[i].box.push(val);
                     }
                 }
-                this.newCargList.push(val)
 
 
-                (threeData, '箱型和car');
+
+              console.log (threeData, '箱型和car');
+            },
+            //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
+            quxiao(){
+                this.cargoMsg = '';
+                this.isDisabled = false
+                this.isDisabled1 =false
+                console.log (this.cargoMsg, '箱型和car2');
             },
             //判断 箱型冷藏车只能选一个
             isClick(val, isType) {
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
-                val.ROW_NUMBER = this.newcargList.ROW_NUMBER
-                val.WDQJ = this.newcargList.WDQJ
+
                 this.boxType.forEach(item => {
                     if (item.num) {
                         boxArr.push(item.num)
