@@ -254,6 +254,7 @@
                 NEX: '',
                 StartTime:'',
                 tableData: [],
+                EndTime:'',
                 multipleSelection:[],
 
                 loading:true,
@@ -262,6 +263,11 @@
         mounted() {
             this.Area = this.$route.query.Area;
             this.CompanyNet = this.$route.query.CompanyNet;
+            this.StartTime = this.$route.query.StartTime;
+            console.log(this.StartTime );
+
+            this.EndTime = this.$route.query.EndTime
+            console.log( this.EndTime)
             if(this.Area=="合计"){
                 this.Area =''
             }else if(this.CompanyNet == "合计"){
@@ -323,7 +329,9 @@
                     method: "post",
                     data: {
                         Company: this.company,
-                        fkNet:this.CompanyNet
+                        fkNet:this.CompanyNet,
+
+
 
 
                     },
@@ -560,7 +568,8 @@
                         AccountNumber:this.AccountNumber,
                         EntryName:this.EntryName,
                         ID:this.ID,
-                        StartTime:this.value1
+                        StartTime:this.StartTime,
+                        EndTime:this.EndTime
 
 
 

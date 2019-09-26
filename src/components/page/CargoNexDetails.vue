@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer;color: deepskyblue;">区域订单> </span>{{Area}}</div>
+        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer;color: deepskyblue;">区域订单> </span>{{Area=='' ?'合计':Area}}</div>
 
         <div >
 
@@ -62,7 +62,7 @@
                             <el-table
                                 :header-cell-style="{background:'#EFF3F8'}"
                                 stripe
-
+                                @selection-change="handleSelectionChange"
                                 ref="multipleTable"
                                 :data="tableData"
 
@@ -170,7 +170,7 @@
                 tableData:[
 
                 ],
-                multipleSelection:''
+                multipleSelection:[]
 
 
             }
@@ -189,6 +189,11 @@
 
         },
         methods: {
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
             //刷新页面渲染数据
             refresh(){
                 this.cur_page = 1;
@@ -198,7 +203,7 @@
 
                 this.Nex='';
                 this.getData();
-                this.loading = false;
+
             },
             //获取区域
             getAreaData() {
@@ -261,6 +266,7 @@
             },
             getData(){
                 let _this = this;
+                _this.loading = true;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodssecond',
                     method: "post",
@@ -291,7 +297,7 @@
                 }).then(function(res) {
 
                     if(res.data.code == 200){
-                        _this.$message.success(res.data.msg)
+                        //_this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
@@ -317,11 +323,7 @@
                 this.limit = val;
                 this.getData();
             },
-            handleSelectionChange(val) {
-                // 选中的  当前条 数据
-                this.multipleSelection = val;
 
-            },
             handleCurrentChange(val) {
                 this.loading = true;
                 this.cur_page = val;
@@ -336,6 +338,7 @@
                     })
             },
             DetailsChild(row,type){
+                console.log(type)
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {

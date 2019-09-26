@@ -1,7 +1,7 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>><span>网络公司</span>>{{CompanyNet}}</div>
-        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>>{{CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>><span>网络公司</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
 
 <!--        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>-->
         <div  >
@@ -281,6 +281,12 @@
             // this.Area2 = this.$route.query.Area;
             this.CompanyNet = this.$route.query.CompanyNet;
 
+            if(this.Area=="合计"){
+                this.Area ='';
+            }
+            if(this.CompanyNet=="合计"){
+                this.CompanyNet ='';
+            }
 
             this.company = window.sessionStorage.getItem('compony');
             this.getData();

@@ -216,11 +216,13 @@
 
                 this.xdtime='';
                 this.getData();
-                this.loading = false;
+
             },
             //渲染页面
             getData(){
+
                 let _this = this;
+                _this.loading = true;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/goodsindex',
                     method: "post",
@@ -251,7 +253,7 @@
                     console.log(res);
 
                     if(res.data.code == 200){
-                        _this.$message.success(res.data.msg)
+                       // _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData0 = res.data.data.net;
                         _this.tableData2 = res.data.data.goods

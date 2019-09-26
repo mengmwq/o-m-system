@@ -25,11 +25,22 @@ export default new Router({
                     component: resolve => require(['../components/page/OrderQuery.vue'], resolve),
                     meta:{keepAlive: true}
                 },
+                // {
+                //    path:'/OrderEntry' ,
+                //     component:resolve => require(['../components/page/OrderEntry.vue'],resolve),
+                //     meta:{keepAlive: true}
+                // },
                 {
-                   path:'/OrderEntry' ,
-                    component:resolve => require(['../components/page/OrderEntry.vue'],resolve),
+                    path:'/OrderEntry2' ,
+                    component:resolve => require(['../components/page/OrderEntry2.vue'],resolve),
                     meta:{keepAlive: true}
                 },
+                {
+                    path:'/OrderPreview' ,
+                    component:resolve => require(['../components/page/OrderPreview.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+
                 //订单统计
                 {
                     path:'/ordersRtatistics' ,
@@ -42,6 +53,16 @@ export default new Router({
                     meta:{keepAlive: true}
                 },
                 {
+                    path:'/CargoNexDetails' ,
+                    component:resolve => require(['../components/page/CargoNexDetails.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
+                    path:'/CargoNexDetails2' ,
+                    component:resolve => require(['../components/page/CargoNexDetails2.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
+                {
                     path:'/CargoStatisticsDetails' ,
                     component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
                     meta:{keepAlive: true}
@@ -51,16 +72,8 @@ export default new Router({
                 //     component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
                 //     meta:{keepAlive: true}
                 // },
-                {
-                    path:'/CargoNexDetails2' ,
-                    component:resolve => require(['../components/page/CargoNexDetails2.vue'],resolve),
-                    meta:{keepAlive: true}
-                },
-                {
-                    path:'/CargoNexDetails' ,
-                    component:resolve => require(['../components/page/CargoNexDetails.vue'],resolve),
-                    meta:{keepAlive: true}
-                },
+
+
                 //异常信息页面路由
                 {
                     path:'/abnormalInformationDetails',

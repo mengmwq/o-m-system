@@ -1,6 +1,6 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{BusinessType==null ?'暂无':BusinessType}}</span>>网络公司</div>
+        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{BusinessType=='' ?'合计':BusinessType}}</span>>网络公司</div>
         <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
@@ -33,9 +33,9 @@
 
 
                             <div style="float: right;margin-top: 5px;">
-                                <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px" >
+                                <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
                                 <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport">
-                                <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px">
+                                <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px" @click="refresh()">
 
                             </div>
                         </el-col>
@@ -54,6 +54,7 @@
                             <el-table
                                 :header-cell-style="{background:'#EFF3F8'}"
                                 stripe
+                                @selection-change="handleSelectionChange"
                                 height="500"
                                 ref="multipleTable"
                                 :data="tableData"
@@ -156,7 +157,7 @@
                 tableData:[
 
                 ],
-                multipleSelection:''
+                multipleSelection:[]
 
 
             }
@@ -172,6 +173,17 @@
             this.getData()
         },
         methods: {
+            //刷新页面渲染数据
+            refresh(){
+                this.cur_page = 1;
+                this.loading = true;
+
+                 this.Nex='';
+
+                this.BusinessType='';
+                this.getData();
+
+            },
             //跳到区域订单页面
             backCargoStatistics(){
                 this.$router.push({
@@ -196,6 +208,7 @@
             //获取表格
             getData(){
                 let _this = this;
+                _this.loading = true;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/typesecond',
                     method: "post",
@@ -203,7 +216,8 @@
                         PageSize:this.limit,
                         Page: this.cur_page,//当前页码
                         Company:this.company,
-                        GoodsType:this.BusinessType
+                        GoodsType:this.BusinessType,
+                        CompanyNet:this.Nex
 
 
                     },
@@ -225,7 +239,7 @@
 
 
                     if(res.data.code == 200){
-                        _this.$message.success(res.data.msg)
+                        //_this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
