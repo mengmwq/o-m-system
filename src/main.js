@@ -13,7 +13,8 @@ import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 // import "babel-polyfill";
 import vueScrollwatch from "./lib/vue-scrollwatch"
 Vue.use(vueScrollwatch)
-
+import VDistpicker from 'v-distpicker'
+Vue.component('v-distpicker', VDistpicker)
 // Vue.use(Navigation, {router})
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;

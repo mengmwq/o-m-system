@@ -9,32 +9,41 @@
 		<el-form :inline="true" class="demo-form-inline">
 			<el-row>
 				<el-col>
-<!--					<el-form-item label="下单时间">-->
-<!--						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">-->
-<!--						</el-date-picker>-->
-<!--					</el-form-item>-->
+					<!--<el-form-item label="下单时间">
+						<el-date-picker v-model="OrderTime" type="datetime" style="width:200px" placeholder="选择日期时间">
+						</el-date-picker>
+					</el-form-item>-->
 					<el-form-item label="客户账号">
-						<el-autocomplete class="inline-input" v-model="acount" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>
+						<!--<el-autocomplete class="inline-input" v-model="acount" placeholder="请输入内容" :trigger-on-focus="false" :debounce=0></el-autocomplete>-->
+						 <el-input
+                            class="inline-input"
+
+                            v-model="acount"
+                            placeholder="请输入内容"
+                            :trigger-on-focus="false"
+                            :debounce=0
+
+                        ></el-input>
 					</el-form-item>
-					<el-form-item label="订单状态">
-						<el-select v-model="orderstate" style="width: 200px;">
+					<el-form-item label="订单状态" >
+						<el-select v-model="orderstate">
+							<el-option key="all" label="全部" value="全部"></el-option>
 							<el-option key="bbk" label="指令下达" value="指令下达"></el-option>
 							<el-option key="xtc" label="指令取消" value="指令取消"></el-option>
 							<el-option key="yap" label="已安排" value="已安排"></el-option>
 							<el-option key="qjw" label="取件完成" value="取件完成"></el-option>
 						</el-select>
 					</el-form-item>
-				</el-col>
-				<el-col>
+				
 					<el-form-item label="下单方式">
-						<el-select v-model="orderType" style="width: 200px;">
+						<el-select v-model="orderType" >
 							<el-option key="bbk" label="TMS" value="TMS"></el-option>
 							<el-option key="xtc" label="APP" value="APP"></el-option>
 							<el-option key="imoo" label="WEB" value="WEB"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="结算方式">
-						<el-select v-model="paytype" style="width: 200px;">
+						<el-select v-model="paytype">
 							<el-option key="bbk" label="月结" value="月结"></el-option>
 							<el-option key="xtc" label="现金" value="现金"></el-option>
 						</el-select>
@@ -92,17 +101,17 @@
 			</div>
           </div>
 		</div>
-		<el-dialog title="订单详情" :visible.sync="EditDetailsModel"  style="border-bottom: 1px solid #000000;font-family: cursive;">
+		<el-dialog title="订单详情" :visible.sync="EditDetailsModel"  style="border-bottom: 1px solid #CCCCCC;font-family: cursive;">
 			<div class="container" style="font-family: cursive;" id='pdfDom'>
-				<el-row style="display: flex;justify-content: space-between;align-items: center;">
+				<el-row style="display: flex;justify-content: space-between;align-items: center;margin-bottom: 5px;">
 
 					<div style="flex: 1;justify-content:flex-start;align-items: center;">
 						<span style="font-family: cursive;">客户账号:</span>
-						<span style="font-family: cursive;color:#5D9DD2;">{{countNum}}</span>
+						<span>{{countNum}}</span>
 					</div>
 					<div style="justify-content:flex-end;align-items: center;">
 						<span>录入人:</span>
-						<span style="color:#5D9DD2;">{{inputperson}}</span>
+						<span>{{inputperson}}</span>
 					</div>
 				</el-row>
 				<el-row style='border: 1px solid #ccc;'>
@@ -113,15 +122,16 @@
 						</div>
 						<div class="grid-content" style="margin:10px 0px;display: flex;justify-content:center; align-items: center;text-align: center;">
 							<h2>{{sendCity}}</h2>
-							<span style="margin: 0 15px;">></span>
+							<!--<span style="margin: 0 15px;">></span>-->
+							<img src="../../assets/jiantou.png" alt="" style="width: 30px;margin: 0 10px;">
 							<h2>{{getCity}}</h2>
 						</div>
 						<div class="grid-content" style="text-align: center;">
-							<span>感谢支持中集冷云，期待为您服务~</span>
+							<span style="color: #1c64c6;">感谢支持中集冷云，期待为您服务~</span>
 						</div>
 					</el-col>
 					<el-col :span="12" style="font-size: 16px;">
-						<div class="grid-content">
+						<!--<div class="grid-content">
 							始发地：<span>{{sendDepart}}</span>-<span>{{sendCity}}</span>
 						</div>
 						<div class="grid-content">
@@ -129,10 +139,24 @@
 						</div>
 						<div class="grid-content">
 							订单状态：<span>{{orderstate}}</span>
+						</div>-->
+						<div>
+							<div class="grid-content" style="position: relative;">
+							寄件方：<span>{{sendName}}</span><span style="position: absolute;right: 50px;">{{sendTel}}</span>
+							</div>
+							 <div class="grid-content" style="">详细地址：<span>{{sendAddress}}</span></div>
+							</div>
+						
+						<div>
+							<div class="grid-content" style="position: relative;">
+							收件方：<span>{{getName}}</span>
+							<span style="position: absolute;right: 50px;">{{getTel}}</span>
+						</div>
+						<div class="grid-content" style="">详细地址：<span>{{getAddress}}</span></div>
 						</div>
 					</el-col>
 				</el-row>
-				<el-row class='linkinfo'>
+				<!--<el-row class='linkinfo'>
 					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 							寄件方：<span>{{sendName}}</span><span style="margin-left: 10px;">{{sendTel}}</span><span style="margin-left: 10px;">{{sendCompany}}</span>
@@ -149,17 +173,17 @@
 						</div>
 						<div class="grid-content" style="width:50%;justify-content: flex-end;">详细地址：<span>{{getAddress}}</span></div>
 					</el-col>
-				</el-row>
+				</el-row>-->
 				<el-row style='border: 1px solid #ccc;border-top: none;'>
 					<el-col :span="12" style='border-right: 1px solid #ccc;'>
 						<div class="grid-content">
 							<span>货物类型:</span>
 							<span>{{goodType}}</span>
 						</div>
-						<div class="grid-content">
+						<!--<div class="grid-content">
 							<span>货物尺寸:</span>
 							<span>{{goodSize}}</span>
-						</div>
+						</div>-->
 						<div class="grid-content">
 							<span>温度及使用:</span>
 							<span>{{isWdj}}</span>
@@ -180,20 +204,20 @@
 							<span>产品名称:</span>
 							<span>{{goodName}}</span>
 						</div>
-						<div class="grid-content">
+						<!--<div class="grid-content">
 							<span>重量:</span>
 							<span>{{goodWight}}</span>
-						</div>
+						</div>-->
 						<div class="grid-content">
 							<span>通知方式:</span>
 							<span></span>
 							<span></span>
 						</div>
-						<div class="grid-content">
+						<!--<div class="grid-content">
 							<span>处理情况:</span>
 							<span></span>
 							<span></span>
-						</div>
+						</div>-->
 						<div class="grid-content">
 							<span>下单时间:</span>
 							<span>{{ordertimer}}</span>
@@ -202,7 +226,7 @@
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
-						<div class="grid-content">温度区间</div>
+						<div class="grid-content" style="background: #f1f8fc;">温度区间</div>
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;'>
 						     <div v-for="(value, key, index) in boxs" >
@@ -236,8 +260,8 @@
 					</el-col>-->
 				</el-row>
 				<el-row class='linkinfo' style='text-align: center;border: 1px solid #CCCCCC;border-top:none ;'>
-					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
-						<div class="grid-content">保温箱型</div>
+					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;background: #f1f8fc;'>
+						<div class="grid-content" style="">保温箱型</div>
 					</el-col>
 					<el-col :span="6" style='border-right: 1px solid #CCCCCC;height: 80px;'>
 						<!--<div class="grid-content"><span>GB(小)</span> * <span>1</span></div>
@@ -247,7 +271,7 @@
 						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
 						     	<span v-if="index==0">
 						     		 <div v-for="(value1, key1) in value" class="grid-content">
-								     	<span v-if="index==0">{{value1.PackageName}}</span> * <span>{{value1.Jian}}</span>
+								     	<span v-if="index==0">{{value1.PackageName}}</span> * <span style="color: #1c84c6;">{{value1.Jian}}</span>
 								     <!--	<span v-if="index==0">{{value1}}</span>-->
 		                             </div>
 						     	</span>
@@ -258,7 +282,7 @@
 						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
 						     	<span v-if="index==1">
 						     		 <div v-for="(value, key) in value" class="grid-content">
-								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
+								     <span>{{value.PackageName}}</span> * <span style="color: #1c84c6;">{{value.Jian}}</span>
 
 		                             </div>
 		                             <!--<span >{{value}}</span>-->
@@ -270,7 +294,7 @@
 						     	<!--<span v-if="index==0">{{value.PackageName}}</span> * <span>{{value.Jian}}</span>-->
 						     	<span v-if="index==2">
 						     		 <div v-for="(value, key) in value" class="grid-content">
-								     <span>{{value.PackageName}}</span> * <span>{{value.Jian}}</span>
+								     <span >{{value.PackageName}}</span> * <span style="color: #1c84c6;">{{value.Jian}}</span>
 
 		                             </div>
 		                             <!--<span >{{value}}</span>-->
@@ -279,15 +303,15 @@
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+					<el-col :span="24" style="height: 50px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 							件数：<span>{{jian}}</span>
 						</div>
-						<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span></span></div>
+						<!--<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span></span></div>-->
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-					<el-col :span="24" style="border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+					<el-col :span="24" style="height: 50px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 							取件人：<span>{{takeName}}</span>
 						</div>
@@ -432,7 +456,7 @@
 		mounted() {
 			this.company = window.sessionStorage.getItem('compony');
 			this.netcompany=this.$route.query.Company;
-			this.orderstate=this.$route.query.Condition;
+			this.orderstate=this.$route.query.Condition=='全部'?'':this.$route.query.Condition;
 			this.getData();
 		},
 		methods: {
@@ -622,7 +646,7 @@
 					_this.goodName=res.data.data[0].CargoName;
 					_this.goodSize=res.data.data[0].CargoSize;
 					_this.goodWight=res.data.data[0].CWeight;
-					_this.isWdj=res.data.data[0].Name4;
+					_this.isWdj=res.data.data[0].Name4=='使用'?"是":"否";
 					_this.isSafe=res.data.data[0].SafeItem;
 					_this.safePay=res.data.data[0].SafePay;
 					_this.payway=res.data.data[0].PayWay;
@@ -651,8 +675,8 @@
 			},
 			//打印运单详情
 			print(e) {
-					console.log(JSON.stringify(this.boxs));
-	        	return false;
+//				console.log(JSON.stringify(this.boxs));
+//	        	return false;
                 let subOutputRankPrint = document.querySelector('#pdfDom');
                 console.log(subOutputRankPrint.innerHTML);
                 let newContent =subOutputRankPrint.innerHTML;
@@ -691,6 +715,7 @@
 
 	.el-dialog__header {
 		border-bottom: 1px solid #CCCCCC;
+		border-top: 5px solid #0979C1;
 	}
 
 	.divBut .title h3 {
@@ -710,7 +735,7 @@
 	}
 
 	.el-form-item__label {
-		width: 68px;
+		width: 68px !important;
 	}
 
 	.el-dialog__body {
@@ -719,4 +744,14 @@
 		line-height: 24px;
 		font-size: 14px;
 	}
+	.el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    background: #fff;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-sizing: border-box;
+    width: 40%;
+}
 </style>
