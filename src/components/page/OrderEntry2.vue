@@ -3,10 +3,9 @@
         <div class="main">
             <div>
                 <!-- 寄件人  收件人信息 -->
-                <el-row
-                    :gutter="24"
-                    style="margin: 0"
-                >
+                <el-row :gutter="24" style="margin: 0">
+                    <!--寄件人信息-->
+
                     <el-col :span="12">
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
                         <div class="bioage">
@@ -25,7 +24,7 @@
 
                                     <!--  月结  现金-->
                                     <el-col :span="12">
-                                        <el-form-item label="结算方式" >
+                                        <el-form-item label="结算方式">
                                             <el-input v-model="ManMsg.CountType"></el-input>
                                         </el-form-item>
                                     </el-col>
@@ -53,12 +52,11 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="部门/科室">
-                                            <el-input v-model="ManMsg.Department"></el-input>
+                                            <el-input></el-input>
                                         </el-form-item>
 
                                     </el-col>
                                 </el-row>
-
 
 
                                 <el-row>
@@ -104,9 +102,7 @@
                                             <el-input v-model="ManMsg.Manager"></el-input>
                                         </el-form-item>
 
-                                        <!--                                        <el-form-item label="保险费率">-->
-                                        <!--                                            <el-input v-model="ManMsg.SafeRate"></el-input>-->
-                                        <!--                                        </el-form-item>-->
+
                                     </el-col>
                                 </el-row>
 
@@ -115,9 +111,6 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-<!--                                        <el-form-item label="省/市/区">-->
-<!--                                            <el-input v-model="ManMsg.cityArea"></el-input>-->
-<!--                                        </el-form-item>-->
                                         <el-form-item label="省/市/区">
                                             <el-cascader
                                                 v-model="val"
@@ -137,9 +130,6 @@
                                             <el-input v-model="ManMsg.SafeRate"></el-input>
                                         </el-form-item>
 
-                                        <!--                                        <el-form-item label="保险费率">-->
-                                        <!--                                            <el-input v-model="ManMsg.SafeRate"></el-input>-->
-                                        <!--                                        </el-form-item>-->
                                     </el-col>
                                 </el-row>
 
@@ -148,49 +138,52 @@
                                     <el-input v-model="ManMsg.Address"></el-input>
                                 </el-form-item>
                                 <el-form-item label="取件网络">
-                                    <el-input ></el-input>
+                                    <el-input></el-input>
                                 </el-form-item>
 
                             </el-form>
                         </div>
                     </el-col>
+                    <!--收件人信息-->
                     <el-col :span="11">
-                        <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">收件人信息&nbsp&nbsp</h2>
+                        <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">
+                            收件人信息&nbsp&nbsp</h2>
                         <div class="bioage">
-                            <el-form
-                                ref="form"
-                                label-width="100px"
-                            >
-<!--                                <el-form-item label="收货编码" >-->
-<!--                                    <el-input ></el-input>-->
-<!--                                </el-form-item>-->
-                                <el-form-item label="收货编码" >
-                                    <el-select v-model="SName" placeholder="请选择">
+                            <el-form ref="form" label-width="100px">
+                                <el-form-item label="收货编码">
+                                    <el-select v-model="SName" placeholder="请选择" @change="currentSel">
+
                                         <el-option
-                                            v-for="item in SNameArr"
-                                            :key="item.ROW_NUMBER"
+                                            v-for="(item,index) in SNameArr"
+                                            :key="index"
                                             :label="item.SName"
-                                            :value="item.ROW_NUMBER">
+                                            :value="item.SName"
+                                        >
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="公司名称">
-                                    <el-input ></el-input>
+                                    <el-input v-model="GetCompany"></el-input>
                                 </el-form-item>
                                 <el-form-item label="收件人">
-                                    <el-input ></el-input>
+                                    <el-input v-model="GetName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="部门/科室">
                                     <el-input></el-input>
                                 </el-form-item>
                                 <el-form-item label="联系电话">
-                                    <el-input></el-input>
+                                    <el-input v-model="GetTelephone"></el-input>
                                 </el-form-item>
-                                <el-form-item label="城市/区域">
-                                    <el-input ></el-input>
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        v-model="val2"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange2"
+                                        :separator="' '"
+                                    ></el-cascader>
                                 </el-form-item>
                                 <el-form-item label="详细地址">
-                                    <el-input></el-input>
+                                    <el-input v-model="GetAddress"></el-input>
                                 </el-form-item>
 
                             </el-form>
@@ -204,7 +197,6 @@
                 >
                     <el-col :span="24">
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;货物信息</h2>
-
                         <div style="display:flex;">
                             <el-steps
                                 direction="vertical"
@@ -235,15 +227,17 @@
                                 <div v-if="active===2">
                                     <div>{{towTitle}}</div>
                                     <div>
-                                        <el-tabs >
+                                        <el-tabs>
                                             <el-tab-pane label="箱型" :disabled="isDisabled">
                                                 <div class="temFirst">
                                                     <div
                                                         v-for="(item,index) in boxType"
-                                                        :key="index" >
+                                                        :key="index">
                                                         <span>{{item.PackageType}}</span>
 
-                                                        <input type="number" value="" v-model='item.num' style='width:20%;' @blur="isNull(item,index)" @input="isClick(item,'box')">
+                                                        <input type="number" value="" v-model='item.num'
+                                                               style='width:20%;' @blur="isNull(item,index)"
+                                                               @input="isClick(item,'box')">
 
                                                         <span>个</span>
                                                     </div>
@@ -254,7 +248,9 @@
                                                 <div class="temFirst">
                                                     <div v-for="(item,index) in iceCar" :key="index">
                                                         <span>{{item.PackageType}}</span>
-                                                        <input type="number" v-model="item.num" style='width:20%;' @blur="isNull(item,index,item1)" @input="isClick(item,'car')" >
+                                                        <input type="number" v-model="item.num" style='width:20%;'
+                                                               @blur="isNull(item,index,item1)"
+                                                               @input="isClick(item,'car')">
                                                         <span>辆</span>
                                                     </div>
                                                 </div>
@@ -269,128 +265,143 @@
                         </div>
 
                     </el-col>
+
+
                     <el-col :span="24" style="text-align:right;">
                         <!-- <button @click="prev"> 上一步 </button> -->
                         <span class="save" @click="prev">保存</span>
                     </el-col>
-                    <el-col :span="24">
-                        <el-row>
-                            <el-col>
-                                <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;货物类型及名称</h2>
-                                <el-form :inline="true" label-width="100px!important">
-                                    <el-row>
-                                        <el-col>
-                                            <el-form-item label="药品">
-                                                <el-input style="width: 100px"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="试剂">
-                                                <el-input style="width: 100px"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="样本">
-                                                <el-input style="width: 100px"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="器械">
-                                                <el-input style="width: 100px"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="普货">
-                                                <el-input style="width: 100px"></el-input>
-                                            </el-form-item>
-                                        </el-col>
-                                    </el-row>
 
 
-                                </el-form>
+                    <div v-show="isShow">
+                        <el-col :span="24">
+                            <el-row>
+                                <el-col>
+                                    <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;货物类型及名称</h2>
+                                    <el-form :inline="true" label-width="100px!important;">
+                                        <el-row>
+                                            <el-col>
+                                                <div style="margin-left:50px">
+                                                    <el-dropdown trigger="click" :hide-on-click="false"
+                                                                 @command="changeCompany" style="margin-right: 10px;"
+                                                                 ref="messageDrop">
+                                                    <span class="el-dropdown-link" style="width:150px;">{{showSearch}}<i
+                                                        class="el-icon-arrow-down el-icon--right"></i></span>
+                                                        <el-dropdown-menu slot="dropdown">
+                                                            <el-dropdown-item command="药品">药品</el-dropdown-item>
+                                                            <el-dropdown-item command="试剂">试剂</el-dropdown-item>
+                                                            <el-dropdown-item command="样品">样品</el-dropdown-item>
+                                                            <el-dropdown-item command="器械">器械</el-dropdown-item>
+                                                            <el-dropdown-item command="普货">普货</el-dropdown-item>
+                                                        </el-dropdown-menu>
+                                                    </el-dropdown>
+                                                    <el-input type="text" v-model="searchData"
+                                                              style="width: 100px"></el-input>
+                                                </div>
 
-                            </el-col>
-
-                        </el-row>
-
-                    </el-col>
-                    <el-col :span="24">
-
-                        <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0;display: inline-block">&nbsp;要求取件时间</h2>
-                        <div style="display: inline-block">
-                            <el-date-picker
-                                v-model="value1"
-                                type="datetime"
-
-                                value-format="yyyy-MM-dd HH:mm:ss"
-                                placeholder="选择日期时间">
-                            </el-date-picker>
-                        </div>
-                    </el-col>
-                    <el-col :span="24">
-                        <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;时限要求</h2>
-                        <div  style="margin-left: 50px">
-                            <!--              <span v-for="(item,index) in tiemLimit" :key="index">{{item.limit}}</span>-->
-                            <el-radio-group v-model="LimitTime">
-                                <el-radio :label="24">24H</el-radio>
-                                <el-radio :label="36">36H</el-radio>
-                                <el-radio :label="48">48H</el-radio>
-                                <el-radio :label="72">72H</el-radio>
-                                <el-radio :label="96">96H</el-radio>
-                                <el-radio :label="120">120H</el-radio>
+                                            </el-col>
+                                        </el-row>
 
 
-                            </el-radio-group>
-                            <div style="display: inline-block;margin-left: 20px;">
-                                <span>其他</span>
-                                <input style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
-                            </div>
-
-                        </div>
-                    </el-col>
-                    <el-col :span="24">
-                        <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;其他信息</h2>
-                        <el-row  :gutter="24">
-                            <el-col :span="12">
-                                <div style="margin-left: 50px">
-                                    <span >是否投保 &nbsp;&nbsp;</span>
-                                    <el-checkbox label="1">是 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input></el-checkbox>
-                                    <el-checkbox  label="12">否 &nbsp;&nbsp;<input value="2000" style="width: 80px;border-left: none;border-top: none;border-right: none"></input></el-checkbox>
-
-                                </div>
-                                <div style="margin-left: 50px;padding: 15px 0">
-                                    <span >冷藏派送 &nbsp;&nbsp;</span>
-                                    <el-checkbox label="1">是 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input></el-checkbox>
-                                    <el-checkbox  label="12">否 &nbsp;&nbsp;</el-checkbox>
-
-                                </div>
-                            </el-col>
-                            <el-col :span="12">
-                                <div style="margin-left: 50px">
-                                    <span >
-                                        温度计使用&nbsp;&nbsp;</span>
-                                    <el-checkbox label="1">使用 &nbsp;&nbsp;</el-checkbox>
-                                    <el-checkbox  label="12">不使用 &nbsp;&nbsp;</el-checkbox>
-
-                                </div>
-                                <div style="margin-left: 50px;padding: 15px 0">
-                                    <span >付款方式 &nbsp;&nbsp;</span>
-                                    <el-checkbox label="1">发件人 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input></el-checkbox>
-                                    <el-checkbox  label="12">收件人 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input></el-checkbox>
-
-                                </div>
-                            </el-col>
-                            <el-col>
-                                <div style="margin-left: 15px">
-                                    <el-form :inline="true">
-                                        <el-form-item label="特殊需求">
-                                            <el-input type="textarea" style="width:100%;"></el-input>
-                                        </el-form-item>
                                     </el-form>
 
+                                </el-col>
+
+                            </el-row>
+
+                        </el-col>
+                        <el-col :span="24">
+
+                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0;display: inline-block">
+                                &nbsp;要求取件时间</h2>
+                            <div style="display: inline-block">
+                                <el-date-picker
+                                    v-model="qujianTime"
+                                    type="datetime"
+
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    placeholder="选择日期时间">
+                                </el-date-picker>
+                            </div>
+                        </el-col>
+                        <el-col :span="24">
+                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;时限要求</h2>
+                            <div style="margin-left: 50px">
+                                <el-radio-group v-model="LimitTime">
+                                    <el-radio :label="24">24H</el-radio>
+                                    <el-radio :label="36">36H</el-radio>
+                                    <el-radio :label="48">48H</el-radio>
+                                    <el-radio :label="72">72H</el-radio>
+                                    <el-radio :label="96">96H</el-radio>
+                                    <el-radio :label="120">120H</el-radio>
+
+
+                                </el-radio-group>
+                                <div style="display: inline-block;margin-left: 20px;">
+                                    <span>其他</span>
+                                    <input style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="otherLimitTime"></input>
                                 </div>
-                            </el-col>
 
-                        </el-row>
+                            </div>
+                        </el-col>
+                        <el-col :span="24">
+                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;其他信息</h2>
+                            <el-row :gutter="24">
+                                <el-col :span="12">
+                                    <div style="margin-left: 50px">
+                                        <span>是否投保 &nbsp;&nbsp;</span>
+                                        <el-checkbox label="1">是 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        </el-checkbox>
+                                        <el-checkbox label="12">否 &nbsp;&nbsp;<input value="2000" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        </el-checkbox>
+
+                                    </div>
+                                    <div style="margin-left: 50px;padding: 15px 0">
+                                        <span>冷藏派送 &nbsp;&nbsp;</span>
+                                        <el-checkbox label="1">是 &nbsp;&nbsp;<input value="500" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        </el-checkbox>
+                                        <el-checkbox label="12">否 &nbsp;&nbsp;</el-checkbox>
+
+                                    </div>
+                                </el-col>
+                                <el-col :span="12">
+                                    <div style="margin-left: 50px">
+                                    <span>
+                                        温度计使用&nbsp;&nbsp;</span>
+                                        <el-checkbox label="1">使用 &nbsp;&nbsp;</el-checkbox>
+                                        <el-checkbox label="12">不使用 &nbsp;&nbsp;</el-checkbox>
+
+                                    </div>
+                                    <div style="margin-left: 50px;padding: 15px 0">
+                                        <span>付款方式 &nbsp;&nbsp;</span>
+                                        <el-checkbox label="1">发件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        </el-checkbox>
+                                        <el-checkbox label="12">收件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
+                                        </el-checkbox>
+
+                                    </div>
+                                </el-col>
+                                <el-col>
+                                    <div style="margin-left: 15px">
+                                        <el-form :inline="true">
+                                            <el-form-item label="特殊需求">
+                                                <el-input type="textarea" style="width:100%;" v-model="teshuNeed"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+
+                                    </div>
+                                </el-col>
+
+                            </el-row>
 
 
+                        </el-col>
+                        <el-col :span="24" style="text-align:right;margin-bottom:20px;">
+                            <span class="save" @click="saveCargo">下一步</span>
+                        </el-col>
+                    </div>
 
-                    </el-col>
-                    <el-col :span="24" style="text-align:right;margin-bottom:20px;">
-                        <span class="save" @click="saveCargo">保存</span>
-                    </el-col>
+
                 </el-row>
 
             </div>
@@ -400,22 +411,32 @@
 </template>
 <script>
     import areaOptions from "../../lib/area.js";
+    import areaOptions2 from "../../lib/area.js";
     //import scrollWatch from "../../lib/vue-scrollwatch";
     export default {
         name: "test",
         data() {
             return {
+                teshuNeed:'',
+                otherLimitTime:'',
+                isShow:false,
+                GetTelephone:'',
+                showSearch: "药品",
+                searchData: "",
                 areaOptions: areaOptions,
+                areaOptions2:areaOptions2,
+                val2:[],
                 val: [], // 选中的省市区
                 accoutNum: "", // 客户账号
-                isDisabled1:false,
+                isDisabled1: false,
                 isDisabled: false,
                 ManMsg: {},
                 activeNames: ["0"],
-                value1: "",
+                qujianTime: "",
                 activeMenu: 1,
                 active: 1,
                 isFirst: true,
+                Address: '',
                 boxNum: "",
                 iceCarNum: "",
                 selectTem: "",
@@ -425,49 +446,42 @@
                 cargoMsg: [],
                 temArea: [],
                 GetCompany: '',
-                Company:'',
-                Telephone:'',
+                Company: '',
+                Telephone: '',
                 GetName: '',
                 GetCity: '',
-                GetTelephone: '',
-                GetAddress:'',
-                Note:'',
-                LimitTime:'',
+
+                GetAddress: '',
+                Note: '',
+                LimitTime: '',
                 boxType: [],
-                listData:{},
+                listData: {},
                 iceCar: [
-                    { PackageType: "4.2m冷藏车", num: "" },
-                    { PackageType: "7.6m冷藏车", num: "" },
-                    { PackageType: "9.6m冷藏车", num: "" }
+                    {PackageType: "4.2m冷藏车", num: ""},
+                    {PackageType: "7.6m冷藏车", num: ""},
+                    {PackageType: "9.6m冷藏车", num: ""}
                 ],
                 tiemLimit: [
-                    { limit: "24H" },
-                    { limit: "72H" },
-                    { limit: "36H" },
-                    { limit: "48H" }
+                    {limit: "24H"},
+                    {limit: "72H"},
+                    {limit: "36H"},
+                    {limit: "48H"}
                 ],
                 cargList: [ //货物信息
 
                 ],
-                newCargList:[], // 过度数组  用于点击保存时赋值给遍历的数组
+                newCargList: [], // 过度数组  用于点击保存时赋值给遍历的数组
                 newcargList: {}, // 存储温度区间 数量
                 item1: '',
                 cargListObj: {},
-                SNameArr:[],
-                SName:''
+                SNameArr: [],
+                SName: ''
             };
         },
         created() {
-            this.listData = this.$route.query.listData
-            console.log(this.$route.query)
-            // 第二次 进来  没走    问题
-
-
-            // // 客户账号
-            // this.accoutNum =
-            //     this.$route.query.AccountNumber == undefined
-            //         ? ""
-            //         : this.$route.query.AccountNumber;
+            // this.listData = this.$route.query.listData
+            // (this.$route.query)
+            // // 第二次 进来  没走    问题
             this.getManMsg();
             this.getTem();
 
@@ -477,109 +491,142 @@
                 // 省市区
                 this.val = val;
             },
+            handleItemChange2(val) {
+                // 省市区
+                this.val2 = val;
+            },
             //提交所有
-
-            submitFrom(){
-                console.log(this.cargList,8)
-                this.cargList.forEach(item => {
-                    console.log(item,7)
-                    var arr = [];
-                    this.cargListObj = {[item.WDQJ] : {
-                            "PackageType":item.PackageType,
-                            "num":item.num
-                        }
-                    }
-
-
-                    //var arr= [];
-                    //item[WDQJ]=
-                })
-                console.log(this.cargListObj,99);
-
-                let that = this;
-                this.$axios({
-                    url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index",
-                    method: "post",
-                    data: {
-                        AccountNumber:this.accoutNum,
-                        Box: JSON.stringify(this.cargListObj),
-                        IsWdj:'使用',
-                        CargoName:'',
-                        GoodsType:'试剂',
-                        Manager:this.ManMsg.Manager,
-                        GetName:this.GetName,
-                        Address:this.ManMsg.Address,
-                        GetAddress:this.GetAddress,
-                        City:'衡水市',
-                        GetCity:this.GetCity,
-                        Depart:'1',
-                        GetDepart:'1',
-                        Company:this.ManMsg.Company,
-                        GetCompany:this.GetCompany,
-                        Telephone:this.ManMsg.Telephone,
-                        GetTelephone:this.GetTelephone,
-                        OrderTime:this.value1,
-                        LimitTime:this.LimitTime,
-                        EntryName:this.EntryName,
-                        CountType:this.CountType,
-                        SafeRate:this.SafeRate,
-                        Note:this.Note,
-                        SafeItem:'1',
-                        SafePay:'1',
-                    },
-                    transformRequest: [
-                        function(data) {
-                            let ret = "";
-                            for (let it in data) {
-                                ret +=
-                                    encodeURIComponent(it) +
-                                    "=" +
-                                    encodeURIComponent(data[it]) +
-                                    "&";
-                            }
-                            return ret;
-                        }
-                    ],
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res) {
-                    console.log(res,33)
-                    // if (res.data.code == "200") {
-                    //     that.ManMsg = res.data.data;
-                    //     that.ManMsg.cityArea = that.ManMsg.City + "/" + that.ManMsg.Area;
-                    // } else {
-                    //     that.ManMsg = {};
-                    // }
-                });
+            //
+            // submitFrom() {
+            //     (this.cargList, 8)
+            //     this.cargList.forEach(item => {
+            //         (item, 7)
+            //         var arr = [];
+            //         this.cargListObj = {
+            //             [item.WDQJ]: {
+            //                 "PackageType": item.PackageType,
+            //                 "num": item.num
+            //             }
+            //         }
+            //
+            //
+            //         //var arr= [];
+            //         //item[WDQJ]=
+            //     })
+            //     (this.cargListObj, 99);
+            //
+            //     let that = this;
+            //     this.$axios({
+            //         url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index",
+            //         method: "post",
+            //         data: {
+            //             AccountNumber: this.accoutNum,
+            //             Box: JSON.stringify(this.cargListObj),
+            //             IsWdj: '使用',
+            //             CargoName: '',
+            //             GoodsType: '试剂',
+            //             Manager: this.ManMsg.Manager,
+            //             GetName: this.GetName,
+            //             Address: this.ManMsg.Address,
+            //             GetAddress: this.GetAddress,
+            //             City: '衡水市',
+            //             GetCity: this.GetCity,
+            //             Depart: '1',
+            //             GetDepart: '1',
+            //             Company: this.ManMsg.Company,
+            //             GetCompany: this.GetCompany,
+            //             Telephone: this.ManMsg.Telephone,
+            //             GetTelephone: this.GetTelephone,
+            //             OrderTime: this.qujianTime,
+            //             LimitTime: this.LimitTime,
+            //             EntryName: this.EntryName,
+            //             CountType: this.CountType,
+            //             SafeRate: this.SafeRate,
+            //             Note: this.Note,
+            //             SafeItem: '1',
+            //             SafePay: '1',
+            //         },
+            //         transformRequest: [
+            //             function (data) {
+            //                 let ret = "";
+            //                 for (let it in data) {
+            //                     ret +=
+            //                         encodeURIComponent(it) +
+            //                         "=" +
+            //                         encodeURIComponent(data[it]) +
+            //                         "&";
+            //                 }
+            //                 return ret;
+            //             }
+            //         ],
+            //         headers: {"Content-Type": "application/x-www-form-urlencoded"}
+            //     }).then(function (res) {
+            //         (res, 33)
+            //         // if (res.data.code == "200") {
+            //         //     that.ManMsg = res.data.data;
+            //         //     that.ManMsg.cityArea = that.ManMsg.City + "/" + that.ManMsg.Area;
+            //         // } else {
+            //         //     that.ManMsg = {};
+            //         // }
+            //     });
+            // },
+            // deleteInfor(index) { // 删除货物信息
+            //     (index)
+            //     (this.cargList)
+            //     this.cargList.splice(index, 1)
+            //     alert('你删除了第' + index + '个');
+            //
+            //
+            // },
+          /*  选择货物名称那个方法*/
+            changeCompany(data) {
+                (data);
+                this.$refs.messageDrop.hide()
+                this.showSearch = data;   // 选择的 那个
             },
-            deleteInfor(index) { // 删除货物信息
-                console.log(index)
-                console.log(this.cargList)
-
-                this.cargList.splice(index,1)
-                alert('你删除了第'+index+'个');
-
-
-
-            },
+            // 保存的时候
             saveCargo() {
+            let orderData ={
+                    accoutNum:this.accoutNum,
+                    CountType :this.ManMsg.CountType,
+                    Company:this.ManMsg.Company,
+                    Manager:this.ManMsg.Manager,
+                    Cid:this.ManMsg.Cid,
+                    Telephone:this.ManMsg.Telephone,
+                    SafeRate:this.ManMsg.SafeRate,
+                    Address: this.ManMsg.Address,
+                    SName:this.SName,
+                    GetCompany:this.GetCompany,
+                    GetName:this.GetName,
+                    GetTelephone:this.GetTelephone,
+                    GetAddress:this.GetAddress
+                };
+               // console.log(JSON.stringify(orderData))
                 this.$router.push({
                     path: "/OrderPreview",
                     query: {
+                        orderData:JSON.stringify(orderData),
 
-                       cargList:this.newCargList
+
                     }
+
+
                 })
-                // this.newCargList = [] // 如果点击保存重新选择
+
             },
 
-            getjiDetails(){
+            //传账号请求货物编码
+            getjiDetails() {
                 let that = this;
                 that.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
                     method: "post",
-                    data: { AccountNumber: that.accoutNum },
+                    data: {
+                        AccountNumber: that.accoutNum,
+                        SName: this.SName
+                    },
                     transformRequest: [
-                        function(data) {
+                        function (data) {
                             let ret = "";
                             for (let it in data) {
                                 ret +=
@@ -591,35 +638,66 @@
                             return ret;
                         }
                     ],
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res) {
-
-
-                    // res1.data = JSON.parse(res1.data)
-                    // var xx = JSON.parse(res1)
-                    // console.log(res1)
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
 
                     if (res.data.code == "200") {
-                        console.log(res.data)
-                         that.SNameArr = res.data.data;
-                        // console.log(that.SNameArr)
-                        // that.ManMsg = res.data.data;
-                        // that.ManMsg.cityArea =that.ManMsg.Depart+"/" +that.ManMsg.City + "/" + that.ManMsg.Area;
+
+                        that.SNameArr = res.data.data;
+                    } else {
+
+                    }
+                });
+            },
+            // 货物编号发生变化的时候的方法
+            currentSel(){
+                (this.SName)
+                let that = this;
+                that.$axios({
+                    url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
+                    method: "post",
+                    data: {
+                        AccountNumber: that.accoutNum,
+                        SName: this.SName
+                    },
+                    transformRequest: [
+                        function (data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
+
+                    if (res.data.code == "200") {
+
+                        that.GetAddress = res.data.data.Address;
+                        that.GetTelephone = res.data.data.Telephone;
+                        that.GetCompany =res.data.data.Company;
+                        that.GetName = res.data.data.Name
+
                     } else {
                         // that.ManMsg = {};
                     }
                 });
             },
-
+            //请求寄件人信息
             getManMsg() {
                 this.getjiDetails();
                 let that = this;
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/tomsg",
                     method: "post",
-                    data: { AccountNumber: that.accoutNum },
+                    data: {AccountNumber: that.accoutNum},
                     transformRequest: [
-                        function(data) {
+                        function (data) {
                             let ret = "";
                             for (let it in data) {
                                 ret +=
@@ -631,12 +709,13 @@
                             return ret;
                         }
                     ],
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res) {
-                    console.log(res)
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
+
                     if (res.data.code == "200") {
                         that.ManMsg = res.data.data;
-                        that.ManMsg.cityArea =that.ManMsg.Depart+"/" +that.ManMsg.City + "/" + that.ManMsg.Area;
+
+                        that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
                         that.ManMsg = {};
@@ -644,14 +723,15 @@
                 });
 
             },
+            //请求温度区间
             getTem() {
                 let that = this;
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
                     method: "post",
-                    data: { WDQJ: "" },
+                    data: {WDQJ: ""},
                     transformRequest: [
-                        function(data) {
+                        function (data) {
                             let ret = "";
                             for (let it in data) {
                                 ret +=
@@ -663,8 +743,8 @@
                             return ret;
                         }
                     ],
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res) {
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
                     if (res.data.code == "200") {
                         that.temArea = res.data.data;
                     } else {
@@ -673,8 +753,9 @@
                 });
             },
             handleChange(val) {
-                // console.log(val);
+                // (val);
             },
+            //请求箱型
             next(val, index) {
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
                 this.newcargList.WDQJ = val.WDQJ
@@ -683,9 +764,9 @@
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
                     method: "post",
-                    data: { WDQJ: val.WDQJ },
+                    data: {WDQJ: val.WDQJ},
                     transformRequest: [
-                        function(data) {
+                        function (data) {
                             let ret = "";
                             for (let it in data) {
                                 ret +=
@@ -697,8 +778,8 @@
                             return ret;
                         }
                     ],
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res) {
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
                     if (res.data.code == "200") {
                         that.boxType = res.data.data;
                     } else {
@@ -706,13 +787,11 @@
                     }
                 });
 
-
                 this.istemActive = index;
-
                 this.active = 2;
                 this.firstTitle = "已完成";
                 this.selectTem = val.tem; // 当前选择的温区
-                let obj = { tem: this.selectTem, box: [], iceCar: [] };
+                let obj = {tem: this.selectTem, box: [], iceCar: []};
                 // if (this.cargoMsg.length == 0) {
                 this.cargoMsg.push(obj);
                 // } else {
@@ -726,11 +805,13 @@
                 //     this.cargoMsg.push(obj);
                 //   }
                 // }
-                //console.log(this.cargoMsg); // 选择的温区
+                //(this.cargoMsg); // 选择的温区
             },
             prev() {
+                this.isShow = true
+
                 //   [{tem:"",box:[{type:"",num:""}]},{},{}]
-                //console.log(this.cargoMsg);
+                //(this.cargoMsg);
                 //   if (this.cargoMsg.length == 3) {
                 //     this.$message.error("最多只允许添加3个温区");
                 //   } else {
@@ -740,10 +821,7 @@
                 //   }
             },
             isNull(val, index, tem) {
-                console.log(this.cargoMsg)
-                if(this.newCargList >= 3){
-                    alert('大于3啦')
-                }
+                (this.cargoMsg)
                 // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
                 // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
                 // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
@@ -757,58 +835,53 @@
                 this.newCargList.push(val)
 
 
-
-                console.log(threeData,'箱型和car');
+                (threeData, '箱型和car');
             },
             //判断 箱型冷藏车只能选一个
-            isClick(val,isType){
+            isClick(val, isType) {
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
                 val.ROW_NUMBER = this.newcargList.ROW_NUMBER
                 val.WDQJ = this.newcargList.WDQJ
                 this.boxType.forEach(item => {
-                    if(item.num) {
+                    if (item.num) {
                         boxArr.push(item.num)
                     }
                 })
                 _this.iceCar.forEach(item => {
-                    if(item.num) {
+                    if (item.num) {
                         carArr.push(item.num)
                     }
                 })
-                if(isType == 'box'){
+                if (isType == 'box') {
                     // 箱型数量 输入中
-                    // console.log(this.boxType,'老孟');
+                    // (this.boxType,'老孟');
                     // 循环判断 数量有值  isDisabled1 = true   没值  isDisabled1 = false
-                    if(boxArr.length > 0) {
+                    if (boxArr.length > 0) {
                         _this.isDisabled1 = true
                     } else {
                         _this.isDisabled1 = false
                     }
-                }else if(isType == 'car'){
+                } else if (isType == 'car') {
                     // 冷藏车数量 输入中
 
-                    if(carArr.length > 0) {
+                    if (carArr.length > 0) {
                         _this.isDisabled = true
                     } else {
                         _this.isDisabled = false
                     }
                 }
             },
-            spyDomChange(node) {
-                if (this.activeMenu != node.name) this.activeMenu = node.name;
-            },
-            scrollTo(name) {
-                scrollWatch.scrollTo(name);
-            }
+
         }
     };
 </script>
 <style scoped>
     .el-form-item {
-        margin-bottom: 10px!important;
+        margin-bottom: 10px !important;
     }
+
     td,
     th {
         border: solid #ccc;
@@ -823,9 +896,11 @@
         border-collapse: collapse;
         width: 100%;
     }
+
     .table_td {
         background-color: #eff4f6;
     }
+
     .circle {
         width: 15px;
         height: 15px;
@@ -835,28 +910,35 @@
         line-height: 15px;
         text-align: center;
     }
+
     .bioage {
         margin: 20px 0;
     }
+
     .bioage span {
         margin-right: 20px;
     }
+
     .bigdiv {
         height: 100%;
         display: flex;
     }
+
     .nav-center {
         list-style-type: none;
         width: 150px;
         text-align: center;
     }
+
     .nav-center li {
         padding: 20px 0px;
         border-bottom: 1px solid #999;
     }
+
     h1 {
         margin: 0;
     }
+
     .main {
         /* margin-top:50px; */
         /* padding-left:200px; */
@@ -865,19 +947,23 @@
         overflow: auto;
         flex: 1;
     }
+
     .section {
         height: auto;
         /* overflow: hidden; */
         overflow-y: hidden;
     }
+
     .section.section-a {
         background: #eee;
         margin: 0 20px;
     }
+
     .section.section-b {
         background: #eee;
         margin: 20px;
     }
+
     .section.section-c {
         background: #eee;
         margin: 20px;
@@ -886,6 +972,7 @@
     .active {
         color: #42b983;
     }
+
     .temFirst {
         display: flex;
         flex-flow: wrap;
@@ -899,6 +986,7 @@
         padding: 5px;
         margin: 5px;
     }
+
     .temDefault {
         border: 1px solid #000;
         color: #000;
@@ -912,11 +1000,13 @@
     .el-form-item__label {
         width: 100px !important;
     }
+
     .limit {
         display: flex;
         justify-content: flex-start;
         flex-flow: wrap;
     }
+
     .limit span {
         padding: 5px 20px;
         margin: 5px 10px;
@@ -925,6 +1015,7 @@
         text-align: center;
         border-radius: 5px;
     }
+
     .save {
         padding: 5px 20px;
         border: 1px solid #ccc;
