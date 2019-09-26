@@ -5,7 +5,7 @@
 
 <!--                <router-view v-if='isRouterAlive'></router-view>-->
 
-<!--        </navigation>-->       //这是做缓存 要写的e
+<!--        </navigation>-->
     </div>
 </template>
 <script>

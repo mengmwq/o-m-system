@@ -67,11 +67,11 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-                {
-                    path:'/CargoStatisticsDetails2' ,
-                    component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
-                    meta:{keepAlive: true}
-                },
+                // {
+                //     path:'/CargoStatisticsDetails2' ,
+                //     component:resolve => require(['../components/page/CargoStatisticsDetails2.vue'],resolve),
+                //     meta:{keepAlive: true}
+                // },
 
 
                 //异常信息页面路由

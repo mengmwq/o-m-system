@@ -115,8 +115,16 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="城市/区域">
-                                            <el-input v-model="ManMsg.cityArea"></el-input>
+<!--                                        <el-form-item label="省/市/区">-->
+<!--                                            <el-input v-model="ManMsg.cityArea"></el-input>-->
+<!--                                        </el-form-item>-->
+                                        <el-form-item label="省/市/区">
+                                            <el-cascader
+                                                v-model="val"
+                                                :options="areaOptions"
+                                                @change="handleItemChange"
+                                                :separator="' '"
+                                            ></el-cascader>
                                         </el-form-item>
 
                                     </el-col>
@@ -263,7 +271,7 @@
                     </el-col>
                     <el-col :span="24" style="text-align:right;">
                         <!-- <button @click="prev"> 上一步 </button> -->
-                        <span class="save" @click="prev">上一步</span>
+                        <span class="save" @click="prev">保存</span>
                     </el-col>
                     <el-col :span="24">
                         <el-row>
@@ -391,12 +399,14 @@
     </div>
 </template>
 <script>
-    import scrollWatch from "../../lib/vue-scrollwatch";
-
+    import areaOptions from "../../lib/area.js";
+    //import scrollWatch from "../../lib/vue-scrollwatch";
     export default {
         name: "test",
         data() {
             return {
+                areaOptions: areaOptions,
+                val: [], // 选中的省市区
                 accoutNum: "", // 客户账号
                 isDisabled1:false,
                 isDisabled: false,
@@ -460,9 +470,13 @@
             //         : this.$route.query.AccountNumber;
             this.getManMsg();
             this.getTem();
-            this.getjiDetails();
+
         },
         methods: {
+            handleItemChange(val) {
+                // 省市区
+                this.val = val;
+            },
             //提交所有
 
             submitFrom(){
@@ -578,14 +592,16 @@
                         }
                     ],
                     headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                }).then(function(res1) {
+                }).then(function(res) {
+
+
                     // res1.data = JSON.parse(res1.data)
                     // var xx = JSON.parse(res1)
                     // console.log(res1)
 
-                    if (res1.data.code == "200") {
-                        console.log(res1.data)
-                        // that.SNameArr = res.data;
+                    if (res.data.code == "200") {
+                        console.log(res.data)
+                         that.SNameArr = res.data.data;
                         // console.log(that.SNameArr)
                         // that.ManMsg = res.data.data;
                         // that.ManMsg.cityArea =that.ManMsg.Depart+"/" +that.ManMsg.City + "/" + that.ManMsg.Area;
@@ -596,6 +612,7 @@
             },
 
             getManMsg() {
+                this.getjiDetails();
                 let that = this;
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/tomsg",
@@ -717,9 +734,9 @@
                 //   if (this.cargoMsg.length == 3) {
                 //     this.$message.error("最多只允许添加3个温区");
                 //   } else {
-                this.active = 1;
-                this.firstTitle = "进行中";
-                this.istemActive = -2;
+                // this.active = 1;
+                // this.firstTitle = "进行中";
+                // this.istemActive = -2;
                 //   }
             },
             isNull(val, index, tem) {
