@@ -165,12 +165,13 @@
 <!--                                    <el-input ></el-input>-->
 <!--                                </el-form-item>-->
                                 <el-form-item label="收货编码" >
-                                    <el-select v-model="SName" placeholder="请选择">
+                                    <el-select v-model="SName" placeholder="请选择"    @change="getjiDetails">
                                         <el-option
+
                                             v-for="item in SNameArr"
-                                            :key="item.ROW_NUMBER"
+
                                             :label="item.SName"
-                                            :value="item.ROW_NUMBER">
+                                            :value="item.SName">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
@@ -190,7 +191,7 @@
                                     <el-input ></el-input>
                                 </el-form-item>
                                 <el-form-item label="详细地址">
-                                    <el-input></el-input>
+                                    <el-input v-model="Address"></el-input>
                                 </el-form-item>
 
                             </el-form>
@@ -416,6 +417,7 @@
                 activeMenu: 1,
                 active: 1,
                 isFirst: true,
+                Address:'',
                 boxNum: "",
                 iceCarNum: "",
                 selectTem: "",
@@ -435,6 +437,7 @@
                 LimitTime:'',
                 boxType: [],
                 listData:{},
+                SName:'',
                 iceCar: [
                     { PackageType: "4.2m冷藏车", num: "" },
                     { PackageType: "7.6m冷藏车", num: "" },
@@ -577,7 +580,10 @@
                 that.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
                     method: "post",
-                    data: { AccountNumber: that.accoutNum },
+                    data: {
+                        AccountNumber: that.accoutNum,
+                        SName:this.SName
+                    },
                     transformRequest: [
                         function(data) {
                             let ret = "";
@@ -602,6 +608,7 @@
                     if (res.data.code == "200") {
                         console.log(res.data)
                          that.SNameArr = res.data.data;
+                        that.Address = res.data.data.Address
                         // console.log(that.SNameArr)
                         // that.ManMsg = res.data.data;
                         // that.ManMsg.cityArea =that.ManMsg.Depart+"/" +that.ManMsg.City + "/" + that.ManMsg.Area;
@@ -675,6 +682,7 @@
             handleChange(val) {
                 // console.log(val);
             },
+
             next(val, index) {
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
                 this.newcargList.WDQJ = val.WDQJ
