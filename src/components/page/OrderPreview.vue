@@ -16,14 +16,14 @@
                                         <td class='table_td'>客户账号</td>
                                         <td >{{accoutNum}}</td>
                                         <td class='table_td'>结算方式</td>
-                                        <td >{{paytype}}</td>
+                                        <td >{{CountType}}</td>
                                         <td class='table_td'>收货编码</td>
-                                        <td>{{GetCode}}</td>
+                                        <td>{{SName}}</td>
                                     </tr>
-                                  
+
                                     <tr>
                                         <td class='table_td'>公司名称</td>
-                                        <td colspan="3">{{GetCompany}}</td>
+                                        <td colspan="3">{{Company}}</td>
                                         <td class='table_td'>收货人</td>
                                         <td >{{GetName}}</td>
                                     </tr>
@@ -31,54 +31,60 @@
                                         <td class='table_td'>寄件人</td>
                                         <td >{{Manager}}</td>
                                         <td class='table_td'>部门科室</td>
-                                        <td >{{PartManter}}</td>
+                                        <td >{{Department}}</td>
                                         <td class='table_td'>公司名称</td>
-                                        <td>{{Company}}</td>
+                                        <td>{{GetCompany}}</td>
                                     </tr>
                                    <tr>
                                         <td class='table_td'>联系电话</td>
                                         <td >{{Telephone}}</td>
                                         <td class='table_td'>中心号</td>
-                                        <td >{{PartManter}}</td>
+                                        <td >{{zxNumber}}</td>
                                         <td class='table_td'>联系电话</td>
                                         <td>{{GetTelephone}}</td>
                                     </tr>
                                     <tr>
                                         <td class='table_td'>项目编号</td>
-                                        <td>{{xmnum}}</td>
+                                        <td>{{Cid2}}</td>
                                         <td class='table_td'>协议号</td>
-                                        <td>{{xynum}}</td>
+                                        <td>{{XyNumber}}</td>
                                          <td class='table_td'>部门/科室</td>
-                                        <td>{{GetPartment}}</td>
+                                        <td>{{GetDepartment}}</td>
                                     </tr>
                                     <tr>
-                                    	<td class='table_td'>城市区域</td>
-                                        <td>{{Derp}}{{City}}{{Area}}</td>
+                                    	<td class='table_td'>省/市/区</td>
+                                        <td>{{val}}</td>
                                         <td class='table_td'>保险费率</td>
-                                        <td></td>
-                                        <td class='table_td'>城市/区域</td>
-                                        <td>{{GetDerp}}{{GetCity}}{{GetArea}}</td>
-                                        
+                                        <td>{{SafeRate}}</td>
+                                        <td class='table_td'>省/市/区</td>
+                                        <td>{{val2}}</td>
+
                                     </tr>
                                     <tr>
                                         <td class='table_td'>详细地址</td>
-                                        <td colspan="3">{{Detiladdress}} </td>
+                                        <td colspan="3">{{Address}} </td>
                                         <td class='table_td'>收件详细地址</td>
-                                        <td colspan="2">{{GetDetiladdress}}</td>
+                                        <td colspan="2">{{GetAddress}}</td>
 
                                     </tr>
                                     <tr>
                                         <td class='table_td'>取件网络</td>
-                                        <td colspan="5">{{GetNetwork}}</td>
+                                        <td colspan="5"></td>
 
                                     </tr>
-
-
-
 
                                 </table>
                             </el-collapse-item>
                             <el-collapse-item title="Step2 货物信息" name="1">
+                                <el-row :gutter="24">
+                                    <el-col :span="12">
+                                        货物类型：{{showSearch}}
+                                    </el-col>
+                                    <el-col :span="12">
+                                        货物名称：{{searchData}}
+                                    </el-col>
+                                </el-row>
+
                                 <table>
                                     <tr>
                                         <th>序号</th>
@@ -100,8 +106,8 @@
 <!--                                    </tr>-->
                                 </table>
                                 <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
-                                    <div>要求取件时间：1</div>
-                                    <div style="margin:0 20px">时限要求：1H</div>
+                                    <div>要求取件时间：{{qujianTime}}</div>
+                                    <div style="margin:0 20px">时限要求：{{LimitTime}}H</div>
                                     <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
                                         <img :src="item" alt="" @click='isHover($event)'>
                                     </div>
@@ -127,13 +133,13 @@
                                                 <input type="radio" name="isTrue" />不投保
                                                 <input type="text" placeholder="请输入金额">
                                             </div>-->
-                                            <span>否</span>
-                                            <span>2000</span>
+                                            <span>{{SafeItem}}</span>
+                                            <span>{{SafePay}}</span>
                                         </td>
                                         <td class='table_td'>温度计使用</td>
                                         <td>
-                                           <span>不使用</span>
-                                          
+                                           <span>{{IsWdj}}</span>
+
                                         </td>
 
                                     </tr>
@@ -147,35 +153,25 @@
                                                 <input type="radio" name="isTrue" />否
 
                                             </div>-->
-                                              <span>是</span>
-                                            <span>500</span>
+                                              <span>{{IsLCar}}</span>
+                                            <span>{{LCar}}</span>
                                         </td>
                                         <td class='table_td'>付款方式</td>
                                         <td>
-                                            <span>收件人</span>
-                                            <span>500元</span>
+                                            <span>{{OutPay}}</span>
+                                            <span>{{PayMoney}}</span>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                     	<td>特殊需求</td>
-                                    	<td colspan="5"> <textarea name="" id=""  style="width: 98%;height: 80px;" v-model="Note"></textarea></td>
-                                    	
+                                    	<td colspan="5"> <span name="" id=""  style="width: 98%;height: 80px;" >{{Note}}</span></td>
+
                                     </tr>
                                 </table>
-                                <div class='isPhoto'>
-                                    <!--                           <div>照片：</div>-->
-                                    <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
-                                        <img :src="item" alt="" @click='isHover($event)'>
-                                    </div>
-                                   <div v-if='Number(getbox.get_box_img.length) == 0' >暂无照片</div> -->
-                                </div>
+
                             </el-collapse-item>
-                            <!--<el-collapse-item title="Step4 特殊需求" name="3">
-                                <div>
-                                    <textarea name="" id=""  style="width: 98%;height: 80px;" v-model="Note"></textarea>
-                                </div>
-                            </el-collapse-item>-->
+
                         </el-collapse>
 
                     </el-col>
@@ -196,6 +192,29 @@
         name: "OrderPreview",
         data() {
             return {
+                qujianTime:'',
+                showSearch:'',
+                searchData:'',
+                NisSy:'',
+                isSy:'',
+                fj:'',
+                sj:'',
+                fjValue:'',
+                sjValue:'',
+                isMoney:'',
+                SafeItem:'',
+                SafePay:'',
+                teshuNeed:'',
+                otherLimitTime:'',
+                XyNumber:'',
+                zxNumber:'',
+                GetDepartment:'',
+                GetName:'',
+                Address:'',
+                GetAddress:'',
+                isShow:false,
+                Cid2:'',
+                SafeRate:'',
                 accoutNum: "", // 客户账号
                 isDisabled1:false,
                 isDisabled: false,
@@ -216,32 +235,103 @@
                 GetCompany: '',
                 Company:'',
                 Telephone:'',
-                GetName: '',
+                GetTelephone:'',
                 Manager:'',//寄件人
-                GetTelephone: '',
-                GetAddress:'',
+                val2:'',
+                val:'',
                 Note:'',
                 PartManter:'',
                 LimitTime:'',
                 boxType: [],
                 listData:{},
-                GetCode:'',//收货编码
-                paytype:'',//结算方式
-                xmnum:'',//项目号
+                Department:'',
+                SName:'',//收货编码
+                CountType:'',//结算方式
                 xynum:'',//协议号
                 xmnum:'',//项目号
-                GetPartment:'',//收件人部门科室
-                GetDerp:'',//收件省份
-                GetCity:'',//收件城市
-                GetArea:'',//收件区域
-                Derp:'',//寄件省份
-                City:'',//寄件城市
-                Area:'',//寄件区域
-                Detiladdress:'',//寄件人详细地址
-                GetDetiladdress:'',//寄件人详细地址
-                GetNetwork:''
+
+                IsWdj:'',
+                IsLCar:'',
+                LCar:'',
+                OutPay:'',
+                PayMoney:''
+
+
+
+
+
             };
+
         },
+        mounted(){
+            this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
+            console.log( this.orderData.accoutNum,8888);
+            this.accoutNum =  this.orderData.accoutNum;
+            this.CountType = this.orderData.CountType;
+            this.Company = this.orderData.Company;
+            this.Manager = this.orderData.Manager;
+            this.Cid2 = this.orderData.Cid2;
+            this.XyNumber = this.orderData.XyNumber;
+            this.zxNumber = this.orderData.zxNumber;
+            this.Telephone = this.orderData.Telephone;
+            this.GetTelephone = this.orderData.GetTelephone;
+            this.SafeRate =this.orderData.SafeRate;
+            this.Address = this.orderData.Address;
+            this.GetAddress = this.orderData.GetAddress;
+            this.SName = this.orderData.SName;
+            this.GetCompany = this.orderData.GetCompany;
+            this.GetName = this.orderData.GetName;
+            this.val = this.orderData.val;
+            this.val2 = this.orderData.val2;
+            this.GetDepartment = this.orderData.GetDepartment;
+            this.Department = this.orderData.Department;
+            this.searchData = this.orderData.searchData;
+            this.qujianTime = this.orderData.qujianTime;
+            this.showSearch = this.orderData.showSearch;
+            this.LimitTime = this.orderData.LimitTime;
+            this.SafeItem = this.orderData.SafeItem;
+
+            this.SafePay = this.orderData.SafePay;
+            this.IsWdj = this.orderData.IsWdj;
+            this.IsLCar = this.orderData.IsLCar;
+            this.LCar = this.orderData.LCar;
+            this.OutPay = this.orderData.OutPay;
+            this.PayMoney =this.orderData.PayMoney;
+            this.Note = this.orderData.Note
+
+
+
+                //
+                //
+                //
+                // SafeRate:this.ManMsg.SafeRate,
+                // Address: this.ManMsg.Address,
+                // SName:this.SName,
+                // GetCompany:this.GetCompany,
+                // GetName:this.GetName,
+                // GetTelephone:this.GetTelephone,
+                // GetAddress:this.GetAddress,
+                // Department:this.Department,
+                // GetDepartment:this.GetDepartment,
+                // showSearch:this.showSearch,//货物类型
+                // searchData:this.searchData,
+                // qujianTime:this.qujianTime,
+                // LimitTime:this.LimitTime,
+                // otherLimitTime:this.otherLimitTime,
+                // isMoney:this.isMoney,
+                // isTou:this.isTou,
+                // NisTou:this.NisTou,
+                // NisSy:this.NisSy,
+                // isSy:this.isSy,
+                // fj:this. fj,
+                // sj:this.sj,
+                // fjValue: this.fjValue,
+                // sjValue: this.sjValue,
+                // teshuNeed:this.teshuNeed
+
+
+        },
+
     }
 </script>
 

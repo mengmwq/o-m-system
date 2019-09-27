@@ -31,10 +31,28 @@
                                     </el-col>
                                 </el-row>
 
+                                <el-row>
+                                    <el-col
+                                        :span="12"
+                                        style="padding:0"
+                                    >
+                                        <el-form-item label="公司名称">
+                                            <el-input v-model="ManMsg.Company" style="width:100%"></el-input>
+                                        </el-form-item>
 
-                                <el-form-item label="公司名称">
-                                    <el-input v-model="ManMsg.Company"></el-input>
-                                </el-form-item>
+                                    </el-col>
+
+                                    <el-col
+                                        :span="12"
+                                        style="padding:0"
+                                    >
+                                        <el-form-item label="保险费率">
+                                            <el-input v-model="ManMsg.SafeRate"></el-input>
+                                        </el-form-item>
+
+                                    </el-col>
+                                </el-row>
+
 
 
                                 <el-row>
@@ -79,9 +97,6 @@
                                             <el-input v-model="ManMsg.zxNumber" placeholder="选填"></el-input>
                                         </el-form-item>
 
-                                        <!--                                        <el-form-item label="保险费率">-->
-                                        <!--                                            <el-input v-model="ManMsg.SafeRate"></el-input>-->
-                                        <!--                                        </el-form-item>-->
                                     </el-col>
                                 </el-row>
                                 <el-row>
@@ -128,8 +143,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="保险费率">
-                                            <el-input v-model="ManMsg.SafeRate"></el-input>
+                                        <el-form-item label="取件网络">
+                                            <el-input></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -139,9 +154,7 @@
                                 <el-form-item label="详细地址">
                                     <el-input v-model="ManMsg.Address"></el-input>
                                 </el-form-item>
-                                <el-form-item label="取件网络">
-                                    <el-input></el-input>
-                                </el-form-item>
+
 
                             </el-form>
                         </div>
@@ -353,17 +366,16 @@
                                 <el-col :span="12">
                                     <div style="margin-left: 50px">
                                         <span>是否投保 &nbsp;&nbsp;</span>
-                                        <el-checkbox label="1">是 &nbsp;&nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none"></input>
-                                        </el-checkbox>
-                                        <el-checkbox label="12">否 &nbsp;&nbsp;<input value="2000" :disabled="true" style="width: 80px;border-left: none;border-top: none;border-right: none;text-align: center"></input>
-                                        </el-checkbox>
+
+                                        <el-radio  v-model="SafeItem" label="投保">投保 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay"></el-radio>
+                                        <el-radio  v-model="SafeItem" label="不投保">不投保 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay"></el-radio>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-checkbox label="1" v-model="isTou">是 &nbsp;&nbsp;<input value="500" style="width: 80px;border-left: none;border-top: none;border-right: none"  v-model="isMoney"></input>
-                                        </el-checkbox>
-                                        <el-checkbox label="12" v-model="NisTou">否 &nbsp;&nbsp;</el-checkbox>
+                                        <el-radio  v-model="IsLCar" label="冷车">是&nbsp;<input value="550" style="width: 80px;border-left: none;border-top: none;border-right: none"  v-model="LCar"></input></el-radio>
+                                        <el-radio  v-model="IsLCar" label="不使用">否</el-radio>
+
 
                                     </div>
                                 </el-col>
@@ -371,16 +383,15 @@
                                     <div style="margin-left: 50px">
                                     <span>
                                         温度计使用&nbsp;&nbsp;</span>
-                                        <el-checkbox label="1" v-model="isSy">使用 &nbsp;&nbsp;</el-checkbox>
-                                        <el-checkbox label="12" v-model="NisSy">不使用 &nbsp;&nbsp;</el-checkbox>
+                                        <el-radio  v-model="IsWdj" label="使用">使用</el-radio>
+                                        <el-radio  v-model="IsWdj" label="不使用">不使用</el-radio>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-checkbox label="1" v-model="fj">发件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="fjValue"></input>
-                                        </el-checkbox>
-                                        <el-checkbox label="12" v-model="sj">收件人 &nbsp;&nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="sjValue"></input>
-                                        </el-checkbox>
+                                        <el-radio  v-model="OutPay" label="发件人">发件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney"></el-radio>
+                                        <el-radio  v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney"></el-radio>
+
 
                                     </div>
                                 </el-col>
@@ -388,7 +399,7 @@
                                     <div style="margin-left: 15px">
                                         <el-form :inline="true">
                                             <el-form-item label="特殊需求">
-                                                <el-input type="textarea" style="width:100%;" v-model="teshuNeed"></el-input>
+                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>
                                             </el-form-item>
                                         </el-form>
 
@@ -420,6 +431,11 @@
         name: "test",
         data() {
             return {
+                OutPay:'',
+                PayMoney:'',
+                LCar:'',
+                IsLCar:'',
+                IsWdj:'',
                 NisSy:'',
                 isSy:'',
                 fj:'',
@@ -427,9 +443,9 @@
                 fjValue:'',
                 sjValue:'',
                 isMoney:'',
-                NisTou:'',
-                isTou:'',
-                teshuNeed:'',
+                SafeItem:'',
+                SafePay:'',
+                Note:'',
                 otherLimitTime:'',
                 XyNumber:'',
                 zxNumber:'',
@@ -515,6 +531,12 @@
             },
             // 保存的时候
             saveCargo() {
+                console.log(this.radio1);
+                //这个如何判断
+
+                // if(this.isTou == true){
+                //
+                // }
                 let orderData ={
                     accoutNum:this.accoutNum,
                     CountType :this.ManMsg.CountType,
@@ -539,21 +561,33 @@
                     LimitTime:this.LimitTime,
                     otherLimitTime:this.otherLimitTime,
                     isMoney:this.isMoney,
-                    isTou:this.isTou,
-                    NisTou:this.NisTou,
+
+                    SafeItem:this.SafeItem,
+                    SafePay:this.SafePay,
                     NisSy:this.NisSy,
                     isSy:this.isSy,
                     fj:this. fj,
                     sj:this.sj,
                     fjValue: this.fjValue,
                     sjValue: this.sjValue,
-                    teshuNeed:this.teshuNeed
+                    Note:this.Note,
+                    val:this.val,
+                    val2:this.val2,
+                    IsWdj:this.IsWdj,
+                    IsLCar:this.IsLCar,
+                    LCar:this.LCar,
+                    PayMoney:this.PayMoney,
+                    OutPay:this.OutPay
+
+
                 };
+
+                console.log(orderData,99)
+                 window.sessionStorage.setItem('orderData',JSON.stringify(orderData));
+
                 this.$router.push({
                     path: "/OrderPreview",
-                    query: {
-                        orderData:orderData,
-                    }
+
                 })
 
             },
