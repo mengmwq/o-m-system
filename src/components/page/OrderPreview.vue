@@ -69,7 +69,7 @@
                                     </tr>
                                     <tr>
                                         <td class='table_td'>取件网络</td>
-                                        <td colspan="5"></td>
+                                        <td colspan="5">{{CompanyNet}}</td>
 
                                     </tr>
 
@@ -133,8 +133,8 @@
                                                 <input type="radio" name="isTrue" />不投保
                                                 <input type="text" placeholder="请输入金额">
                                             </div>-->
-                                            <span>{{SafeItem}}</span>
-                                            <span>{{SafePay}}</span>
+                                            <span>{{SafeItem}}&nbsp;&nbsp;</span>
+                                            <span>{{SafePay}}元</span>
                                         </td>
                                         <td class='table_td'>温度计使用</td>
                                         <td>
@@ -249,15 +249,12 @@
                 CountType:'',//结算方式
                 xynum:'',//协议号
                 xmnum:'',//项目号
-
+                CompanyNet:'',
                 IsWdj:'',
                 IsLCar:'',
                 LCar:'',
                 OutPay:'',
-                PayMoney:''
-
-
-
+                PayMoney:'',
 
 
             };
@@ -290,44 +287,17 @@
             this.showSearch = this.orderData.showSearch;
             this.LimitTime = this.orderData.LimitTime;
             this.SafeItem = this.orderData.SafeItem;
-
-            this.SafePay = this.orderData.SafePay;
+            // this.SafePay = this.orderData.SafePay
+            this.SafeItem = this.orderData.SafeItem
+            this.SafePay = this.SafeItem == '投保' ? this.orderData.SafePay : this.orderData.SafePay2;
+            this.CompanyNet = this.orderData.CompanyNet,
             this.IsWdj = this.orderData.IsWdj;
             this.IsLCar = this.orderData.IsLCar;
             this.LCar = this.orderData.LCar;
-            this.OutPay = this.orderData.OutPay;
-            this.PayMoney =this.orderData.PayMoney;
+            this.OutPay =this.orderData.OutPay;
+            this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
             this.Note = this.orderData.Note
 
-
-
-                //
-                //
-                //
-                // SafeRate:this.ManMsg.SafeRate,
-                // Address: this.ManMsg.Address,
-                // SName:this.SName,
-                // GetCompany:this.GetCompany,
-                // GetName:this.GetName,
-                // GetTelephone:this.GetTelephone,
-                // GetAddress:this.GetAddress,
-                // Department:this.Department,
-                // GetDepartment:this.GetDepartment,
-                // showSearch:this.showSearch,//货物类型
-                // searchData:this.searchData,
-                // qujianTime:this.qujianTime,
-                // LimitTime:this.LimitTime,
-                // otherLimitTime:this.otherLimitTime,
-                // isMoney:this.isMoney,
-                // isTou:this.isTou,
-                // NisTou:this.NisTou,
-                // NisSy:this.NisSy,
-                // isSy:this.isSy,
-                // fj:this. fj,
-                // sj:this.sj,
-                // fjValue: this.fjValue,
-                // sjValue: this.sjValue,
-                // teshuNeed:this.teshuNeed
 
 
         },

@@ -143,8 +143,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="取件网络">
-                                            <el-input></el-input>
+                                        <el-form-item label="取件网络"  >
+                                            <el-input v-model="CompanyNet" @blur="handleItemChangeCompany"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -368,7 +368,7 @@
                                         <span>是否投保 &nbsp;&nbsp;</span>
 
                                         <el-radio  v-model="SafeItem" label="投保">投保 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay"></el-radio>
-                                        <el-radio  v-model="SafeItem" label="不投保">不投保 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay"></el-radio>
+                                        <el-radio  v-model="SafeItem" label="不投保">不投保 &nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay2"></el-radio>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
@@ -390,7 +390,8 @@
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>付款方式 &nbsp;&nbsp;</span>
                                         <el-radio  v-model="OutPay" label="发件人">发件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney"></el-radio>
-                                        <el-radio  v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney"></el-radio>
+                                        <el-radio  v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney2"></el-radio>
+
 
 
                                     </div>
@@ -433,6 +434,7 @@
             return {
                 OutPay:'',
                 PayMoney:'',
+                PayMoney2:'',
                 LCar:'',
                 IsLCar:'',
                 IsWdj:'',
@@ -445,6 +447,8 @@
                 isMoney:'',
                 SafeItem:'',
                 SafePay:'',
+                SafePay1:'',
+                SafePay2:2000,
                 Note:'',
                 otherLimitTime:'',
                 XyNumber:'',
@@ -458,7 +462,8 @@
                 areaOptions: areaOptions,
                 areaOptions2:areaOptions2,
                 val2:[],
-                val: [], // 选中的省市区
+                val: [], // 选中的省市区,
+                city:'',//城市
                 accoutNum: "", // 客户账号
                 isDisabled1: false,
                 isDisabled: false,
@@ -505,18 +510,96 @@
                 item1: '',
                 cargListObj: {},
                 SNameArr: [],
-                SName: ''
+                SName: '',
+                CompanyNet:'',
             };
         },
         created() {
             this.getManMsg();
             this.getTem();
 
+
         },
         methods: {
             handleItemChange(val) {
                 // 省市区
-                this.val = val;
+                this.val = val
+                console.log(this.val)
+                if(this.val && this.val.length==3){
+                    //截取字符串
+                    console.log(this.val)
+                    console.log(this.val[1],2);
+                    console.log(this.val[1].indexOf('市'),3)
+                    this.city = this.val[1].substring(0,this.val[1].indexOf('市'));
+                    let that = this;
+                    that.$axios({
+                        url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/checknet",
+                        method: "post",
+                        data: {
+                            City: this.city,
+                            CompanyNet: ''
+                        },
+                        transformRequest: [
+                            function (data) {
+                                let ret = "";
+                                for (let it in data) {
+                                    ret +=
+                                        encodeURIComponent(it) +
+                                        "=" +
+                                        encodeURIComponent(data[it]) +
+                                        "&";
+                                }
+                                return ret;
+                            }
+                        ],
+                        headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                    }).then(function (res) {
+                        console.log(res,33)
+                        if (res.data.code == "200") {
+
+                            that.CompanyNet = res.data.data.CompanyNet;
+                        } else {
+
+                        }
+                    });
+                }
+
+
+            },
+            //选择网络公司的时候请求接口
+            handleItemChangeCompany(){
+              let that = this;
+                that.$axios({
+                    url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/checknet",
+                    method: "post",
+                    data: {
+                        City: this.city,
+                        CompanyNet: this.CompanyNet,
+                    },
+                    transformRequest: [
+                        function (data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}
+                }).then(function (res) {
+                    console.log(res,33)
+                    if (res.data.code == "200") {
+                        that.$message.success(res.data.msg)
+
+                    } else {
+
+                        that.$message.error(res.data.msg)
+                    }
+                });
             },
             handleItemChange2(val) {
                 // 省市区
@@ -531,12 +614,17 @@
             },
             // 保存的时候
             saveCargo() {
-                console.log(this.radio1);
+                console.log(this.SafePay);
                 //这个如何判断
 
-                // if(this.isTou == true){
-                //
-                // }
+                if(this.SafeItem == '投保') {
+                    if (this.SafePay == '') {
+                        //alert('投保金额必填')
+                        this.$message.success('投保金额必填');
+                        return;
+                    }
+                };
+
                 let orderData ={
                     accoutNum:this.accoutNum,
                     CountType :this.ManMsg.CountType,
@@ -564,6 +652,9 @@
 
                     SafeItem:this.SafeItem,
                     SafePay:this.SafePay,
+                    SafePay2:this.SafePay2,
+                    CompanyNet:this.CompanyNet,
+
                     NisSy:this.NisSy,
                     isSy:this.isSy,
                     fj:this. fj,
@@ -577,13 +668,14 @@
                     IsLCar:this.IsLCar,
                     LCar:this.LCar,
                     PayMoney:this.PayMoney,
+                    PayMoney2:this.PayMoney2,
                     OutPay:this.OutPay
 
 
                 };
 
                 console.log(orderData,99)
-                 window.sessionStorage.setItem('orderData',JSON.stringify(orderData));
+                window.sessionStorage.setItem('orderData',JSON.stringify(orderData));
 
                 this.$router.push({
                     path: "/OrderPreview",

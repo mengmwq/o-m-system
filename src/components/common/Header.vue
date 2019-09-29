@@ -99,11 +99,13 @@
             this.Id =  (JSON.parse(item).Id);
             this.Mobile = (JSON.parse(item).Mobile);
             this.Company = (JSON.parse(item).Company);
-
+            this.City = (JSON.parse(item).City)
             this.Operate = (JSON.parse(item).Operate)
 
             window.sessionStorage.setItem('compony',this.Company);
-            window.sessionStorage.setItem('TrueName',this.TrueName)
+            window.sessionStorage.setItem('TrueName',this.TrueName);
+            window.sessionStorage.setItem('City',this.City);
+
 
 
 

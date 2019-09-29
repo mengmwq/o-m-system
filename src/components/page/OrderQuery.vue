@@ -109,6 +109,7 @@
                             height="500"
                             @cell-click="jumpDetails"
                             @expand-change ="rowClick"
+
                             :data="tableData"
                             style="width: 100%">
                             <el-table-column type="expand">
@@ -180,12 +181,12 @@
 <!--                                                            </span>-->
 
 <!--                                                      </div>-->
-<!--                                                      <div  class="bioage">-->
-<!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp重量：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp温度计: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>-->
-
-<!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp冷藏车：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> </span>
+                                                         <span>温度计: &nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 5px;border-radius: 5px;">{{IsWdj}}</span></span>
+
+                                                      </div>
+                                                      <div  class="bioage">
+                                                          <span>冷藏车：&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 5px;border-radius: 5px;"></span> </span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -217,7 +218,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>是否完成：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">是</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">2019/5/12</span></span>
+                                                          <span>是否完成：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">是</span><span style="background: #eee;padding:5px 5px;border-radius: 5px;">2019/5/12</span></span>
 
                                                       </div>
 <!--                                                      <div  class="bioage">-->
@@ -225,7 +226,7 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>指令状态：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">1</span></span>
+                                                          <span>指令状态：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="background: #eee;padding:5px 5px;border-radius: 5px;">1</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -258,7 +259,7 @@
                                            </div>
                                            <div class="bioage">
                                                <span>联系电话：{{Telephone}}</span>
-                                               <span>城市、区域：北京</span>
+                                               <span>省/市/区：{{Depart}}/{{City}}</span>
                                            </div>
                                            <div class="bioage">
                                                <span>详细地址：{{Address}}</span>
@@ -268,12 +269,12 @@
                                                <span>公司名称：{{GetCompany}}</span>
                                            </div>
                                            <div class="bioage">
-                                               <span>联系人：</span>
+                                               <span>联系人：{{GetName}}</span>
                                                <span>科室：</span>
                                            </div>
                                            <div class="bioage">
                                                <span>联系电话：{{GetTelephone}}</span>
-                                               <span>城市、区域：{{GetArea}}</span>
+                                               <span>省/市/区：{{GetDepart}}/{{GetCity}}</span>
                                            </div>
                                            <div class="bioage">
                                                <span>详细地址：{{GetAddress}}</span>
@@ -358,13 +359,14 @@
                                 class-name="Condition"
                                 label="订单状态"
                                 align="center"
-                                prop="Condition">
+                                >
+                                <template slot-scope="scope" >
+                                    <span v-bind:style="{'color':scope.row.Condition == '指令下达'?'#649EFE ':'#606266','cursor':'pointer'}">
+                                        {{scope.row.Condition}}
+                                    </span>
+
+                                </template>
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                label="录入人"-->
-<!--                                align="center"-->
-<!--                                prop="lururen">-->
-<!--                            </el-table-column>-->
                             <el-table-column
                                 label="下单方式"
 
@@ -377,11 +379,6 @@
                                 label="取件网络"
                                 prop="NetCity">
                             </el-table-column>
-<!--                            <el-table-column-->
-<!--                                label="取件人"-->
-<!--                                align="center"-->
-<!--                                prop="qujianren">-->
-<!--                            </el-table-column>-->
                             <el-table-column
                                 align="center"
                                 label="操作">
@@ -416,27 +413,27 @@
             <div>
                 <div class="block" >
                     <el-date-picker
-                        v-model="value1"
+                        v-model="OrderTime1"
                         type="datetime"
-
+                        value-format="yyyy-MM-dd HH:mm:ss"
                         style="width:100%"
-                        placeholder="选择日期时间">s
+                        placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
                 <el-form ref="form" label-width="80px" style="margin:10px 0 0 0">
                     <el-form-item label="原因类型">
-                        <el-select v-model="region" placeholder="请选择">
+                        <el-select v-model="CityCode" placeholder="请选择">
                             <el-option label="客户原因" value="客户原因"></el-option>
                             <el-option label="内部原因" value="内部原因"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="内容描述">
-                        <el-input type="textarea"  ></el-input>
+                        <el-input type="textarea" v-model="Note" ></el-input>
                     </el-form-item>
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
-                 <el-button type="primary" size="mini" >save</el-button>
+                 <el-button type="primary" size="mini" @click="revise()">save</el-button>
                   <el-button @click="allotDialogVisible1 = false">取 消</el-button>
             </span>
         </el-dialog>
@@ -491,6 +488,7 @@
         name: "orderManagement",
         data() {
             return {
+                OrderTime1:'',
                 showSearch:"订单号",
                 searchData: "",
                 Box:'',
@@ -525,9 +523,13 @@
                 OrderType:'',//下单类型
                 allotDialogVisible1:false,
                 loading:true,
+                IsWdj:'',
                 Depart:'',
+                GetCity:'',
+                GetDepart:'',
                 City:'',
                 MNote:'',
+                Note:'',
                 entryname:'',
                 GetCity:'',
                 GetDepart:'',
@@ -546,9 +548,12 @@
                 GetTelephone:'',
                 GetArea:'',
                 GetAddress:'',
-
+                CityCode:'',
                 MTime:'',
                 MName:'',
+                City:'',
+                Depart:'',
+                GetDepart:''
 
 
 
@@ -557,11 +562,14 @@
         mounted(){
             this.company = window.sessionStorage.getItem('compony');
             this.TrueName = window.sessionStorage.getItem('TrueName')
+            this.City = window.sessionStorage.getItem('City')
             this.getData();
+
         },
 
         methods:{
             oneMoreOrder(row){
+
                 let _this = this;
                 _this.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
@@ -585,8 +593,11 @@
                     ],
 
                 }).then(function (res) {
-                    console.log(res)
-                    _this.resData = res.data.data;
+                    //再一单传值的时候
+
+                    // let orderDataAgain =res.data.data;
+                    // window.sessionStorage.setItem('orderDataAgain',JSON.stringify(orderDataAgain));
+
                   /*  _this.$router.push({
                         path: "/OrderEntry",
                         query: {
@@ -685,6 +696,14 @@
                     _this.MNote = res.data.data.MNote;
                     _this.MTime = res.data.data.MTime;
                     _this.MName = res.data.data.MName;
+                    _this.Depart =res.data.data.Depart;
+                    _this.City =res.data.data.City;
+                    _this.GetCity =res.data.data.GetCity;
+                    _this.GetDepart =res.data.data.GetDepart;
+                    _this.IsWdj =res.data.data.IsWdj;
+
+
+
 
 
 
@@ -732,6 +751,13 @@
                     _this.loading = false
                     _this.tableData = res.data.data.result;
                     _this.ccc = res.data.data.count;
+                    // _this.tableData.forEach(item=>{
+                    //
+                    //     if(item.Condition=="指令下达"){
+                    //       _this.attr('color','red')
+                    //     }
+                    // })
+
                 })
 
 
@@ -747,6 +773,51 @@
                 this.loading = true;
                 this.cur_page = val;
                 this.getData();
+            },
+            //修改取件时间
+            revise(){
+                let _this = this;
+                this.id = window.sessionStorage.getItem('id')
+                _this.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/changetime',
+                method: "post",
+                    data: {
+
+                        id:this.id,
+                        Company:this.company,
+                        OrderName:this.TrueName,
+                        CityCode:this.CityCode,
+                        Note:this.Note,
+                        OrderCity:this.City,
+                        OrderTime1:this.OrderTime1,
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    if (res.data.code == 200) {
+                        _this.$message.success("修改成功");
+                        _this.allotDialogVisible1 = false;
+
+
+                        _this.getData()
+                    } else {
+                        _this.$message.error(res.data.msg);
+                    }
+                })
             },
             //通知方式
             cacelTzhi(){
@@ -782,7 +853,6 @@
                         _this.$message.success("修改通知状态成功");
                         _this.tongzhiFangshi = false;
 
-                        _this.MNote = '';
                         _this.getData()
                     } else {
                         _this.$message.error(res.data.msg);
@@ -839,7 +909,7 @@
 
 
                     this.allotDialogVisible1=true
-                    console.log(1)
+                    window.sessionStorage.setItem('id',row.id);
                 }else if(row.IsMessage == 0 && column.label == '是否通知'){
                    this.tongzhiFangshi = true;
                     window.sessionStorage.setItem('id',row.id);
@@ -847,6 +917,8 @@
                 }
 
                else if(row.Condition == '指令下达' && column.property == 'Condition'){
+
+                    console.log(this,2)
 
                     this.quxiaoFangshi = true;
                     window.sessionStorage.setItem('id',row.id);
@@ -865,6 +937,7 @@
             },
             //指令状态的操作
             changeSta(val){
+                this.loading=true;
                 // 点击谁  就给谁加class   zajia  不会了
                 // console.log(val)
                 this.cur_page = 1;
@@ -1059,5 +1132,8 @@
         left: 46px; */
 
     ;
+    }
+    .blue-class{
+        color: blue;
     }
 </style>
