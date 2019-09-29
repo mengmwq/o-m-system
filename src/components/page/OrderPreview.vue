@@ -81,7 +81,7 @@
                                         货物类型：{{showSearch}}
                                     </el-col>
                                     <el-col :span="12">
-                                        货物名称：{{searchData}}
+                                        货物名称：{{ }}
                                     </el-col>
                                 </el-row>
 
@@ -176,7 +176,7 @@
 
                     </el-col>
                     <el-col style="margin: 30px 0;display: flex;justify-content: center">
-                        <el-button type="primary" >提交</el-button>
+                        <el-button type="primary"  @click="submitFromContent()">提交</el-button>
                         <el-button type="success">取消</el-button>
                     </el-col>
 
@@ -261,6 +261,8 @@
 
         },
         mounted(){
+            this.TrueName = window.sessionStorage.getItem('TrueName')
+
             this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
             console.log( this.orderData.accoutNum,8888);
             this.accoutNum =  this.orderData.accoutNum;
@@ -301,6 +303,79 @@
 
 
         },
+        methods:{
+            submitFromContent(){
+                let that = this;
+                that.$axios({
+                    url:'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index',
+                    method: "post",
+                    data: {
+                        AccountNumber:this.accoutNum,//客户账号
+                        IsWdj:this.IsWdj,//使用不使用温度计
+                        CargoName:this.searchData,//货物名称
+                        GoodsType:this.showSearch,//货物类型
+                        Manager:this.Manager,//寄件人
+                        GetName:this.GetName,//收件人
+                        Address:this.Address,//寄件地址
+                        GetAddress:this.GetAddress,//收件地址
+                        City:this.val[1],//发件城市
+                        GetCity:this.val2[1],//收件城市
+                        Depart:this.val[0],//寄件省份            ？？？？？？？？
+                        GetDepart:this.val2[0],// 收件省份       ？
+                        Company:this.Company,//寄件公司
+                        GetCompany:this.GetCompany,//收件公司
+                        Telephone:this.Telephone,//寄件电话
+                        GetTelephone:this.GetTelephone,//收件电话
+                        OrderTime:this.qujianTime,//要求取件时间
+                        LimitTime:this.LimitTime,//时限
+                        EntryName:this.TrueName,//录入人    //这个没有
+                        CountType:this.CountType,//结算方式
+                        Note:this.Note,//备注
+                        SafeItem:this.SafeItem,//是否投报
+                        SafePay:this.SafePay,//投保金额
+                        SafeRate:this.SafeRate,//费率
+                        GetCode:this.GetDepartment,//收件部门
+                        Department:this.Department,//寄件部门
+                        CustmerCode:this.zxNumber,//	中心号
+                        XMNO:this.xmnum,//项目号
+                        XYNO:this.xynum,//协议号
+                        IsLCar:this.IsLCar,//	冷车费用
+                        OutPay:this.OutPay,//0是发件方1是收件方
+                        PayMoney:this.PayMoney,//费用
+                        CompanyNet:this.CompanyNet,//取件网络公司
+                        NetDepart:this.val2[0],//取件站点省份
+                        NetCity:this.val2[1],//取件站点城市
+                        Box:"",//	包材数组
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for (let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    console.log(res,999)
+
+                    if(res.data.code == 200){
+                        //_this.$message.success(res.data.msg)
+
+
+                    }else{
+
+                    }
+
+                })
+            },
+        }
 
     }
 </script>

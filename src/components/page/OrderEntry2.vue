@@ -54,7 +54,6 @@
                                 </el-row>
 
 
-
                                 <el-row>
                                     <el-col
                                         :span="12"
@@ -71,7 +70,7 @@
                                         style="padding:0"
                                     >
                                         <el-form-item label="部门/科室">
-                                            <el-input v-model="Department"  placeholder="选填"></el-input>
+                                            <el-input v-model="Department" placeholder="选填"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -143,7 +142,7 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="取件网络"  >
+                                        <el-form-item label="取件网络">
                                             <el-input v-model="CompanyNet" @blur="handleItemChangeCompany"></el-input>
                                         </el-form-item>
 
@@ -184,7 +183,7 @@
                                     <el-input v-model="GetName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="部门/科室">
-                                    <el-input v-model="GetDepartment" placeholder="选填"  ></el-input>
+                                    <el-input v-model="GetDepartment" placeholder="选填"></el-input>
                                 </el-form-item>
                                 <el-form-item label="联系电话">
                                     <el-input v-model="GetTelephone"></el-input>
@@ -341,7 +340,8 @@
                             </div>
                         </el-col>
                         <el-col :span="24">
-                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;时限要求</h2>
+                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">
+                                &nbsp;时限要求</h2>
                             <div style="margin-left: 50px">
                                 <el-radio-group v-model="LimitTime">
                                     <el-radio :label="24">24H</el-radio>
@@ -355,26 +355,37 @@
                                 </el-radio-group>
                                 <div style="display: inline-block;margin-left: 20px;">
                                     <span>其他</span>
-                                    <input style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="otherLimitTime"></input>
+                                    <input style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                           v-model="otherLimitTime"></input>
                                 </div>
 
                             </div>
                         </el-col>
                         <el-col :span="24">
-                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">&nbsp;其他信息</h2>
+                            <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">
+                                &nbsp;其他信息</h2>
                             <el-row :gutter="24">
                                 <el-col :span="12">
                                     <div style="margin-left: 50px">
                                         <span>是否投保 &nbsp;&nbsp;</span>
 
-                                        <el-radio  v-model="SafeItem" label="投保">投保 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay"></el-radio>
-                                        <el-radio  v-model="SafeItem" label="不投保">不投保 &nbsp;<input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="SafePay2"></el-radio>
+                                        <el-radio v-model="SafeItem" label="投保">投保 &nbsp;<input value=""
+                                                                                                style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                                                                                v-model="SafePay">
+                                        </el-radio>
+                                        <el-radio v-model="SafeItem" label="不投保">不投保 &nbsp;<input value=""
+                                                                                                  style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                                                                                  v-model="SafePay2">
+                                        </el-radio>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-radio  v-model="IsLCar" label="冷车">是&nbsp;<input value="550" style="width: 80px;border-left: none;border-top: none;border-right: none"  v-model="LCar"></input></el-radio>
-                                        <el-radio  v-model="IsLCar" label="不使用">否</el-radio>
+                                        <el-radio v-model="IsLCar" label="冷车">是&nbsp;<input value="550"
+                                                                                            style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                                                                            v-model="LCar"></input>
+                                        </el-radio>
+                                        <el-radio v-model="IsLCar" label="不使用">否</el-radio>
 
 
                                     </div>
@@ -383,16 +394,20 @@
                                     <div style="margin-left: 50px">
                                     <span>
                                         温度计使用&nbsp;&nbsp;</span>
-                                        <el-radio  v-model="IsWdj" label="使用">使用</el-radio>
-                                        <el-radio  v-model="IsWdj" label="不使用">不使用</el-radio>
+                                        <el-radio v-model="IsWdj" label="使用">使用</el-radio>
+                                        <el-radio v-model="IsWdj" label="不使用">不使用</el-radio>
 
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-radio  v-model="OutPay" label="发件人">发件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney"></el-radio>
-                                        <el-radio  v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney2"></el-radio>
-
-
+                                        <el-radio v-model="OutPay" label="发件人">发件人 &nbsp;<input value=""
+                                                                                                style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                                                                                v-model="PayMoney">
+                                        </el-radio>
+                                        <el-radio v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""
+                                                                                                style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                                                                                v-model="PayMoney2">
+                                        </el-radio>
 
                                     </div>
                                 </el-col>
@@ -432,38 +447,38 @@
         name: "test",
         data() {
             return {
-                OutPay:'',
-                PayMoney:'',
-                PayMoney2:'',
-                LCar:'',
-                IsLCar:'',
-                IsWdj:'',
-                NisSy:'',
-                isSy:'',
-                fj:'',
-                sj:'',
-                fjValue:'',
-                sjValue:'',
-                isMoney:'',
-                SafeItem:'',
-                SafePay:'',
-                SafePay1:'',
-                SafePay2:2000,
-                Note:'',
-                otherLimitTime:'',
-                XyNumber:'',
-                zxNumber:'',
-                GetDepartment:'',
-                Department:'',
-                isShow:false,
-                GetTelephone:'',
+                OutPay: '',
+                PayMoney: '',
+                PayMoney2: '',
+                LCar: '',
+                IsLCar: '',
+                IsWdj: '',
+                NisSy: '',
+                isSy: '',
+                fj: '',
+                sj: '',
+                fjValue: '',
+                sjValue: '',
+                isMoney: '',
+                SafeItem: '',
+                SafePay: '',
+                SafePay1: '',
+                SafePay2: 2000,
+                Note: '',
+                otherLimitTime: '',
+                XyNumber: '',
+                zxNumber: '',
+                GetDepartment: '',
+                Department: '',
+                isShow: false,
+                GetTelephone: '',
                 showSearch: "药品",
                 searchData: "",
                 areaOptions: areaOptions,
-                areaOptions2:areaOptions2,
-                val2:[],
+                areaOptions2: areaOptions2,
+                val2: [],
                 val: [], // 选中的省市区,
-                city:'',//城市
+                city: '',//城市
                 accoutNum: "", // 客户账号
                 isDisabled1: false,
                 isDisabled: false,
@@ -511,7 +526,7 @@
                 cargListObj: {},
                 SNameArr: [],
                 SName: '',
-                CompanyNet:'',
+                CompanyNet: '',
             };
         },
         created() {
@@ -525,12 +540,12 @@
                 // 省市区
                 this.val = val
                 console.log(this.val)
-                if(this.val && this.val.length==3){
+                if (this.val && this.val.length == 3) {
                     //截取字符串
                     console.log(this.val)
-                    console.log(this.val[1],2);
-                    console.log(this.val[1].indexOf('市'),3)
-                    this.city = this.val[1].substring(0,this.val[1].indexOf('市'));
+                    console.log(this.val[1], 2);
+                    console.log(this.val[1].indexOf('市'), 3)
+                    this.city = this.val[1].substring(0, this.val[1].indexOf('市'));
                     let that = this;
                     that.$axios({
                         url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/checknet",
@@ -554,7 +569,7 @@
                         ],
                         headers: {"Content-Type": "application/x-www-form-urlencoded"}
                     }).then(function (res) {
-                        console.log(res,33)
+                        console.log(res, 33)
                         if (res.data.code == "200") {
 
                             that.CompanyNet = res.data.data.CompanyNet;
@@ -567,8 +582,8 @@
 
             },
             //选择网络公司的时候请求接口
-            handleItemChangeCompany(){
-              let that = this;
+            handleItemChangeCompany() {
+                let that = this;
                 that.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/checknet",
                     method: "post",
@@ -591,7 +606,7 @@
                     ],
                     headers: {"Content-Type": "application/x-www-form-urlencoded"}
                 }).then(function (res) {
-                    console.log(res,33)
+                    console.log(res, 33)
                     if (res.data.code == "200") {
                         that.$message.success(res.data.msg)
 
@@ -606,7 +621,7 @@
                 this.val2 = val;
             },
 
-          /*  选择货物名称那个方法*/
+            /*  选择货物名称那个方法*/
             changeCompany(data) {
                 (data);
                 this.$refs.messageDrop.hide()
@@ -617,65 +632,66 @@
                 console.log(this.SafePay);
                 //这个如何判断
 
-                if(this.SafeItem == '投保') {
+                if (this.SafeItem == '投保') {
                     if (this.SafePay == '') {
                         //alert('投保金额必填')
                         this.$message.success('投保金额必填');
                         return;
                     }
-                };
+                }
+                ;
 
-                let orderData ={
-                    accoutNum:this.accoutNum,
-                    CountType :this.ManMsg.CountType,
-                    Company:this.ManMsg.Company,
-                    Manager:this.ManMsg.Manager,
-                    Cid2:this.ManMsg.Cid2,
-                    XyNumber:this.ManMsg.XyNumber,
-                    zxNumber:this.ManMsg.zxNumber,
-                    Telephone:this.ManMsg.Telephone,
-                    SafeRate:this.ManMsg.SafeRate,
+                let orderData = {
+                    accoutNum: this.accoutNum,
+                    CountType: this.ManMsg.CountType,
+                    Company: this.ManMsg.Company,
+                    Manager: this.ManMsg.Manager,
+                    Cid2: this.ManMsg.Cid2,
+                    XyNumber: this.ManMsg.XyNumber,
+                    zxNumber: this.ManMsg.zxNumber,
+                    Telephone: this.ManMsg.Telephone,
+                    SafeRate: this.ManMsg.SafeRate,
                     Address: this.ManMsg.Address,
-                    SName:this.SName,
-                    GetCompany:this.GetCompany,
-                    GetName:this.GetName,
-                    GetTelephone:this.GetTelephone,
-                    GetAddress:this.GetAddress,
-                    Department:this.Department,
-                    GetDepartment:this.GetDepartment,
-                    showSearch:this.showSearch,//货物类型
-                    searchData:this.searchData,
-                    qujianTime:this.qujianTime,
-                    LimitTime:this.LimitTime,
-                    otherLimitTime:this.otherLimitTime,
-                    isMoney:this.isMoney,
+                    SName: this.SName,
+                    GetCompany: this.GetCompany,
+                    GetName: this.GetName,
+                    GetTelephone: this.GetTelephone,
+                    GetAddress: this.GetAddress,
+                    Department: this.Department,
+                    GetDepartment: this.GetDepartment,
+                    showSearch: this.showSearch,//货物类型
+                    searchData: this.searchData,
+                    qujianTime: this.qujianTime,
+                    LimitTime: this.LimitTime,
+                    otherLimitTime: this.otherLimitTime,
+                    isMoney: this.isMoney,
 
-                    SafeItem:this.SafeItem,
-                    SafePay:this.SafePay,
-                    SafePay2:this.SafePay2,
-                    CompanyNet:this.CompanyNet,
+                    SafeItem: this.SafeItem,
+                    SafePay: this.SafePay,
+                    SafePay2: this.SafePay2,
+                    CompanyNet: this.CompanyNet,
 
-                    NisSy:this.NisSy,
-                    isSy:this.isSy,
-                    fj:this. fj,
-                    sj:this.sj,
+                    NisSy: this.NisSy,
+                    isSy: this.isSy,
+                    fj: this.fj,
+                    sj: this.sj,
                     fjValue: this.fjValue,
                     sjValue: this.sjValue,
-                    Note:this.Note,
-                    val:this.val,
-                    val2:this.val2,
-                    IsWdj:this.IsWdj,
-                    IsLCar:this.IsLCar,
-                    LCar:this.LCar,
-                    PayMoney:this.PayMoney,
-                    PayMoney2:this.PayMoney2,
-                    OutPay:this.OutPay
+                    Note: this.Note,
+                    val: this.val,
+                    val2: this.val2,
+                    IsWdj: this.IsWdj,
+                    IsLCar: this.IsLCar,
+                    LCar: this.LCar,
+                    PayMoney: this.PayMoney,
+                    PayMoney2: this.PayMoney2,
+                    OutPay: this.OutPay
 
 
                 };
 
-                console.log(orderData,99)
-                window.sessionStorage.setItem('orderData',JSON.stringify(orderData));
+                console.log(orderData, 99)
+                window.sessionStorage.setItem('orderData', JSON.stringify(orderData));
 
                 this.$router.push({
                     path: "/OrderPreview",
@@ -719,7 +735,7 @@
                 });
             },
             // 货物编号发生变化的时候的方法
-            currentSel(){
+            currentSel() {
                 (this.SName)
                 let that = this;
                 that.$axios({
@@ -749,7 +765,7 @@
 
                         that.GetAddress = res.data.data.Address;
                         that.GetTelephone = res.data.data.Telephone;
-                        that.GetCompany =res.data.data.Company;
+                        that.GetCompany = res.data.data.Company;
                         that.GetName = res.data.data.Name
 
                     } else {
@@ -901,15 +917,14 @@
                 }
 
 
-
-              console.log (threeData, '箱型和car');
+                console.log(threeData, '箱型和car');
             },
             //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
-            quxiao(){
+            quxiao() {
                 this.cargoMsg = '';
                 this.isDisabled = false
-                this.isDisabled1 =false
-                console.log (this.cargoMsg, '箱型和car2');
+                this.isDisabled1 = false
+                console.log(this.cargoMsg, '箱型和car2');
             },
             //判断 箱型冷藏车只能选一个
             isClick(val, isType) {

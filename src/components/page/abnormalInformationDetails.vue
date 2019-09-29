@@ -514,14 +514,7 @@
                             "异常内容",
                             "录入时间",
                             "录入人",
-
                             "备注",
-
-
-
-
-
-
                         ];
                         // 这就是 对应的 字段
                         const filterVal = [
@@ -535,11 +528,7 @@
                             "NotReason",
                             "Indate",
                             "entryname",
-
                             "note1",
-
-
-
                         ];
                         const list = res;
                         this.loading = false;
@@ -547,7 +536,6 @@
                         export_json_to_excel(tHeader, data, "异常信息分控详情表");  // 这是  excel文件名
                     });
                 });
-
             },
             formatJson: function (filterVal, jsonData) {
                 return jsonData.map(v => filterVal.map(j => v[j]));
@@ -570,9 +558,6 @@
                         ID:this.ID,
                         StartTime:this.StartTime,
                         EndTime:this.EndTime
-
-
-
                     },
                     transformRequest: [
                         function(data) {
@@ -596,7 +581,6 @@
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
-
                        // _this.CompanyNet = '';
                     }else{
                         _this.$message.error(res.data.msg)
@@ -650,7 +634,6 @@
     .el-input__inner {
         height: 35px;
     }
-
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }

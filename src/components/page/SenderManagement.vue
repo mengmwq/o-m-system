@@ -318,9 +318,6 @@
                             </el-col>
                         </el-col>
                     </el-row>
-
-
-
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
@@ -336,8 +333,6 @@
 </template>
 
 <script>
-
-
     export default {
         name: "SenderManagement",
         data() {
