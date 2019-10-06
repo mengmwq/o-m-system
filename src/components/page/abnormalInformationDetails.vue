@@ -330,10 +330,6 @@
                     data: {
                         Company: this.company,
                         fkNet:this.CompanyNet,
-
-
-
-
                     },
                     transformRequest: [
                         function(data) {

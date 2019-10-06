@@ -114,7 +114,7 @@
                 company:'',
                 tableData0:[],
                 loading:true,
-                multipleSelection:[]
+                multipleSelection:[],//多选框
 
             }
         },
@@ -257,7 +257,6 @@
                         //_this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData0 = res.data.data;
-
                         _this.ccc = res.data.data.sum;
                     }else{
                         _this.$message.error(res.data.msg)

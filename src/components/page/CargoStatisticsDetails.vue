@@ -2,8 +2,6 @@
     <div class="divBut">
         <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>><span>网络公司</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
         <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
-
-<!--        <div style="background: #eee;padding: 20px "  v-else>区域订单>{{Area}}</div>-->
         <div  >
             <el-form :inline="true" class="demo-form-inline">
                 <el-row>
@@ -243,7 +241,7 @@
 
     import htmlToPdf from '../../js/htmlToPdf';
     export default {
-        name: "SenderManagement",
+        name: "CargoStatisticsDetails",
         data() {
             return {
                 tabelName:'',

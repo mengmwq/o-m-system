@@ -536,6 +536,8 @@
 
         },
         methods: {
+            //选择省市区改变的方法
+
             handleItemChange(val) {
                 // 省市区
                 this.val = val

@@ -27,7 +27,7 @@ export default new Router({
                 },
                 // {
                 //    path:'/OrderEntry' ,
-                //     component:resolve => require(['../components/page/OrderEntry.vue'],resolve),
+                //     component:resolve => require(['../CargoStatisticsDetails/page/OrderEntry.vue'],resolve),
                 //     meta:{keepAlive: true}
                 // },
                 {
