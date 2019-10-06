@@ -93,17 +93,17 @@
                                         <th>数量</th>
                                         <th>操作</th>
                                     </tr>
-<!--                                    <tr v-for="(item,index) in cargList" :key="index">-->
-<!--                                        <td>{{index+1}}</td>-->
-<!--                                        <td>{{item.WDQJ}}</td>-->
-<!--                                        <td>{{item.PackageType}}</td>-->
-<!--                                        <td>-->
-<!--                                            &lt;!&ndash;                                   <span class="circle">-</span>&ndash;&gt;-->
-<!--                                            <span>{{item.num}}</span>-->
-<!--                                            &lt;!&ndash;                                   <span class="circle">+</span>&ndash;&gt;-->
-<!--                                        </td>-->
-<!--                                        <td @click="deleteInfor(index)"><span>删除</span></td>-->
-<!--                                    </tr>-->
+                                    <tr v-for="(item,index) in Box" :key="index">
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.WDQJ}}</td>
+                                        <td>{{item.PackageType}}</td>
+                                        <td>
+                                            <!--                                   <span class="circle">-</span>-->
+                                            <span>{{item.num}}</span>
+                                            <!--                                   <span class="circle">+</span>-->
+                                        </td>
+                                        <td @click="deleteInfor(index)"><span>删除</span></td>
+                                    </tr>
                                 </table>
                                 <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
                                     <div>要求取件时间：{{qujianTime}}</div>
@@ -156,11 +156,11 @@
                                               <span>{{IsLCar}}</span>
                                             <span>{{LCar}}</span>
                                         </td>
-                                        <td class='table_td'>付款方式</td>
-                                        <td>
-                                            <span>{{OutPay}}</span>
-                                            <span>{{PayMoney}}</span>
-                                        </td>
+<!--                                        <td class='table_td'>付款方式</td>-->
+<!--                                        <td>-->
+<!--                                            <span>{{OutPay}}</span>-->
+<!--                                            <span>{{PayMoney}}</span>-->
+<!--                                        </td>-->
 
                                     </tr>
                                     <tr>
@@ -197,6 +197,7 @@
                 searchData:'',
                 NisSy:'',
                 isSy:'',
+                Box: [],
                 fj:'',
                 sj:'',
                 fjValue:'',
@@ -244,6 +245,7 @@
                 LimitTime:'',
                 boxType: [],
                 listData:{},
+                newBox: {},
                 Department:'',
                 SName:'',//收货编码
                 CountType:'',//结算方式
@@ -261,12 +263,49 @@
 
         },
         mounted(){
+            if(this.$route.query.sta == '老孟'){
+
+
+                this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
+                console.log(this.orderData,'再一旦');
+                this.accoutNum =  this.$route.query.AccountNumber;
+                this.CountType = this.orderData.PayWay;
+                this.SafePay =this.orderData.SafeMoney;
+                this.val = this.orderData.Depart + '/' + this.orderData.City;
+                this.val2 = this.orderData.GetDepart + '/' + this.orderData.GetCity;
+                // this.Box= this.orderData.Box;
+                let Box = this.orderData.Box;
+                // let arr = [];
+                for(var i in Box){
+                    Box[i].forEach(item=>{
+                        item.WDQJ = i;
+                        item.PackageType = item.PackageName;
+                        item.num = item.Jian;
+                    })
+                   this.Box = Box[i];
+                }
+                this.qujianTime = this.orderData.Indate;
+                this.Note = this.orderData.note1;
+                // console.log(this.Box);
+                // DepartMent
+
+            }else{
+
+                this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
+                this.accoutNum =  this.orderData.accoutNum;
+                this.CountType = this.orderData.CountType;
+                this.SafeRate =this.orderData.SafeRate;
+                this.val = this.orderData.val;
+                this.val2 = this.orderData.val2;
+                this.Box= this.orderData.Box;
+                this.qujianTime = this.orderData.qujianTime;
+                this.Note = this.orderData.Note;
+            }
+
             this.TrueName = window.sessionStorage.getItem('TrueName')
 
-            this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
-            console.log( this.orderData.accoutNum,8888);
-            this.accoutNum =  this.orderData.accoutNum;
-            this.CountType = this.orderData.CountType;
+            // this.accoutNum =  this.orderData.accoutNum;
+            // this.CountType = this.orderData.CountType;
             this.Company = this.orderData.Company;
             this.Manager = this.orderData.Manager;
             this.Cid2 = this.orderData.Cid2;
@@ -274,18 +313,18 @@
             this.zxNumber = this.orderData.zxNumber;
             this.Telephone = this.orderData.Telephone;
             this.GetTelephone = this.orderData.GetTelephone;
-            this.SafeRate =this.orderData.SafeRate;
+            // this.SafeRate =this.orderData.SafeRate;
             this.Address = this.orderData.Address;
             this.GetAddress = this.orderData.GetAddress;
             this.SName = this.orderData.SName;
             this.GetCompany = this.orderData.GetCompany;
             this.GetName = this.orderData.GetName;
-            this.val = this.orderData.val;
-            this.val2 = this.orderData.val2;
+            // this.val = this.orderData.val;
+            // this.val2 = this.orderData.val2;
             this.GetDepartment = this.orderData.GetDepartment;
             this.Department = this.orderData.Department;
             this.searchData = this.orderData.searchData;
-            this.qujianTime = this.orderData.qujianTime;
+            // this.qujianTime = this.orderData.qujianTime;
             this.showSearch = this.orderData.showSearch;
             this.LimitTime = this.orderData.LimitTime;
             this.SafeItem = this.orderData.SafeItem;
@@ -293,18 +332,53 @@
             this.SafeItem = this.orderData.SafeItem
             this.SafePay = this.SafeItem == '投保' ? this.orderData.SafePay : this.orderData.SafePay2;
             this.CompanyNet = this.orderData.CompanyNet,
-            this.IsWdj = this.orderData.IsWdj;
+                this.IsWdj = this.orderData.IsWdj;
             this.IsLCar = this.orderData.IsLCar;
             this.LCar = this.orderData.LCar;
-            this.OutPay =this.orderData.OutPay;
-            this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
-            this.Note = this.orderData.Note
-
+            // this.OutPay =this.orderData.OutPay;
+            // this.PayMoney = this.OutPay=='0' ?this.orderData.PayMoney : this.orderData.PayMoney2;
+            // this.Note = this.orderData.Note;
+            // this.Box= this.orderData.Box;
+            this.newBox = JSON.parse(JSON.stringify(this.Box));
 
 
         },
         methods:{
+            deleteInfor(index) { // 删除货物信息
+
+                this.Box.splice(index,1);
+                alert('你删除了第'+Number(index+1)+'个');
+
+
+            },
             submitFromContent(){
+                let abc = this.newBox;
+                // for(var i in this.newBox){
+                //     if(this.newBox[i] == )
+                // }
+                var result={};
+                var arr = [];
+                for(var i=0;i<abc.length;i++){
+                    abc[i].Jian = abc[i].num;
+                    // delete abc[i];
+                    if(result[abc[i].WDQJ]){
+
+                        arr.push(abc[i]);
+                        // arr.push(result[abc[i].WDQJ]);
+                        result[abc[i].WDQJ]=arr;
+                    }else{
+
+                        result[abc[i].WDQJ]= [abc[i]];
+                    }
+                }
+                console.log(result,'11111')
+
+                // this.newBox.forEach(item=>{
+                //     item.Jian = item.num;
+                //     if()
+                //     obj[item.WDQJ] = item;
+                // });
+                // console.log(obj,'提交的参数');return;
                 let that = this;
                 that.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index',
@@ -337,15 +411,15 @@
                         GetCode:this.GetDepartment,//收件部门
                         Department:this.Department,//寄件部门
                         CustmerCode:this.zxNumber,//	中心号
-                        XMNO:this.xmnum,//项目号
-                        XYNO:this.xynum,//协议号
+                        XMNO:this.Cid2,//项目号
+                        XYNO:this.XyNumber,//协议号
                         IsLCar:this.IsLCar,//	冷车费用
-                        OutPay:this.OutPay,//0是发件方1是收件方
-                        PayMoney:this.PayMoney,//费用
+                        // OutPay:this.OutPay,//0是发件方1是收件方
+                        // PayMoney:this.PayMoney,//费用
                         CompanyNet:this.CompanyNet,//取件网络公司
                         NetDepart:this.val2[0],//取件站点省份
                         NetCity:this.val2[1],//取件站点城市
-                        Box:"",//	包材数组
+                        Box: JSON.stringify(result),//	包材数组
 
                     },
                     transformRequest: [

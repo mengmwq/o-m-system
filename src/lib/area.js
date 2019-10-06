@@ -670,7 +670,7 @@ const options = [
 	  "children": [{
 		"value": "长春市",
 		"label": "长春市",
-		"children": [{"value": "南关区", "label": "南关区"}, {"value": "宽城区", "label": "宽城区"}, {
+		"children": [{"value": "南关区", "label": "南关区"},{"value": "开发区", "label": "开发区"}, {"value": "宽城区", "label": "宽城区"}, {
 		  "value": "朝阳区",
 		  "label": "朝阳区"
 		}, {"value": "二道区", "label": "二道区"}, {"value": "绿园区", "label": "绿园区"}, {
@@ -4626,5 +4626,5 @@ const options = [
 	  }]
 	}]
 
-  
+
   export default options;

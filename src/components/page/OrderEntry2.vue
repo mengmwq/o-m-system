@@ -249,7 +249,7 @@
                                                         :key="index">
                                                         <span>{{item.PackageType}}</span>
 
-                                                        <input type="number" value="" v-model='item.num'
+                                                        <input  value="" v-model='item.num'
                                                                style='width:20%;' @blur="isNull(item,index)"
                                                                @input="isClick(item,'box')">
 
@@ -262,7 +262,7 @@
                                                 <div class="temFirst">
                                                     <div v-for="(item,index) in iceCar" :key="index">
                                                         <span>{{item.PackageType}}</span>
-                                                        <input type="number" v-model="item.num" style='width:20%;'
+                                                        <input  v-model="item.num" style='width:20%;'
                                                                @blur="isNull(item,index,item1)"
                                                                @input="isClick(item,'car')">
                                                         <span>辆</span>
@@ -400,11 +400,11 @@
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="OutPay" label="发件人">发件人 &nbsp;<input value=""
+                                        <el-radio v-model="OutPay" label="0">发件人&nbsp;<input value=""
                                                                                                 style="width: 80px;border-left: none;border-top: none;border-right: none"
                                                                                                 v-model="PayMoney">
                                         </el-radio>
-                                        <el-radio v-model="OutPay" label="收件人">收件人 &nbsp;<input value=""
+                                        <el-radio v-model="OutPay" label="1">收件人&nbsp;<input value=""
                                                                                                 style="width: 80px;border-left: none;border-top: none;border-right: none"
                                                                                                 v-model="PayMoney2">
                                         </el-radio>
@@ -496,6 +496,7 @@
                 firstTitle: "进行中",
                 towTitle: "进行中",
                 cargoMsg: [],
+                isThree: [], // 判断箱型最多选择3个
                 temArea: [],
                 GetCompany: '',
                 Company: '',
@@ -631,7 +632,7 @@
             },
             // 保存的时候
             saveCargo() {
-                console.log(this.SafePay);
+                console.log(this.cargoMsg);
                 //这个如何判断
 
                 if (this.SafeItem == '投保') {
@@ -642,6 +643,7 @@
                     }
                 }
                 ;
+
 
                 let orderData = {
                     accoutNum: this.accoutNum,
@@ -667,7 +669,7 @@
                     LimitTime: this.LimitTime,
                     otherLimitTime: this.otherLimitTime,
                     isMoney: this.isMoney,
-
+                    Box:this.cargoMsg,
                     SafeItem: this.SafeItem,
                     SafePay: this.SafePay,
                     SafePay2: this.SafePay2,
@@ -768,7 +770,8 @@
                         that.GetAddress = res.data.data.Address;
                         that.GetTelephone = res.data.data.Telephone;
                         that.GetCompany = res.data.data.Company;
-                        that.GetName = res.data.data.Name
+                        that.GetName = res.data.data.Name;
+                        that.val2 = res.data.data.Location;
 
                     } else {
                         // that.ManMsg = {};
@@ -801,8 +804,8 @@
 
                     if (res.data.code == "200") {
                         that.ManMsg = res.data.data;
-
-                        that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
+                        that.val = res.data.data.Location;
+                       // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
                         that.ManMsg = {};
@@ -872,13 +875,15 @@
                     }
                 });
 
-                this.istemActive = index;
-                this.active = 2;
-                this.firstTitle = "已完成";
-                this.selectTem = val.tem; // 当前选择的温区
-                let obj = {tem: this.selectTem, box: [], iceCar: []};
+                that.istemActive = index;
+                that.active = 2;
+                that.firstTitle = "已完成";
+                that.selectTem = val.WDQJ; // 当前选择的温区
+
+
+                // let obj = {tem: this.selectTem, box: [], iceCar: []};
                 // if (this.cargoMsg.length == 0) {
-                this.cargoMsg.push(obj);
+                // this.cargoMsg.push(obj);
                 // } else {
                 //   let init = true;
                 //   this.cargoMsg.forEach(item => {
@@ -893,8 +898,20 @@
                 //(this.cargoMsg); // 选择的温区
             },
             prev() {
-                this.isShow = true
 
+
+
+
+                // this.cargoMsg
+
+                this.isShow = true;
+                this.cargoMsg.forEach((item,index) => {
+                   if(item.num == ''){
+                       this.cargoMsg.splice(index,1);
+                   }
+                })
+
+                console.log(this.cargoMsg,'李洋');
                 //   [{tem:"",box:[{type:"",num:""}]},{},{}]
                 //(this.cargoMsg);
                 //   if (this.cargoMsg.length == 3) {
@@ -903,23 +920,24 @@
                 this.active = 1;
                 this.firstTitle = "进行中";
                 this.istemActive = -2;
+
                 //   }
             },
             isNull(val, index, tem) {
-                (this.cargoMsg)
-                // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
-                // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
-                // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
-                // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
-                let threeData = this.cargoMsg;
-                for (let i = 0; i < threeData.length; i++) {
-                    if (this.selectTem == threeData[i].tem) {
-                        threeData[i].box.push(val);
-                    }
-                }
-
-
-                console.log(threeData, '箱型和car');
+            //     (this.cargoMsg)
+            //     // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
+            //     // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
+            //     // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
+            //     // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
+            //     let threeData = this.cargoMsg;
+            //     for (let i = 0; i < threeData.length; i++) {
+            //         if (this.selectTem == threeData[i].tem) {
+            //             threeData[i].box.push(val);
+            //         }
+            //     }
+            //
+            //
+            //     console.log(threeData, '箱型和car');
             },
             //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
             quxiao() {
@@ -930,17 +948,51 @@
             },
             //判断 箱型冷藏车只能选一个
             isClick(val, isType) {
+                console.log(val,11111);
+                // let arr = this.boxType.concat(this.iceCar);
+                // this.cargoMsg = [];
+
+                // this.isThree.push(val);
+                // if(this.isThree.length>3){
+                //     val.num = '';
+                //     this.$message.error("箱型最多可以选择3个")
+                // }else{
+                    this.boxType.forEach(item => {
+                        if(item.num && item.num != ''){
+                            if(this.cargoMsg.length === 0){
+                                this.cargoMsg.push(item);
+                            }else if(val.PackageType == item.PackageType){
+                                this.cargoMsg.push(item);
+                            }
+
+                        }
+                    })
+                    this.iceCar.forEach(item => {
+                        if(item.num && item.num != ''){
+                            if(this.cargoMsg.length === 0){
+                                this.cargoMsg.push(item);
+                            }else if(val.PackageType == item.PackageType){
+                                this.cargoMsg.push(item);
+                            }
+                        }
+                    })
+                    console.log(this.cargoMsg);
+                // }
+
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
 
-                this.boxType.forEach(item => {
+                _this.boxType.forEach(item => {
                     if (item.num) {
+
+                        item.WDQJ = _this.selectTem;
                         boxArr.push(item.num)
                     }
                 })
                 _this.iceCar.forEach(item => {
                     if (item.num) {
+                        item.WDQJ = _this.selectTem;
                         carArr.push(item.num)
                     }
                 })

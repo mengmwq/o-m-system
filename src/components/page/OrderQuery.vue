@@ -572,11 +572,11 @@
 
                 let _this = this;
                 _this.$axios({
-                    url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
-                    method:'post',
-                    data:{
-                        Company:this.company,
-                        id:row.id
+                        url:'http://out.ccsc58.cc/OMS/v1/public/index/ordermanagement/orderOne',
+                        method:'post',
+                        data:{
+                            Company:this.company,
+                           id:row.id
                     },
                     transformRequest: [
                         function(data) {
@@ -595,16 +595,16 @@
                 }).then(function (res) {
                     //再一单传值的时候
 
-                    // let orderDataAgain =res.data.data;
-                    // window.sessionStorage.setItem('orderDataAgain',JSON.stringify(orderDataAgain));
+                    let orderDataAgain =JSON.stringify(res.data.data);
+                   window.sessionStorage.setItem('orderDataAgain',orderDataAgain);
 
-                  /*  _this.$router.push({
-                        path: "/OrderEntry",
+                    _this.$router.push({
+                        path: "/OrderPreview",
                         query: {
-                            AccountNumber: row.AccountNumber ,
-                            listData:_this.resData
+                            AccountNumber: row.AccountNumber,
+                            sta: '老孟'
                         }
-                    });*/
+                    });
 
 
                 })
