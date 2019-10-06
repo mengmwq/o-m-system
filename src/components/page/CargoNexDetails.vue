@@ -119,7 +119,7 @@
                                     align="center"
                                     label="操作">
                                     <template slot-scope="scope">
-                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row,'tabelName')">详情</el-button>
+                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394"  @click.native.prevent="DetailsChild(scope.row,'tabelName')">详情</el-button>
                                     </template>
 
                                 </el-table-column>
