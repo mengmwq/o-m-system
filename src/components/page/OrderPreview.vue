@@ -156,11 +156,11 @@
                                               <span>{{IsLCar}}</span>
                                             <span>{{LCar}}</span>
                                         </td>
-<!--                                        <td class='table_td'>付款方式</td>-->
-<!--                                        <td>-->
-<!--                                            <span>{{OutPay}}</span>-->
-<!--                                            <span>{{PayMoney}}</span>-->
-<!--                                        </td>-->
+                                        <td class='table_td'>付款方式</td>
+                                        <td>
+                                            <span>{{OutPay}}</span>
+                                            <span>{{PayMoney}}</span>
+                                        </td>
 
                                     </tr>
                                     <tr>
@@ -183,8 +183,28 @@
                 </el-row>
 
             </div>
+            <!--        点击是否通知-->
+            <el-dialog
+
+                :visible.sync="xiadan"
+                width="20%">
+                <div>
+                    <p style="text-align: center"><img src="../../assets/suc.png" alt="" ></p>
+                    <p style="text-align: center">下单成功</p>
+                    <p style="text-align: center;font-size: 12px;color:greenyellow">5s后跳入订单录入页面</p>
+
+
+                </div>
+                <span slot="footer" class="dialog-footer" style="align-items: center;display:flow-root;text-align: center">
+                     <router-link to="OrderQuery"><el-button type="primary" size="mini"  >订单查询</el-button></router-link>
+
+                     <router-link to="OrderEntry2"><el-button type="primary" size="mini" >再来一单</el-button></router-link>
+
+            </span>
+            </el-dialog>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -192,6 +212,7 @@
         name: "OrderPreview",
         data() {
             return {
+                xiadan:false,
                 qujianTime:'',
                 showSearch:'',
                 searchData:'',
@@ -286,6 +307,7 @@
                 }
                 this.qujianTime = this.orderData.Indate;
                 this.Note = this.orderData.note1;
+                this.SName = this.orderData.GetCompany + " " + this.orderData.GetName;
                 // console.log(this.Box);
                 // DepartMent
 
@@ -300,6 +322,7 @@
                 this.Box= this.orderData.Box;
                 this.qujianTime = this.orderData.qujianTime;
                 this.Note = this.orderData.Note;
+                this.SName = this.orderData.SName;
             }
 
             this.TrueName = window.sessionStorage.getItem('TrueName')
@@ -316,7 +339,7 @@
             // this.SafeRate =this.orderData.SafeRate;
             this.Address = this.orderData.Address;
             this.GetAddress = this.orderData.GetAddress;
-            this.SName = this.orderData.SName;
+
             this.GetCompany = this.orderData.GetCompany;
             this.GetName = this.orderData.GetName;
             // this.val = this.orderData.val;
@@ -335,8 +358,9 @@
                 this.IsWdj = this.orderData.IsWdj;
             this.IsLCar = this.orderData.IsLCar;
             this.LCar = this.orderData.LCar;
-            // this.OutPay =this.orderData.OutPay;
-            // this.PayMoney = this.OutPay=='0' ?this.orderData.PayMoney : this.orderData.PayMoney2;
+            this.OutPay =this.orderData.OutPay;
+            this.PayMoney = this.OutPay=='0' ?this.orderData.PayMoney : this.orderData.PayMoney2;
+            this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
             // this.Note = this.orderData.Note;
             // this.Box= this.orderData.Box;
             this.newBox = JSON.parse(JSON.stringify(this.Box));
@@ -401,7 +425,7 @@
                         Telephone:this.Telephone,//寄件电话
                         GetTelephone:this.GetTelephone,//收件电话
                         OrderTime:this.qujianTime,//要求取件时间
-                        LimitTime:this.LimitTime,//时限
+                        LimitTime:this.LimitTime +'H',//时限
                         EntryName:this.TrueName,//录入人    //这个没有
                         CountType:this.CountType,//结算方式
                         Note:this.Note,//备注
@@ -440,7 +464,17 @@
                     console.log(res,999)
 
                     if(res.data.code == 200){
-                        //_this.$message.success(res.data.msg)
+                        that.xiadan = true;
+                        that.$message.success(res.data.msg)
+                        setTimeout(() => {
+                            that.$router.push({
+                                path: "/OrderEntry2",
+
+                            })
+
+
+                        }, 10000)
+
 
 
                     }else{
@@ -455,6 +489,7 @@
 </script>
 
 <style scoped>
+
     .el-form-item {
         margin-bottom: 10px!important;
     }

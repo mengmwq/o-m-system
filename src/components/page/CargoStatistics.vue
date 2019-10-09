@@ -266,13 +266,13 @@
 
 
             },
-            DetailsChild(row,type){
+            DetailsChild(row,gg){
                 if(this.company  == "总部"){
                     this.$router.push({
                         path: "/CargoNexDetails",
                         query: {
                             Area:  this.company  == "总部"?row.Area:row.Company,
-                            tabelName:type
+                            leixin:gg
                         }
 
                     });
@@ -281,7 +281,7 @@
                         path: "/CargoStatisticsDetails",
                         query: {
                             CompanyNet:  this.company  == "总部"?row.Area:row.Company,
-                            tabelName:type
+                            leixin:gg
                     }
 
                     });
@@ -291,12 +291,12 @@
 
 
             },
-            DetailsChild2(row,type){
+            DetailsChild2(row,gg){
                 this.$router.push({
                     path: "/CargoNexDetails2",
                     query: {
-                        BusinessType:  row.BusinessType,
-                        tabelName:type
+                        BusinessType: row.BusinessType,
+                        leixin:gg
                     }
 
                 });

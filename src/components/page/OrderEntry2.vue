@@ -19,7 +19,7 @@
                                         :span="12"
                                     >
                                         <el-form-item label="客户账号">
-                                            <el-input v-model="accoutNum" @blur="getManMsg"></el-input>
+                                            <el-input v-model="accoutNum" @keyup.enter.native="getManMsg"   ></el-input>
                                         </el-form-item>
                                     </el-col>
 
@@ -128,7 +128,7 @@
                                     >
                                         <el-form-item label="省/市/区">
                                             <el-cascader
-                                                style="width:200px"
+                                                style="width:180px"
                                                 v-model="val"
                                                 :options="areaOptions"
                                                 @change="handleItemChange"
@@ -373,9 +373,9 @@
                                                                                                 style="width: 80px;border-left: none;border-top: none;border-right: none"
                                                                                                 v-model="SafePay">
                                         </el-radio>
-                                        <el-radio v-model="SafeItem" label="不投保">不投保 &nbsp;<input value=""
+                                        <el-radio v-model="SafeItem" label="不投保">不投保 &nbsp;<span
                                                                                                   style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                                                                                  v-model="SafePay2">
+                                                                                                  v-model="SafePay2">2000</span>
                                         </el-radio>
 
                                     </div>
@@ -398,7 +398,7 @@
                                         <el-radio v-model="IsWdj" label="不使用">不使用</el-radio>
 
                                     </div>
-                                    <div style="margin-left: 50px;padding: 15px 0">
+                                    <div style="margin-left: 50px;padding: 15px 0" v-if="isPay">
                                         <span>付款方式 &nbsp;&nbsp;</span>
                                         <el-radio v-model="OutPay" label="0">发件人&nbsp;<input value=""
                                                                                                 style="width: 80px;border-left: none;border-top: none;border-right: none"
@@ -415,7 +415,8 @@
                                     <div style="margin-left: 15px">
                                         <el-form :inline="true">
                                             <el-form-item label="特殊需求">
-                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>
+                                                <textarea name="" id="" cols="40" rows="5" v-model="Note"></textarea>
+<!--                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>-->
                                             </el-form-item>
                                         </el-form>
 
@@ -447,10 +448,11 @@
         name: "test",
         data() {
             return {
+                isPay:true,
                 OutPay: '',
                 PayMoney: '',
                 PayMoney2: '',
-                LCar: '',
+                LCar: 500,
                 IsLCar: '',
                 IsWdj: '',
                 NisSy: '',
@@ -641,8 +643,9 @@
                         this.$message.success('投保金额必填');
                         return;
                     }
-                }
-                ;
+                };
+
+
 
 
                 let orderData = {
@@ -662,7 +665,7 @@
                     GetTelephone: this.GetTelephone,
                     GetAddress: this.GetAddress,
                     Department: this.Department,
-                    GetDepartment: this.GetDepartment,
+                    GetCode: this.GetDepartment,
                     showSearch: this.showSearch,//货物类型
                     searchData: this.searchData,
                     qujianTime: this.qujianTime,
@@ -900,28 +903,26 @@
             prev() {
 
 
+                if(this.cargoMsg.length == 0){
+                    this.$message.error('请选择温度区间')
+                }else{
+                    this.CountType == "现金" ? this.isPay = true : this.isPay = false;
+                    this.isShow = true;
+                    this.cargoMsg.forEach((item,index) => {
+                        if(item.num == ''){
+                            this.cargoMsg.splice(index,1);
+                        }
+                    })
 
+                    this.active = 1;
+                    this.firstTitle = "进行中";
+                    this.istemActive = -2;
+                }
 
                 // this.cargoMsg
 
-                this.isShow = true;
-                this.cargoMsg.forEach((item,index) => {
-                   if(item.num == ''){
-                       this.cargoMsg.splice(index,1);
-                   }
-                })
 
-                console.log(this.cargoMsg,'李洋');
-                //   [{tem:"",box:[{type:"",num:""}]},{},{}]
-                //(this.cargoMsg);
-                //   if (this.cargoMsg.length == 3) {
-                //     this.$message.error("最多只允许添加3个温区");
-                //   } else {
-                this.active = 1;
-                this.firstTitle = "进行中";
-                this.istemActive = -2;
 
-                //   }
             },
             isNull(val, index, tem) {
             //     (this.cargoMsg)

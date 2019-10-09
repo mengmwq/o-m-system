@@ -63,7 +63,7 @@
                                     <el-form-item label="取件时间">
                                         <div class="block" >
                                             <el-date-picker
-                                                v-model="time"
+                                                v-model="TakeTime"
 
                                                 type="datetimerange"
                                                 value-format="yyyy-MM-dd HH:mm:ss"
@@ -129,16 +129,16 @@
                                                           <span>取件人：{{GetName}}</span>
                                                       </div>
 <!--                                                      <div class="bioage">-->
-<!--                                                          <span>温度区间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
+<!--                                                          <span>温度区间：<span style="padding:5px 25px;border-radius: 5px;">155</span> <span style="padding:5px 25px;border-radius: 5px;">155</span><span style="padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
 
 <!--                                                      </div>-->
 <!--                                                      <div  class="bioage">-->
-<!--                                                          <span>包材选择：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
+<!--                                                          <span>包材选择：<span style="padding:5px 25px;border-radius: 5px;">155</span> <span style="padding:5px 25px;border-radius: 5px;">155</span><span style="padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
 <!--                                                      </div>-->
 <!--                                                      <div  class="bioage">-->
-<!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span></span>-->
+<!--                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数：<span style="padding:5px 25px;border-radius: 5px;">155</span> <span style="padding:5px 25px;border-radius: 5px;">155</span><span style="padding:5px 25px;border-radius: 5px;">155</span></span>-->
 
 <!--                                                      </div>-->
 
@@ -165,7 +165,7 @@
                                                             </tbody>
                                                         </table> -->
                                                       <div v-for="(item,index) in Box" :key="index" style="margin:20px 0">
-                                                          <span style='padding:0px 0;font-size:14px'>温度箱型：<font style="background: rgb(238, 238, 238); padding: 5px 5px;border-radius: 5px;">{{index}}</font></span>
+                                                          <span style='padding:0px 0;font-size:14px'>温度箱型：<font style=" padding: 5px 5px;border-radius: 5px;">{{index}}</font></span>
 
                                                               <span v-for="(item,k) in Box[index]" :key="k" >
                                                                   <span style="margin: 20px 0"><font style="">&nbsp&nbsp{{item.PackageName}}*{{item.Jian}}</font></span>
@@ -175,22 +175,22 @@
                                                       </div>
 <!--                                                      <div  class="bioage">-->
 <!--                                                          <span>货物尺寸：-->
-<!--                                                              <span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span>-->
-<!--                                                              &lt;!&ndash; <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
-<!--                                                              &lt;!&ndash; <span style="background: #eee;padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
+<!--                                                              <span style="padding:5px 25px;border-radius: 5px;"></span>-->
+<!--                                                              &lt;!&ndash; <span style="padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
+<!--                                                              &lt;!&ndash; <span style="padding:5px 25px;border-radius: 5px;">155</span> &ndash;&gt;-->
 <!--                                                            </span>-->
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                         <span>温度计: &nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 5px;border-radius: 5px;">{{IsWdj}}</span></span>
+                                                         <span>温度计: &nbsp&nbsp&nbsp&nbsp&nbsp<span style="padding:5px 5px;border-radius: 5px;">{{IsWdj}}</span></span>
 
                                                       </div>
-                                                      <div  class="bioage">
-                                                          <span>冷藏车：&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 5px;border-radius: 5px;"></span> </span>
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>冷藏车：&nbsp&nbsp&nbsp&nbsp<span style="padding:5px 5px;border-radius: 5px;"></span> </span>-->
 
-                                                      </div>
+<!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>结算方式：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="background: #eee;padding:5px 15px;border-radius: 5px;">{{SafeMoney}}</span></span>
+                                                          <span>结算方式：<span style="padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="padding:5px 15px;border-radius: 5px;">{{SafeMoney}}</span></span>
 
                                                       </div>
 
@@ -218,27 +218,27 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>是否完成：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">是</span><span style="background: #eee;padding:5px 5px;border-radius: 5px;">2019/5/12</span></span>
+                                                          <span>是否完成：<span style="padding:5px 25px;border-radius: 5px;">是</span><span style="padding:5px 5px;border-radius: 5px;">2019/5/12</span></span>
 
                                                       </div>
 <!--                                                      <div  class="bioage">-->
-<!--                                                          <span>指令取消：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">天气原因</span><span style="background: #eee;padding:5px 25px;border-radius: 5px;">1</span></span>-->
+<!--                                                          <span>指令取消：<span style="padding:5px 25px;border-radius: 5px;">天气原因</span><span style="padding:5px 25px;border-radius: 5px;">1</span></span>-->
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>指令状态：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="background: #eee;padding:5px 5px;border-radius: 5px;">1</span></span>
+                                                          <span>指令状态：<span style="padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="padding:5px 5px;border-radius: 5px;">1</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>下单时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{Indate}}</span></span>
+                                                          <span>下单时间：<span style="padding:5px 25px;border-radius: 5px;">{{Indate}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>取件时间：<span style="background: #eee;padding:5px 25px;border-radius: 5px;"></span></span>
+                                                          <span>取件时间：<span style="padding:5px 25px;border-radius: 5px;"></span></span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：<span style="background: #eee;padding:5px 25px;border-radius: 5px;">{{note1}}</span></span>
+                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：<span style="padding:5px 5px;">{{note1}}</span></span>
 
                                                       </div>
 
@@ -255,7 +255,7 @@
                                            </div>
                                            <div class="bioage">
                                                <span>联系人：{{Manager}}</span>
-                                               <span>科室：{{DepartMent}}</span>
+                                               <span>科室：{{Department}}</span>
                                            </div>
                                            <div class="bioage">
                                                <span>联系电话：{{Telephone}}</span>
@@ -270,7 +270,7 @@
                                            </div>
                                            <div class="bioage">
                                                <span>联系人：{{GetName}}</span>
-                                               <span>科室：</span>
+                                               <span>科室：{{GetCode}}</span>
                                            </div>
                                            <div class="bioage">
                                                <span>联系电话：{{GetTelephone}}</span>
@@ -488,6 +488,9 @@
         name: "orderManagement",
         data() {
             return {
+                Department:'',
+                GetCode:'',
+                TakeTime:'',
                 OrderTime1:'',
                 showSearch:"订单号",
                 searchData: "",
@@ -701,6 +704,10 @@
                     _this.GetCity =res.data.data.GetCity;
                     _this.GetDepart =res.data.data.GetDepart;
                     _this.IsWdj =res.data.data.IsWdj;
+                    _this.Department =res.data.data.Department;
+                    _this.GetCode =res.data.data.GetCode;
+                    _this.TakeTime = res.data.data.TakeTime
+
 
 
 
@@ -916,7 +923,7 @@
 
                 }
 
-               else if(row.Condition == '指令下达' && column.property == 'Condition'){
+               else if(row.Condition == '指令下达' && column.label == '订单状态'){
 
                     console.log(this,2)
 

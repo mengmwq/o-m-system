@@ -112,7 +112,7 @@
                                     align="center"
                                     label="操作">
                                     <template slot-scope="scope">
-                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row,tabelName)">详情</el-button>
+                                        <el-button  size="small"  style="color: #1ab394;border: 1px solid #1ab394" plain @click.native.prevent="DetailsChild(scope.row,leixin)">详情</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -163,7 +163,7 @@
             }
         },
         mounted() {
-            this.tabelName = this.$route.query.tabelName;
+            this.leixin = this.$route.query.leixin;
             this.BusinessType = this.$route.query.BusinessType;
             // console.log(this.BusinessType,4)
             if(this.BusinessType=="合计"){
@@ -193,13 +193,13 @@
                 )
             },
 
-            DetailsChild(row,type){
+            DetailsChild(row,gg){
                 this.$router.push({
                     path: "/CargoStatisticsDetails",
                     query: {
                         CompanyNet:  row.CompanyNet,
                         BusinessType:row.BusinessType,
-                        tabelName:type
+                        leixin:gg
                     }
 
                 });

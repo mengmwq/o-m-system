@@ -1,7 +1,7 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>><span>网络公司</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
-        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{tabelName}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span>网络公司</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
         <div  >
             <el-form :inline="true" class="demo-form-inline">
                 <el-row>
@@ -19,6 +19,17 @@
                             ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="网络公司">
+                            <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in ComPanN"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.Company"
+                                    :value="item.Company">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="网络公司"  v-if="company !== '总部'">
                             <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
@@ -29,6 +40,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+
                         <el-form-item label="客户账号">
                             <el-autocomplete
 
@@ -43,10 +55,7 @@
                         </el-form-item>
                         <el-form-item label="订单号">
                             <el-input
-
                                 v-model="ID"
-
-
                             ></el-input>
                         </el-form-item>
 
@@ -73,8 +82,6 @@
                             <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px" @click="getData" >
                             <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="downloadtable">
                             <img src="../../assets/chongzhi.png" alt=""   style="width: 23px;height: 23px"  @click="refresh()">
-
-
                         </div>
                     </el-col>
 
@@ -244,7 +251,10 @@
         name: "CargoStatisticsDetails",
         data() {
             return {
-                tabelName:'',
+                ComPanN:[],
+                roles:[],
+                companyN:'',
+                leixin:'',
                 ComPanNFk:[],
                 company:'',
                 resource:'',
@@ -274,7 +284,7 @@
             }
         },
         mounted() {
-            this.tabelName = this.$route.query.tabelName;
+            this.leixin = this.$route.query.leixin;
             this.Area = this.$route.query.Area;
             // this.Area2 = this.$route.query.Area;
             this.CompanyNet = this.$route.query.CompanyNet;
@@ -289,11 +299,40 @@
             this.company = window.sessionStorage.getItem('compony');
             this.getData();
             this.getnetDataFk();
-
+            this.getnetData()
         },
 
 
         methods:{
+            getnetData() {
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkareanet',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+                        Area:this.Area
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.ComPanN = res.data.data;
+                })
+
+            },
             getnetDataFk(){
                 let _this = this;
                 _this.$axios({
@@ -351,6 +390,8 @@
                 })
             },
             focus(event) {
+                this.getnetData();
+                this.getnetDataFk()
                 console.log(1)
             },
             downloadtable(){

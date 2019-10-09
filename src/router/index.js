@@ -25,11 +25,7 @@ export default new Router({
                     component: resolve => require(['../components/page/OrderQuery.vue'], resolve),
                     meta:{keepAlive: true}
                 },
-                // {
-                //    path:'/OrderEntry' ,
-                //     component:resolve => require(['../CargoStatisticsDetails/page/OrderEntry.vue'],resolve),
-                //     meta:{keepAlive: true}
-                // },
+
                 {
                     path:'/OrderEntry2' ,
                     component:resolve => require(['../components/page/OrderEntry2.vue'],resolve),
