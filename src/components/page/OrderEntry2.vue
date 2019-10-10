@@ -5,7 +5,6 @@
                 <!-- 寄件人  收件人信息 -->
                 <el-row :gutter="24" style="margin: 0">
                     <!--寄件人信息-->
-
                     <el-col :span="12">
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
                         <div class="bioage">

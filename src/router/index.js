@@ -21,7 +21,7 @@ export default new Router({
                     meta:{keepAlive: true}
                 },
                 {
-                    path: '/OrderQuery',                                                             // 用户管理
+                    path: '/OrderQuery',
                     component: resolve => require(['../components/page/OrderQuery.vue'], resolve),
                     meta:{keepAlive: true}
                 },
