@@ -19,7 +19,7 @@
                                         :span="12"
                                     >
                                         <el-form-item label="客户账号" prop="accoutNum">
-                                            <el-input v-model="ruleForm.accoutNum" @keyup.enter.native="getManMsg"   ></el-input>
+                                            <el-input v-model="ruleForm.accoutNum" @keyup.enter.native="getManMsg"    ></el-input>
                                         </el-form-item>
                                     </el-col>
 

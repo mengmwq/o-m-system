@@ -195,7 +195,7 @@
           >
             <div>
 
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px!important" class="demo-ruleForm" >
 
                     <el-row>
                         <el-form-item label="客户账号" prop="name">
@@ -203,7 +203,7 @@
                         </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
-                     <el-input v-model="ruleForm.company" ></el-input>
+                     <el-input v-model="ruleForm.company"  style="width: 80%"></el-input>
                     </el-form-item>
                     <el-row>
                         <el-col :span="11">
