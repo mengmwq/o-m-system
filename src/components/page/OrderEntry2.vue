@@ -10,23 +10,24 @@
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
                         <div class="bioage">
                             <el-form
-                                ref="form"
+
                                 label-width="100px!important"
                                 :inline="true"
+                                :model="ruleForm" :rules="rules" ref="ruleForm"
                             >
                                 <el-row>
                                     <el-col
                                         :span="12"
                                     >
-                                        <el-form-item label="客户账号">
-                                            <el-input v-model="accoutNum" @keyup.enter.native="getManMsg"   ></el-input>
+                                        <el-form-item label="客户账号" prop="accoutNum">
+                                            <el-input v-model="ruleForm.accoutNum" @keyup.enter.native="getManMsg"   ></el-input>
                                         </el-form-item>
                                     </el-col>
 
                                     <!--  月结  现金-->
                                     <el-col :span="12">
-                                        <el-form-item label="结算方式">
-                                            <el-input v-model="ManMsg.CountType"></el-input>
+                                        <el-form-item label="结算方式" prop="CountType">
+                                            <el-input v-model="ruleForm.CountType"></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
@@ -36,8 +37,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="公司名称">
-                                            <el-input v-model="ManMsg.Company" style="width:100%"></el-input>
+                                        <el-form-item label="公司名称" prop="Company">
+                                            <el-input v-model="ruleForm.Company" style="width:100%"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -46,8 +47,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="保险费率">
-                                            <el-input v-model="ManMsg.SafeRate"></el-input>
+                                        <el-form-item label="保险费率" prop="SafeRate">
+                                            <el-input v-model="ruleForm.SafeRate"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -59,8 +60,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="寄件人">
-                                            <el-input v-model="ManMsg.Manager"></el-input>
+                                        <el-form-item label="寄件人" prop="Manager">
+                                            <el-input v-model="ruleForm.Manager"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -103,8 +104,8 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="联系电话">
-                                            <el-input v-model="ManMsg.Telephone"></el-input>
+                                        <el-form-item label="联系电话" prop="Telephone">
+                                            <el-input v-model="ruleForm.Telephone"></el-input>
                                         </el-form-item>
 
                                     </el-col>
@@ -126,7 +127,7 @@
                                         :span="12"
                                         style="padding:0"
                                     >
-                                        <el-form-item label="省/市/区">
+                                        <el-form-item label="省/市/区" >
                                             <el-cascader
                                                 style="width:180px"
                                                 v-model="val"
@@ -150,8 +151,8 @@
                                 </el-row>
 
 
-                                <el-form-item label="详细地址">
-                                    <el-input v-model="ManMsg.Address"></el-input>
+                                <el-form-item label="详细地址" prop="Address">
+                                    <el-input v-model="ruleForm.Address"></el-input>
                                 </el-form-item>
 
 
@@ -163,8 +164,8 @@
                         <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">
                             收件人信息&nbsp&nbsp</h2>
                         <div class="bioage">
-                            <el-form ref="form" label-width="100px!important">
-                                <el-form-item label="收货编码">
+                            <el-form  label-width="100px!important" :model="ruleForm" :rules="rules" ref="ruleForm" >
+                                <el-form-item label="收货编码" prop="SName">
                                     <el-select v-model="SName" placeholder="请选择" @change="currentSel">
 
                                         <el-option
@@ -176,17 +177,17 @@
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="公司名称">
-                                    <el-input v-model="GetCompany"></el-input>
+                                <el-form-item label="公司名称" prop="GetCompany">
+                                    <el-input v-model="ruleForm.GetCompany" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
-                                <el-form-item label="收件人">
-                                    <el-input v-model="GetName"></el-input>
+                                <el-form-item label="收件人" prop="GetName">
+                                    <el-input v-model="ruleForm.GetName" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
                                 <el-form-item label="部门/科室">
-                                    <el-input v-model="GetDepartment" placeholder="选填"></el-input>
+                                    <el-input v-model="GetDepartment" placeholder="选填" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
-                                <el-form-item label="联系电话">
-                                    <el-input v-model="GetTelephone"></el-input>
+                                <el-form-item label="联系电话" prop="GetTelephone">
+                                    <el-input v-model="ruleForm.GetTelephone" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
                                 <el-form-item label="省/市/区">
                                     <el-cascader
@@ -196,8 +197,8 @@
                                         :separator="' '"
                                     ></el-cascader>
                                 </el-form-item>
-                                <el-form-item label="详细地址">
-                                    <el-input v-model="GetAddress"></el-input>
+                                <el-form-item label="详细地址"  prop="GetAddress">
+                                    <el-input v-model="ruleForm.GetAddress" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
 
                             </el-form>
@@ -354,7 +355,7 @@
 
                                 </el-radio-group>
                                 <div style="display: inline-block;margin-left: 20px;">
-                                    <span>其他</span>
+                                    <span style="font-family: cursive">其他</span>
                                     <input style="width: 80px;border-left: none;border-top: none;border-right: none"
                                            v-model="otherLimitTime"></input>
                                 </div>
@@ -428,7 +429,7 @@
 
                         </el-col>
                         <el-col :span="24" style="text-align:right;margin-bottom:20px;">
-                            <span class="save" @click="saveCargo">下一步</span>
+                            <span class="save" @click="saveCargo('ruleForm')">下一步</span>
                         </el-col>
                     </div>
 
@@ -448,6 +449,66 @@
         name: "test",
         data() {
             return {
+                ruleForm: {
+                    accoutNum: '',
+                    CountType: '',
+                    SafeRate: '',
+                    Company: '',
+                    Manager: '',
+                    Telephone:'',
+                    GetCompany:'',
+                    GetName:'',
+                    Address:'',
+                    GetTelephone:'',
+                    GetAddress:''
+
+                },
+                // ruleForm:{
+                //     GetCompany:'',
+                //     GetName:'',
+                //     GetTelephone:'',
+                //     GetAddress:''
+                //
+                // },
+                rules: {
+                    accoutNum: [
+                        { required: true, message: '请输入客户账号', trigger: 'blur' },
+
+                    ],
+                    CountType: [
+                        { required: true, message: '请输入结算方式', trigger: 'blur' }
+                    ],
+                    SafeRate: [
+                        { required: true, message: '请输入保险费率', trigger: 'blur' }
+                    ],
+                    Company: [
+                        { required: true, message: '请输入公司名称', trigger: 'blur' }
+                    ],
+                    Manager: [
+                        { required: true, message: '请输入寄件人', trigger: 'blur' }
+                    ],
+                    Telephone:[
+                        {required:true,message:'请输入寄件人联系方式',trigger:'blur'}
+                    ],
+                    Address:[
+                        {required:true,message:'请输入详细地址',trigger:'blur'}
+                    ],
+                    GetCompany:[
+                        {required:true,message:'请输入收件公司名称',trigger:'blur'}
+                    ],
+                    GetName:[
+                        {required:true,message:'请输入收件人',trigger:'blur'}
+                    ],
+                    GetTelephone:[
+                        {required:true,message:'请输入收件人电话',trigger:'blur'}
+                    ],
+                    GetAddress:[
+                        {required:true,message:'请输入收件人详细地址',trigger:'blur'}
+                    ]
+
+                },
+
+
                 isPay:true,
                 OutPay: '',
                 PayMoney: '',
@@ -633,7 +694,7 @@
                 this.showSearch = data;   // 选择的 那个
             },
             // 保存的时候
-            saveCargo() {
+            saveCargo(formName) {
                 console.log(this.cargoMsg);
                 //这个如何判断
 
@@ -645,65 +706,73 @@
                     }
                 };
 
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let orderData = {
+                            accoutNum: this.ruleForm.accoutNum,
+                            CountType: this.ruleForm.CountType,
+                            Company: this.ruleForm.Company,
+                            Manager: this.ruleForm.Manager,
+                            Cid2: this.ManMsg.Cid2,
+                            XyNumber: this.ManMsg.XyNumber,
+                            zxNumber: this.ManMsg.zxNumber,
+                            Telephone: this.ruleForm.Telephone,
+                            SafeRate: this.ruleForm.SafeRate,
+                            Address: this.ruleForm.Address,
+                            SName: this.SName,
+                            GetCompany: this.ruleForm.GetCompany,
+                            GetName: this.ruleForm.GetName,
+                            GetTelephone: this.ruleForm.GetTelephone,
+                            GetAddress: this.ruleForm.GetAddress,
+                            Department: this.Department,
+                            GetCode: this.GetDepartment,
+                            showSearch: this.showSearch,//货物类型
+                            searchData: this.searchData,
+                            qujianTime: this.qujianTime,
+                            LimitTime: this.LimitTime,
+                            otherLimitTime: this.otherLimitTime,
+                            isMoney: this.isMoney,
+                            Box:this.cargoMsg,
+                            SafeItem: this.SafeItem,
+                            SafePay: this.SafePay,
+                            SafePay2: this.SafePay2,
+                            CompanyNet: this.CompanyNet,
+
+                            NisSy: this.NisSy,
+                            isSy: this.isSy,
+                            fj: this.fj,
+                            sj: this.sj,
+                            fjValue: this.fjValue,
+                            sjValue: this.sjValue,
+                            Note: this.Note,
+                            val: this.val,
+                            val2: this.val2,
+                            IsWdj: this.IsWdj,
+                            IsLCar: this.IsLCar,
+                            LCar: this.LCar,
+                            PayMoney: this.PayMoney,
+                            PayMoney2: this.PayMoney2,
+                            OutPay: this.OutPay
+
+
+                        };
+
+                        console.log(orderData, 99)
+                        window.sessionStorage.setItem('orderData', JSON.stringify(orderData));
+
+                        this.$router.push({
+                            path: "/OrderPreview",
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
 
 
 
-                let orderData = {
-                    accoutNum: this.accoutNum,
-                    CountType: this.ManMsg.CountType,
-                    Company: this.ManMsg.Company,
-                    Manager: this.ManMsg.Manager,
-                    Cid2: this.ManMsg.Cid2,
-                    XyNumber: this.ManMsg.XyNumber,
-                    zxNumber: this.ManMsg.zxNumber,
-                    Telephone: this.ManMsg.Telephone,
-                    SafeRate: this.ManMsg.SafeRate,
-                    Address: this.ManMsg.Address,
-                    SName: this.SName,
-                    GetCompany: this.GetCompany,
-                    GetName: this.GetName,
-                    GetTelephone: this.GetTelephone,
-                    GetAddress: this.GetAddress,
-                    Department: this.Department,
-                    GetCode: this.GetDepartment,
-                    showSearch: this.showSearch,//货物类型
-                    searchData: this.searchData,
-                    qujianTime: this.qujianTime,
-                    LimitTime: this.LimitTime,
-                    otherLimitTime: this.otherLimitTime,
-                    isMoney: this.isMoney,
-                    Box:this.cargoMsg,
-                    SafeItem: this.SafeItem,
-                    SafePay: this.SafePay,
-                    SafePay2: this.SafePay2,
-                    CompanyNet: this.CompanyNet,
 
-                    NisSy: this.NisSy,
-                    isSy: this.isSy,
-                    fj: this.fj,
-                    sj: this.sj,
-                    fjValue: this.fjValue,
-                    sjValue: this.sjValue,
-                    Note: this.Note,
-                    val: this.val,
-                    val2: this.val2,
-                    IsWdj: this.IsWdj,
-                    IsLCar: this.IsLCar,
-                    LCar: this.LCar,
-                    PayMoney: this.PayMoney,
-                    PayMoney2: this.PayMoney2,
-                    OutPay: this.OutPay
-
-
-                };
-
-                console.log(orderData, 99)
-                window.sessionStorage.setItem('orderData', JSON.stringify(orderData));
-
-                this.$router.push({
-                    path: "/OrderPreview",
-
-                })
 
             },
 
@@ -714,7 +783,7 @@
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
                     method: "post",
                     data: {
-                        AccountNumber: that.accoutNum,
+                        AccountNumber: that.ruleForm.accoutNum,
                         SName: this.SName
                     },
                     transformRequest: [
@@ -749,7 +818,7 @@
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
                     method: "post",
                     data: {
-                        AccountNumber: that.accoutNum,
+                        AccountNumber: that.ruleForm.accoutNum,
                         SName: this.SName
                     },
                     transformRequest: [
@@ -770,10 +839,10 @@
 
                     if (res.data.code == "200") {
 
-                        that.GetAddress = res.data.data.Address;
-                        that.GetTelephone = res.data.data.Telephone;
-                        that.GetCompany = res.data.data.Company;
-                        that.GetName = res.data.data.Name;
+                        that.ruleForm.GetAddress = res.data.data.Address;
+                        that.ruleForm.GetTelephone = res.data.data.Telephone;
+                        that.ruleForm.GetCompany = res.data.data.Company;
+                        that.ruleForm.GetName = res.data.data.Name;
                         that.val2 = res.data.data.Location;
 
                     } else {
@@ -788,7 +857,7 @@
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/tomsg",
                     method: "post",
-                    data: {AccountNumber: that.accoutNum},
+                    data: {AccountNumber: that.ruleForm.accoutNum},
                     transformRequest: [
                         function (data) {
                             let ret = "";
@@ -808,6 +877,12 @@
                     if (res.data.code == "200") {
                         that.ManMsg = res.data.data;
                         that.val = res.data.data.Location;
+                        that.ruleForm.CountType = res.data.data.CountType;
+                        that.ruleForm.Company = res.data.data.Company;
+                        that.ruleForm.SafeRate = res.data.data.SafeRate;
+                        that.ruleForm.Telephone = res.data.data.Telephone;
+                        that.ruleForm.Address = res.data.data.Address;
+                        that.ruleForm.Manager = res.data.data.Manager
                        // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
@@ -904,9 +979,9 @@
 
 
                 if(this.cargoMsg.length == 0){
-                    this.$message.error('请选择温度区间')
+                    this.$message.error('请选择温区和箱型')
                 }else{
-                    this.CountType == "现金" ? this.isPay = true : this.isPay = false;
+                    this.ruleForm.CountType == "现金" ? this.isPay = true : this.isPay = false;
                     this.isShow = true;
                     this.cargoMsg.forEach((item,index) => {
                         if(item.num == ''){
@@ -1020,6 +1095,17 @@
         }
     };
 </script>
+<style>
+    .el-form-item__error {
+        color: #fff;!important
+    font-size: 12px;
+        line-height: 1;
+        padding-top: 4px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+</style>
 <style scoped>
     .el-form-item {
         margin-bottom: 10px !important;
