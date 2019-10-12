@@ -19,7 +19,7 @@
 
             </div>
             <div class="bo1">
-                <span>导入</span>
+
                 <span @click="luruList">录入</span>
             </div>
 
@@ -195,7 +195,14 @@
                                                       </div>
 
 
+                                                      <div  class="bioage">
+                                                          <span>取件时间：<span style="padding:5px 25px;border-radius: 5px;"></span></span>
 
+                                                      </div>
+                                                      <div  class="bioage">
+                                                          <span>备注：<span style="padding:5px 5px;">{{note1}}</span></span>
+
+                                                      </div>
 
                                                   </el-col>
                                                   <el-col :span="11" :offset="1" >
@@ -226,21 +233,14 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>指令状态：<span style="padding:5px 25px;border-radius: 5px;">{{Condition}}</span><span style="padding:5px 5px;border-radius: 5px;">1</span></span>
+                                                          <span>指令状态：<span style="padding:5px 25px;border-radius: 5px;">{{Condition}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
                                                           <span>下单时间：<span style="padding:5px 25px;border-radius: 5px;">{{Indate}}</span></span>
 
                                                       </div>
-                                                      <div  class="bioage">
-                                                          <span>取件时间：<span style="padding:5px 25px;border-radius: 5px;"></span></span>
 
-                                                      </div>
-                                                      <div  class="bioage">
-                                                          <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp备注：<span style="padding:5px 5px;">{{note1}}</span></span>
-
-                                                      </div>
 
                                                   </el-col>
                                               </el-row>
@@ -937,7 +937,7 @@
 
             luruList(){
                 this.$router.push({
-                path: "/OrderEntry",
+                path: "/OrderEntry2",
 
             });
 

@@ -377,7 +377,7 @@ export default {
       this.$router.push({ path: "/CustomerInformation" });
     },
     breakDailyStatistical() {
-      this.$router.push({ path: "/DailyStatistical" });
+      this.$router.push({ path: "/abnormalInformation" });
     },
     breakBoxType() {
       this.$router.push({ path: "/BoxType" });
