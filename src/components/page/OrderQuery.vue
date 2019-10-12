@@ -182,7 +182,7 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                         <span>温度计: &nbsp&nbsp&nbsp&nbsp&nbsp<span style="padding:5px 5px;border-radius: 5px;">{{IsWdj}}</span></span>
+                                                         <span>温度计: <span style="padding:5px 5px;">{{IsWdj}}</span></span>
 
                                                       </div>
 <!--                                                      <div  class="bioage">-->
@@ -190,13 +190,14 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>结算方式：<span style="padding:5px 25px;border-radius: 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="padding:5px 15px;border-radius: 5px;">{{SafeMoney}}</span></span>
+                                                          <span>结算方式：<span style="padding:5px 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险:<span style="padding:5px 5px;">{{SafeMoney}}</span></span>
 
                                                       </div>
 
 
+
                                                       <div  class="bioage">
-                                                          <span>取件时间：<span style="padding:5px 25px;border-radius: 5px;"></span></span>
+                                                          <span>取件时间：<span style="padding:5px 5px;">{{TakeTime}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -225,7 +226,7 @@
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>是否完成：<span style="padding:5px 25px;border-radius: 5px;">是</span><span style="padding:5px 5px;border-radius: 5px;">2019/5/12</span></span>
+                                                          <span>是否完成：<span style="padding:5px 5px;">是</span><span style="padding:5px 5px;">2019/5/12</span></span>
 
                                                       </div>
 <!--                                                      <div  class="bioage">-->
@@ -233,11 +234,11 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>指令状态：<span style="padding:5px 25px;border-radius: 5px;">{{Condition}}</span></span>
+                                                          <span>指令状态：<span style="padding:5px 5px;">{{Condition}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>下单时间：<span style="padding:5px 25px;border-radius: 5px;">{{Indate}}</span></span>
+                                                          <span>下单时间：<span style="padding:5px 5px;">{{Indate}}</span></span>
 
                                                       </div>
 
@@ -274,7 +275,7 @@
                                            </div>
                                            <div class="bioage">
                                                <span>联系电话：{{GetTelephone}}</span>
-                                               <span>省/市/区：{{GetDepart}}/{{GetCity}}</span>
+                                               <span>省/市/区：{{GetDepart}}/{{GetCity}}/{{GetArea}}</span>
                                            </div>
                                            <div class="bioage">
                                                <span>详细地址：{{GetAddress}}</span>
@@ -683,31 +684,30 @@
                     _this.GetCity = res.data.data.GetCity;
                     _this.GetName = res.data.data.GetName;
                     _this.PayWay = res.data.data.PayWay;
-                    _this.SafeMoney = res.data.data.SafeMoney||'无';
+                    _this.SafeMoney = res.data.data.SafeMoney||'暂无';
                     _this.Condition = res.data.data.Condition;
                     _this.Indate =res.data.data.Indate;
-                    _this.note1 =res.data.data.note1||'无';
+                    _this.note1 =res.data.data.note1||'暂无';
                     _this.Company = res.data.data.Company;
                     _this.Manager = res.data.data.Manager;
-                    _this.DepartMent = res.data.data.DepartMent;
+
                     _this.Telephone = res.data.data.Telephone;
                     _this.Address = res.data.data.Address;
                     _this.GetCompany =res.data.data.GetCompany;
                     _this.GetTelephone = res.data.data.GetTelephone;
-                    _this.GetArea = res.data.data.GetArea;
+                    _this.GetArea = res.data.data.GetArea||'暂无';
                     _this.GetAddress = res.data.data.GetAddress;
-                    _this.MNote = res.data.data.MNote;
-                    _this.MTime = res.data.data.MTime;
-                    _this.MName = res.data.data.MName;
+                    _this.MNote = res.data.data.MNote||'暂无';
+                    _this.MTime = res.data.data.MTime||'暂无';
+                    _this.MName = res.data.data.MName||'暂无';
                     _this.Depart =res.data.data.Depart;
                     _this.City =res.data.data.City;
                     _this.GetCity =res.data.data.GetCity;
                     _this.GetDepart =res.data.data.GetDepart;
                     _this.IsWdj =res.data.data.IsWdj;
-                    _this.Department =res.data.data.Department;
-                    _this.GetCode =res.data.data.GetCode;
-                    _this.TakeTime = res.data.data.TakeTime
-
+                    _this.Department =res.data.data.Department||'暂无';
+                    _this.GetCode =res.data.data.GetCode||'暂无';
+                    _this.TakeTime = res.data.data.TakeTime||'暂无'
 
 
 

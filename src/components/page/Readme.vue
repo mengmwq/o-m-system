@@ -278,6 +278,7 @@
                   <el-button
                     size="mini"
                     type="primary"
+                    disabled
                     class="btn-cancel"
                     plain
                     @click="breakBoxType"
@@ -364,6 +365,7 @@ export default {
       ratioXJ: "",
       changeDay: "昨日",
       changeL: "今日订单",
+      chuanzhi:'day',
 
 
     };
@@ -371,7 +373,18 @@ export default {
   created() {},
   methods: {
     breakordersRtatistics() {
-      this.$router.push({ path: "/ordersRtatistics" });
+      this.$router.push(
+          {
+              path: "/ordersRtatistics" ,
+              query: {
+                  Type:this.chuanzhi
+              },
+
+          }
+
+
+          );
+       // this.getSearchData()
     },
     breakCustomerInformation() {
       this.$router.push({ path: "/CustomerInformation" });
@@ -847,7 +860,7 @@ export default {
         })
     },
 
-    // 8.15 李洋   请求 top
+
     CLSD(val) {
       if (Number(val) === 1) {
         //日
@@ -855,6 +868,7 @@ export default {
         this.isday = false;
         this.changeDay = "昨日";
         this.changeL = "今日订单";
+        this.chuanzhi ="day"
 
         this.getSearchData("day");
       } else if (Number(val) === 0) {
@@ -864,7 +878,7 @@ export default {
         this.isFirst = 0;
         this.changeDay = "上周";
         this.changeL = "本周订单";
-
+          this.chuanzhi ="week"
         this.getSearchData("week");
       } else {
         //月
@@ -874,6 +888,7 @@ export default {
         this.isFirst = 2;
         this.changeDay = "上月";
         this.changeL = "本月订单";
+          this.chuanzhi ="month"
         this.getSearchData("month");
       }
     },

@@ -356,7 +356,7 @@
                                 <div style="display: inline-block;margin-left: 20px;">
                                     <span style="font-family: cursive">其他</span>
                                     <input style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                           v-model="otherLimitTime"></input>
+                                           v-model="LimitTime"></input>
                                 </div>
 
                             </div>

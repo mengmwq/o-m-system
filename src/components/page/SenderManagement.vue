@@ -203,7 +203,7 @@
                         </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
-                     <el-input v-model="ruleForm.company"  style="width: 80%"></el-input>
+                     <el-input v-model="ruleForm.company"  style="width: 80%!important;"></el-input>
                     </el-form-item>
                     <el-row>
                         <el-col :span="11">
@@ -252,7 +252,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item style="margin-bottom: 20px;">
                         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -321,7 +321,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item style="margin-bottom: 20px;">
                         <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
