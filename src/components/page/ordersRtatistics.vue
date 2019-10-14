@@ -41,7 +41,8 @@
 
 				</el-col>
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' height="500" stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%">
+					<el-table :header-cell-style="{background:'#EFF3F8'}" class='table' height="500" stripe @cell-click="jumpDetails" :data="tableData" id='tableData' style="width: 100%"  ref="multipleTable"
+                              @selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55">
 						</el-table-column>
 
@@ -161,6 +162,12 @@
 			//this.getnetData();
 		},
 		methods: {
+            //导出时  选中几条下载几条出来
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
 
 			//渲染页面
 			getData() {
@@ -203,8 +210,8 @@
 					method: "post",
 					data: {
 						Company:this.company,
-						StartTime:this.xdtime[0],
-						EndTime:this.xdtime[1],
+						StartTime:this.xdtime[0]||'',
+						EndTime:this.xdtime[1]||'',
 						CompanyNet:this.netcompanys
 					},
 					transformRequest: [

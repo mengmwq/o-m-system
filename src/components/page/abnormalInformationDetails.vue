@@ -43,7 +43,7 @@
                                 class="inline-input"
 
                                 v-model="AccountNumber"
-                                placeholder="请输入内容"
+
                                 :trigger-on-focus="false"
                                 :debounce=0
 
@@ -51,7 +51,7 @@
                         </el-form-item>
 
                         <el-form-item label="订单号">
-                            <el-input placeholder="请输入姓名" v-model="ID"></el-input>
+                            <el-input  v-model="ID"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col>

@@ -4,21 +4,23 @@
   height: 100%
 }
 body{
-  padding: 0 0 0 0; 
+  padding: 0 0 0 0;
 }
 .sky {
-  height: 100%;
-  background: #007fd5;
-  position: relative;
-  overflow: hidden;
-  -webkit-animation: sky_background 50s ease-out infinite;
-  -moz-animation: sky_background 50s ease-out infinite;
-  -o-animation: sky_background 50s ease-out infinite;
-  animation: sky_background 50s ease-out infinite;
-  -webkit-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+    height: 100%;
+    background-image: url("../assets/loginbj.jpg");
+    background-size: 100%;
+
+  /*position: relative;*/
+  /*overflow: hidden;*/
+  /*-webkit-animation: sky_background 50s ease-out infinite;*/
+  /*-moz-animation: sky_background 50s ease-out infinite;*/
+  /*-o-animation: sky_background 50s ease-out infinite;*/
+  /*animation: sky_background 50s ease-out infinite;*/
+  /*-webkit-transform: translate3d(0, 0, 0);*/
+  /*-ms-transform: translate3d(0, 0, 0);*/
+  /*-o-transform: translate3d(0, 0, 0);*/
+  /*transform: translate3d(0, 0, 0);*/
 }
 
 .sky .clouds_one {

@@ -421,7 +421,7 @@
                         placeholder="选择日期时间">
                     </el-date-picker>
                 </div>
-                <el-form ref="form" label-width="80px" style="margin:10px 0 0 0">
+                <el-form ref="form" label-width="80px!important;" style="margin:10px 0 0 0">
                     <el-form-item label="原因类型">
                         <el-select v-model="CityCode" placeholder="请选择">
                             <el-option label="客户原因" value="客户原因"></el-option>
@@ -463,7 +463,7 @@
             width="20%">
             <div>
 
-                <el-form ref="form" label-width="80px" style="margin:10px 0 0 0">
+                <el-form ref="form" label-width="80px!important;" style="margin:10px 0 0 0">
                     <el-form-item label="原因类型">
                         <el-select v-model="CityCode" placeholder="请选择">
                             <el-option label="客户原因" value="客户原因"></el-option>

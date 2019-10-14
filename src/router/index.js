@@ -63,18 +63,18 @@ export default new Router({
                     component:resolve => require(['../components/page/CargoStatisticsDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-
+                {
+                    path:'/abnormalInformation',
+                    component:resolve => require(['../components/page/abnormalInformation.vue'],resolve),
+                    meta:{keepAlive: true}
+                },
                 //异常信息页面路由
                 {
                     path:'/abnormalInformationDetails',
                     component:resolve => require(['../components/page/abnormalInformationDetails.vue'],resolve),
                     meta:{keepAlive: true}
                 },
-                {
-                    path:'/abnormalInformation',
-                    component:resolve => require(['../components/page/abnormalInformation.vue'],resolve),
-                    meta:{keepAlive: true}
-                },
+
                 {
                     path:'/CustomerInformation',
                     component:resolve => require(['../components/page/CustomerInformation.vue'],resolve),

@@ -1,7 +1,7 @@
 const options = [
 {
-	  "value": "北京",
-	  "label": "北京",
+	  "value": "北京市",
+	  "label": "北京市",
 	  "children": [{
 		"value": "北京市",
 		"label": "北京市",
@@ -23,8 +23,8 @@ const options = [
 		}, {"value": "延庆区", "label": "延庆区"}]
 	  }]
 	}, {
-	  "value": "天津",
-	  "label": "天津",
+	  "value": "天津市",
+	  "label": "天津市",
 	  "children": [{
 		"value": "天津市",
 		"label": "天津市",
@@ -43,7 +43,7 @@ const options = [
 		}, {"value": "滨海新区", "label": "滨海新区"}, {"value": "宁河区", "label": "宁河区"}, {
 		  "value": "静海区",
 		  "label": "静海区"
-		}, {"value": "蓟州区", "label": "蓟州区"}]
+		}, {"value": "蓟州区", "label": "蓟州区"}, {"value": "空港经济区", "label": "空港经济区"}]
 	  }]
 	}, {
 	  "value": "河北省",

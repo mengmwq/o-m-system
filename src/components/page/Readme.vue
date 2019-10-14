@@ -181,6 +181,7 @@
                     size="mini"
                     type="primary"
                     class="btn-cancel"
+                    @click="braekCargoStatistics"
                     plain
                   >More</el-button>
                 </div>
@@ -287,9 +288,9 @@
                 </div>
                 <div style=" display: flex; align-items: center;center: space-between;width: 100%;padding: 0 12px;  box-sizing: border-box;justify-content: space-between;;">
                   <h6>保温箱使用(件)</h6>
-                  <el-button size="mini">昨日合计：569</el-button>
-                  <el-button size="mini">当日合计：888</el-button>
-                  <el-button size="mini">累计：5355</el-button>
+<!--                  <el-button size="mini">昨日合计：569</el-button>-->
+<!--                  <el-button size="mini">当日合计：888</el-button>-->
+<!--                  <el-button size="mini">累计：5355</el-button>-->
                 </div>
                 <div
                   style="width: 100%;height: 150px;background: #fff"
@@ -322,6 +323,7 @@
                     type="primary"
                     class="btn-cancel"
                     plain
+                    disabled
                     @click="breakCustomerInformation"
                   >More</el-button>
                 </div>
@@ -386,6 +388,16 @@ export default {
           );
        // this.getSearchData()
     },
+      braekCargoStatistics(){
+          this.$router.push(
+              {
+                  path: "/CargoStatistics" ,
+
+              }
+
+
+          );
+      },
     breakCustomerInformation() {
       this.$router.push({ path: "/CustomerInformation" });
     },

@@ -7,12 +7,12 @@
 
             <el-dropdown trigger="hover" @command="handleCommand">
                 <span class="el-dropdown-link">
-                    <img class="user-logo" src="../../../static/img/img.jpg">
+                    <img class="user-logo" src="../../assets/2.jpg">
 
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <div style="display: flex;align-items: center;padding-left: 20px ">
-                        <img class="user-logo" src="../../../static/img/img.jpg"
+                        <img class="user-logo" src="../../assets/2.jpg"
                              style="width:40px; height:40px; border-radius: 50%;">
                         <div>
                             <a href="javascript:;" target="_blank">

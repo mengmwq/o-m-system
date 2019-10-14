@@ -33,9 +33,9 @@
 
 
                             <div style="float: right;margin-top: 5px;">
-                                <img src="../../assets/chaxun.png" alt="" style="width: 23px;height: 23px"  @click="getData">
-                                <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport">
-                                <img src="../../assets/chongzhi.png" alt="" style="width: 23px;height: 23px" @click="refresh()">
+                                <img src="../../assets/chaxun.png"  style="width: 23px;height: 23px"  @click="getData">
+                                <img src="../../assets/daochu.png"  style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport()">
+                                <img src="../../assets/chongzhi.png"  style="width: 23px;height: 23px" @click="refresh()">
 
                             </div>
                         </el-col>

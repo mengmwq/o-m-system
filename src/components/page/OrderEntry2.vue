@@ -10,7 +10,7 @@
                         <div class="bioage">
                             <el-form
 
-                                label-width="100px!important"
+                                label-width="80px!important"
                                 :inline="true"
                                 :model="ruleForm" :rules="rules" ref="ruleForm"
                             >
@@ -281,8 +281,8 @@
                     </el-col>
 
 
-                    <el-col :span="24" style="text-align:right;">
-                        <!-- <button @click="prev"> 上一步 </button> -->
+                    <el-col :span="24" style="text-align:right;" v-show="isDDD">
+<!--                         <button @click="prev"> 上一步 </button> -->
                         <span class="save" @click="quxiao">取消</span>
                         <span class="save" @click="prev">保存</span>
                     </el-col>
@@ -333,7 +333,7 @@
                                 <el-date-picker
                                     v-model="qujianTime"
                                     type="datetime"
-
+                                    :picker-options="expireTimeOption"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     placeholder="选择日期时间">
                                 </el-date-picker>
@@ -343,7 +343,7 @@
                             <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:20px 0">
                                 &nbsp;时限要求</h2>
                             <div style="margin-left: 50px">
-                                <el-radio-group v-model="LimitTime">
+                                <el-radio-group v-model="LimitTime" @change="clearLimitTime1">
                                     <el-radio :label="24">24H</el-radio>
                                     <el-radio :label="36">36H</el-radio>
                                     <el-radio :label="48">48H</el-radio>
@@ -356,7 +356,7 @@
                                 <div style="display: inline-block;margin-left: 20px;">
                                     <span style="font-family: cursive">其他</span>
                                     <input style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                           v-model="LimitTime"></input>
+                                           v-model="LimitTime1" v-on:input="clearLimitTime"></input>
                                 </div>
 
                             </div>
@@ -448,6 +448,12 @@
         name: "test",
         data() {
             return {
+                expireTimeOption: {
+                    disabledDate(date) {
+                        //disabledDate 文档上：设置禁用状态，参数为当前日期，要求返回 Boolean
+                        return date.getTime() < Date.now() - 24 * 60 * 60 * 1000;
+                    }
+                },
                 ruleForm: {
                     accoutNum: '',
                     CountType: '',
@@ -462,6 +468,7 @@
                     GetAddress:''
 
                 },
+                isDDD:false,
                 // ruleForm:{
                 //     GetCompany:'',
                 //     GetName:'',
@@ -568,6 +575,7 @@
                 GetAddress: '',
                 Note: '',
                 LimitTime: '',
+                LimitTime1:'',
                 boxType: [],
                 listData: {},
                 iceCar: [
@@ -728,7 +736,7 @@
                             showSearch: this.showSearch,//货物类型
                             searchData: this.searchData,
                             qujianTime: this.qujianTime,
-                            LimitTime: this.LimitTime,
+                            LimitTime: this.LimitTime1?this.LimitTime1:this.LimitTime,
                             otherLimitTime: this.otherLimitTime,
                             isMoney: this.isMoney,
                             Box:this.cargoMsg,
@@ -881,7 +889,9 @@
                         that.ruleForm.SafeRate = res.data.data.SafeRate;
                         that.ruleForm.Telephone = res.data.data.Telephone;
                         that.ruleForm.Address = res.data.data.Address;
-                        that.ruleForm.Manager = res.data.data.Manager
+                        that.ruleForm.Manager = res.data.data.Manager;
+                        that.CompanyNet = res.data.data.CompanyNet
+
                        // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
@@ -924,6 +934,7 @@
             },
             //请求箱型
             next(val, index) {
+                this.isDDD = true;
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
                 let that = this;
                 this.$axios({
@@ -948,7 +959,7 @@
                     if (res.data.code == "200") {
                         that.boxType = res.data.data;
                     } else {
-                        that.boxType = {};
+                        //that.boxType = {};
                     }
                 });
 
@@ -1016,10 +1027,22 @@
             },
             //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
             quxiao() {
-                this.cargoMsg = '';
-                this.isDisabled = false
-                this.isDisabled1 = false
+                //this.cargoMsg = '';
+                this.isDisabled = false;
+                this.isDisabled1 = false;
+                console.log(this.boxType)
+                this.boxType.forEach(function(item,index){
+                    if(item.num){
+                        delete item.num
+                    }
+                })
+                this.iceCar.forEach(function(item,index){
+                    if(item.num){
+                        delete item.num
+                    }
+                })
                 console.log(this.cargoMsg, '箱型和car2');
+
             },
             //判断 箱型冷藏车只能选一个
             isClick(val, isType) {
@@ -1090,6 +1113,14 @@
                     }
                 }
             },
+            clearLimitTime(){
+                if(this.LimitTime1){
+                    this.LimitTime = ''
+                }
+            },
+            clearLimitTime1(){
+                this.LimitTime1 = ''
+            }
 
         }
     };

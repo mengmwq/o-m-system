@@ -213,7 +213,7 @@
        </div>
         <!--        //新增页面模态框-->
         <el-dialog
-
+            title="新增客户信息"
             :visible.sync="addSendDetailsModel"
         >
             <div>

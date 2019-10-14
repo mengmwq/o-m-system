@@ -7,18 +7,17 @@
                 <el-row>
                     <el-col>
                         <el-form-item label="区域" v-show="this.company == '总部'">
-                            <el-autocomplete
-                                class="inline-input"
-                                v-model="Area"
-
-
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
+                            <el-select v-model="Area" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in roles"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.Area"
+                                    :value="item.Area">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
-                        <el-form-item label="网络公司">
+                        <el-form-item label="网络公司" v-show="this.company == '总部'">
                             <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
@@ -62,10 +61,41 @@
                     </el-col>
                     <el-col >
                         <el-form-item label="温区">
-                            <el-input  v-model="WDQJ"></el-input>
+                            <el-select v-model="WDQJ" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in wdqjq"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.WDQJ"
+                                    :value="item.WDQJ">
+                                </el-option>
+                            </el-select>
+<!--                            <el-input  v-model="WDQJ"></el-input>-->
                         </el-form-item>
-                        <el-form-item label="箱型">
-                            <el-input v-model="PackageName"></el-input>
+                        <el-form-item label="箱型" v-if="this.WDQJ !==''">
+                            <el-select v-model="PackageName" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in xxcontent"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.PackageType"
+                                    :value="item.PackageType">
+                                </el-option>
+                            </el-select>
+
+                        </el-form-item>
+                        <el-form-item label="箱型"  v-else="this.WDQJ ==''">
+                            <el-select v-model="PackageName" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in xxcontent2"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.PackageType"
+                                    :value="item.PackageType">
+                                </el-option>
+                            </el-select>
+
+
                         </el-form-item>
                         <el-form-item label="货物类型">
                             <el-select v-model="GoodsType" filterable  placeholder="请选择">
@@ -251,6 +281,10 @@
         name: "CargoStatisticsDetails",
         data() {
             return {
+                roles:[],
+                xxcontent:[],
+                xxcontent2:[],
+                wdqjq:[],
                 ComPanN:[],
                 roles:[],
                 companyN:'',
@@ -284,6 +318,7 @@
             }
         },
         mounted() {
+
             this.leixin = this.$route.query.leixin;
             this.Area = this.$route.query.Area;
             // this.Area2 = this.$route.query.Area;
@@ -299,11 +334,124 @@
             this.company = window.sessionStorage.getItem('compony');
             this.getData();
             this.getnetDataFk();
-            this.getnetData()
+            this.getnetData();
+            this.getwdqjq();
+            this.getxxcontent();
+            this.getxxcontent2();
+            this.getAreaData()
+
         },
 
 
         methods:{
+            getAreaData() {
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checkarea',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.roles = res.data.data;
+                })
+
+            },
+            getxxcontent2(){
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/box',
+                    method: "post",
+
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.xxcontent2 = res.data.data;
+                })
+            },
+            getxxcontent(){
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj',
+                    method: "post",
+                    data: {
+                        WDQJ: this.WDQJ,
+
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.xxcontent = res.data.data;
+                })
+            },
+            getwdqjq(){
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj',
+                    method: "post",
+                    // data: {
+                    //     Company: this.company,
+                    //     Area:this.Area
+                    //
+                    // },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.wdqjq = res.data.data;
+                })
+            },
             getnetData() {
                 let _this = this;
                 _this.$axios({
@@ -372,6 +520,7 @@
                 this.PackageName;
                 this.WDQJ = '';
                 this.GoodsType = '';
+                this.PackageName='';
 
                 this.AccountNumber='';
                 this.getData();
@@ -391,7 +540,10 @@
             },
             focus(event) {
                 this.getnetData();
-                this.getnetDataFk()
+                this.getnetDataFk();
+                this.getwdqjq();
+                this.getxxcontent();
+                this.getAreaData()
                 console.log(1)
             },
             downloadtable(){

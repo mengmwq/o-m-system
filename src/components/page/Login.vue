@@ -1,13 +1,13 @@
 <template>
 <div class="sky">
-	<div class="clouds_one"></div>
-	<div class="clouds_two"></div>
-	<div class="clouds_three"></div>
+<!--	<div class="clouds_one"></div>-->
+<!--	<div class="clouds_two"></div>-->
+<!--	<div class="clouds_three"></div>-->
    <el-form :rules="rules2" label-position="left" label-width="0px" class="demo-ruleForm card-box loginform">
       <el-form-item>
-          <img src="../../assets/logo111.png" alt="" style="display: flex;margin: auto">
+          <img src="../../assets/login.png" alt="" style="display: flex;margin: auto">
       </el-form-item>
-      <h3 class="title">欢迎登录中集冷云订单管理系统</h3>
+      <h4 class="title">欢迎登录中集冷云订单管理系统</h4>
        <el-form-item>
           <el-input type="text" auto-complete="off" placeholder="用户名" v-model="account"></el-input>
        </el-form-item>
@@ -25,7 +25,7 @@
            <el-button type="info" style="width:100%; background: rgba(132, 148, 160,0.6); /*背景透明*/
 
             border: 2px solid rgba(255,255,255,0.1); /*边框半透明*/
-            box-shadow: inset 0 0 4px rgba(255,255,255,0.1),0 0 4px rgba(255,255,255,0.1); border-radius: 20px; /*内外渐变阴影*/"           @click.native="handleSubmit2" :loading="logining">登录
+            box-shadow: inset 0 0 4px rgba(255,255,255,0.1),0 0 4px rgba(255,255,255,0.1);  /*内外渐变阴影*/"           @click.native="handleSubmit2" :loading="logining">登录
            </el-button>
        </el-form-item>
    </el-form>
@@ -134,7 +134,7 @@ export default {
     text-align: center;
     color: #fff;
     font-family: cursive;
-    background: linear-gradient(45deg, rgba(0,173,181,1) 0%, rgba(0,173,181,.4)  100%);
+    /*background: linear-gradient(45deg, rgba(0,173,181,1) 0%, rgba(0,173,181,.4)  100%);*/
     -webkit-background-clip: text;
     text-shadow: 0 0 2px rgba(0, 173, 181, .2882),
     0 0 2px rgba(0, 173, 181, .2882),
@@ -151,8 +151,9 @@ export default {
   /*width: 350px;*/
   /*padding: 35px 35px 15px 35px;*/
   position: absolute;
-  left:50%;
+  left:73%;
   margin-left: -175px;
+    top:50px;
 }
 
 .form-input{
