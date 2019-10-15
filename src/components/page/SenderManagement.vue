@@ -192,18 +192,17 @@
         <el-dialog
             title="新增客户信息"
             :visible.sync="addSendDetailsModel"
-          >
+        >
             <div>
 
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px!important" class="demo-ruleForm" >
-
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-row>
                         <el-form-item label="客户账号" prop="name">
                             <el-input v-model="ruleForm.name" style="width: 160px"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-form-item label="公司名称" prop="company">
-                     <el-input v-model="ruleForm.company"  style="width: 80%!important;"></el-input>
+                        <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
                     <el-row>
                         <el-col :span="11">
@@ -240,7 +239,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="街道" prop=" street">
+                                <el-form-item label="街道" prop="street">
                                     <el-input v-model="ruleForm.street" ></el-input>
                                 </el-form-item>
                             </el-col>
@@ -252,7 +251,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item style="margin-bottom: 20px;">
+                    <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -260,6 +259,77 @@
             </div>
 
         </el-dialog>
+<!--        <el-dialog-->
+<!--            title="新增客户信息"-->
+<!--            :visible.sync="addSendDetailsModel"-->
+<!--          >-->
+<!--            <div>-->
+
+<!--                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px!important" class="demo-ruleForm" >-->
+
+<!--                    <el-row>-->
+<!--                        <el-form-item label="客户账号" prop="name">-->
+<!--                            <el-input v-model="ruleForm.name" style="width: 160px"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                    </el-row>-->
+<!--                    <el-form-item label="公司名称" prop="company">-->
+<!--                     <el-input v-model="ruleForm.company"  style="width: 80%!important;"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                    <el-row>-->
+<!--                        <el-col :span="11">-->
+<!--                            <el-form-item label="联系人" prop="region">-->
+<!--                                <el-input v-model="ruleForm.region" ></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="13">-->
+<!--                            <el-form-item label="联系方式" prop="phone">-->
+<!--                                <el-input v-model="ruleForm.phone" ></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
+
+<!--                    <el-row>-->
+<!--                        <el-col :span="11">-->
+<!--                            <el-row>-->
+<!--                                <el-col :span="12">-->
+<!--                                    <el-form-item label="省份" prop="province">-->
+<!--                                        <el-input v-model="ruleForm.province" ></el-input>-->
+<!--                                    </el-form-item>-->
+<!--                                </el-col>-->
+<!--                                <el-col :span="12">-->
+<!--                                    <el-form-item label="城市" prop="city">-->
+<!--                                        <el-input v-model="ruleForm.city" ></el-input>-->
+<!--                                    </el-form-item>-->
+<!--                                </el-col>-->
+<!--                            </el-row>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="13">-->
+<!--                            <el-col :span="12">-->
+<!--                                <el-form-item label="区域" prop="area">-->
+<!--                                    <el-input v-model="ruleForm.area" ></el-input>-->
+<!--                                </el-form-item>-->
+<!--                            </el-col>-->
+<!--                            <el-col :span="12">-->
+<!--                                <el-form-item label="街道" prop=" street">-->
+<!--                                    <el-input v-model="ruleForm.street" ></el-input>-->
+<!--                                </el-form-item>-->
+<!--                            </el-col>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
+
+
+
+<!--                    <el-form-item label="详细地址" prop="desc">-->
+<!--                        <el-input type="textarea" v-model="ruleForm.desc"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                    <el-form-item style="margin-bottom: 20px;">-->
+<!--                        <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>-->
+<!--                        <el-button @click="resetForm('ruleForm')">重置</el-button>-->
+<!--                    </el-form-item>-->
+<!--                </el-form>-->
+<!--            </div>-->
+
+<!--        </el-dialog>-->
 <!--        //修改模态框-->
         <el-dialog
             title="修改客户信息"

@@ -81,7 +81,7 @@
                                         货物类型：{{showSearch}}
                                     </el-col>
                                     <el-col :span="12">
-                                        货物名称：{{ }}
+                                        货物名称：{{searchData }}
                                     </el-col>
                                 </el-row>
 

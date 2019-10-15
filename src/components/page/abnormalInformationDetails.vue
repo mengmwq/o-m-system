@@ -245,7 +245,7 @@
                 value1: '',
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
-                ccc: 500, //总tiao数
+                ccc: 0, //总tiao数
                 addSendDetailsModel: false,
                 EditDetailsModel: false,
                 company: '',
@@ -576,7 +576,7 @@
                        // _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
-                        _this.ccc = res.data.data.sum;
+                        _this.ccc = res.data.data.sum||'0';
                        // _this.CompanyNet = '';
                     }else{
                         _this.$message.error(res.data.msg)
