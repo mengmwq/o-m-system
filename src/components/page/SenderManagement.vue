@@ -218,24 +218,29 @@
                     </el-row>
 
                     <el-row>
-                        <el-col :span="11">
-                            <el-row>
-                                <el-col :span="12">
-                                    <el-form-item label="省份" prop="province">
-                                        <el-input v-model="ruleForm.province" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.city" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-col>
-                        <el-col :span="13">
+<!--                        <el-col :span="11">-->
+<!--                            <el-row>-->
+<!--                                <el-col :span="12">-->
+<!--                                    <el-form-item label="省份" prop="province">-->
+<!--                                        <el-input v-model="ruleForm.province" ></el-input>-->
+<!--                                    </el-form-item>-->
+<!--                                </el-col>-->
+<!--                                <el-col :span="12">-->
+<!--                                    <el-form-item label="城市" prop="city">-->
+<!--                                        <el-input v-model="ruleForm.city" ></el-input>-->
+<!--                                    </el-form-item>-->
+<!--                                </el-col>-->
+<!--                            </el-row>-->
+<!--                        </el-col>-->
+                        <el-col>
                             <el-col :span="12">
-                                <el-form-item label="区域" prop="area">
-                                    <el-input v-model="ruleForm.area" ></el-input>
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        v-model="val2"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange2"
+                                        :separator="' '"
+                                    ></el-cascader>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -251,7 +256,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item style="padding-bottom: 20px;">
                         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -347,7 +352,7 @@
                     <el-form-item label="公司名称" prop="company">
                         <el-input v-model="ruleForm.company" ></el-input>
                     </el-form-item>
-                    <el-row>
+                    <el-row :gutter="24">
                         <el-col :span="11">
                             <el-form-item label="联系人" prop="region">
                                 <el-input v-model="ruleForm.region" ></el-input>
@@ -360,9 +365,9 @@
                         </el-col>
                     </el-row>
 
-                    <el-row>
+                    <el-row :gutter="24">
                         <el-col :span="11">
-                            <el-row>
+                            <el-row :gutter="24">
                                 <el-col :span="12">
                                     <el-form-item label="省份" prop="province">
                                         <el-input v-model="ruleForm.province" ></el-input>
@@ -376,16 +381,19 @@
                             </el-row>
                         </el-col>
                         <el-col :span="13">
-                            <el-col :span="12">
-                                <el-form-item label="区域" prop="area">
-                                    <el-input v-model="ruleForm.area" ></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="街道" prop=" street">
-                                    <el-input v-model="ruleForm.street" ></el-input>
-                                </el-form-item>
-                            </el-col>
+                            <el-row :gutter="24">
+                                <el-col :span="12">
+                                    <el-form-item label="区域" prop="area">
+                                        <el-input v-model="ruleForm.area" ></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="街道" prop=" street">
+                                        <el-input v-model="ruleForm.street" ></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+
                         </el-col>
                     </el-row>
                     <el-form-item label="详细地址" prop="desc">
@@ -403,6 +411,7 @@
 </template>
 
 <script>
+    import areaOptions2 from "../../lib/area.js";
     export default {
         name: "SenderManagement",
         data() {
@@ -441,6 +450,8 @@
                         { required: true, message: '请输入详细地址', trigger: 'blur' }
                     ]
                 },
+                areaOptions2: areaOptions2,
+                val2: [],
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 0, //总tiao数
@@ -464,6 +475,10 @@
             this.getData()
         },
         methods:{
+            handleItemChange2(val) {
+                // 省市区
+                this.val2 = val;
+            },
             addtimesta2(row, colume) {
                 return row.Area == null ? '暂无' : row.Area;
             },
@@ -649,13 +664,14 @@
                                 CompanyName: this.ruleForm.company,
                                 Manager: this.ruleForm.region,
                                 Telephone: this.ruleForm.phone,
-                                Depart: this.ruleForm.province,
-                                City: this.ruleForm.city,
-                                Area: this.ruleForm.area,
+
+                                Depart: this.val2[0],
+                                City: this.val2[1],
+                                Area: this.val2[2],
                                 Roule: this.ruleForm.street,
                                 Address: this.ruleForm.desc,
-                                InName: this.ruleForm.InName,
-                                TrueName:this.TrueName
+                                InName: this.TrueName,
+                                //TrueName:this.TrueName
                             },
                             transformRequest: [
                                 function (data) {
@@ -755,16 +771,14 @@
     padding:20px;
     overflow-y: scroll;height:100%;
 }
-    .el-input__inner{
-        height:35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell{
         font-size: 10px;
     }
-    .el-form-item__label {
+    /*.el-form-item__label {*/
 
-        width: 68px;}
+    /*    width: 68px;}*/
 </style>

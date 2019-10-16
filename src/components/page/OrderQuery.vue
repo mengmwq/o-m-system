@@ -39,10 +39,16 @@
                                     <el-dropdown-item command="运单号码">运单号码</el-dropdown-item>
                                 </el-dropdown-menu>
                            </el-dropdown>
-                          <input type="text" v-model="searchData">
-                        <img src="../../assets/chaxun.png" alt="查询图标" style="margin-left: 10px;margin-top: 0px;width: 23px;
-                        height: 23px;" @click="getTabelData">
-                        <p style="margin:0 10px;    flex: 1;justify-content: flex-end;display: flex;font-family: cursive" @click="development" >更多操作 &nbsp<i  style="margin: 10px 0 0 0; " :class="sanja ? 'sanjiao' : 'sanjiao2'" ></i></p>
+                        <el-input   v-model="searchData"    style="width: 20%;">
+                            <el-button slot="append" icon="el-icon-search" @click="getTabelData">搜索</el-button>
+                        </el-input>
+
+<!--                          <input type="text" v-model="searchData">-->
+<!--                        <img src="../../assets/chaxun.png" alt="查询图标" style="margin-left: 10px;margin-top: 0px;width: 23px;-->
+<!--                        height: 23px;" @click="getTabelData">-->
+                        <span style="margin:0 10px;  flex: 1;display: flex;font-family: cursive" @click="development" >精选搜索条件 &nbsp<i  style="margin: 10px 0 0 0; " :class="sanja ? 'sanjiao' : 'sanjiao2'" ></i></span>
+
+                        <p style="margin:0 10px;    flex: 1;justify-content: flex-end;display: flex;font-family: cursive" @click="development" >总条数：{{ccc}}条</p>
                     </el-col>
                     <el-col :span="24" style=" align-items: center;display: flex;margin: 0;" >
                         <el-form :inline="true" style="margin: 10px 0 0 0; " :class="isMeng ? 'isA' : 'isb'"  >
@@ -52,6 +58,7 @@
                                         <div class="block"  >
                                             <el-date-picker
                                                 v-model="xdtime"
+
                                                 type="datetimerange"
                                                 value-format="yyyy-MM-dd HH:mm:ss"
                                                 range-separator="至"
@@ -73,29 +80,38 @@
                                             </el-date-picker>
                                         </div>
                                     </el-form-item>
-                                    <img src="../../assets/chongzhi.png" @click="refresh()"  alt="重置" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
+
                                 </el-col>
                                 <el-col>
 
                                     <el-form-item label="始发城市">
-                                        <el-input v-model="City1"  style="width: 158px"></el-input>
+                                        <el-input v-model="City1"  style="width: 158px"   ></el-input>
                                     </el-form-item>
                                     <el-form-item label="目的城市 " style="margin-right: 30px;">
-                                        <el-input v-model="GetCity1"  style="width: 158px"></el-input>
+                                        <el-input v-model="GetCity1"  style="width: 158px"  ></el-input>
                                     </el-form-item>
                                     <el-form-item label="取件网络">
-                                        <el-input v-model="CompanyNet" style="width: 158px"></el-input>
+                                        <el-input v-model="CompanyNet" style="width: 158px" ></el-input>
                                     </el-form-item>
                                     <el-form-item label="下单类型">
-                                        <el-select v-model="OrderType"  style="width: 159px;">
+                                        <el-select v-model="OrderType"  style="width: 160px;">
                                             <el-option key="TMS" label="TMS" value="TMS"></el-option>
                                             <el-option key="APP " label="APP" value="APP"></el-option>
                                             <el-option key="WEB " label="WEB" value="WEB"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                    <img src="../../assets/chaxun.png" @click="getData" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">
 
+                                    <el-button type="primary" @click="getData" size="medium">搜索</el-button>
+                                    <el-button type="success" @click="refresh()" size="medium">重置</el-button>
                                 </el-col>
+<!--                                <el-col>-->
+<!--                                    <div v-show="isShowButton">-->
+<!--                                      -->
+<!--&lt;!&ndash;                                        <img src="../../assets/chaxun.png" @click="getData" alt="查询图标" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <img src="../../assets/chongzhi.png" @click="refresh()"  alt="重置" style="margin-left: 10px;margin-top: 8px;width: 23px; height: 23px;">&ndash;&gt;-->
+<!--                                    </div>-->
+
+<!--                                </el-col>-->
                             </el-row>
                         </el-form>
 
@@ -476,6 +492,7 @@
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
+
                  <el-button type="primary" size="mini" @click="cacelOrder()" >save</el-button>
                  <el-button @click="quxiaoFangshi = false">取 消</el-button>
             </span>
@@ -489,6 +506,8 @@
         name: "orderManagement",
         data() {
             return {
+                isShowButton:true,
+                AnPai:'',
                 Department:'',
                 GetCode:'',
                 TakeTime:'',
@@ -568,7 +587,7 @@
             this.TrueName = window.sessionStorage.getItem('TrueName')
             this.City = window.sessionStorage.getItem('City')
             this.getData();
-
+            this.xiadna
         },
 
         methods:{
@@ -758,11 +777,24 @@
                     _this.loading = false
                     _this.tableData = res.data.data.result;
                     _this.ccc = res.data.data.count;
-                    // _this.tableData.forEach(item=>{
+
                     //
-                    //     if(item.Condition=="指令下达"){
-                    //       _this.attr('color','red')
+                    // _this.staData.forEach(item=>{
+                    //     console.log(item.name,8)
+                    //     if(item.name=="所有"){
+                    //         item.num = res.data.data.count
+                    //     }else if(item.name == "指令下达"){
+                    //         item.num = res.data.data.XiaDa
+                    //     }else if(item.name == "指令取消"){
+                    //         item.num = res.data.data.QuXiao
+                    //     }else if(item.name == "已安排"){
+                    //         item.num = res.data.data.AnPai
+                    //     }else if(item.name=="取件完成"){
+                    //         item.num = res.data.data.WanChen
                     //     }
+                    //     // if(item.name ="指令下达"){
+                    //     //     item.num = res.data.data.XiaDa
+                    //     // }
                     // })
 
                 })
@@ -978,15 +1010,13 @@
 
 </script>
 <style>
-    .el-dialog__body {
-    padding: 10px 20px 0;
-    color: #606266;
-    font-size: 14px;
-}
+/*    .el-dialog__body {*/
+/*    padding: 10px 20px 0;*/
+/*    color: #606266;*/
+/*    font-size: 14px;*/
+/*}*/
 
-    .el-input__inner{
-        height:35px;
-    }
+
     .el-dialog__title {
         line-height: 16px;
         font-size: 18px;
@@ -994,9 +1024,9 @@
         font-weight: 800;
         font-family: cursive;
     }
-    .el-form-item {
-        margin-bottom: 15px;
-    }
+    /*.el-form-item {*/
+    /*    margin-bottom: 15px;*/
+    /*}*/
 
     .demo-table-expand {
         font-size: 0;
@@ -1034,6 +1064,7 @@
     }
     .bioage span{
         margin-right: 20px;
+        font-size: 12px;
     }
     .bo{
         background: #fff;

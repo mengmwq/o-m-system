@@ -1,13 +1,14 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span>网络公司</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
-        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span v-if="this.leixin=='货物类型'">{{BusinessType}}</span>
+            <span v-if="this.leixin!=='货物类型'">{{Area==''?'合计':Area}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+        <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span>{{BusinessType}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
         <div  >
-            <el-form :inline="true" class="demo-form-inline">
+            <el-form :inline="true" class="demo-form-inline" style="margin-top: 10px">
                 <el-row>
                     <el-col>
                         <el-form-item label="区域" v-show="this.company == '总部'">
-                            <el-select v-model="Area" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="Area" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in roles"
@@ -18,7 +19,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="网络公司" v-show="this.company == '总部'">
-                            <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in ComPanN"
@@ -29,7 +30,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="网络公司"  v-if="company !== '总部'">
-                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="CompanyNet" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in ComPanNFk"
@@ -54,14 +55,15 @@
                         </el-form-item>
                         <el-form-item label="订单号">
                             <el-input
+                                style="width: 130px"
                                 v-model="ID"
                             ></el-input>
                         </el-form-item>
 
-                    </el-col>
-                    <el-col >
+
+
                         <el-form-item label="温区">
-                            <el-select v-model="WDQJ" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="WDQJ" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in wdqjq"
@@ -73,7 +75,7 @@
 <!--                            <el-input  v-model="WDQJ"></el-input>-->
                         </el-form-item>
                         <el-form-item label="箱型" v-if="this.WDQJ !==''">
-                            <el-select v-model="PackageName" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="PackageName" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in xxcontent"
@@ -85,7 +87,7 @@
 
                         </el-form-item>
                         <el-form-item label="箱型"  v-else="this.WDQJ ==''">
-                            <el-select v-model="PackageName" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="PackageName" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in xxcontent2"
@@ -122,7 +124,7 @@
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
                           <el-form  label-width="80px!important">
-                            <el-form-item label="延迟" >
+                            <el-form-item>
                                 <el-radio-group v-model="Delay">
                                     <el-radio label="全部" value=""></el-radio>
                                     <el-radio label="是"></el-radio>
@@ -281,6 +283,7 @@
         name: "CargoStatisticsDetails",
         data() {
             return {
+                BusinessType:'',
                 roles:[],
                 xxcontent:[],
                 xxcontent2:[],
@@ -321,7 +324,7 @@
 
             this.leixin = this.$route.query.leixin;
             this.Area = this.$route.query.Area;
-            // this.Area2 = this.$route.query.Area;
+             this.BusinessType = this.$route.query.BusinessType;
             this.CompanyNet = this.$route.query.CompanyNet;
 
             if(this.Area=="合计"){
@@ -515,12 +518,13 @@
             refresh(){
                 this.cur_page = 1;
                 this.loading = true;
-
+                this.Area=''
                 this.ID='';
                 this.PackageName;
                 this.WDQJ = '';
                 this.GoodsType = '';
                 this.PackageName='';
+                this.CompanyNet = '';
 
                 this.AccountNumber='';
                 this.getData();
@@ -702,16 +706,14 @@
         padding:20px;
         overflow-y: scroll;height:100%;
     }
-    .el-input__inner{
-        height:35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell{
         font-size: 10px;
     }
-    .el-form-item__label {
+    /*.el-form-item__label {*/
 
-        width: 68px;}
+    /*    width: 68px;}*/
 </style>

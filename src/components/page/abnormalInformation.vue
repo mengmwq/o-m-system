@@ -31,7 +31,7 @@
                         <el-table
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
-                            border
+
                             ref="multipleTable"
                             @selection-change="handleSelectionChange"
 
@@ -316,24 +316,21 @@
         }
     }
 </script>
+
 <style>
     .divBut {
         padding: 20px;
         overflow-y: scroll;
         height: 100%;
     }
-    .el-input__inner {
-        height: 35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell {
         font-size: 10px;
     }
-    .el-form-item__label {
-        width: 120px !important;
-    }
+
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
     }

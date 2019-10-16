@@ -21,7 +21,7 @@
                             <a href="avascript:;" target="_blank">
                                 <el-dropdown-item>ID：{{Id}}</el-dropdown-item>
                             </a>
-                            <a @click="handleAdd()">
+                            <a>
                                 <el-dropdown-item>电话：{{Mobile}} <i class="el-icon-mobile-phone" style="color: blue"></i></el-dropdown-item>
                             </a>
                         </div>
@@ -34,7 +34,7 @@
                         </div>
                         <div style="border-right: 1px solid #A3A3A3;padding:0 5px">
                             <p style="text-align: center;color:#A3A3A3">部门</p>
-                            <p>销售中心</p>
+                            <p>暂无</p>
                         </div>
                         <div style="padding: 0 5px">
                             <p style="text-align: center;color:#A3A3A3">职位</p>
@@ -100,7 +100,7 @@
             this.Mobile = (JSON.parse(item).Mobile);
             this.Company = (JSON.parse(item).Company);
             this.City = (JSON.parse(item).City)
-            this.Operate = (JSON.parse(item).Operate)
+            this.Operate = (JSON.parse(item).Operate)||"暂无"
 
             window.sessionStorage.setItem('compony',this.Company);
             window.sessionStorage.setItem('TrueName',this.TrueName);

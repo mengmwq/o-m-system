@@ -60,13 +60,13 @@
 
                         ></el-input>
                     </el-form-item>
-                    <el-form-item label="活跃度"  >
-                        <el-select v-model="huoyuedu">
-                            <el-option label="普通用户" value="1"></el-option>
-                            <el-option label="活跃用户" value="2"></el-option>
-                            <el-option label="失活用户" value="3"></el-option>
-                        </el-select>
-                    </el-form-item>
+<!--                    <el-form-item label="活跃度"  >-->
+<!--                        <el-select v-model="huoyuedu">-->
+<!--                            <el-option label="普通用户" value="1"></el-option>-->
+<!--                            <el-option label="活跃用户" value="2"></el-option>-->
+<!--                            <el-option label="失活用户" value="3"></el-option>-->
+<!--                        </el-select>-->
+<!--                    </el-form-item>-->
                     <div style="float: right">
                         <img src="../../assets/chaxun.png" alt=""  style="width: 23px;height: 23px"   @click="getData" >
                         <img src="../../assets/daochu.png" alt="" style="margin: 0 30px;width: 23px;height: 23px" @click="dataExport()" >
@@ -179,12 +179,12 @@
                             align="center"
                             prop="Address">
                         </el-table-column>
-                        <el-table-column
+<!--                        <el-table-column-->
 
-                            align="center"
-                            label="录入人"
-                            prop="InName">
-                        </el-table-column>
+<!--                            align="center"-->
+<!--                            label="录入人"-->
+<!--                            prop="InName">-->
+<!--                        </el-table-column>-->
 
                         <el-table-column
                             align="center"
@@ -241,24 +241,34 @@
                     </el-row>
 
                     <el-row>
-                        <el-col :span="11">
-                            <el-row>
-                                <el-col :span="12">
-                                    <el-form-item label="省份" prop="province">
-                                        <el-input v-model="ruleForm.province" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.city" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-col>
-                        <el-col :span="13">
+<!--                        <el-col :span="11">-->
+<!--                            <el-row>-->
+<!--&lt;!&ndash;                                <el-col :span="12">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <el-form-item label="省份" prop="province">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <el-input v-model="ruleForm.province" ></el-input>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </el-form-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <el-col :span="12">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <el-form-item label="城市" prop="city">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <el-input v-model="ruleForm.city" ></el-input>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </el-form-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </el-col>&ndash;&gt;-->
+<!--                            </el-row>-->
+<!--                        </el-col>-->
+                        <el-col>
+<!--                            <el-col :span="12">-->
+<!--                                <el-form-item label="区域" prop="area">-->
+<!--                                    <el-input v-model="ruleForm.area" ></el-input>-->
+<!--                                </el-form-item>-->
+<!--                            </el-col>-->
                             <el-col :span="12">
-                                <el-form-item label="区域" prop="area">
-                                    <el-input v-model="ruleForm.area" ></el-input>
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        v-model="val2"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange2"
+                                        :separator="' '"
+                                    ></el-cascader>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -274,7 +284,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item style="padding-bottom: 20px;">
                         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -342,7 +352,7 @@
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
                     </el-form-item>
-                    <el-form-item style="margin-bottom: 20px;">
+                    <el-form-item style="padding-bottom: 20px;">
                         <el-button type="primary" @click="EditForm('ruleForm')">保存</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
@@ -428,7 +438,7 @@
 </template>
 
 <script>
-
+    import areaOptions2 from "../../lib/area.js";
 
     export default {
         data() {
@@ -468,6 +478,8 @@
                         { required: true, message: '请输入详细地址', trigger: 'blur' }
                     ]
                 },
+                areaOptions2: areaOptions2,
+                val2: [],
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 500, //总tiao数
@@ -491,6 +503,10 @@
             this.getData()
         },
         methods:{
+            handleItemChange2(val) {
+                // 省市区
+                this.val2 = val;
+            },
             refresh(){
                 this.cur_page = 1;
                 this.loading = true;
@@ -664,13 +680,13 @@
                                         CompanyName: this.ruleForm.company,
                                         Manager: this.ruleForm.region,
                                         Telephone: this.ruleForm.phone,
-                                        Depart: this.ruleForm.province,
-                                        City: this.ruleForm.city,
-                                        Area: this.ruleForm.area,
+                                        Depart: this.val2[0],
+                                        City: this.val2[1],
+                                        Area: this.val2[2],
                                         Roule: this.ruleForm.street,
                                         Address: this.ruleForm.desc,
-                                        InName: this.ruleForm.InName,
-                                        TrueName:this.TrueName
+                                        InName: this.TrueName,
+                                       // TrueName:this.TrueName
 
                                     },
                                     transformRequest: [
@@ -688,6 +704,8 @@
                                     ],
 
                                 }).then(function (res) {
+
+
                                     if (res.data.code == 200) {
                                         _this.$message.success("新增成功")
                                         _this.addSendDetailsModel = false;
@@ -771,17 +789,15 @@
     padding:20px;
     overflow-y: scroll;height:100%;
 }
-    .el-input__inner{
-        height:35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell{
         font-size: 10px;
     }
-    .el-form-item__label {
+    /*.el-form-item__label {*/
 
-        width: 68px;}
+    /*    width: 68px;}*/
 </style>
 

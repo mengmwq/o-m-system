@@ -1,12 +1,12 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer;color: deepskyblue;">区域订单> </span>{{Area=='' ?'合计':Area}}</div>
+        <div style="background: #eee;padding: 10px "    v-if="company == '总部'"><span @click="linkLast()" style="cursor: pointer;color: deepskyblue;">区域订单> </span>{{Area=='' ?'合计':Area}}</div>
 
         <div >
 
             <div  v-loading="loading"  element-loading-text="拼命加载中" >
 
-                <el-form :inline="true" class="demo-form-inline">
+                <el-form :inline="true" class="demo-form-inline" style="margin: 20px 0 0 0">
                     <el-row style="display: flex;align-items: center;">
                         <el-col>
                             <el-form-item label="区域">
@@ -199,7 +199,7 @@
                 this.cur_page = 1;
                 this.loading = true;
 
-               // this.Area='';
+                this.Area='';
 
                 this.Nex='';
                 this.getData();
@@ -301,7 +301,7 @@
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
                         _this.ccc = res.data.data.sum;
-                        _this.Nex ='';
+                        // _this.Nex ='';
                     }else{
                         _this.$message.error(res.data.msg)
                         _this.loading = false;
@@ -409,18 +409,16 @@
         overflow-y: scroll;
         height: 100%;
     }
-    .el-input__inner {
-        height: 35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell {
         font-size: 10px;
     }
-    .el-form-item__label {
-        width: 120px !important;
-    }
+    /*.el-form-item__label {*/
+    /*    width: 120px !important;*/
+    /*}*/
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
     }

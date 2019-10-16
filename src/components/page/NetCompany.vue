@@ -34,7 +34,7 @@
 							<el-option key="qjw" label="取件完成" value="取件完成"></el-option>
 						</el-select>
 					</el-form-item>
-				
+
 					<el-form-item label="下单方式">
 						<el-select v-model="orderType" >
 							<el-option key="bbk" label="TMS" value="TMS"></el-option>
@@ -146,7 +146,7 @@
 							</div>
 							 <div class="grid-content" style="">详细地址：<span>{{sendAddress}}</span></div>
 							</div>
-						
+
 						<div>
 							<div class="grid-content" style="position: relative;">
 							收件方：<span>{{getName}}</span>
@@ -734,9 +734,9 @@
 		font-size: 10px;
 	}
 
-	.el-form-item__label {
-		width: 68px !important;
-	}
+	/*.el-form-item__label {*/
+	/*	width: 68px !important;*/
+	/*}*/
 
 	.el-dialog__body {
 		padding: 5px 15px;

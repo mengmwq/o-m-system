@@ -1,9 +1,9 @@
 <template>
     <div class="divBut">
-        <div style="background: #eee;padding: 20px "><span @click="backCargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{BusinessType=='' ?'合计':BusinessType}}</span>>网络公司</div>
+        <div style="background: #eee;padding: 10px "><span @click="backCargoStatistics()" style="cursor: pointer;color: deepskyblue;">货物类型</span>>{{BusinessType=='' ?'合计':BusinessType}}</div>
         <div >
 
-            <div  v-loading="loading"  element-loading-text="拼命加载中" >
+            <div  v-loading="loading"  element-loading-text="拼命加载中"  style="margin: 20px 0 0 0">
 
                 <el-form :inline="true" class="demo-form-inline">
                     <el-row style="display: flex;align-items: center;">
@@ -19,17 +19,15 @@
 
                                 ></el-input>
                             </el-form-item>
-                            <el-form-item label="网络公司">
-                                <el-input
-                                    class="inline-input"
-
-                                    v-model="Nex"
-                                    placeholder="请输入内容"
-                                    :trigger-on-focus="false"
-                                    :debounce=0
-
-                                ></el-input>
-                            </el-form-item>
+                            <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
+                                <!--<el-option label="请选择" value=""></el-option>-->
+                                <el-option
+                                    v-for="item in ComPanN"
+                                    :key="item.ROW_NUMBER"
+                                    :label="item.Company"
+                                    :value="item.Company">
+                                </el-option>
+                            </el-select>
 
 
                             <div style="float: right;margin-top: 5px;">
@@ -55,7 +53,7 @@
                                 :header-cell-style="{background:'#EFF3F8'}"
                                 stripe
                                 @selection-change="handleSelectionChange"
-                                height="500"
+                                height="350"
                                 ref="multipleTable"
                                 :data="tableData"
                                 style="width: 100%">
@@ -157,6 +155,7 @@
                 tableData:[
 
                 ],
+                ComPanN:[],
                 multipleSelection:[]
 
 
@@ -170,9 +169,42 @@
                 this.BusinessType ='';
             }
             this.company = window.sessionStorage.getItem('compony');
-            this.getData()
+            this.getData();
+             this.getnetData();
         },
         methods: {
+            focus(event){
+                this.getnetData();
+
+            },
+            getnetData() {
+                let _this = this;
+                _this.$axios({
+                    url: 'http://out.ccsc58.cc/OMS/v1/public/index/reportcenter/checknet',
+                    method: "post",
+                    data: {
+                        Company: this.company,
+
+                    },
+                    transformRequest: [
+                        function(data) {
+                            let ret = "";
+                            for(let it in data) {
+                                ret +=
+                                    encodeURIComponent(it) +
+                                    "=" +
+                                    encodeURIComponent(data[it]) +
+                                    "&";
+                            }
+                            return ret;
+                        }
+                    ],
+                    //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                }).then(function(res) {
+                    _this.ComPanN = res.data.data;
+                })
+
+            },
             //刷新页面渲染数据
             refresh(){
                 this.cur_page = 1;
@@ -325,18 +357,14 @@
         overflow-y: scroll;
         height: 100%;
     }
-    .el-input__inner {
-        height: 35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell {
         font-size: 10px;
     }
-    .el-form-item__label {
-        width: 120px !important;
-    }
+
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
     }

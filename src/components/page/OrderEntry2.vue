@@ -12,6 +12,7 @@
 
                                 label-width="80px!important"
                                 :inline="true"
+                                class="demo-form-inline"
                                 :model="ruleForm2" :rules="rules" ref="ruleForm2"
                             >
                                 <el-row>
@@ -207,11 +208,13 @@
                 <!-- 货物信息 -->
                 <el-row
                     :gutter="24"
-                    style="margin: 0"
+                    style="margin: 0;overflow: hidden;"
+
+
                 >
                     <el-col :span="24">
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;货物信息</h2>
-                        <div style="display: flex">
+                        <div style="display: flex; flex-direction: row">
                             <el-steps
                                 direction="vertical"
                                 :active="active"
@@ -220,7 +223,7 @@
                                 <el-step></el-step>
                                 <el-step v-if="active===2"></el-step>
                             </el-steps>
-                            <div style="display:flex;flex-direction: column;">
+                            <div style="display:flex;flex-direction: column; flex: 1">
                                 <div
                                     v-if="isFirst"
                                     style="flex-grow: 1"
@@ -238,13 +241,14 @@
                                     <!-- <button @click="next"> 下一步 </button> -->
                                 </div>
 
-                                <div v-if="active===2">
+                                <div v-if="active===2" >
                                     <div>{{towTitle}}</div>
                                     <div>
                                         <el-tabs>
                                             <el-tab-pane label="箱型" :disabled="isDisabled">
-                                                <div class="temFirst">
+                                                <div class="temFirst" >
                                                     <div
+                                                        style="flex-flow: wrap;padding-bottom: 10px"
                                                         v-for="(item,index) in boxType"
                                                         :key="index">
                                                         <span>{{item.PackageType}}</span>
@@ -281,7 +285,7 @@
                     </el-col>
 
 
-                    <el-col :span="24" style="text-align:right;" v-show="isDDD">
+                    <el-col :span="24" style="text-align:right;margin: 20px 5px" v-show="isDDD">
 <!--                         <button @click="prev"> 上一步 </button> -->
                         <span class="save" @click="quxiao">取消</span>
                         <span class="save" @click="prev">保存</span>
@@ -355,8 +359,7 @@
                                 </el-radio-group>
                                 <div style="display: inline-block;margin-left: 20px;">
                                     <span style="font-family: cursive">其他</span>
-                                    <input style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                           v-model="LimitTime1" v-on:input="clearLimitTime"></input>
+                                    <input style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="LimitTime1" v-on:input="clearLimitTime"></input>
                                 </div>
 
                             </div>
@@ -381,9 +384,8 @@
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="IsLCar" label="冷车">是&nbsp;<input value="550"
-                                                                                            style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                                                                            v-model="LCar"></input>
+                                        <el-radio v-model="IsLCar" label="冷车">是&nbsp;
+                                            <input value="550" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="LCar"></input>
                                         </el-radio>
                                         <el-radio v-model="IsLCar" label="不使用">否</el-radio>
 
@@ -400,22 +402,20 @@
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0" v-if="isPay">
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="OutPay" label="0">发件人&nbsp;<input value=""
-                                                                                                style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                                                                                v-model="PayMoney">
+                                        <el-radio v-model="OutPay" label="0">发件人&nbsp;
+                                            <input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney">
                                         </el-radio>
-                                        <el-radio v-model="OutPay" label="1">收件人&nbsp;<input value=""
-                                                                                                style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                                                                                v-model="PayMoney2">
+                                        <el-radio v-model="OutPay" label="1">收件人&nbsp;
+                                            <input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney2">
                                         </el-radio>
 
                                     </div>
                                 </el-col>
                                 <el-col>
                                     <div style="margin-left: 15px">
-                                        <el-form :inline="true">
+                                        <el-form >
                                             <el-form-item label="特殊需求">
-                                                <textarea name="" id="" cols="40" rows="5" v-model="Note"></textarea>
+                                                <textarea name="" id="" cols="100" rows="5" v-model="Note"></textarea>
 <!--                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>-->
                                             </el-form-item>
                                         </el-form>
@@ -526,8 +526,6 @@
                     ]
 
                 },
-
-
                 isPay:true,
                 OutPay: '',
                 PayMoney: '',
@@ -555,7 +553,7 @@
                 isShow: false,
                 GetTelephone: '',
                 showSearch: "药品",
-                searchData: "",
+                searchData: "药品",
                 areaOptions: areaOptions,
                 areaOptions2: areaOptions2,
                 val2: [],
@@ -605,7 +603,6 @@
                 cargList: [ //货物信息
 
                 ],
-
                 item1: '',
                 cargListObj: {},
                 SNameArr: [],
@@ -717,32 +714,54 @@
             saveCargo(formName,formName2) {
                 console.log(this.cargoMsg);
                 //这个如何判断
-                if(this.searchData == ''){
-                    this.$message.error('请输入货物名称');
-                    return;
-                };
 
-                if(this.qujianTime == ''){
-                    this.$message.error('请输入要求取件时间');
-                    return;
-                };
-                if (this.SafeItem == '投保') {
-                    if (this.SafePay == '') {
-                        //alert('投保金额必填')
-                        this.$message.error('投保金额必填');
-                        return;
-                    }
-                };
-                if(this.IsWdj == ''){
-                    this.$message.error('请选择温度计');
-                    return;
-                };
 
                 this.$refs[formName].validate((valid) => {
                     this.$refs[formName2].validate((valid2) => {
 
                         if (valid) {
                             if(valid2){
+                                if(this.searchData == ''){
+                                    this.$message.error('请输入货物名称');
+                                    return;
+                                };
+
+                                if(this.qujianTime == ''){
+                                    this.$message.error('请输入要求取件时间');
+                                    return;
+                                };
+
+
+                                if(this.LimitTime == ''&&this.LimitTime1 == ''){
+                                    this.$message.error('请选择时限');
+                                    return;
+                                };
+
+
+                                if(this.SafeItem == ''){
+                                    this.$message.error('请选择是否投保');
+                                    return;
+                                };
+                                if (this.SafeItem == '投保') {
+                                    if (this.SafePay == '') {
+                                        //alert('投保金额必填')
+                                        this.$message.error('投保金额必填');
+                                        return;
+                                    }
+                                };
+                                if(this.IsWdj == ''){
+                                    this.$message.error('请选择温度计');
+                                    return;
+                                };
+                                if(this.IsLCar ==''){
+                                    this.$message.error('请选择是否使用冷藏车');
+                                    return;
+                                }
+                                // if(this.Note == ''){
+                                //     this.$message.error('请填写特殊需求');
+                                //     return;
+                                // }
+
 
 
                                 let orderData = {
@@ -935,6 +954,7 @@
             },
             //请求温度区间
             getTem() {
+
                 let that = this;
                 this.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/wdqj",
@@ -967,6 +987,7 @@
             },
             //请求箱型
             next(val, index) {
+
                 this.isDDD = true;
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
                 let that = this;
@@ -1020,7 +1041,7 @@
             },
             prev() {
 
-
+                this.isDDD = false;
                 if(this.cargoMsg.length == 0){
                     this.$message.error('请选择温区和箱型')
                 }else{
@@ -1269,6 +1290,7 @@
     .temFirst {
         display: flex;
         flex-flow: wrap;
+
     }
 
     .temActive {
@@ -1290,9 +1312,7 @@
     }
 </style>
 <style>
-    .el-form-item__label {
-        width: 100px !important;
-    }
+
 
     .limit {
         display: flex;

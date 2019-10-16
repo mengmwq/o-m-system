@@ -26,7 +26,7 @@
             <el-row>
                 <el-col style="margin:10px 0" >
                     <div style="display: flex;align-items: center;justify-content: space-between">
-                        <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp区域订单-货量统计</div>
+                        <div style="font-family: cursive;border-left:4px solid #45A2DF"> &nbsp&nbsp区域订单-货量统计</div>
 
                     </div>
 
@@ -105,12 +105,12 @@
                 <el-row>
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
-                            <div style="font-family: cursive;border-left:4px solid blue"> &nbsp&nbsp货物类型-货量统计</div>
+                            <div style="font-family: cursive;border-left:4px solid #45A2DF"> &nbsp&nbsp货物类型-货量统计</div>
 
                         </div>
 
                     </el-col>
-                    <el-col>
+                    <el-col style="margin-bottom:50px;">
                         <el-table
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
@@ -311,18 +311,14 @@
         overflow-y: scroll;
         height: 100%;
     }
-    .el-input__inner {
-        height: 35px;
-    }
+
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
     .el-table .cell {
         font-size: 10px;
     }
-    .el-form-item__label {
-        width: 120px !important;
-    }
+
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
     }

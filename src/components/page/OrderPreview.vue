@@ -98,9 +98,9 @@
                                         <td>{{item.WDQJ}}</td>
                                         <td>{{item.PackageType}}</td>
                                         <td>
-                                            <!--                                   <span class="circle">-</span>-->
+                                            <span class="circle" @click="prow(item.num,index)">-</span>
                                             <span>{{item.num}}</span>
-                                            <!--                                   <span class="circle">+</span>-->
+                                            <span class="circle" @click="add(item.num,index)">+</span>
                                         </td>
                                         <td @click="deleteInfor(index)"><span>删除</span></td>
                                     </tr>
@@ -368,6 +368,22 @@
 
         },
         methods:{
+            add(val,addIndex){
+                this.Box.forEach((item,index)=>{
+                    if(index == addIndex){
+                        item.num = parseInt(item.num) + 1;
+                    }
+                })
+                this.$forceUpdate();
+            },
+            prow(val,prowIndex){
+                this.Box.forEach((item,index)=>{
+                    if(index == prowIndex){
+                        item.num = parseInt(item.num) - 1;
+                    }
+                })
+                this.$forceUpdate();
+            },
             deleteInfor(index) { // 删除货物信息
 
                 this.Box.splice(index,1);
@@ -382,6 +398,11 @@
                 })
             },
             submitFromContent(){
+
+                this.newBox = JSON.parse(JSON.stringify(this.Box))
+                console.log(this.newBox)
+                console.log(this.Box)
+
                 let abc = this.newBox;
                 // for(var i in this.newBox){
                 //     if(this.newBox[i] == )
@@ -402,7 +423,7 @@
                     }
                 }
                 console.log(result,'11111')
-
+                // return;
                 // this.newBox.forEach(item=>{
                 //     item.Jian = item.num;
                 //     if()

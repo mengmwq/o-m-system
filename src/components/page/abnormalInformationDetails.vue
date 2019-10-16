@@ -3,7 +3,6 @@
         <div  v-loading="loading"  element-loading-text="拼命加载中" >
             <el-form :inline="true" class="demo-form-inline">
                 <el-row>
-
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
                             <div  v-if="this.company == '总部'"> <span style="font-family: cursive;color: deepskyblue;" @click="backAbnormalInformation()">&nbsp&nbsp异常信息</span>><span style="font-family: cursive;" >{{Area==''?'合计':Area}}</span></div>
@@ -14,7 +13,7 @@
                     </el-col>
                     <el-col>
                         <el-form-item label="区域" v-show="this.company =='总部'">
-                            <el-select v-model="Area" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="Area" filterable style="width: 185px!important;" @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in roles"
@@ -23,11 +22,24 @@
                                     :value="item.Area">
                                 </el-option>
                             </el-select>
+                            <el-form-item label="网络公司" v-show="this.company =='总部'">
+
+                                <el-select v-model="CompanyNet" filterable style="width: 200px;!important;" @focus="focus($event)">
+                                    <!--<el-option label="请选择" value=""></el-option>-->
+                                    <el-option
+                                        v-for="item in ComPanN"
+                                        :key="item.ROW_NUMBER"
+                                        :label="item.Company"
+                                        :value="item.Company">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
                         </el-form-item>
                         <el-form-item label="网络公司" v-show="this.company !=='总部'">
 <!--                            <el-input v-model="CompanyNet"></el-input>-->
 
-                            <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-select v-model="CompanyNet" filterable style="width: 205px;" @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in ComPanNFk"
@@ -50,38 +62,15 @@
                             ></el-input>
                         </el-form-item>
 
-                        <el-form-item label="订单号">
-                            <el-input  v-model="ID"></el-input>
-                        </el-form-item>
+
                     </el-col>
                     <el-col>
-<!--                        <el-form-item label="录入时间">-->
-<!--                            <div class="block">-->
-
-<!--                                <el-date-picker-->
-<!--                                    v-model="value1"-->
-<!--                                    type="datetime"-->
-<!--                                    placeholder="选择日期时间"-->
-<!--                                    value-format="yyyy-MM-dd HH:mm:ss"-->
-<!--                                >-->
-<!--                                </el-date-picker>-->
-<!--                            </div>-->
-<!--                        </el-form-item>-->
-                        <el-form-item label="网络公司" v-show="this.company =='总部'">
-
-                                <el-select v-model="CompanyNet" filterable style="width: 200px;" @focus="focus($event)">
-                                    <!--<el-option label="请选择" value=""></el-option>-->
-                                    <el-option
-                                        v-for="item in ComPanN"
-                                        :key="item.ROW_NUMBER"
-                                        :label="item.Company"
-                                        :value="item.Company">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
+                        <el-form-item label="订单号">
+                            <el-input  v-model="ID" ></el-input>
+                        </el-form-item>
 
                         <el-form-item label="录入人">
-                            <el-input v-model="EntryName">
+                            <el-input v-model="EntryName" >
 
                             </el-input>
                         </el-form-item>
@@ -110,7 +99,7 @@
                         <el-table
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe
-                            border
+
                             ref="multipleTable"
                             @selection-change="handleSelectionChange"
                             height="400"
@@ -576,7 +565,7 @@
                        // _this.$message.success(res.data.msg)
                         _this.loading = false;
                         _this.tableData = res.data.data.result;
-                        _this.ccc = res.data.data.sum||'0';
+                        _this.ccc = res.data.data.sum||0;
                        // _this.CompanyNet = '';
                     }else{
                         _this.$message.error(res.data.msg)
@@ -627,9 +616,6 @@
         height: 100%;
     }
 
-    .el-input__inner {
-        height: 35px;
-    }
     .el-table--striped .el-table__body tr.el-table__row--striped td {
         background: #F9FAFD;
     }
@@ -638,10 +624,7 @@
         font-size: 10px;
     }
 
-    .el-form-item__label {
 
-        width: 68px;
-    }
 </style>
 
 
