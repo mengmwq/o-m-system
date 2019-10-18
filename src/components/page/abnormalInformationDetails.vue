@@ -1,7 +1,7 @@
 <template>
     <div class="divBut" >
         <div  v-loading="loading"  element-loading-text="拼命加载中" >
-            <el-form :inline="true" class="demo-form-inline">
+            <el-form :inline="true" class="demo-form-inline" label-width="80px" >
                 <el-row>
                     <el-col style="margin:10px 0" >
                         <div style="display: flex;align-items: center;justify-content: space-between">
@@ -11,9 +11,29 @@
                         </div>
 
                     </el-col>
+                    <el-col >
+                        <el-form-item label="客户账号">
+                            <el-input  v-model="AccountNumber" ></el-input>
+
+                        </el-form-item>
+
+                        <el-form-item label="订单号">
+                            <el-input  v-model="ID" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="录入人">
+                            <el-input v-model="EntryName" >
+
+                            </el-input>
+                        </el-form-item>
+
+
+
+                    </el-col>
                     <el-col>
-                        <el-form-item label="区域" v-show="this.company =='总部'">
-                            <el-select v-model="Area" filterable style="width: 185px!important;" @focus="focus($event)">
+
+                        <el-form-item label="区域" v-show="this.company =='总部'" >
+                            <el-select v-model="Area" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in roles"
@@ -24,7 +44,7 @@
                             </el-select>
                             <el-form-item label="网络公司" v-show="this.company =='总部'">
 
-                                <el-select v-model="CompanyNet" filterable style="width: 200px;!important;" @focus="focus($event)">
+                                <el-select v-model="CompanyNet" filterable  @focus="focus($event)">
                                     <!--<el-option label="请选择" value=""></el-option>-->
                                     <el-option
                                         v-for="item in ComPanN"
@@ -37,9 +57,9 @@
 
                         </el-form-item>
                         <el-form-item label="网络公司" v-show="this.company !=='总部'">
-<!--                            <el-input v-model="CompanyNet"></el-input>-->
+                            <!--                            <el-input v-model="CompanyNet"></el-input>-->
 
-                            <el-select v-model="CompanyNet" filterable style="width: 205px;" @focus="focus($event)">
+                            <el-select v-model="CompanyNet" filterable  @focus="focus($event)">
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in ComPanNFk"
@@ -48,31 +68,6 @@
                                     :value="item.Company">
                                 </el-option>
                             </el-select>
-                        </el-form-item>
-
-                        <el-form-item label="客户账号">
-                            <el-input
-                                class="inline-input"
-
-                                v-model="AccountNumber"
-
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-input>
-                        </el-form-item>
-
-
-                    </el-col>
-                    <el-col>
-                        <el-form-item label="订单号">
-                            <el-input  v-model="ID" ></el-input>
-                        </el-form-item>
-
-                        <el-form-item label="录入人">
-                            <el-input v-model="EntryName" >
-
-                            </el-input>
                         </el-form-item>
 
                         <div style="float: right">
@@ -601,6 +596,7 @@
 </script>
 
 <style>
+
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
 
@@ -624,6 +620,9 @@
         font-size: 10px;
     }
 
+
+</style>
+<style scoped>
 
 </style>
 

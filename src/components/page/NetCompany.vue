@@ -62,7 +62,14 @@
 			<el-row>
 
 				<el-col>
-					<el-table :header-cell-style="{background:'#EFF3F8'}" stripe :data="tableData" height="400"  style="width: 100%;" id='tableData'>
+					<el-table :header-cell-style="{background:'#EFF3F8'}"
+                              ref="multipleTable"
+                              @selection-change="handleSelectionChange"
+                              stripe
+                              :data="tableData"
+                              height="400"
+                              style="width: 100%;"
+                              id='tableData'>
 						<el-table-column type="selection" width="55">
 						</el-table-column>
 						<el-table-column label="客户账号" prop="AccountNumber" align="center">
@@ -460,6 +467,12 @@
 			this.getData();
 		},
 		methods: {
+            //导出时  选中几条下载几条出来
+            handleSelectionChange(val) {
+                // 选中的  当前条 数据
+                this.multipleSelection = val;
+
+            },
 			//渲染页面
 			getData() {
                 var datetime='';

@@ -12,10 +12,21 @@
           <el-input type="text" auto-complete="off" placeholder="用户名" v-model="account"></el-input>
        </el-form-item>
 
-       <el-form-item style="margin-bottom: 10px">
-           <el-input type="password" auto-complete="off" placeholder="密码" v-model="checkPass"
-                     @keyup.enter.native="handleSubmit2"></el-input>
-       </el-form-item >
+       <el-form-item  prop="phoneCode" class="pr">
+           <el-input placeholder="验证码"  v-model="checkPass"></el-input>
+           <button @click.prevent="getCode()"  class="code-btn" :disabled="disabled=!show">
+               <span v-show="show">获取验证码</span>
+               <span v-show="!show" class="count">{{count}} s</span>
+           </button>
+       </el-form-item>
+
+
+
+
+<!--       <el-form-item style="margin-bottom: 10px">-->
+<!--           <el-input type="password" auto-complete="off" placeholder="密码" v-model="checkPass"-->
+<!--                     @keyup.enter.native="handleSubmit2"></el-input>-->
+<!--       </el-form-item >-->
        <el-form-item  style="margin-bottom: 10px">
            <el-checkbox v-model="checked" checked class="remember" style="color:#cccccc">记住密码</el-checkbox>
 
@@ -29,6 +40,32 @@
            </el-button>
        </el-form-item>
    </el-form>
+    <el-dialog
+        title="中集冷云公众号"
+        :visible.sync="addSendDetailsModel"
+        width="20%"
+        :center="true"
+    >
+
+        <div style="text-align: center">
+            <p style="text-align: center;padding-bottom: 10px">请关注"中集冷云公众号"</p>
+
+            <img src="../../assets/1111.png" alt="">
+        </div>
+
+    </el-dialog>
+<!--    <el-dialog-->
+<!--        :visible.sync="addSendDetailsModel2"-->
+<!--        width="30%"-->
+
+
+<!--    >-->
+<!--        <div style="text-align: center">-->
+
+<!--            <img src="../../assets/wxgzh.jpg" alt="">-->
+<!--        </div>-->
+
+<!--    </el-dialog>-->
 </div>
 
 </template>
@@ -37,11 +74,16 @@
 export default {
   data() {
     return {
+      addSendDetailsModel2:false,
+      addSendDetailsModel:false,
+      show: true,  // 初始启用按钮
+      count: '',   // 初始化次数
+      timer: null,
       logining: false,
       show: true,
       account: "",
       checkPass: "",
-        checked:false,
+      checked:false,
       rules2: {
         account: [{ required: true, message: "请输入账号", trigger: "blur" }],
         checkPass: [{ required: true, message: "请输入密码", trigger: "blur" }]
@@ -50,14 +92,70 @@ export default {
   },
 
   methods: {
-    handleSubmit2(ev) {
+      getCode(){
+
+          let  TIME_COUNT = 60; //更改倒计时时间
+          if (!this.timer) {
+              this.count = TIME_COUNT;
+              this.show = false;
+              this.timer = setInterval(() => {
+                  if (this.count > 0 && this.count <= TIME_COUNT) {
+                      this.count--;
+                  } else {
+                      this.show = true;
+                      clearInterval(this.timer);  // 清除定时器
+                      this.timer = null;
+                  }
+              }, 1000)
+          }
+          let _this=this;
+          this.$axios({
+              url: "http://out.ccsc58.cc/OMS/v1/public/index/login/code",
+              method: "post",
+              data: {
+                  UserName: this.account,
+
+              },
+              transformRequest: [
+                  function(data) {
+                      let ret = "";
+                      for (let it in data) {
+                          ret +=
+                              encodeURIComponent(it) +
+                              "=" +
+                              encodeURIComponent(data[it]) +
+                              "&";
+                      }
+                      return ret;
+                  }
+              ],
+              // headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
+          }).then(function(res) {
+
+              if (res.data.code == "200") {
+                  _this.$message.success(res.data.msg)
+
+
+              }else if(res.data.code == "400"){
+                 _this.$message.error(res.data.msg)
+
+              }else if(res.data.code == "300"){//未绑定
+
+              }else if(res.data.code == "301"){//未关注
+
+                  _this.addSendDetailsModel =true;
+              }
+          });
+
+      },
+      handleSubmit2(ev) {
       let that = this;
       this.$axios({
-        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/logincode",
         method: "post",
         data: {
             UserName: this.account,
-            PassWord:this.checkPass
+            YZM:this.checkPass
         },
         transformRequest: [
           function(data) {
@@ -77,6 +175,7 @@ export default {
 
         if (res.data.code == "200") {
           window.sessionStorage.setItem('username',that.account);
+
          // window.sessionStorage.setItem('token',res.data.data.token);
           window.sessionStorage.setItem('items',JSON.stringify(res.data.data));
          that.$router.push({path:'/home'});
@@ -91,17 +190,36 @@ export default {
 };
 </script>
 <style>
-
+    .el-dialog__title {
+        line-height: 24px;
+        font-size: 25px;
+        color: #303133;
+        font-weight: 800;
+    }
+    .el-dialog--center .el-dialog__body {
+        text-align: initial;
+        /* padding: 25px 25px 30px; */
+        padding: 0px 25px 10px 25px!important;
+    }
 </style>
 <style lang="css" scoped>
+
 @import "../../css/style.css";
+.el-dialog__title {
+    line-height: 24px;
+    font-size: 25px;
+    color: #303133;
+    text-align: center;
+    font-weight: 800;
+}
+
 .card-box {
   padding: 20px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   background-clip: padding-box;
-  margin-bottom: 20px;
+
   /*background-color: #f9fafc;*/
   margin: 180px auto;
   width: 350px;
@@ -160,5 +278,27 @@ export default {
     background: transparent; /*背景透明*/
     border: 2px solid rgba(255,255,255,0.3); /*边框半透明*/
     box-shadow: inset 0 0 4px rgba(255,255,255,0.2),0 0 4px rgba(255,255,255,0.2);  /*内外渐变阴影*/
+}
+.pr {
+    position: relative;
+}
+.code-btn{
+
+}
+.code-btn {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 222;
+    color: #fff;
+    background: #3F81C3;
+    font-size: 14px;
+    border: none;
+    border-left: 1px solid #bababa;
+    padding-left: 10px;
+
+    cursor: pointer;
 }
 </style>

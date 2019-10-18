@@ -19,7 +19,8 @@
 
                                 ></el-input>
                             </el-form-item>
-                            <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)">
+                            <el-form-item label="网络公司"  >
+                            <el-select v-model="Nex" filterable style="width: 200px;" @focus="focus($event)" >
                                 <!--<el-option label="请选择" value=""></el-option>-->
                                 <el-option
                                     v-for="item in ComPanN"
@@ -28,7 +29,7 @@
                                     :value="item.Company">
                                 </el-option>
                             </el-select>
-
+                            </el-form-item>
 
                             <div style="float: right;margin-top: 5px;">
                                 <img src="../../assets/chaxun.png"  style="width: 23px;height: 23px"  @click="getData">

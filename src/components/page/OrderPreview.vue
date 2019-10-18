@@ -278,8 +278,6 @@
                 LCar:'',
                 OutPay:'',
                 PayMoney:'',
-
-
             };
 
         },
@@ -288,7 +286,7 @@
 
 
                 this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
-                console.log(this.orderData,'再一旦');
+
                 this.accoutNum =  this.$route.query.AccountNumber;
                 this.CountType = this.orderData.PayWay;
                 this.SafePay =this.orderData.SafeMoney;
@@ -312,7 +310,6 @@
                 // DepartMent
 
             }else{
-
                 this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
                 this.accoutNum =  this.orderData.accoutNum;
                 this.CountType = this.orderData.CountType;
@@ -323,6 +320,7 @@
                 this.qujianTime = this.orderData.qujianTime;
                 this.Note = this.orderData.Note;
                 this.SName = this.orderData.SName;
+                this.newBox = JSON.parse(JSON.stringify(this.Box));
             }
 
             this.TrueName = window.sessionStorage.getItem('TrueName')
@@ -363,7 +361,7 @@
             this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
             // this.Note = this.orderData.Note;
             // this.Box= this.orderData.Box;
-            this.newBox = JSON.parse(JSON.stringify(this.Box));
+
 
 
         },
@@ -399,10 +397,10 @@
             },
             submitFromContent(){
 
-                this.newBox = JSON.parse(JSON.stringify(this.Box))
-                console.log(this.newBox)
-                console.log(this.Box)
+                this.newBox = JSON.parse(JSON.stringify(this.Box))  ;//401行还是对的
+                console.log(this.newBox,9999999999);
 
+//zheyikaui de  lupji ????????????????????????????????????????????????
                 let abc = this.newBox;
                 // for(var i in this.newBox){
                 //     if(this.newBox[i] == )
@@ -489,7 +487,7 @@
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
                     console.log(res,999)
-
+return
                     if(res.data.code == 200){
                         that.xiadan = true;
                         that.$message.success(res.data.msg)

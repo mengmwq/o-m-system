@@ -1,7 +1,7 @@
 <template>
     <div class="divBut" >
         <div  v-loading="loading"  element-loading-text="拼命加载中" >
-        <el-form :inline="true" class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline"  label-width="80px">
             <el-row>
                 <el-col>
                     <el-form-item label="客户账号">
@@ -218,20 +218,7 @@
                     </el-row>
 
                     <el-row>
-<!--                        <el-col :span="11">-->
-<!--                            <el-row>-->
-<!--                                <el-col :span="12">-->
-<!--                                    <el-form-item label="省份" prop="province">-->
-<!--                                        <el-input v-model="ruleForm.province" ></el-input>-->
-<!--                                    </el-form-item>-->
-<!--                                </el-col>-->
-<!--                                <el-col :span="12">-->
-<!--                                    <el-form-item label="城市" prop="city">-->
-<!--                                        <el-input v-model="ruleForm.city" ></el-input>-->
-<!--                                    </el-form-item>-->
-<!--                                </el-col>-->
-<!--                            </el-row>-->
-<!--                        </el-col>-->
+
                         <el-col>
                             <el-col :span="12">
                                 <el-form-item label="省/市/区">
@@ -365,36 +352,27 @@
                         </el-col>
                     </el-row>
 
-                    <el-row :gutter="24">
-                        <el-col :span="11">
-                            <el-row :gutter="24">
-                                <el-col :span="12">
-                                    <el-form-item label="省份" prop="province">
-                                        <el-input v-model="ruleForm.province" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="城市" prop="city">
-                                        <el-input v-model="ruleForm.city" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-col>
-                        <el-col :span="13">
-                            <el-row :gutter="24">
-                                <el-col :span="12">
-                                    <el-form-item label="区域" prop="area">
-                                        <el-input v-model="ruleForm.area" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="街道" prop=" street">
-                                        <el-input v-model="ruleForm.street" ></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
+                    <el-row>
 
+                        <el-col>
+                            <el-col :span="12">
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        v-model="val3"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange"
+                                        :separator="' '"
+                                    ></el-cascader>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="街道" prop="street">
+                                    <el-input v-model="ruleForm.street" ></el-input>
+                                </el-form-item>
+                            </el-col>
                         </el-col>
+
+
                     </el-row>
                     <el-form-item label="详细地址" prop="desc">
                         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
@@ -452,6 +430,7 @@
                 },
                 areaOptions2: areaOptions2,
                 val2: [],
+                val3: [],
                 cur_page: 1,//当前页
                 limit: 20, //每页多少条
                 ccc: 0, //总tiao数
@@ -478,6 +457,10 @@
             handleItemChange2(val) {
                 // 省市区
                 this.val2 = val;
+            },
+            handleItemChange(val) {
+                // 省市区
+                this.val3 = val;
             },
             addtimesta2(row, colume) {
                 return row.Area == null ? '暂无' : row.Area;
@@ -627,6 +610,7 @@
                 this.ruleForm.region =row.Manager;
                 this.ruleForm.phone =row.Telephone;
                 this.ruleForm.province = row.Depart;
+                this.val3 = row.Location;
                 this.ruleForm.city = row.City;
                 this.ruleForm.area = row.Area;
                 this.ruleForm.street = row.Roule;
@@ -714,9 +698,10 @@
                                 CompanyName:this.ruleForm.company,
                                 Manager:this.ruleForm.region,
                                 Telephone:this.ruleForm.phone,
-                                Depart:this.ruleForm.province,
-                                City:this.ruleForm.city,
-                                Area:this.ruleForm.area,
+
+                                Depart: this.val3[0],
+                                City: this.val3[1],
+                                Area: this.val3[2],
                                 Roule:this.ruleForm.street,
                                 Address:this.ruleForm.desc,
                                 InName:this.ruleForm.InName,

@@ -1,10 +1,10 @@
 <template>
     <div class="divBut">
         <div style="background: #eee;padding: 20px " v-if="this.company == '总部'"><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span v-if="this.leixin=='货物类型'">{{BusinessType}}</span>
-            <span v-if="this.leixin!=='货物类型'">{{Area==''?'合计':Area}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
+            <span v-if="this.leixin!=='货物类型'" @click="backCargoNexDetails()">{{Area==''?'合计':Area}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
         <div style="background: #eee;padding: 20px " v-else><span @click="backargoStatistics()" style="cursor: pointer;color: deepskyblue;">{{leixin}}</span>><span>{{BusinessType}}</span>>{{CompanyNet==''?'合计':CompanyNet}}</div>
         <div  >
-            <el-form :inline="true" class="demo-form-inline" style="margin-top: 10px">
+            <el-form :inline="true" class="demo-form-inline" style="margin-top: 10px"  label-width="80px">
                 <el-row>
                     <el-col>
                         <el-form-item label="区域" v-show="this.company == '总部'">
@@ -42,16 +42,8 @@
                         </el-form-item>
 
                         <el-form-item label="客户账号">
-                            <el-autocomplete
+                            <el-input   v-model="AccountNumber"></el-input>
 
-                                label-class-name="aaa"
-                                v-model="AccountNumber"
-
-                                placeholder="请输入内容"
-                                :trigger-on-focus="false"
-                                :debounce=0
-
-                            ></el-autocomplete>
                         </el-form-item>
                         <el-form-item label="订单号">
                             <el-input
@@ -59,8 +51,8 @@
                                 v-model="ID"
                             ></el-input>
                         </el-form-item>
-
-
+                       </el-col>
+                    <el-col>
 
                         <el-form-item label="温区">
                             <el-select v-model="WDQJ" filterable  @focus="focus($event)">
@@ -72,7 +64,7 @@
                                     :value="item.WDQJ">
                                 </el-option>
                             </el-select>
-<!--                            <el-input  v-model="WDQJ"></el-input>-->
+                            <!--                            <el-input  v-model="WDQJ"></el-input>-->
                         </el-form-item>
                         <el-form-item label="箱型" v-if="this.WDQJ !==''">
                             <el-select v-model="PackageName" filterable  @focus="focus($event)">
@@ -99,6 +91,7 @@
 
 
                         </el-form-item>
+
                         <el-form-item label="货物类型">
                             <el-select v-model="GoodsType" filterable  placeholder="请选择">
                                 <el-option label="请选择" value=""></el-option>

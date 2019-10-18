@@ -110,7 +110,7 @@
                         </div>
 
                     </el-col>
-                    <el-col style="margin-bottom:50px;">
+                    <el-col style="margin-bottom:80px;">
                         <el-table
                             :header-cell-style="{background:'#EFF3F8'}"
                             stripe

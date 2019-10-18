@@ -134,7 +134,7 @@
                                        <el-col :span="13" >
                                            <h4 style="border-left: 4px solid #45A2DF">  &nbsp&nbsp订单信息：</h4>
                                               <el-row :gutter="24">
-                                                  <el-col :span="12" >
+                                                  <el-col :span="14" >
                                                       <div class="bioage">
                                                           <span>始发地：{{Depart}}-{{City}}</span>
                                                            <span>录入人：{{entryname}}</span>
@@ -181,10 +181,10 @@
                                                             </tbody>
                                                         </table> -->
                                                       <div v-for="(item,index) in Box" :key="index" style="margin:20px 0">
-                                                          <span style='padding:0px 0;font-size:14px'>温度箱型：<font style=" padding: 5px 5px;border-radius: 5px;">{{index}}</font></span>
+                                                          <span style='padding:0px 0;font-size:12px'>温度箱型：<font style=" padding: 5px 5px;border-radius: 5px;font-size: 12px;">{{index}}</font></span>
 
                                                               <span v-for="(item,k) in Box[index]" :key="k" >
-                                                                  <span style="margin: 20px 0"><font style="">&nbsp&nbsp{{item.PackageName}}*{{item.Jian}}</font></span>
+                                                                  <span style="margin: 20px 0;font-size: 12px"><font   style="font-size: 12px">&nbsp&nbsp{{item.PackageName}}*{{item.Jian}}</font></span>
 <!--                                                                  <p style="margin: 20px 0">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp件数:&nbsp&nbsp<font style="background: rgb(238, 238, 238); padding: 5px 25px;border-radius: 5px;">{{item.Jian}}</font></p>-->
                                                               </span>
 
@@ -222,7 +222,7 @@
                                                       </div>
 
                                                   </el-col>
-                                                  <el-col :span="11" :offset="1" >
+                                                  <el-col :span="9" :offset="1" >
 <!--                                                      <div class="bioage" style="color: #fff">-->
 <!--                                                           无-->
 <!--                                                      </div>-->
@@ -450,7 +450,7 @@
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
-                 <el-button type="primary" size="mini" @click="revise()">save</el-button>
+                 <el-button type="primary" size="mini" @click="revise()">保存</el-button>
                   <el-button @click="allotDialogVisible1 = false">取 消</el-button>
             </span>
         </el-dialog>
@@ -469,7 +469,7 @@
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
-                 <el-button type="primary" size="mini" @click="cacelTzhi()">save</el-button>
+                 <el-button type="primary" size="mini" @click="cacelTzhi()">保存</el-button>
             </span>
         </el-dialog>
 <!--        //quxiao-->
@@ -493,7 +493,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
 
-                 <el-button type="primary" size="mini" @click="cacelOrder()" >save</el-button>
+                 <el-button type="primary" size="mini" @click="cacelOrder()" >保存</el-button>
                  <el-button @click="quxiaoFangshi = false">取 消</el-button>
             </span>
         </el-dialog>

@@ -36,7 +36,7 @@
                             @selection-change="handleSelectionChange"
 
                             :data="tableData0"
-                            style="width: 100%">
+                            style="width: 100%;margin: 30px 0 50px 0">
                             <el-table-column
                             type="selection"
                             width="60"

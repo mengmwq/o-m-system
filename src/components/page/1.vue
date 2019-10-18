@@ -164,16 +164,7 @@
                         <h2 style="border-right: 4px solid #45A2DF;display: flex;justify-content: flex-end;font-family: cursive;margin:10px 0">
                             收件人信息&nbsp&nbsp</h2>
                         <div class="bioage">
-
                             <el-form  label-width="100px!important" :model="ruleForm" :rules="rules" ref="ruleForm" >
-                                <el-form-item label="省/市/区">
-                                    <el-cascader
-                                        v-model="val2"
-                                        :options="areaOptions2"
-                                        @change="handleItemChange2"
-                                        :separator="' '"
-                                    ></el-cascader>
-                                </el-form-item>
                                 <el-form-item label="收货编码" prop="SName">
                                     <el-select v-model="SName" placeholder="请选择" @change="currentSel">
 
@@ -198,20 +189,24 @@
                                 <el-form-item label="联系电话" prop="GetTelephone">
                                     <el-input v-model="ruleForm.GetTelephone" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
-
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        v-model="val2"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange2"
+                                        :separator="' '"
+                                    ></el-cascader>
+                                </el-form-item>
                                 <el-form-item label="详细地址"  prop="GetAddress">
                                     <el-input v-model="ruleForm.GetAddress" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
+
                             </el-form>
                         </div>
-                    </el-col>
-                    <el-col>
-                        <el-button v-show="isShowN" type="primary" style="float: right;margin:0 110px 20px 0" @click="savaManger('ruleForm','ruleForm2')">保存</el-button>
                     </el-col>
                 </el-row>
                 <!-- 货物信息 -->
                 <el-row
-                    v-show="ishwShow"
                     :gutter="24"
                     style="margin: 0;overflow: hidden;"
 
@@ -259,8 +254,8 @@
                                                         <span>{{item.PackageType}}</span>
 
                                                         <input  value="" v-model='item.num'
-                                                               style='width:20%;' @blur="isNull(item,index)"
-                                                               @input="isClick(item,'box')">
+                                                                style='width:20%;' @blur="isNull(item,index)"
+                                                                @input="isClick(item,'box')">
 
                                                         <span>个</span>
                                                     </div>
@@ -272,8 +267,8 @@
                                                     <div v-for="(item,index) in iceCar" :key="index">
                                                         <span>{{item.PackageType}}</span>
                                                         <input  v-model="item.num" style='width:20%;'
-                                                               @blur="isNull(item,index,item1)"
-                                                               @input="isClick(item,'car')">
+                                                                @blur="isNull(item,index,item1)"
+                                                                @input="isClick(item,'car')">
                                                         <span>辆</span>
                                                     </div>
                                                 </div>
@@ -291,7 +286,7 @@
 
 
                     <el-col :span="24" style="text-align:right;margin: 20px 5px" v-show="isDDD">
-<!--                         <button @click="prev"> 上一步 </button> -->
+                        <!--                         <button @click="prev"> 上一步 </button> -->
                         <span class="save" @click="quxiao">取消</span>
                         <span class="save" @click="prev">保存</span>
                     </el-col>
@@ -382,8 +377,8 @@
                                                                                                 v-model="SafePay">
                                         </el-radio>
                                         <el-radio v-model="SafeItem" label="不投保">不投保 &nbsp;<span
-                                                                                                  style="width: 80px;border-left: none;border-top: none;border-right: none"
-                                                                                                  v-model="SafePay2">2000</span>
+                                            style="width: 80px;border-left: none;border-top: none;border-right: none"
+                                            v-model="SafePay2">2000</span>
                                         </el-radio>
 
                                     </div>
@@ -421,7 +416,7 @@
                                         <el-form >
                                             <el-form-item label="特殊需求">
                                                 <textarea name="" id="" cols="100" rows="5" v-model="Note"></textarea>
-<!--                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>-->
+                                                <!--                                                <el-input type="textarea" style="width:100%;" v-model="Note"></el-input>-->
                                             </el-form-item>
                                         </el-form>
 
@@ -433,7 +428,7 @@
 
                         </el-col>
                         <el-col :span="24" style="text-align:right;margin-bottom:20px;">
-                            <span class="save" @click="saveCargo()">下一步</span>
+                            <span class="save" @click="saveCargo('ruleForm','ruleForm2')">下一步</span>
                         </el-col>
                     </div>
 
@@ -531,8 +526,6 @@
                     ]
 
                 },
-                isShowN:true,
-                ishwShow:false,
                 isPay:true,
                 OutPay: '',
                 PayMoney: '',
@@ -624,21 +617,6 @@
 
         },
         methods: {
-            savaManger(formName,formName2){
-                this.$refs[formName].validate((valid) => {
-                        this.$refs[formName2].validate((valid2) => {
-                            this.$refs[formName2].validate((valid2) => {
-                                if (valid) {
-                                    if(valid2){
-                                        this.ishwShow =true
-                                       this. isShowN=false
-                                    }
-                                }
-                            })
-                        })
-                })
-            },
-
             //选择省市区改变的方法
 
             handleItemChange(val) {
@@ -722,63 +700,8 @@
                 });
             },
             handleItemChange2(val) {
-
                 // 省市区
                 this.val2 = val;
-
-                    // 省市区
-
-                    if (this.val2 && this.val2.length == 3) {
-                        //截取字符串
-                        console.log(this.val2)
-                        console.log(this.val2[1], 2);
-                        console.log(this.val2[1].indexOf('市'), 3)
-                        //this.city = this.val2[1].substring(0, this.val2[1].indexOf('市'));
-                        this.city = this.val2[1];
-                        let that = this;
-                        that.$axios({
-                            url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
-                            method: "post",
-                            data: {
-                                City: this.city,
-                                AccountNumber: that.ruleForm2.accoutNum,
-
-
-                            },
-                            transformRequest: [
-                                function (data) {
-                                    let ret = "";
-                                    for (let it in data) {
-                                        ret +=
-                                            encodeURIComponent(it) +
-                                            "=" +
-                                            encodeURIComponent(data[it]) +
-                                            "&";
-                                    }
-                                    return ret;
-                                }
-                            ],
-                            headers: {"Content-Type": "application/x-www-form-urlencoded"}
-                        }).then(function (res) {
-                            console.log(res, 33)
-
-                            if (res.data.code == "200") {
-
-                                that.SNameArr = res.data.data;
-                            } else {
-                                that.SNameArr=[];
-                                that.SName = '',
-                                that.ruleForm.GetCompany='';
-                                that.ruleForm.GetName='';
-                                that.ruleForm.GetTelephone='';
-                                that.ruleForm.GetAddress=''
-
-                            }
-                        });
-                    }
-
-
-
             },
 
             /*  选择货物名称那个方法*/
@@ -788,10 +711,16 @@
                 this.showSearch = data;   // 选择的 那个
             },
             // 保存的时候
-            saveCargo() {
+            saveCargo(formName,formName2) {
                 console.log(this.cargoMsg);
                 //这个如何判断
 
+
+                this.$refs[formName].validate((valid) => {
+                    this.$refs[formName2].validate((valid2) => {
+
+                        if (valid) {
+                            if(valid2){
                                 if(this.searchData == ''){
                                     this.$message.error('请输入货物名称');
                                     return;
@@ -891,11 +820,14 @@
                                     path: "/OrderPreview",
 
                                 })
+                            }
 
-
-
-
-
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    })
+                });
 
 
 
@@ -909,7 +841,6 @@
                 that.$axios({
                     url: "http://out.ccsc58.cc/OMS/v1/public/index/orderdown/frommsg",
                     method: "post",
-
                     data: {
                         AccountNumber: that.ruleForm2.accoutNum,
                         SName: this.SName
@@ -1013,7 +944,7 @@
                         that.ruleForm2.Manager = res.data.data.Manager;
                         that.ruleForm2.CompanyNet = res.data.data.CompanyNet
 
-                       // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
+                        // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
                         that.ManMsg = {};
@@ -1133,20 +1064,20 @@
 
             },
             isNull(val, index, tem) {
-            //     (this.cargoMsg)
-            //     // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
-            //     // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
-            //     // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
-            //     // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
-            //     let threeData = this.cargoMsg;
-            //     for (let i = 0; i < threeData.length; i++) {
-            //         if (this.selectTem == threeData[i].tem) {
-            //             threeData[i].box.push(val);
-            //         }
-            //     }
-            //
-            //
-            //     console.log(threeData, '箱型和car');
+                //     (this.cargoMsg)
+                //     // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
+                //     // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
+                //     // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
+                //     // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
+                //     let threeData = this.cargoMsg;
+                //     for (let i = 0; i < threeData.length; i++) {
+                //         if (this.selectTem == threeData[i].tem) {
+                //             threeData[i].box.push(val);
+                //         }
+                //     }
+                //
+                //
+                //     console.log(threeData, '箱型和car');
             },
             //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
             quxiao() {
@@ -1179,26 +1110,26 @@
                 //     val.num = '';
                 //     this.$message.error("箱型最多可以选择3个")
                 // }else{
-                    this.boxType.forEach(item => {
-                        if(item.num && item.num != ''){
-                            if(this.cargoMsg.length === 0){
-                                this.cargoMsg.push(item);
-                            }else if(val.PackageType == item.PackageType){
-                                this.cargoMsg.push(item);
-                            }
+                this.boxType.forEach(item => {
+                    if(item.num && item.num != ''){
+                        if(this.cargoMsg.length === 0){
+                            this.cargoMsg.push(item);
+                        }else if(val.PackageType == item.PackageType){
+                            this.cargoMsg.push(item);
+                        }
 
+                    }
+                })
+                this.iceCar.forEach(item => {
+                    if(item.num && item.num != ''){
+                        if(this.cargoMsg.length === 0){
+                            this.cargoMsg.push(item);
+                        }else if(val.PackageType == item.PackageType){
+                            this.cargoMsg.push(item);
                         }
-                    })
-                    this.iceCar.forEach(item => {
-                        if(item.num && item.num != ''){
-                            if(this.cargoMsg.length === 0){
-                                this.cargoMsg.push(item);
-                            }else if(val.PackageType == item.PackageType){
-                                this.cargoMsg.push(item);
-                            }
-                        }
-                    })
-                    console.log(this.cargoMsg);
+                    }
+                })
+                console.log(this.cargoMsg);
                 // }
 
                 let _this = this;
@@ -1405,4 +1336,5 @@
         border-radius: 5px;
     }
 </style>
+
 
