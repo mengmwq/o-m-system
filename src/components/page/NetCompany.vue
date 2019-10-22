@@ -137,7 +137,7 @@
 							<span style="color: #1c64c6;">感谢支持中集冷云，期待为您服务~</span>
 						</div>
 					</el-col>
-					<el-col :span="12" style="font-size: 16px;">
+					<el-col :span="12" style="font-size: 14px;">
 						<!--<div class="grid-content">
 							始发地：<span>{{sendDepart}}</span>-<span>{{sendCity}}</span>
 						</div>
@@ -148,18 +148,18 @@
 							订单状态：<span>{{orderstate}}</span>
 						</div>-->
 						<div>
-							<div class="grid-content" style="position: relative;">
-							寄件方：<span>{{sendName}}</span><span style="position: absolute;right: 50px;">{{sendTel}}</span>
+							<div class="grid-content">
+							寄件方：<span>{{sendName}}</span><span>&nbsp;&nbsp;{{sendTel}}</span>
 							</div>
 							 <div class="grid-content" style="">详细地址：<span>{{sendAddress}}</span></div>
 							</div>
 
 						<div>
-							<div class="grid-content" style="position: relative;">
+							<div class="grid-content" >
 							收件方：<span>{{getName}}</span>
-							<span style="position: absolute;right: 50px;">{{getTel}}</span>
+							<span style="">&nbsp;&nbsp;{{getTel}}</span>
 						</div>
-						<div class="grid-content" style="">详细地址：<span>{{getAddress}}</span></div>
+						<div class="grid-content" style="border-left: 1px solid rgb(204, 204, 204);">详细地址：<span>{{getAddress}}</span></div>
 						</div>
 					</el-col>
 				</el-row>
@@ -200,10 +200,7 @@
 							<span>{{isSafe}}</span> ，
 							<span>{{safePay}}</span>
 						</div>
-						<div class="grid-content">
-							<span>结算方式:</span>
-							<span>{{payway}}</span>
-						</div>
+
 
 					</el-col>
 					<el-col :span="12">
@@ -310,15 +307,19 @@
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-					<el-col :span="24" style="height: 50px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+					<el-col :span="24" style="height: 30px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 							件数：<span>{{jian}}</span>
 						</div>
 						<!--<div class="grid-content" style="width:50%;justify-content: flex-end;">付款情况：<span></span></div>-->
+                        <div class="grid-content">
+                            <span>结算方式:</span>
+                            <span>{{payway}}</span>
+                        </div>
 					</el-col>
 				</el-row>
 				<el-row class='linkinfo'>
-					<el-col :span="24" style="height: 50px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
+					<el-col :span="24" style="height: 30px;border:1px solid #CCCCCC;border-top: none;display: flex;align-items: center;">
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 							取件人：<span>{{takeName}}</span>
 						</div>
@@ -333,7 +334,7 @@
 						<div class="grid-content" style="width:50%;justify-content: flex-start;">
 
 						</div>
-						<div class="grid-content" style="width:50%;height:40px;display:flex;align-items: center;">
+						<div class="grid-content" style="width:50%;height:30px;display:flex;align-items: center;">
 
 							<div style="display:flex;align-items: center;" @click="orderdownload">
 								<img src="../../assets/printer.png" alt="" style="width: 23px;height: 23px;margin-right: 5px;">

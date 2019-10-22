@@ -19,16 +19,12 @@
                <span v-show="!show" class="count">{{count}} s</span>
            </button>
        </el-form-item>
-
-
-
-
 <!--       <el-form-item style="margin-bottom: 10px">-->
 <!--           <el-input type="password" auto-complete="off" placeholder="密码" v-model="checkPass"-->
 <!--                     @keyup.enter.native="handleSubmit2"></el-input>-->
 <!--       </el-form-item >-->
-       <el-form-item  style="margin-bottom: 10px">
-           <el-checkbox v-model="checked" checked class="remember" style="color:#cccccc">记住密码</el-checkbox>
+       <el-form-item  style="margin-bottom: 20px">
+
 
        </el-form-item>
 
@@ -54,18 +50,22 @@
         </div>
 
     </el-dialog>
-<!--    <el-dialog-->
-<!--        :visible.sync="addSendDetailsModel2"-->
-<!--        width="30%"-->
+    <el-dialog
+        :visible.sync="addSendDetailsModel2"
 
 
-<!--    >-->
-<!--        <div style="text-align: center">-->
+        width="20%"
+        :center="true"
 
-<!--            <img src="../../assets/wxgzh.jpg" alt="">-->
-<!--        </div>-->
 
-<!--    </el-dialog>-->
+    >
+        <div style="text-align: center">
+            <p style="text-align: center;padding-bottom: 10px">1.请您关注"中集冷云公众号"&nbsp并绑定用户名</p>
+            <p style="text-align: center;padding-bottom: 10px;font-size: 20px;color: red;font-weight: 800">2.请输入关键字"OMS"/"oms";</p>
+            <img src="../../assets/1111.png" alt="">
+        </div>
+
+    </el-dialog>
 </div>
 
 </template>
@@ -80,7 +80,6 @@ export default {
       count: '',   // 初始化次数
       timer: null,
       logining: false,
-      show: true,
       account: "",
       checkPass: "",
       checked:false,
@@ -90,10 +89,8 @@ export default {
       }
     };
   },
-
   methods: {
       getCode(){
-
           let  TIME_COUNT = 60; //更改倒计时时间
           if (!this.timer) {
               this.count = TIME_COUNT;
@@ -114,7 +111,6 @@ export default {
               method: "post",
               data: {
                   UserName: this.account,
-
               },
               transformRequest: [
                   function(data) {
@@ -135,11 +131,11 @@ export default {
               if (res.data.code == "200") {
                   _this.$message.success(res.data.msg)
 
-
               }else if(res.data.code == "400"){
                  _this.$message.error(res.data.msg)
 
               }else if(res.data.code == "300"){//未绑定
+                  _this.addSendDetailsModel2 = true
 
               }else if(res.data.code == "301"){//未关注
 
@@ -174,7 +170,7 @@ export default {
       }).then(function(res) {
 
         if (res.data.code == "200") {
-          window.sessionStorage.setItem('username',that.account);
+          window.sessionStorage.setItem('TrueName',that.TrueName);
 
          // window.sessionStorage.setItem('token',res.data.data.token);
           window.sessionStorage.setItem('items',JSON.stringify(res.data.data));
@@ -182,6 +178,7 @@ export default {
 
         }else{
           that.$message(res.data.msg);
+            that.$router.push({path:'/login'});
         }
       });
 

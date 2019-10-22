@@ -185,7 +185,7 @@
             </div>
             <!--        点击是否通知-->
             <el-dialog
-
+                :center="true"
                 :visible.sync="xiadan"
                 width="20%">
                 <div>
@@ -282,13 +282,14 @@
 
         },
         mounted(){
+
             if(this.$route.query.sta == '老孟'){
 
 
                 this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
 
                 this.accoutNum =  this.$route.query.AccountNumber;
-                this.CountType = this.orderData.PayWay;
+                // this.CountType = this.orderData.PayWay;
                 this.SafePay =this.orderData.SafeMoney;
                 this.val = this.orderData.Depart + '/' + this.orderData.City;
                 this.val2 = this.orderData.GetDepart + '/' + this.orderData.GetCity;
@@ -312,7 +313,7 @@
             }else{
                 this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
                 this.accoutNum =  this.orderData.accoutNum;
-                this.CountType = this.orderData.CountType;
+                // this.CountType = this.orderData.CountType;
                 this.SafeRate =this.orderData.SafeRate;
                 this.val = this.orderData.val;
                 this.val2 = this.orderData.val2;
@@ -323,10 +324,9 @@
                 this.newBox = JSON.parse(JSON.stringify(this.Box));
             }
 
-            this.TrueName = window.sessionStorage.getItem('TrueName')
-
+            this.TrueName = window.sessionStorage.getItem('TrueName');
             // this.accoutNum =  this.orderData.accoutNum;
-            // this.CountType = this.orderData.CountType;
+             this.CountType = this.orderData.CountType;
             this.Company = this.orderData.Company;
             this.Manager = this.orderData.Manager;
             this.Cid2 = this.orderData.Cid2;
@@ -337,7 +337,6 @@
             // this.SafeRate =this.orderData.SafeRate;
             this.Address = this.orderData.Address;
             this.GetAddress = this.orderData.GetAddress;
-
             this.GetCompany = this.orderData.GetCompany;
             this.GetName = this.orderData.GetName;
             // this.val = this.orderData.val;
@@ -357,8 +356,8 @@
             this.IsLCar = this.orderData.IsLCar;
             this.LCar = this.orderData.LCar;
             this.OutPay =this.orderData.OutPay;
-            this.PayMoney = this.OutPay=='0' ?this.orderData.PayMoney : this.orderData.PayMoney2;
-            this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
+            this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
+            // this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
             // this.Note = this.orderData.Note;
             // this.Box= this.orderData.Box;
 
@@ -402,32 +401,15 @@
 
 //zheyikaui de  lupji ????????????????????????????????????????????????
                 let abc = this.newBox;
-                // for(var i in this.newBox){
-                //     if(this.newBox[i] == )
-                // }
-                var result={};
-                var arr = [];
+                var arr = {};
                 for(var i=0;i<abc.length;i++){
-                    abc[i].Jian = abc[i].num;
-                    // delete abc[i];
-                    if(result[abc[i].WDQJ]){
-
-                        arr.push(abc[i]);
-                        // arr.push(result[abc[i].WDQJ]);
-                        result[abc[i].WDQJ]=arr;
-                    }else{
-
-                        result[abc[i].WDQJ]= [abc[i]];
+                    if(arr[abc[i].WDQJ]==undefined){
+                        arr[abc[i].WDQJ]=[];
                     }
+                    abc[i].Jian = abc[i].num;
+                    arr[abc[i].WDQJ].push(abc[i])
                 }
-                console.log(result,'11111')
-                // return;
-                // this.newBox.forEach(item=>{
-                //     item.Jian = item.num;
-                //     if()
-                //     obj[item.WDQJ] = item;
-                // });
-                // console.log(obj,'提交的参数');return;
+
                 let that = this;
                 that.$axios({
                     url:'http://out.ccsc58.cc/OMS/v1/public/index/orderdown/index',
@@ -463,12 +445,12 @@
                         XMNO:this.Cid2||'',//项目号
                         XYNO:this.XyNumber||'',//协议号
                         IsLCar:this.IsLCar||'',//	冷车费用
-                        // OutPay:this.OutPay,//0是发件方1是收件方
-                        // PayMoney:this.PayMoney,//费用
+                        OutPay:this.OutPay=="发件人"?'0':'1',//0是发件方1是收件方
+                        PayMoney:this.PayMoney,//费用
                         CompanyNet:this.CompanyNet||'',//取件网络公司
                         NetDepart:this.val2[0],//取件站点省份
                         NetCity:this.val2[1],//取件站点城市
-                        Box: JSON.stringify(result),//	包材数组
+                        Box: JSON.stringify(arr),//	包材数组
 
                     },
                     transformRequest: [
@@ -486,8 +468,7 @@
                     ],
                     //   headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 }).then(function(res) {
-                    console.log(res,999)
-return
+
                     if(res.data.code == 200){
                         that.xiadan = true;
                         that.$message.success(res.data.msg)

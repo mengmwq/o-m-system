@@ -279,7 +279,7 @@
                   <el-button
                     size="mini"
                     type="primary"
-                    disabled
+
                     class="btn-cancel"
                     plain
                     @click="breakBoxType"
@@ -405,7 +405,7 @@ export default {
       this.$router.push({ path: "/abnormalInformation" });
     },
     breakBoxType() {
-      this.$router.push({ path: "/BoxType" });
+      this.$router.push({ path: "/CargoStatistics" });
     },
     // 点击  区域订单  货物类型  默认  日
     getMeng(val) {

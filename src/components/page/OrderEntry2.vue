@@ -249,8 +249,8 @@
                                 <div v-if="active===2" >
                                     <div>{{towTitle}}</div>
                                     <div>
-                                        <el-tabs>
-                                            <el-tab-pane label="箱型" :disabled="isDisabled">
+                                        <el-tabs v-model="activeName"  >
+                                            <el-tab-pane label="箱型" :disabled="isDisabled" name="first">
                                                 <div class="temFirst" >
                                                     <div
                                                         style="flex-flow: wrap;padding-bottom: 10px"
@@ -267,7 +267,7 @@
 
                                                 </div>
                                             </el-tab-pane>
-                                            <el-tab-pane label="冷藏专用车" :disabled="isDisabled1">
+                                            <el-tab-pane label="冷藏专用车" :disabled="isDisabled1" name="second">
                                                 <div class="temFirst">
                                                     <div v-for="(item,index) in iceCar" :key="index">
                                                         <span>{{item.PackageType}}</span>
@@ -389,7 +389,7 @@
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="IsLCar" label="冷车">是&nbsp;
+                                        <el-radio v-model="IsLCar" label="冷车" >是&nbsp;
                                             <input value="550" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="LCar"></input>
                                         </el-radio>
                                         <el-radio v-model="IsLCar" label="不使用">否</el-radio>
@@ -405,12 +405,12 @@
                                         <el-radio v-model="IsWdj" label="不使用">不使用</el-radio>
 
                                     </div>
-                                    <div style="margin-left: 50px;padding: 15px 0" v-if="isPay">
+                                    <div style="margin-left: 50px;padding: 15px 0" >
                                         <span>付款方式 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="OutPay" label="0">发件人&nbsp;
+                                        <el-radio v-model="OutPay" label="发件人">发件人&nbsp;
                                             <input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney">
                                         </el-radio>
-                                        <el-radio v-model="OutPay" label="1">收件人&nbsp;
+                                        <el-radio v-model="OutPay" label="收件人">收件人&nbsp;
                                             <input value="" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="PayMoney2">
                                         </el-radio>
 
@@ -480,7 +480,10 @@
                     GetAddress:'',
 
                 },
+                activeName: 'first',
                 isDDD:false,
+                www:"f",
+
                 // ruleForm:{
                 //     GetCompany:'',
                 //     GetName:'',
@@ -771,7 +774,8 @@
                                 that.ruleForm.GetCompany='';
                                 that.ruleForm.GetName='';
                                 that.ruleForm.GetTelephone='';
-                                that.ruleForm.GetAddress=''
+                                that.ruleForm.GetAddress='';
+
 
                             }
                         });
@@ -791,6 +795,9 @@
             saveCargo() {
                 console.log(this.cargoMsg);
                 //这个如何判断
+                 if(this.ruleForm2.CountType=="月结"){
+                this.ruleForm2.CountType="现金"
+            };
 
                                 if(this.searchData == ''){
                                     this.$message.error('请输入货物名称');
@@ -972,6 +979,8 @@
                         that.ruleForm.GetCompany = res.data.data.Company;
                         that.ruleForm.GetName = res.data.data.Name;
                         that.val2 = res.data.data.Location;
+                        that.LCar = res.data.data.LCar;
+
 
                     } else {
                         // that.ManMsg = {};
@@ -1056,8 +1065,13 @@
             },
             //请求箱型
             next(val, index) {
-
+                this.activeName = "first";
                 this.isDDD = true;
+                this.iceCar = [
+                    {PackageType: "4.2m冷藏车", num: ""},
+                    {PackageType: "7.6m冷藏车", num: ""},
+                    {PackageType: "9.6m冷藏车", num: ""}
+                ];
                 //istemActive是什么？  这是 那个 判断 他  是不是咱们点击的那个的  下标
                 let that = this;
                 this.$axios({
@@ -1080,6 +1094,26 @@
                     headers: {"Content-Type": "application/x-www-form-urlencoded"}
                 }).then(function (res) {
                     if (res.data.code == "200") {
+                        that.isDisabled = false;
+                        that.isDisabled1=false;
+                        if(that.cargoMsg.length>0){
+                            res.data.data.forEach(item=>{
+                                that.cargoMsg.forEach(item1=>{
+                                    if(item1.WDQJ==val.WDQJ&&item1.PackageType==item.PackageType){
+                                        item.num = item1.num;
+                                        that.isDisabled1=true;
+                                    }
+                                })
+                            })
+                            that.iceCar.forEach(item2=>{
+                                that.cargoMsg.forEach(item3=> {
+                                    if (item3.WDQJ == val.WDQJ && item2.PackageType == item3.PackageType) {
+                                        item2.num = item3.num;
+                                        that.isDisabled = true;
+                                    }
+                                })
+                            })
+                        }
                         that.boxType = res.data.data;
                     } else {
                         //that.boxType = {};
@@ -1110,16 +1144,28 @@
             },
             prev() {
 
+
+                var boxTypeNum = {};
                 this.isDDD = false;
                 if(this.cargoMsg.length == 0){
                     this.$message.error('请选择温区和箱型')
                 }else{
-                    this.ruleForm.CountType == "现金" ? this.isPay = true : this.isPay = false;
                     this.isShow = true;
                     this.cargoMsg.forEach((item,index) => {
                         if(item.num == ''){
                             this.cargoMsg.splice(index,1);
                         }
+                        if(boxTypeNum[item.WDQJ]==undefined){
+                            boxTypeNum[item.WDQJ]=0;
+                        }
+                        boxTypeNum[item.WDQJ] = Number(boxTypeNum[item.WDQJ])+1;
+                        if(Number(boxTypeNum[item.WDQJ])>3){
+                           this.$message.error(item.WDQJ+'温区中选择箱型超过三个');
+                            boxTypeNum = {}
+                            return false
+                        }
+
+
                     })
 
                     this.active = 1;
@@ -1133,20 +1179,9 @@
 
             },
             isNull(val, index, tem) {
-            //     (this.cargoMsg)
-            //     // 这个数组   就是  最后  你要给海宁的数组   也就是  所有的货物信息
-            //     // 用来判断  当该项为空  数组中也清空  也就是 这个箱子填错了 不选择他  或者冷藏车  选错了的时候   清空数组
-            //     // val  是 当前修改的这条数据   index   是当前修改的数据  在数组中的下标
-            //     // this.cargoMsg   循环这个   把 箱型数量和  冷藏车数量  放进去
-            //     let threeData = this.cargoMsg;
-            //     for (let i = 0; i < threeData.length; i++) {
-            //         if (this.selectTem == threeData[i].tem) {
-            //             threeData[i].box.push(val);
-            //         }
-            //     }
-            //
-            //
-            //     console.log(threeData, '箱型和car');
+
+
+
             },
             //取消数据  清空 ?????????????????????????????????????????  再返回去点击 的时候 报错  ？？？？
             quxiao() {
@@ -1170,41 +1205,24 @@
             },
             //判断 箱型冷藏车只能选一个
             isClick(val, isType) {
-                console.log(val,11111);
-                // let arr = this.boxType.concat(this.iceCar);
-                // this.cargoMsg = [];
+                if(this.cargoMsg.length>0){
+                    for(var i=0;i<this.cargoMsg.length;i++){
 
-                // this.isThree.push(val);
-                // if(this.isThree.length>3){
-                //     val.num = '';
-                //     this.$message.error("箱型最多可以选择3个")
-                // }else{
-                    this.boxType.forEach(item => {
-                        if(item.num && item.num != ''){
-                            if(this.cargoMsg.length === 0){
-                                this.cargoMsg.push(item);
-                            }else if(val.PackageType == item.PackageType){
-                                this.cargoMsg.push(item);
-                            }
-
+                        if(val.WDQJ==this.cargoMsg[i].WDQJ&&val.PackageType==this.cargoMsg[i].PackageType){
+                            this.cargoMsg.splice(i, 1);
                         }
-                    })
-                    this.iceCar.forEach(item => {
-                        if(item.num && item.num != ''){
-                            if(this.cargoMsg.length === 0){
-                                this.cargoMsg.push(item);
-                            }else if(val.PackageType == item.PackageType){
-                                this.cargoMsg.push(item);
-                            }
-                        }
-                    })
-                    console.log(this.cargoMsg);
-                // }
-
+                    }
+                    if(val.num!=''&&val.num!=0){
+                        this.cargoMsg.push(val);
+                    }
+                }else{
+                    if(val.num!=''&&val.num!=0){
+                        this.cargoMsg.push(val);
+                    }
+                }
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
-
                 _this.boxType.forEach(item => {
                     if (item.num) {
 
@@ -1219,8 +1237,7 @@
                     }
                 })
                 if (isType == 'box') {
-                    // 箱型数量 输入中
-                    // (this.boxType,'老孟');
+
                     // 循环判断 数量有值  isDisabled1 = true   没值  isDisabled1 = false
                     if (boxArr.length > 0) {
                         _this.isDisabled1 = true
