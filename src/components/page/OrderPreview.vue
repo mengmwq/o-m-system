@@ -81,7 +81,7 @@
                                         货物类型：{{showSearch}}
                                     </el-col>
                                     <el-col :span="12">
-                                        货物名称：{{searchData }}
+                                        货物名称：{{searchData}}
                                     </el-col>
                                 </el-row>
 
@@ -107,7 +107,7 @@
                                 </table>
                                 <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
                                     <div>要求取件时间：{{qujianTime}}</div>
-                                    <div style="margin:0 20px">时限要求：{{LimitTime}}H</div>
+                                    <div style="margin:0 20px">时限要求：{{LimitTime}}</div>
                                     <!-- <div v-for='(item,index) in getbox.get_box_img' :key="index">
                                         <img :src="item" alt="" @click='isHover($event)'>
                                     </div>
@@ -286,13 +286,21 @@
             if(this.$route.query.sta == '老孟'){
 
 
-                this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
 
+                this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
+                this.showSearch = this.orderData.BusinessType;
+                this.zxNumber = this.orderData.CustmerCode;
+                this.XyNumber = this.orderData.XYNO;
                 this.accoutNum =  this.$route.query.AccountNumber;
-                // this.CountType = this.orderData.PayWay;
+                 this.CountType = this.orderData.PayWay;
+                this.searchData = this.orderData.CargoName;
+                this.OutPay =this.orderData.OutPay;
+                this.PayMoney = this.orderData.PayMoney||'无费用';
                 this.SafePay =this.orderData.SafeMoney;
+                this.Cid2 = this.orderData.XMNO;
                 this.val = this.orderData.Depart + '/' + this.orderData.City;
                 this.val2 = this.orderData.GetDepart + '/' + this.orderData.GetCity;
+                // this.GetDepartment = this.orderData.GetCode||'暂无';
                 // this.Box= this.orderData.Box;
                 let Box = this.orderData.Box;
                 // let arr = [];
@@ -311,27 +319,35 @@
                 // DepartMent
 
             }else{
+
                 this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
+                this.showSearch = this.orderData.showSearch;
                 this.accoutNum =  this.orderData.accoutNum;
-                // this.CountType = this.orderData.CountType;
-                this.SafeRate =this.orderData.SafeRate;
+                this.CountType = this.orderData.CountType;
+                this.zxNumber = this.orderData.zxNumber;
                 this.val = this.orderData.val;
                 this.val2 = this.orderData.val2;
                 this.Box= this.orderData.Box;
                 this.qujianTime = this.orderData.qujianTime;
                 this.Note = this.orderData.Note;
                 this.SName = this.orderData.SName;
+                this.OutPay =this.orderData.OutPay;
+                this.Cid2 = this.orderData.Cid2;
+
+                this.XyNumber = this.orderData.XyNumber;
+                this.searchData = this.orderData.searchData;
+                this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
                 this.newBox = JSON.parse(JSON.stringify(this.Box));
             }
 
             this.TrueName = window.sessionStorage.getItem('TrueName');
             // this.accoutNum =  this.orderData.accoutNum;
-             this.CountType = this.orderData.CountType;
+            this.SafeRate =this.orderData.SafeRate;
             this.Company = this.orderData.Company;
             this.Manager = this.orderData.Manager;
-            this.Cid2 = this.orderData.Cid2;
-            this.XyNumber = this.orderData.XyNumber;
-            this.zxNumber = this.orderData.zxNumber;
+
+
+            this.GetDepartment = this.orderData.GetCode||'暂无';
             this.Telephone = this.orderData.Telephone;
             this.GetTelephone = this.orderData.GetTelephone;
             // this.SafeRate =this.orderData.SafeRate;
@@ -341,11 +357,11 @@
             this.GetName = this.orderData.GetName;
             // this.val = this.orderData.val;
             // this.val2 = this.orderData.val2;
-            this.GetDepartment = this.orderData.GetDepartment;
+
             this.Department = this.orderData.Department;
-            this.searchData = this.orderData.searchData;
+
             // this.qujianTime = this.orderData.qujianTime;
-            this.showSearch = this.orderData.showSearch;
+
             this.LimitTime = this.orderData.LimitTime;
             this.SafeItem = this.orderData.SafeItem;
             // this.SafePay = this.orderData.SafePay
@@ -355,8 +371,7 @@
                 this.IsWdj = this.orderData.IsWdj;
             this.IsLCar = this.orderData.IsLCar;
             this.LCar = this.orderData.LCar;
-            this.OutPay =this.orderData.OutPay;
-            this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
+
             // this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
             // this.Note = this.orderData.Note;
             // this.Box= this.orderData.Box;
@@ -444,7 +459,8 @@
                         CustmerCode:this.zxNumber||'',//	中心号
                         XMNO:this.Cid2||'',//项目号
                         XYNO:this.XyNumber||'',//协议号
-                        IsLCar:this.IsLCar||'',//	冷车费用
+                        IsLCar:this.IsLCar=='是'?"1":'',//	冷车费用
+                        LCar:this.LCar,
                         OutPay:this.OutPay=="发件人"?'0':'1',//0是发件方1是收件方
                         PayMoney:this.PayMoney,//费用
                         CompanyNet:this.CompanyNet||'',//取件网络公司
@@ -484,7 +500,7 @@
 
 
                     }else{
-
+                        that.$message.error(res.data.msg)
                     }
 
                 })

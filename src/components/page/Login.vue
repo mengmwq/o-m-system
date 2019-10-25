@@ -80,6 +80,7 @@ export default {
       count: '',   // 初始化次数
       timer: null,
       logining: false,
+
       account: "",
       checkPass: "",
       checked:false,
@@ -144,14 +145,15 @@ export default {
           });
 
       },
+
       handleSubmit2(ev) {
       let that = this;
       this.$axios({
-        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/logincode",
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
         method: "post",
         data: {
             UserName: this.account,
-            YZM:this.checkPass
+            PassWord:this.checkPass
         },
         transformRequest: [
           function(data) {

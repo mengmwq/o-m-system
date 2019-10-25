@@ -5,9 +5,9 @@
                 <!-- 寄件人  收件人信息 -->
                 <el-row :gutter="24" style="margin: 0">
                     <!--寄件人信息-->
-                    <el-col :span="12">
+                    <el-col :span="12" >
                         <h2 style="border-left: 4px solid #45A2DF;font-family: cursive;margin:10px 0">&nbsp;寄件人信息</h2>
-                        <div class="bioage">
+                        <div class="bioage" style="border-right: 2px solid #ddd;">
                             <el-form
 
                                 label-width="80px!important"
@@ -175,7 +175,7 @@
                                     ></el-cascader>
                                 </el-form-item>
                                 <el-form-item label="收货编码" prop="SName">
-                                    <el-select v-model="SName" placeholder="请选择" @change="currentSel">
+                                    <el-select v-model="SName" filterable  placeholder="请选择" @change="currentSel">
 
                                         <el-option
                                             v-for="(item,index) in SNameArr"
@@ -389,10 +389,10 @@
                                     </div>
                                     <div style="margin-left: 50px;padding: 15px 0">
                                         <span>冷藏派送 &nbsp;&nbsp;</span>
-                                        <el-radio v-model="IsLCar" label="冷车" >是&nbsp;
+                                        <el-radio v-model="IsLCar" label="是" >是&nbsp;
                                             <input value="550" style="width: 80px;border-left: none;border-top: none;border-right: none" v-model="LCar"></input>
                                         </el-radio>
-                                        <el-radio v-model="IsLCar" label="不使用">否</el-radio>
+                                        <el-radio v-model="IsLCar" label="否">否</el-radio>
 
 
                                     </div>
@@ -633,6 +633,14 @@
                             this.$refs[formName2].validate((valid2) => {
                                 if (valid) {
                                     if(valid2){
+                                        if(this.val==''||this.val2==''){
+                                            this.$message.error('请选择省市区');
+                                            return
+                                        }
+                                        if(this.SName==''){
+                                            this.$message.error('请选择收货编码');
+                                            return
+                                        }
                                         this.ishwShow =true
                                        this. isShowN=false
                                     }
@@ -795,9 +803,7 @@
             saveCargo() {
                 console.log(this.cargoMsg);
                 //这个如何判断
-                 if(this.ruleForm2.CountType=="月结"){
-                this.ruleForm2.CountType="现金"
-            };
+
 
                                 if(this.searchData == ''){
                                     this.$message.error('请输入货物名称');
@@ -827,6 +833,8 @@
                                         return;
                                     }
                                 };
+
+
                                 if(this.IsWdj == ''){
                                     this.$message.error('请选择温度计');
                                     return;
@@ -835,10 +843,34 @@
                                     this.$message.error('请选择是否使用冷藏车');
                                     return;
                                 }
+                                if(this.IsLCar =='是'&& this.LCar ==''){
+                                    this.$message.error('冷藏费用必填');
+                                    return;
+                                }
                                 // if(this.Note == ''){
                                 //     this.$message.error('请填写特殊需求');
                                 //     return;
                                 // }
+
+                              if(this.ruleForm2.CountType=="现金"&&this.OutPay==''){
+                                  this.$message.error('付款方式和付款费用必填');
+                                  return;
+                              }
+                            if(this.ruleForm2.CountType=="月结"&&this.OutPay!==''){
+                                this.ruleForm2.CountType="现金"
+                            }
+                            // if(this.ruleForm2.CountType=="月结"&&this.OutPay=='发件人'||this.PayMoney==''){
+                            //     this.$message.error('发件人费用必填');
+                            //     return;
+                            //
+                            //
+                            //
+                            // }
+                            // if(this.ruleForm2.CountType=="月结"&&this.OutPay=='收件人'this.PayMoney2==''){
+                            //
+                            //     this.$message.error('收件人费用必填');
+                            //
+                            // }
 
 
 
@@ -851,7 +883,7 @@
                                     XyNumber: this.ManMsg.XyNumber,
                                     zxNumber: this.ManMsg.zxNumber,
                                     Telephone: this.ruleForm2.Telephone,
-                                    SafeRate: this.ruleForm.SafeRate,
+                                    SafeRate: this.ruleForm2.SafeRate,
                                     Address: this.ruleForm2.Address,
                                     SName: this.SName,
                                     GetCompany: this.ruleForm.GetCompany,
@@ -871,7 +903,6 @@
                                     SafePay: this.SafePay,
                                     SafePay2: this.SafePay2,
                                     CompanyNet: this.ruleForm2.CompanyNet,
-
                                     NisSy: this.NisSy,
                                     isSy: this.isSy,
                                     fj: this.fj,

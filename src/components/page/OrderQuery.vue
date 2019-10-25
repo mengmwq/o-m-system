@@ -206,7 +206,7 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                          <span>结算方式：<span style="padding:5px 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险:<span style="padding:5px 5px;">{{SafeMoney}}</span></span>
+                                                          <span>结算方式：<span style="padding:5px 5px;">{{PayWay}}</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp保险:<span style="padding:5px 5px;">{{SafeItem}}&nbsp;&nbsp;{{SafePay}}</span></span>
 
                                                       </div>
 
@@ -214,6 +214,10 @@
 
                                                       <div  class="bioage">
                                                           <span>取件时间：<span style="padding:5px 5px;">{{TakeTime}}</span></span>
+
+                                                      </div>
+                                                      <div  class="bioage">
+                                                          <span>冷车派送：<span style="padding:5px 5px;">{{IsLCar}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -530,6 +534,7 @@
                 neirong:'',
                 sanja:false,
                 time:'',//取件时间
+                SafeItem:'',
                 CityCode:'',
                 BeginOrderTime:'',
                 EndOrderTime:'',
@@ -558,7 +563,7 @@
                 GetDepart:'',
                 GetName:'',
                 PayWay:'',
-                SafeMoney:'',
+                SafePay:'',
                 Condition:'',
                 Indate:'',
                 note1:'',
@@ -703,7 +708,8 @@
                     _this.GetCity = res.data.data.GetCity;
                     _this.GetName = res.data.data.GetName;
                     _this.PayWay = res.data.data.PayWay;
-                    _this.SafeMoney = res.data.data.SafeMoney||'暂无';
+                    _this.SafePay = res.data.data.SafePay||'暂无';
+                    _this.SafeItem = res.data.data.SafeItem||"暂无"
                     _this.Condition = res.data.data.Condition;
                     _this.Indate =res.data.data.Indate;
                     _this.note1 =res.data.data.note1||'暂无';
