@@ -129,6 +129,7 @@
                                     >
                                         <el-form-item label="省/市/区" >
                                             <el-cascader
+                                                filterable
                                                 style="width:180px"
                                                 v-model="val"
                                                 :options="areaOptions"
@@ -166,14 +167,6 @@
                         <div class="bioage">
 
                             <el-form  label-width="100px!important" :model="ruleForm" :rules="rules" ref="ruleForm" >
-                                <el-form-item label="省/市/区">
-                                    <el-cascader
-                                        v-model="val2"
-                                        :options="areaOptions2"
-                                        @change="handleItemChange2"
-                                        :separator="' '"
-                                    ></el-cascader>
-                                </el-form-item>
                                 <el-form-item label="收货编码" prop="SName">
                                     <el-select v-model="SName" filterable  placeholder="请选择" @change="currentSel">
 
@@ -186,6 +179,16 @@
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
+                                <el-form-item label="省/市/区">
+                                    <el-cascader
+                                        filterable
+                                        v-model="val2"
+                                        :options="areaOptions2"
+                                        @change="handleItemChange2"
+                                        :separator="' '"
+                                    ></el-cascader>
+                                </el-form-item>
+
                                 <el-form-item label="公司名称" prop="GetCompany">
                                     <el-input v-model="ruleForm.GetCompany" style="width: 80%;!important;"></el-input>
                                 </el-form-item>
@@ -904,7 +907,7 @@
                 this.ManMsg.XyNumber = this.orderData.XYNO;
                 this.searchData = this.orderData.CargoName;
                 this.OutPay = this.orderData.OutPay=='0'?'发件人':'收件人';
-                this.PayMoney = this.orderData.PayMoney || '无费用';
+                this.PayMoney = this.orderData.PayMoney || '';
                 this.SafePay = this.orderData.SafeMoney;
                  this.val = this.orderData.StartLocation ;
                  this.val2 = this.orderData.EndLocation ;
@@ -948,7 +951,7 @@
                 this.CompanyNet = this.orderData.CompanyNet,
                     this.IsWdj = this.orderData.IsWdj;
                 this.IsLCar = this.orderData.IsLCar=='1'?'冷车':'不使用冷车';
-                this.LCar = this.orderData.LCar;
+                this.LCar = this.orderData.LCar||'';
                 // this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
                 // this.Note = this.orderData.Note;
                 // this.Box= this.orderData.Box;
@@ -1080,7 +1083,7 @@
                                         this.$message.error('请选择是否使用冷藏车');
                                         return;
                                     }
-                                    if(this.IsLCar =='冷车'&& this.LCar ==''){
+                                    if(this.IsLCar =='冷车'&& (this.LCar ==''||this.LCar=='null')){
                                         this.$message.error('冷藏费用必填');
                                         return;
                                     }
@@ -1225,7 +1228,7 @@
                             that.SNameArr = res.data.data;
                         } else {
                             that.SNameArr=[];
-                            that.SName = '',
+                            that.SName = '';
                                 that.ruleForm.GetCompany='';
                             that.ruleForm.GetName='';
                             that.ruleForm.GetTelephone='';
@@ -1604,6 +1607,7 @@
                     searchData: this.searchData,
                     qujianTime: this.qujianTime,
                     LimitTime: this.LimitTime,
+                    LimitTime1: this.LimitTime1,
                     otherLimitTime: this.otherLimitTime,
                     isMoney: this.isMoney,
                     Box:this.cargoMsg,
@@ -1662,7 +1666,7 @@
                 // this.val2 = this.orderData.val2;
                 this.Department = this.orderData.Department;
                 // this.qujianTime = this.orderData.qujianTime;
-                this.LimitTime = this.orderData.LimitTime;
+                this.LimitTime = this.orderData.LimitTime=='其他'?this.orderData.LimitTime1+'H':this.orderData.LimitTime;
                 this.SafeItem = this.orderData.SafeItem;
                 // this.SafePay = this.orderData.SafePay
                 this.SafeItem = this.orderData.SafeItem;
@@ -1707,7 +1711,7 @@
                         Telephone:this.Telephone||'',//寄件电话
                         GetTelephone:this.GetTelephone||'',//收件电话
                         OrderTime:this.qujianTime||'',//要求取件时间
-                        LimitTime:this.LimitTime +'H',//时限
+                        LimitTime:this.LimitTime,//时限
                         EntryName:this.TrueName||'',//录入人    //这个没有
                         CountType:this.CountType,//结算方式
                         Note:this.Note||'',//备注

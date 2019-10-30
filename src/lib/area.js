@@ -2979,8 +2979,8 @@ const options = [
 		}, {"value": "国营霸王岭林场", "label": "国营霸王岭林场"}, {"value": "海南矿业联合有限公司", "label": "海南矿业联合有限公司"}]
 	  }]
 	}, {
-	  "value": "重庆",
-	  "label": "重庆",
+	  "value": "重庆市",
+	  "label": "重庆市",
 	  "children": [{
 		"value": "重庆市",
 		"label": "重庆市",

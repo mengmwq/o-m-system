@@ -444,7 +444,7 @@
                         Telephone:this.Telephone||'',//寄件电话
                         GetTelephone:this.GetTelephone||'',//收件电话
                         OrderTime:this.qujianTime||'',//要求取件时间
-                        LimitTime:this.LimitTime +'H',//时限
+                        LimitTime:this.LimitTime,//时限
                         EntryName:this.TrueName||'',//录入人    //这个没有
                         CountType:this.CountType,//结算方式
                         Note:this.Note||'',//备注
