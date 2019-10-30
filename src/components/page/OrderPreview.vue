@@ -91,18 +91,18 @@
                                         <th>温度区间</th>
                                         <th>器具</th>
                                         <th>数量</th>
-                                        <th>操作</th>
+<!--                                        <th>操作</th>-->
                                     </tr>
                                     <tr v-for="(item,index) in Box" :key="index">
                                         <td>{{index+1}}</td>
                                         <td>{{item.WDQJ}}</td>
                                         <td>{{item.PackageType}}</td>
                                         <td>
-                                            <span class="circle" @click="prow(item.num,index)">-</span>
+<!--                                            <span class="circle" @click="prow(item.num,index)">-</span>-->
                                             <span>{{item.num}}</span>
-                                            <span class="circle" @click="add(item.num,index)">+</span>
+<!--                                            <span class="circle" @click="add(item.num,index)">+</span>-->
                                         </td>
-                                        <td @click="deleteInfor(index)"><span>删除</span></td>
+<!--                                        <td @click="deleteInfor(index)"><span>删除</span></td>-->
                                     </tr>
                                 </table>
                                 <div class='isPhoto' style="display: flex;justify-content: start;margin-top:10px;">
@@ -284,9 +284,6 @@
         mounted(){
 
             if(this.$route.query.sta == '老孟'){
-
-
-
                 this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
                 this.showSearch = this.orderData.BusinessType;
                 this.zxNumber = this.orderData.CustmerCode;
@@ -380,29 +377,29 @@
 
         },
         methods:{
-            add(val,addIndex){
-                this.Box.forEach((item,index)=>{
-                    if(index == addIndex){
-                        item.num = parseInt(item.num) + 1;
-                    }
-                })
-                this.$forceUpdate();
-            },
-            prow(val,prowIndex){
-                this.Box.forEach((item,index)=>{
-                    if(index == prowIndex){
-                        item.num = parseInt(item.num) - 1;
-                    }
-                })
-                this.$forceUpdate();
-            },
-            deleteInfor(index) { // 删除货物信息
-
-                this.Box.splice(index,1);
-                alert('你删除了第'+Number(index+1)+'个');
-
-
-            },
+            // add(val,addIndex){
+            //     this.Box.forEach((item,index)=>{
+            //         if(index == addIndex){
+            //             item.num = parseInt(item.num) + 1;
+            //         }
+            //     })
+            //     this.$forceUpdate();
+            // },
+            // prow(val,prowIndex){
+            //     this.Box.forEach((item,index)=>{
+            //         if(index == prowIndex){
+            //             item.num = parseInt(item.num) - 1;
+            //         }
+            //     })
+            //     this.$forceUpdate();
+            // },
+            // deleteInfor(index) { // 删除货物信息
+            //
+            //     this.Box.splice(index,1);
+            //     alert('你删除了第'+Number(index+1)+'个');
+            //
+            //
+            // },
             quxiaohh(){
                 this.$router.push({
                     path: "/OrderEntry2",

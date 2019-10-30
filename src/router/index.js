@@ -27,8 +27,8 @@ export default new Router({
                 },
 
                 {
-                    path:'/OrderEntry2' ,
-                    component:resolve => require(['../components/page/OrderEntry2.vue'],resolve),
+                    path:'/OrderEntry22' ,
+                    component:resolve => require(['../components/page/OrderEntry22.vue'],resolve),
                     meta:{keepAlive: true}
                 },
                 {

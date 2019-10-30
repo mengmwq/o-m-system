@@ -198,7 +198,7 @@
 
 <!--                                                      </div>-->
                                                       <div  class="bioage">
-                                                         <span>温度计: <span style="padding:5px 5px;">{{IsWdj}}</span></span>
+                                                         <span>温度计: <span style="padding:5px 5px;">{{IsWdj}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保险费率:<span>{{SafeRate}}</span></span>
 
                                                       </div>
 <!--                                                      <div  class="bioage">-->
@@ -213,11 +213,11 @@
 
 
                                                       <div  class="bioage">
-                                                          <span>取件时间：<span style="padding:5px 5px;">{{TakeTime}}</span></span>
+                                                          <span>取件时间：<span style="padding:5px 5px;">{{TakeTime}}</span>&nbsp&nbsp付款方式:<span style="padding:5px 5px;">{{OutPay}}&nbsp;&nbsp;{{PayMoney}}</span></span>
 
                                                       </div>
                                                       <div  class="bioage">
-                                                          <span>冷车派送：<span style="padding:5px 5px;">{{IsLCar}}</span></span>
+                                                          <span>冷车派送：<span style="padding:5px 5px;">{{IsLCar}}</span>{{LCar}}</span>
 
                                                       </div>
                                                       <div  class="bioage">
@@ -261,6 +261,15 @@
                                                           <span>下单时间：<span style="padding:5px 5px;">{{Indate}}</span></span>
 
                                                       </div>
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>项目号：<span style="padding:5px 5px;">{{XMNO}}</span></span>-->
+
+<!--                                                      </div>-->
+<!--                                                      <div  class="bioage">-->
+<!--                                                          <span>协议号：<span style="padding:5px 5px;">{{XYNO}}</span></span>-->
+<!--                                                          <span>中心号：<span style="padding:5px 5px;">{{CustmerCode}}</span></span>-->
+
+<!--                                                      </div>-->
 
 
                                                   </el-col>
@@ -510,6 +519,14 @@
         name: "orderManagement",
         data() {
             return {
+                IsLCar:'',
+                PayMoney:'',
+                OutPay:'',
+                SafeRate:'',
+                CustmerCode:'',
+                XYNO:'',
+                LCar:'',
+                XMNO:'',
                 isShowButton:true,
                 AnPai:'',
                 Department:'',
@@ -592,7 +609,7 @@
             this.TrueName = window.sessionStorage.getItem('TrueName')
             this.City = window.sessionStorage.getItem('City')
             this.getData();
-            this.xiadna
+
         },
 
         methods:{
@@ -622,12 +639,11 @@
 
                 }).then(function (res) {
                     //再一单传值的时候
-
                     let orderDataAgain =JSON.stringify(res.data.data);
                    window.sessionStorage.setItem('orderDataAgain',orderDataAgain);
 
                     _this.$router.push({
-                        path: "/OrderPreview",
+                        path: "/OrderEntry22",
                         query: {
                             AccountNumber: row.AccountNumber,
                             sta: '老孟'
@@ -701,38 +717,46 @@
                 }).then(function (res) {
                     _this.Box = res.data.data.Box;
 
-                    _this.Depart =res.data.data.Depart;
-                    _this.City = res.data.data.City;
-                    _this.entryname =res.data.data.entryname;
-                    _this.GetDepart =res.data.data.GetDepart;
-                    _this.GetCity = res.data.data.GetCity;
-                    _this.GetName = res.data.data.GetName;
-                    _this.PayWay = res.data.data.PayWay;
+                    _this.Depart =res.data.data.Depart||'暂无';
+                    _this.City = res.data.data.City||'暂无';
+                    _this.entryname =res.data.data.entryname||'暂无';
+                    _this.GetDepart =res.data.data.GetDepart||'暂无';
+                    _this.GetCity = res.data.data.GetCity||'暂无';
+                    _this.GetName = res.data.data.GetName||'暂无';
+                    _this.PayWay = res.data.data.PayWay||'暂无';
                     _this.SafePay = res.data.data.SafePay||'暂无';
                     _this.SafeItem = res.data.data.SafeItem||"暂无"
-                    _this.Condition = res.data.data.Condition;
-                    _this.Indate =res.data.data.Indate;
+                    _this.Condition = res.data.data.Condition||'暂无';
+                    _this.Indate =res.data.data.Indate||'暂无';
                     _this.note1 =res.data.data.note1||'暂无';
-                    _this.Company = res.data.data.Company;
-                    _this.Manager = res.data.data.Manager;
-
-                    _this.Telephone = res.data.data.Telephone;
-                    _this.Address = res.data.data.Address;
-                    _this.GetCompany =res.data.data.GetCompany;
-                    _this.GetTelephone = res.data.data.GetTelephone;
+                    _this.Company = res.data.data.Company||'暂无';
+                    _this.Manager = res.data.data.Manager||'暂无';
+                    _this.Telephone = res.data.data.Telephone||'暂无';
+                    _this.Address = res.data.data.Address||'暂无';
+                    _this.GetCompany =res.data.data.GetCompany||'暂无';
+                    _this.GetTelephone = res.data.data.GetTelephone||'暂无';
                     _this.GetArea = res.data.data.GetArea||'暂无';
-                    _this.GetAddress = res.data.data.GetAddress;
+                    _this.GetAddress = res.data.data.GetAddress||'暂无';
                     _this.MNote = res.data.data.MNote||'暂无';
+                    _this.XMNO = res.data.data.XMNO||'暂无';
                     _this.MTime = res.data.data.MTime||'暂无';
+                    _this.XYNO = res.data.data.XYNO||'暂无';
                     _this.MName = res.data.data.MName||'暂无';
-                    _this.Depart =res.data.data.Depart;
-                    _this.City =res.data.data.City;
-                    _this.GetCity =res.data.data.GetCity;
-                    _this.GetDepart =res.data.data.GetDepart;
-                    _this.IsWdj =res.data.data.IsWdj;
+                    _this.Depart =res.data.data.Depart||'暂无';
+                    _this.City =res.data.data.City||'暂无';
+                    _this.GetCity =res.data.data.GetCity||'暂无';
+                    _this.GetDepart =res.data.data.GetDepart||'暂无';
+                    _this.IsWdj =res.data.data.IsWdj||'暂无';
                     _this.Department =res.data.data.Department||'暂无';
                     _this.GetCode =res.data.data.GetCode||'暂无';
-                    _this.TakeTime = res.data.data.TakeTime||'暂无'
+                    _this.TakeTime = res.data.data.TakeTime||'暂无';
+                    _this.CustmerCode = res.data.data.CustmerCode||'暂无';
+                    _this.LCar = res.data.data.LCar||'暂无';
+                    _this.IsLCar = res.data.data.IsLCar=='1'? '冷车':'不使用冷车';
+                    _this.OutPay = res.data.data.OutPay=='1'? '发件人':'收件人'||'暂无';
+                    _this.PayMoney = res.data.data.PayMoney||'暂无';
+                    _this.SafeRate = res.data.data.SafeRate||'暂无'
+
 
 
 

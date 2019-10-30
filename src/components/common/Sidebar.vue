@@ -62,7 +62,7 @@ export default {
                 name:"订单查询"
                },
                 {
-                    action:"OrderEntry2",
+                    action:"OrderEntry22",
                     name:"订单录入"
                 }
             ]
@@ -124,7 +124,7 @@ export default {
                         name:"订单查询"
                     },
                     {
-                        action:"OrderEntry2",
+                        action:"OrderEntry22",
                         name:"订单录入"
                     }
                 ]
