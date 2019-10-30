@@ -1031,6 +1031,10 @@
 
                 this.cargoMsg.splice(index,1);
                 alert('你删除了第'+Number(index+1)+'个');
+                if((this.cargoMsg).length==0){
+                    this.isbioage2 =false;
+                }
+
             },
             savaManger(formName,formName2){
                 this.$refs[formName].validate((valid) => {
