@@ -1028,9 +1028,10 @@
                 this.$forceUpdate();
             },
             deleteInfor(index) { // 删除货物信息
-
-                this.cargoMsg.splice(index,1);
-                alert('你删除了第'+Number(index+1)+'个');
+                let isClick = confirm("确定要删除吗？");
+                if(isClick){
+                    this.cargoMsg.splice(index,1);
+                }
                 if((this.cargoMsg).length==0){
                     this.isbioage2 =false;
                 }
