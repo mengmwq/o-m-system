@@ -888,7 +888,7 @@
                 this.islaomC=false;
                 this.isufhhf =true;
                 this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
-                console.log(this.orderData,9)
+                console.log(this.orderData,98)
                 this.showSearch = this.orderData.BusinessType;
                 this.ruleForm2.accoutNum = this.$route.query.AccountNumber;
                 this.ruleForm2.CountType = this.orderData.PayWay;
@@ -1363,7 +1363,7 @@
                         // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
-                        that.ManMsg = {};
+                        //that.ManMsg = {};
                     }
                 });
 
