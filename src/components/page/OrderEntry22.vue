@@ -480,7 +480,8 @@
         <el-dialog
             width="50%"
             center
-            :visible.sync="addSendDetailsModel"
+            title="订单录入详情"
+          :visible.sync="addSendDetailsModel"
         >
             <div>
                     <el-row
@@ -1492,8 +1493,10 @@
                         boxTypeNum[item.WDQJ] = Number(boxTypeNum[item.WDQJ])+1;
                         if(Number(boxTypeNum[item.WDQJ])>3){
                             this.$message.error(item.WDQJ+'温区中选择箱型超过三个');
+
                             boxTypeNum = {}
-                            return false
+                            return false;
+
                         }
                     })
 
@@ -1584,6 +1587,12 @@
             },
             //点击预览出现弹框
             searchB(){
+
+              // console.log(this.savaManger('ruleForm','ruleForm2'),9)
+
+
+
+
                 this.addSendDetailsModel=true;
                 let orderData = {
                     accoutNum: this.ruleForm2.accoutNum,
