@@ -441,7 +441,7 @@
                                     </tr>
                                     <tr v-for="(item,index) in cargoMsg" :key="index">
                                         <td>
-                                            <input type="checkbox">
+                                            <input type="checkbox" name="checkList" :value="item.id" v-model="checkedValue">
                                         </td>
                                         <td>{{index+1}}</td>
                                         <td>{{item.WDQJ}}</td>
@@ -457,7 +457,7 @@
                             </el-col>
                             <el-col>
                                 <div style="margin:10px 0" id="biaogeBotom">
-                                    <span>删除选中的箱型</span>
+                                    <span @click="delCheckbox()">删除选中的箱型</span>
                                     <span @click="clearContent()">清空数据</span>
                                 </div>
 
@@ -693,6 +693,7 @@
         name: "test",
         data() {
             return {
+                checkedValue: [],
                 xiadan:false,
 
 
@@ -877,8 +878,14 @@
                 CompanyNet: '',
             };
         },
+        // watch:{
+        //     checkedValue:function(new_v,old_v){
+        //         // this.answer=this.checkedValue;
+        //         console.log(this.checkedValue,'aaa');
+        //     }
+        // },
         created() {
-            this.getManMsg();
+            // this.getManMsg();
             this.getTem();
         },
         mounted(){
@@ -917,13 +924,15 @@
                 let Box = this.orderData.Box;
                 // let arr = [];
                 for (var i in Box) {
-                    Box[i].forEach(item => {
+                    Box[i].forEach((item,index) => {
                         item.WDQJ = i;
                         item.PackageType = item.PackageName;
                         item.num = item.Jian;
+                        item.id = index;
                     })
                     this.cargoMsg = Box[i];
                 }
+                console.log(this.cargoMsg,'%%%%%%%%%%%11111');
                 this.qujianTime = this.orderData.Indate;
                 this.Note = this.orderData.note1;
                 this.SName = this.orderData.GetCompany + " " + this.orderData.GetName;
@@ -992,7 +1001,42 @@
             reasgBiao(){
                 this.islaomC=true
             },
+            // 删除选中数据
+            delCheckbox(){
+                console.log(this.checkedValue,'aaa');
+                if((this.checkedValue).length==0){
+                    this.$message.error("不能空删，请先选择数据！")
+                }else{
+                    //删除操作
+
+                    //const length = this.checkedValue.length;
+
+                    // for (let i = 0; i < length; i++) {
+                    //     this.cargoMsg.splice(this.checkedValue[i], length);
+                    // }
+                    this.cargoMsg.forEach((item,index) => {
+                        if(this.checkedValue.indexOf(item.id) != -1){
+                            this.cargoMsg.splice(index);
+                        }
+                    })
+                    // var selectNumber = this.checkedValue[1]
+                    // //清空选中的key
+                    // this.checkedValue = []
+                    // this.cargoMsg.push(selectNumber)
+                }
+                if((this.cargoMsg).length==0){
+                    this.isbioage2 =false;
+                    this.islaomC=true
+
+                }
+                console.log(this.cargoMsg, '////////123');
+                this.checkedValue = [];
+                //
+            },
             clearContent(){
+                this.isDDD = true;
+                this.islaomC=true;
+                this.isbioage2 =false;
                 this.isDisabled = false;
                 this.isDisabled1 = false;
                 console.log(this.boxType)
@@ -1033,7 +1077,7 @@
                     this.cargoMsg.splice(index,1);
                 }
                 if((this.cargoMsg).length==0){
-                    this.isbioage2 =false;
+
                 }
 
             },
@@ -1233,6 +1277,7 @@
 
                             that.SNameArr = res.data.data;
                         } else {
+                            that.$message.error(res.data.msg)
                             that.SNameArr=[];
                             that.SName = '';
                                 that.ruleForm.GetCompany='';
@@ -1283,6 +1328,7 @@
                         that.SNameArr = res.data.data;
                     } else {
 
+                      //  that.$message.error(res.data.msg)
                     }
                 });
             },
@@ -1322,6 +1368,7 @@
                         that.val2 = res.data.data.Location;
                         that.LCar = res.data.data.LCar;
                     } else {
+                        that.$message.error(res.data.msg)
                         // that.ManMsg = {};
                     }
                 });
@@ -1364,6 +1411,7 @@
                         // that.hhh = that.ManMsg.Depart + "/" + that.ManMsg.City + "/" + that.ManMsg.Area;
 
                     } else {
+                        that.$message.error(res.data.msg)
                         //that.ManMsg = {};
                     }
                 });
@@ -1481,12 +1529,15 @@
             },
             prev() {
                 var boxTypeNum = {};
-                this.isDDD = false;
+
                 this.isbioage1=false;
-                this.isbioage2=true;
+
                 if(this.cargoMsg.length == 0){
                     this.$message.error('请选择温区和箱型')
                 }else{
+                     this.isDDD = false;
+                     this.isufhhf =false;
+                    this.isbioage2=true;
                     this.isShow = true;
                     this.cargoMsg.forEach((item,index) => {
                         if(item.num == ''){
@@ -1549,6 +1600,11 @@
                         this.cargoMsg.push(val);
                     }
                 }
+
+                this.cargoMsg.forEach((item,index)=>{
+                    item.id = index;
+                })
+                console.log(this.cargoMsg,'@@@@@@@aaaaa');
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
