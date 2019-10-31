@@ -308,7 +308,7 @@
                             <el-col :span="11">
                                 <el-col :span="6" :offset="4">
                                     <el-select v-model="OutPay" placeholder="请选择付款方式" >
-                                        <el-option  value="">请选择</el-option>
+                                        <el-option  value="">无付款方式</el-option>
                                         <el-option  value="发件人">发件人</el-option>
                                         <el-option  value="收件人">收件人</el-option>
                                     </el-select>
@@ -914,9 +914,18 @@
                 this.ManMsg.zxNumber = this.orderData.CustmerCode;
                 this.ManMsg.XyNumber = this.orderData.XYNO;
                 this.searchData = this.orderData.CargoName;
-                this.OutPay = this.orderData.OutPay=='0'?'发件人':'收件人';
+
+                if(this.orderData.OutPay==''){
+                    this.orderData.OutPay=''
+                }else if(this.orderData.OutPay=='0'){
+                    this.orderData.OutPay='发件人'
+                }else{
+                    this.orderData.OutPay='收件人'
+                }
+                this.OutPay = this.orderData.OutPay;
+                // this.OutPay = this.orderData.OutPay=='0'?'发件人':'收件人';
                 this.PayMoney = this.orderData.PayMoney || '';
-                this.SafePay = this.orderData.SafeMoney;
+                this.SafePay = this.orderData.SafePay;
                  this.val = this.orderData.StartLocation ;
                  this.val2 = this.orderData.EndLocation ;
                 // this.GetDepartment = this.orderData.GetCode||'暂无';
@@ -957,7 +966,6 @@
                 this.SafeItem = this.orderData.SafeItem;
                 // this.SafePay = this.orderData.SafePay
                 this.SafeItem = this.orderData.SafeItem
-                this.SafePay = this.SafeItem == '投保' ? this.orderData.SafePay : this.orderData.SafePay2;
                 this.CompanyNet = this.orderData.CompanyNet,
                     this.IsWdj = this.orderData.IsWdj;
                 this.IsLCar = this.orderData.IsLCar=='1'?'冷车':'不使用冷车';
@@ -1004,32 +1012,24 @@
             // 删除选中数据
             delCheckbox(){
                 console.log(this.checkedValue,'aaa');
+                console.log(this.cargoMsg, '////////123');
                 if((this.checkedValue).length==0){
                     this.$message.error("不能空删，请先选择数据！")
                 }else{
-                    //删除操作
 
-                    //const length = this.checkedValue.length;
-
-                    // for (let i = 0; i < length; i++) {
-                    //     this.cargoMsg.splice(this.checkedValue[i], length);
-                    // }
                     this.cargoMsg.forEach((item,index) => {
                         if(this.checkedValue.indexOf(item.id) != -1){
                             this.cargoMsg.splice(index);
                         }
                     })
-                    // var selectNumber = this.checkedValue[1]
-                    // //清空选中的key
-                    // this.checkedValue = []
-                    // this.cargoMsg.push(selectNumber)
+
                 }
                 if((this.cargoMsg).length==0){
                     this.isbioage2 =false;
                     this.islaomC=true
 
                 }
-                console.log(this.cargoMsg, '////////123');
+
                 this.checkedValue = [];
                 //
             },
@@ -1095,7 +1095,10 @@
                                         this.$message.error('请选择收货编码');
                                         return
                                     }
-
+                                    if(this.showSearch == ''){
+                                        this.$message.error('请选择货物类型');
+                                        return;
+                                    }
                                     if(this.searchData == ''){
                                         this.$message.error('请输入货物名称');
                                         return;
@@ -1148,7 +1151,7 @@
                                     }
                                     if(this.ruleForm2.CountType=="月结"&&this.OutPay!==''){
                                         this.ruleForm2.CountType="现金"
-                                        this.$message.error('付款费用必填');
+                                       // this.$message.error('付款费用必填');
                                         return;
                                     }
                                     this.ishwShow =true
@@ -1548,9 +1551,10 @@
                         }
                         boxTypeNum[item.WDQJ] = Number(boxTypeNum[item.WDQJ])+1;
                         if(Number(boxTypeNum[item.WDQJ])>3){
-                            this.$message.error(item.WDQJ+'温区中选择箱型超过三个');
+                            this.$message.error(item.WDQJ+'温区中选择箱型超过三个，请先修改');
+                            return
 
-                            boxTypeNum = {}
+                           // boxTypeNum = {}
                             return false;
 
                         }
@@ -1649,11 +1653,76 @@
             //点击预览出现弹框
             searchB(){
 
-              // console.log(this.savaManger('ruleForm','ruleForm2'),9)
+             //  console.log((this.savaManger('ruleForm','ruleForm2')==true),9)
+
+                // this.savaManger('ruleForm','ruleForm2')
+                if(this.val==''||this.val2==''){
+                    this.$message.error('请选择省市区');
+                    return
+                }
+                if(this.SName==''){
+                    this.$message.error('请选择收货编码');
+                    return
+                }
+                if(this.showSearch == ''){
+                    this.$message.error('请选择货物类型');
+                    return;
+                }
+                if(this.searchData == ''){
+                    this.$message.error('请输入货物名称');
+                    return;
+                };
+                if(this.qujianTime == ''){
+                    this.$message.error('请输入要求取件时间');
+                    return;
+                };
+                if(this.LimitTime == ''&&this.LimitTime1 == ''){
+                    this.$message.error('请选择时限');
+                    return;
+                };
+                if(this.LimitTime == '其他'&&this.LimitTime1 == ''){
+                    this.$message.error('请输入其他时限');
+                    return;
+                }
 
 
+                if(this.SafeItem == ''){
+                    this.$message.error('请选择是否投保');
+                    return;
+                };
+                if (this.SafeItem == '投保') {
+                    if (this.SafePay == '') {
+                        //alert('投保金额必填')
+                        this.$message.error('投保金额必填');
+                        return;
+                    }
+                };
+                if(this.IsWdj == ''){
+                    this.$message.error('请选择温度计');
+                    return;
+                };
+                if(this.IsLCar ==''){
+                    this.$message.error('请选择是否使用冷藏车');
+                    return;
+                }
+                if(this.IsLCar =='冷车'&& (this.LCar ==''||this.LCar=='null')){
+                    this.$message.error('冷藏费用必填');
+                    return;
+                }
+                // if(this.Note == ''){
+                //     this.$message.error('请填写特殊需求');
+                //     return;
+                // }
 
-
+                if(this.ruleForm2.CountType=="现金"&&(this.OutPay==''||this.PayMoney=='')){
+                    this.$message.error('付款方式和付款费用必填');
+                    return;
+                }
+                if(this.ruleForm2.CountType=="月结"&&this.OutPay!==''){
+                    this.ruleForm2.CountType="现金"
+                    this.$message.error('付款费用必填');
+                    return;
+                }
                 this.addSendDetailsModel=true;
                 let orderData = {
                     accoutNum: this.ruleForm2.accoutNum,
@@ -1701,8 +1770,18 @@
                     PayMoney2: this.PayMoney2,
                     OutPay: this.OutPay
                 };
+
+
                 window.sessionStorage.setItem('orderData', JSON.stringify(orderData));
                 this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
+                console.log(this.orderData.OutPay,9999222)
+                if(this.orderData.OutPay==''){
+                    this.orderData.OutPay=''
+                }else if(this.orderData.OutPay=='0'){
+                    this.orderData.OutPay='发件人'
+                }else{
+                    this.orderData.OutPay='收件人'
+                }
                 this.showSearch = this.orderData.showSearch;
                 this.accoutNum =  this.orderData.accoutNum;
                 this.CountType = this.orderData.CountType;
@@ -1713,7 +1792,9 @@
                 this.qujianTime = this.orderData.qujianTime;
                 this.Note = this.orderData.Note;
                 this.SName = this.orderData.SName;
-                this.OutPay =this.orderData.OutPay;
+
+                this.OutPay = this.orderData.OutPay;
+                //this.OutPay =this.orderData.OutPay;
                 this.Cid2 = this.orderData.Cid2;
                 this.XyNumber = this.orderData.XyNumber;
                 this.searchData = this.orderData.searchData;
@@ -1795,7 +1876,8 @@
                         XYNO:this.XyNumber||'',//协议号
                         IsLCar:this.IsLCar=='冷车'?"1":'',//	冷车费用
                         LCar:this.LCar,
-                        OutPay:this.OutPay=="发件人"?'0':'1',//0是发件方1是收件方
+
+                        OutPay:this.OutPay,//0是发件方1是收件方
                         PayMoney:this.PayMoney,//费用
                         CompanyNet:this.CompanyNet||'',//取件网络公司
                         NetDepart:this.val2[0],//取件站点省份
@@ -1821,8 +1903,10 @@
                     console.log(res,888)
                     if(res.data.code == 200){
                         that.xiadan = true;
+                        that.addSendDetailsModel = false;
                         that.$message.success(res.data.msg)
                         setTimeout(() => {
+                            that.xiadan = false;
                             that.$router.push({
                                 path: "/OrderEntry22",
                             })
