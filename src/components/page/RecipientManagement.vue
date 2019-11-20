@@ -245,9 +245,9 @@
                         <el-col>
 
                             <el-col :span="12">
-                                <el-form-item label="省/市/区">
+                                <el-form-item label="省/市/区" prop="val2">
                                     <el-cascader
-                                        v-model="val2"
+                                        v-model="ruleForm.val2"
                                         :options="areaOptions2"
                                         @change="handleItemChange2"
                                         :separator="' '"
@@ -354,13 +354,17 @@
                     city:'',
                     street:'',
                     province:'',
-                    desc: ''
+                    desc: '',
+                    phone:'',
+                    company:'',
+                    val2:[]
                 },
                 rules: {
                     name: [
                         { required: true, message: '请输入客户账号', trigger: 'blur' },
 
                     ],
+
                     company:[
                         { required: true, message: '请输入公司名称', trigger: 'blur' }
                     ],
@@ -371,11 +375,18 @@
                     region: [
                         { required: true, message: '请输入联系人', trigger: 'blur' }
                     ],
+
                     phone: [
                         { required: true, message: '请输入联系方式', trigger: 'blur' },
 
 
 
+                    ],
+                    val2:[
+                        { required: true, message: '请选择省市区', trigger: 'change' },
+                    ],
+                    street:[
+                        {required: true, message: '请输入街道', trigger: 'blur' }
                     ],
                     desc: [
                         { required: true, message: '请输入详细地址', trigger: 'blur' }
@@ -409,7 +420,7 @@
         methods:{
             handleItemChange2(val) {
                 // 省市区
-                this.val2 = val;
+                this.ruleForm.val2 = val;
             },
             handleItemChange(val) {
                 // 省市区
@@ -576,6 +587,7 @@
                     if (valid) {
                         this.$refs[formName].validate((valid) => {
                             if (valid) {
+
                                 let _this = this;
                                 _this.$axios({
                                     url: 'http://out.ccsc58.cc/OMS/v1/public/index/customerservice/addto',
@@ -586,9 +598,9 @@
                                         CompanyName: this.ruleForm.company,
                                         Manager: this.ruleForm.region,
                                         Telephone: this.ruleForm.phone,
-                                        Depart: this.val2[0],
-                                        City: this.val2[1],
-                                        Area: this.val2[2],
+                                        Depart: this.ruleForm.val2[0],
+                                        City: this.ruleForm.val2[1],
+                                        Area: this.ruleForm.val2[2],
                                         Roule: this.ruleForm.street,
                                         Address: this.ruleForm.desc,
                                         InName: this.TrueName,
@@ -678,6 +690,7 @@
                 });
             },
             resetForm(formName) {
+
                 this.$refs[formName].resetFields();
             }
 

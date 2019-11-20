@@ -13,16 +13,16 @@
                     </el-col>
                     <el-col >
                         <el-form-item label="客户账号">
-                            <el-input  v-model="AccountNumber" ></el-input>
+                            <el-input  v-model="AccountNumber" suffix-icon="el-icon-date" :maxlength="255"></el-input>
 
                         </el-form-item>
 
-                        <el-form-item label="订单号">
-                            <el-input  v-model="ID" ></el-input>
+                        <el-form-item label="订单号码">
+                            <el-input  v-model="ID" suffix-icon="el-icon-date" :maxlength="255"></el-input>
                         </el-form-item>
 
                         <el-form-item label="录入人">
-                            <el-input v-model="EntryName" >
+                            <el-input v-model="EntryName" suffix-icon="el-icon-date" :maxlength="255">
 
                             </el-input>
                         </el-form-item>
@@ -596,7 +596,11 @@
 </script>
 
 <style>
-
+    .el-select {
+        display: inline-block;
+        position: relative;
+        margin-right: 10px;
+    }
     .curstomNum:not(.aaa) .cell {
         color: #649EFE !important;
 

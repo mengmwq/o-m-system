@@ -149,11 +149,11 @@ export default {
       handleSubmit2(ev) {
       let that = this;
       this.$axios({
-        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/index",
+        url: "http://out.ccsc58.cc/OMS/v1/public/index/login/logincode",
         method: "post",
         data: {
             UserName: this.account,
-            PassWord:this.checkPass
+            YZM:this.checkPass
         },
         transformRequest: [
           function(data) {

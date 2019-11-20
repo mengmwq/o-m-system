@@ -198,7 +198,7 @@
                 <span slot="footer" class="dialog-footer" style="align-items: center;display:flow-root;text-align: center">
                      <router-link to="OrderQuery"><el-button type="primary" size="mini"  >订单查询</el-button></router-link>
 
-                     <router-link to="OrderEntry2"><el-button type="primary" size="mini" >再来一单</el-button></router-link>
+                     <router-link to="OrderEntry22"><el-button type="primary" size="mini" >再来一单</el-button></router-link>
 
             </span>
             </el-dialog>
@@ -487,7 +487,7 @@
                         that.$message.success(res.data.msg)
                         setTimeout(() => {
                             that.$router.push({
-                                path: "/OrderEntry2",
+                                path: "/OrderQuery",
 
                             })
 

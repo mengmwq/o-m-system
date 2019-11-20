@@ -753,7 +753,7 @@
                     _this.CustmerCode = res.data.data.CustmerCode||'暂无';
                     _this.LCar = res.data.data.LCar||'暂无';
                     _this.IsLCar = res.data.data.IsLCar=='1'? '冷车':'不使用冷车';
-                    _this.OutPay = res.data.data.OutPay=='1'? '发件人':'收件人'||'暂无';
+                    _this.OutPay = res.data.data.OutPay=='0'? '发件人':'收件人'||'暂无';
                     _this.PayMoney = res.data.data.PayMoney||'暂无';
                     _this.SafeRate = res.data.data.SafeRate||'暂无'
 

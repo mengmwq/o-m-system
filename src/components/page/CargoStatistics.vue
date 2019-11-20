@@ -13,8 +13,8 @@
 
 
                         <div style="float: right;margin-top: 5px;">
-                            <img src="../../assets/chaxun.png"  style="width: 23px;height: 23px"  @click="getData">
-                            <img src="../../assets/daochu.png" style="margin: 0 30px;width: 23px;height: 23px" >
+                            <img src="../../assets/chaxun.png"  style="width: 23px;height: 23px;margin: 0 30px;"  @click="getData">
+<!--                            <img src="../../assets/daochu.png" style="margin: 0 30px;width: 23px;height: 23px" >-->
                             <img src="../../assets/chongzhi.png"  style="width: 23px;height: 23px"  @click="refresh()">
 
                         </div>

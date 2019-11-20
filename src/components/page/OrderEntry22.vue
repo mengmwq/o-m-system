@@ -226,8 +226,8 @@
                                             <el-dropdown trigger="click" :hide-on-click="false"
                                                          @command="changeCompany" style="margin-right: 10px;"
                                                          ref="messageDrop">
-                                                <span class="el-dropdown-link" style="width:150px;">{{showSearch}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-                                                <el-dropdown-menu slot="dropdown">
+                                                <span class="el-dropdown-link" style="width:150px;cursor: pointer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{showSearch}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                                                <el-dropdown-menu slot="dropdown" style="cursor: pointer">
                                                     <el-dropdown-item command="药品">药品</el-dropdown-item>
                                                     <el-dropdown-item command="试剂">试剂</el-dropdown-item>
                                                     <el-dropdown-item command="样品">样品</el-dropdown-item>
@@ -271,11 +271,13 @@
                                         </el-form>
                                     </el-col>
                                     <el-col :span="4">
+
                                         <el-input v-if="this.LimitTime=='其他'" style="width: 80px;border-left: none;border-top: none;border-right: none;" v-model="LimitTime1"></el-input>
 
                                     </el-col>
                                     <el-col :span="12" >
-                                        <el-select v-model="IsWdj">
+                                        <label for="" style="font-family: cursive">温度计:</label>
+                                        <el-select v-model="IsWdj" label="温度计" style="width: 28%">
                                             <el-option  value="使用">使用</el-option>
                                             <el-option  value="不使用">不使用</el-option>
                                         </el-select>
@@ -307,14 +309,14 @@
                             </el-col>
                             <el-col :span="11">
                                 <el-col :span="6" :offset="4">
-                                    <el-select v-model="OutPay" placeholder="请选择付款方式" >
+                                    <el-select v-model="OutPay" placeholder="请选择付款方式" @change="changeOutpay()" >
                                         <el-option  value="">无付款方式</el-option>
                                         <el-option  value="发件人">发件人</el-option>
                                         <el-option  value="收件人">收件人</el-option>
                                     </el-select>
                                 </el-col>
                                 <el-col :span="4">
-                                    <el-input v-if="this.OutPay!==''" style="border-left: none;border-top: none;border-right: none;" v-model="PayMoney" placeholder="输入金额" ></el-input>
+                                    <el-input  type="number" v-if="this.OutPay!==''" style="border-left: none;border-top: none;border-right: none;" v-model="PayMoney" placeholder="输入金额" ></el-input>
                                 </el-col>
                             </el-col>
                             <el-col :span="23">
@@ -330,7 +332,7 @@
                                 </el-form>
                             </el-col>
                             <el-col>
-                                <el-button v-show="isShowN" type="primary" style="float: right;margin:0 60px 20px 0" @click="savaManger('ruleForm','ruleForm2')">保存</el-button>
+                                <el-button v-show="isShowN" type="primary" style="float: right;margin:0 60px 20px 0px;cursor: pointer" @click="savaManger('ruleForm','ruleForm2')">保存</el-button>
                             </el-col>
 <!--                            <el-col>-->
 <!--                                <el-button v-show="isShowN2" type="primary" style="float: right;margin:0 60px 20px 0" @click="savaManger('ruleForm','ruleForm2')">编辑</el-button>-->
@@ -387,7 +389,8 @@
 
                                                         <input  value="" v-model='item.num'
                                                                 style='width:20%;' @blur="isNull(item,index)"
-                                                                @input="isClick(item,'box')">
+
+                                                                v-on:input ="isClick(item,'box')">
 
                                                         <span>个</span>
                                                     </div>
@@ -423,7 +426,7 @@
                     <el-col :span="24" style="text-align:right;margin: 20px 5px" v-show="isDDD">
                         <!--                         <button @click="prev"> 上一步 </button> -->
 <!--                        <span class="save" @click="quxiao">取消</span>-->
-                        <span class="save" @click="prev">保存</span>
+                        <span class="save" @click="prev" style="cursor: pointer">保存</span>
                     </el-col>
                     <el-col >
                         <el-row :gutter="24" style="margin:50px 0" v-show="isbioage2">
@@ -431,7 +434,7 @@
                                 <table>
                                     <tr>
                                         <th>
-                                            <input v-model='isAllChecked' type="checkbox"  @click="selectAll" />
+                                            <input v-model='isAllChecked' type="checkbox"  @click="selectAll"  />
                                         </th>
                                         <th>序号</th>
                                         <th>温度区间</th>
@@ -441,35 +444,35 @@
                                     </tr>
                                     <tr v-for="(item,index) in cargoMsg" :key="index">
                                         <td>
-                                            <input type="checkbox" name="checkList" :value="item.id" v-model="checkedValue">
+                                            <input type="checkbox" name="checkedValue" :value="item.id" v-model="checkedValue">
                                         </td>
                                         <td>{{index+1}}</td>
                                         <td>{{item.WDQJ}}</td>
                                         <td>{{item.PackageType}}</td>
                                         <td>
-                                            <span class="circle" @click="prow(item.num,index)">-</span>
+                                            <span class="circle" style="cursor: pointer" @click="prow(item.num,index)">-</span>
                                             <span>{{item.num}}</span>
-                                            <span class="circle" @click="add(item.num,index)">+</span>
+                                            <span class="circle" style="cursor: pointer" @click="add(item.num,index)">+</span>
                                         </td>
-                                        <td @click="deleteInfor(index)"><span>删除</span></td>
+                                        <td @click="deleteInfor(index)" style="cursor: pointer"><span>删除</span></td>
                                     </tr>
                                 </table>
                             </el-col>
                             <el-col>
                                 <div style="margin:10px 0" id="biaogeBotom">
-                                    <span @click="delCheckbox()">删除选中的箱型</span>
-                                    <span @click="clearContent()">清空数据</span>
+                                    <span @click="delCheckbox()" style="cursor: pointer">删除选中的箱型</span>
+                                    <span @click="clearContent()" style="cursor: pointer">清空数据</span>
                                 </div>
 
                             </el-col>
                             <el-col>
-                                <el-button v-show="isufhhf" type="primary" style="float: right;margin:0 60px 20px 0" @click="reasgBiao()">编辑</el-button>
+                                <el-button v-show="isufhhf" type="primary" style="float: right;margin:0 60px 20px 0;cursor: pointer" @click="reasgBiao()">编辑</el-button>
 
                             </el-col>
 
                             <el-col>
                                 <div style="text-align: center">
-                                    <el-button type="primary" @click="searchB()">预览</el-button>
+                                    <el-button type="primary" @click="searchB()" style="cursor: pointer">预览</el-button>
                                 </div>
                             </el-col>
                         </el-row>
@@ -656,6 +659,7 @@
 
                         </el-col>
                         <el-col style="margin: 30px 0;display: flex;justify-content: center">
+                            <el-button type="info"  @click="addSendDetailsModel = false">取消</el-button>
                             <el-button type="primary"  @click="submitFromContent()">提交</el-button>
                         </el-col>
 
@@ -878,12 +882,6 @@
                 CompanyNet: '',
             };
         },
-        // watch:{
-        //     checkedValue:function(new_v,old_v){
-        //         // this.answer=this.checkedValue;
-        //         console.log(this.checkedValue,'aaa');
-        //     }
-        // },
         created() {
             // this.getManMsg();
             this.getTem();
@@ -891,7 +889,7 @@
         mounted(){
 
             if(this.$route.query.sta == '老孟') {
-                this.isbioage2=true;
+                // this.isbioage2=true;
                 this.islaomC=false;
                 this.isufhhf =true;
                 this.orderData = JSON.parse(window.sessionStorage.getItem('orderDataAgain'));
@@ -905,7 +903,7 @@
                 this.ruleForm2.Telephone = this.orderData.Telephone;
                 this.ruleForm2.CompanyNet = this.orderData.CompanyNet;
                 this.ruleForm2.Address = this.orderData.Address;
-                this.ruleForm.GetCompany = this.orderData.GetAddress;
+                this.ruleForm.GetCompany = this.orderData.GetCompany;
                 this.ruleForm.GetName = this.orderData.GetName;
                 this.ruleForm.GetTelephone = this.orderData.GetTelephone;
                 this.ruleForm.GetAddress = this.orderData.GetAddress;
@@ -915,16 +913,19 @@
                 this.ManMsg.XyNumber = this.orderData.XYNO;
                 this.searchData = this.orderData.CargoName;
 
-                if(this.orderData.OutPay==''){
-                    this.orderData.OutPay=''
-                }else if(this.orderData.OutPay=='0'){
-                    this.orderData.OutPay='发件人'
-                }else{
-                    this.orderData.OutPay='收件人'
-                }
-                this.OutPay = this.orderData.OutPay;
-                // this.OutPay = this.orderData.OutPay=='0'?'发件人':'收件人';
-                this.PayMoney = this.orderData.PayMoney || '';
+                // if(this.ruleForm2.CountType=='月结'){
+                //     this.orderData.OutPay='' ; console.log(this.orderData.OutPay,9)
+                // }
+                // if(this.orderData.OutPay==''){
+                //     this.orderData.OutPay=''
+                // }else if(this.orderData.OutPay=='0'){
+                //     this.orderData.OutPay='发件人'
+                // }else{
+                //     this.orderData.OutPay='收件人'
+                // }
+                // this.OutPay = this.orderData.OutPay;
+                // // this.OutPay = this.orderData.OutPay=='0'?'发件人':'收件人';
+                // this.PayMoney = this.orderData.PayMoney || '';
                 this.SafePay = this.orderData.SafePay;
                  this.val = this.orderData.StartLocation ;
                  this.val2 = this.orderData.EndLocation ;
@@ -946,14 +947,13 @@
                 this.Note = this.orderData.note1;
                 this.SName = this.orderData.GetCompany + " " + this.orderData.GetName;
                 this.TrueName = window.sessionStorage.getItem('TrueName');
-                // this.accoutNum =  this.orderData.accoutNum;
-                // this.SafeRate =this.orderData.SafeRate;
+
                 this.Company = this.orderData.Company;
                 this.Manager = this.orderData.Manager;
                 this.GetDepartment = this.orderData.GetCode||'暂无';
                 this.Telephone = this.orderData.Telephone;
                 this.GetTelephone = this.orderData.GetTelephone;
-                // this.SafeRate =this.orderData.SafeRate;
+
                 this.Address = this.orderData.Address;
                 this.GetAddress = this.orderData.GetAddress;
                 this.GetCompany = this.orderData.GetCompany;
@@ -970,59 +970,75 @@
                     this.IsWdj = this.orderData.IsWdj;
                 this.IsLCar = this.orderData.IsLCar=='1'?'冷车':'不使用冷车';
                 this.LCar = this.orderData.LCar||'';
-                // this.PayMoney = this.CountType == "月结" ? '现金' : this.PayMoney;
-                // this.Note = this.orderData.Note;
-                // this.Box= this.orderData.Box;
-                // console.log(this.Box);
-                // DepartMent
+
             }
-            // }else{
-            //
-            //     this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
-            //     this.showSearch = this.orderData.showSearch;
-            //     this.accoutNum =  this.orderData.accoutNum;
-            //     this.CountType = this.orderData.CountType;
-            //     this.zxNumber = this.orderData.zxNumber;
-            //     this.val = this.orderData.val;
-            //     this.val2 = this.orderData.val2;
-            //     this.Box= this.orderData.Box;
-            //     this.qujianTime = this.orderData.qujianTime;
-            //     this.Note = this.orderData.Note;
-            //     this.SName = this.orderData.SName;
-            //     this.OutPay =this.orderData.OutPay;
-            //     this.Cid2 = this.orderData.Cid2;
-            //
-            //     this.XyNumber = this.orderData.XyNumber;
-            //     this.searchData = this.orderData.searchData;
-            //     this.PayMoney = this.OutPay=='发件人' ?this.orderData.PayMoney : this.orderData.PayMoney2;
-            //     this.newBox = JSON.parse(JSON.stringify(this.Box));
-            // }
 
 
         },
+        // watch: { //深度 watcher
+        //     'isAllChecked': {
+        //         handler: function(val, oldVal) {
+        //             if (val.length === this.cargoMsg.length - 1) {
+        //                 this.checked = true;
+        //             } else {
+        //                 this.checked = false;
+        //             }
+        //         },
+        //         deep: true
+        //     }
+        // },
+
         methods: {
+            //实现全选
             selectAll(){
+                    var _this = this;
+                    console.log(_this.checkedValue);
+                    if (_this.isAllChecked) { //实现反选
+                        _this.checkedValue = [];
+
+                    } else { //实现全选
+                        _this.checkedValue = [];
 
 
-            },
+                        _this.cargoMsg.forEach(function(item, index) {
+
+                            if (index > -1) {
+                                _this.checkedValue.push(item.id);
+                            }
+                        });
+                    }
+
+                },
+
+
             //编辑reasgBiao
             reasgBiao(){
                 this.islaomC=true
             },
             // 删除选中数据
             delCheckbox(){
-                console.log(this.checkedValue,'aaa');
-                console.log(this.cargoMsg, '////////123');
+
+
                 if((this.checkedValue).length==0){
                     this.$message.error("不能空删，请先选择数据！")
                 }else{
+                    // console.log(this.checkedValue);return;
+                    // this.cargoMsg.forEach((item,index) => {
 
-                    this.cargoMsg.forEach((item,index) => {
-                        if(this.checkedValue.indexOf(item.id) != -1){
-                            this.cargoMsg.splice(index);
+                        // if(this.checkedValue.indexOf(item.id) != -1){
+                        //
+                        //     this.cargoMsg.splice(index,1);
+                        // }
+                        for(var i=0;i<this.checkedValue.length;i++){
+                            this.cargoMsg.forEach((item,index)=>{
+                                if(item.id == this.checkedValue[i]){
+                                    this.cargoMsg.splice(index,1);
+                                }
+                            })
+
                         }
-                    })
-
+                    // })
+                    console.log(this.cargoMsg, '////////删除后');
                 }
                 if((this.cargoMsg).length==0){
                     this.isbioage2 =false;
@@ -1039,7 +1055,7 @@
                 this.isbioage2 =false;
                 this.isDisabled = false;
                 this.isDisabled1 = false;
-                console.log(this.boxType)
+
                 this.boxType.forEach(function(item,index){
                     if(item.num){
                         delete item.num
@@ -1050,7 +1066,7 @@
                         delete item.num
                     }
                 })
-                console.log(this.cargoMsg, '箱型和car2');
+
                 this.cargoMsg = [];
                 this.isbioage2 =false;
 
@@ -1059,7 +1075,9 @@
                 this.cargoMsg.forEach((item,index)=>{
                     if(index == addIndex){
                         item.num = parseInt(item.num) + 1;
+
                     }
+
                 })
                 this.$forceUpdate();
             },
@@ -1067,16 +1085,43 @@
                 this.cargoMsg.forEach((item,index)=>{
                     if(index == prowIndex){
                         item.num = parseInt(item.num) - 1;
+                        if(item.num==0){
+                            this.cargoMsg.splice(index,1);
+                        }
+                        // if(item.num<0){
+                        //     this.$message.error('数量不能为负值')
+                        //     return false
+                        // }
+                        if((this.cargoMsg).length==0){
+                            this.isbioage2 =false;
+                            this.islaomC=true
+
+                        }
                     }
                 })
                 this.$forceUpdate();
             },
             deleteInfor(index) { // 删除货物信息
+                console.log(this.cargoMsg,9)
+                // this.cargoMsg.forEach((item,index)=>{
+                //     console.log(item.num,8)
+                //     if(item.num==0){
+                //         this.cargoMsg.splice(index);
+                //     }
+                // })
                 let isClick = confirm("确定要删除吗？");
                 if(isClick){
+                    // this.cargoMsg.forEach((item,index)=>{
+                    //     console.log(item.num,8)
+                    //     if(item.num==0){
+                    //         this.cargoMsg.splice(index);
+                    //     }
+                    // })
                     this.cargoMsg.splice(index,1);
                 }
                 if((this.cargoMsg).length==0){
+                    this.isbioage2 =false;
+                  this.islaomC=true
 
                 }
 
@@ -1087,14 +1132,15 @@
                         this.$refs[formName2].validate((valid2) => {
                             if (valid) {
                                 if(valid2){
+
                                     if(this.val==''||this.val2==''){
                                         this.$message.error('请选择省市区');
                                         return
                                     }
-                                    if(this.SName==''){
-                                        this.$message.error('请选择收货编码');
-                                        return
-                                    }
+                                    // if(this.SName==''){
+                                    //     this.$message.error('请选择收货编码');
+                                    //     return
+                                    // }
                                     if(this.showSearch == ''){
                                         this.$message.error('请选择货物类型');
                                         return;
@@ -1137,13 +1183,9 @@
                                         return;
                                     }
                                     if(this.IsLCar =='冷车'&& (this.LCar ==''||this.LCar=='null')){
-                                        this.$message.error('冷藏费用必填');
+                                         this.$message.error('冷藏费用必填');
                                         return;
                                     }
-                                    // if(this.Note == ''){
-                                    //     this.$message.error('请填写特殊需求');
-                                    //     return;
-                                    // }
 
                                     if(this.ruleForm2.CountType=="现金"&&(this.OutPay==''||this.PayMoney=='')){
                                         this.$message.error('付款方式和付款费用必填');
@@ -1151,11 +1193,20 @@
                                     }
                                     if(this.ruleForm2.CountType=="月结"&&this.OutPay!==''){
                                         this.ruleForm2.CountType="现金"
-                                       // this.$message.error('付款费用必填');
+
                                         return;
                                     }
                                     this.ishwShow =true
-                                    this. isShowN=false
+                                    this. isShowN=false;
+                                    if((this.cargoMsg).length==0){
+                                        this.isbioage2=false;
+                                        this.islaomC=true
+
+                                    }else{
+                                        this.isbioage2=true;
+                                    }
+
+
                                 }
                             }
                         })
@@ -1280,10 +1331,10 @@
 
                             that.SNameArr = res.data.data;
                         } else {
-                            that.$message.error(res.data.msg)
+                            that.$message.error(res.data.msg);
                             that.SNameArr=[];
                             that.SName = '';
-                                that.ruleForm.GetCompany='';
+                            that.ruleForm.GetCompany='';
                             that.ruleForm.GetName='';
                             that.ruleForm.GetTelephone='';
                             that.ruleForm.GetAddress='';
@@ -1334,6 +1385,26 @@
                       //  that.$message.error(res.data.msg)
                     }
                 });
+            },
+            //changeOutpay()
+            changeOutpay(){
+
+                if(this.OutPay==""){
+
+                    this.ruleForm2.CountType="月结"
+                }else if(this.OutPay=="发件人"||this.OutPay=="收件人"){
+                    console.log( this.ruleForm2.CountType,8888)
+                   this.ruleForm2.CountType="现金"
+                }
+                // if(this.ruleForm2.CountType=="现金"&&(this.OutPay==''||this.PayMoney=='')){
+                //     this.$message.error('付款方式和付款费用必填');
+                //     return;
+                // }
+                // if(this.ruleForm2.CountType=="月结"&&this.OutPay!==''){
+                //     this.ruleForm2.CountType="现金"
+                //
+                //     return;
+                // }
             },
             // 货物编号发生变化的时候的方法
             currentSel() {
@@ -1415,6 +1486,8 @@
 
                     } else {
                         that.$message.error(res.data.msg)
+
+
                         //that.ManMsg = {};
                     }
                 });
@@ -1455,6 +1528,7 @@
             },
             //请求箱型
             next(val, index) {
+                this.isAllChecked=false;
                 this.activeName = "first";
                 this.isDDD = true;
                 this.iceCar = [
@@ -1540,7 +1614,7 @@
                 }else{
                      this.isDDD = false;
                      this.isufhhf =false;
-                    this.isbioage2=true;
+
                     this.isShow = true;
                     this.cargoMsg.forEach((item,index) => {
                         if(item.num == ''){
@@ -1552,10 +1626,13 @@
                         boxTypeNum[item.WDQJ] = Number(boxTypeNum[item.WDQJ])+1;
                         if(Number(boxTypeNum[item.WDQJ])>3){
                             this.$message.error(item.WDQJ+'温区中选择箱型超过三个，请先修改');
-                            return
-
                            // boxTypeNum = {}
-                            return false;
+
+                            this.isbioage2 =false;
+
+
+                        }else {
+                            this.isbioage2=true;
 
                         }
                     })
@@ -1608,7 +1685,7 @@
                 this.cargoMsg.forEach((item,index)=>{
                     item.id = index;
                 })
-                console.log(this.cargoMsg,'@@@@@@@aaaaa');
+               // console.log(this.cargoMsg,'@@@@@@@aaaaa');
                 let _this = this;
                 let boxArr = []; // boxArr.length 箱型数量
                 let carArr = [];
@@ -1660,10 +1737,10 @@
                     this.$message.error('请选择省市区');
                     return
                 }
-                if(this.SName==''){
-                    this.$message.error('请选择收货编码');
-                    return
-                }
+                // if(this.SName==''){
+                //     this.$message.error('请选择收货编码');
+                //     return
+                // }
                 if(this.showSearch == ''){
                     this.$message.error('请选择货物类型');
                     return;
@@ -1775,13 +1852,13 @@
                 window.sessionStorage.setItem('orderData', JSON.stringify(orderData));
                 this.orderData =JSON.parse(window.sessionStorage.getItem("orderData")) ;
                 console.log(this.orderData.OutPay,9999222)
-                if(this.orderData.OutPay==''){
-                    this.orderData.OutPay=''
-                }else if(this.orderData.OutPay=='0'){
-                    this.orderData.OutPay='发件人'
-                }else{
-                    this.orderData.OutPay='收件人'
-                }
+                // if(this.orderData.OutPay==''){
+                //     this.orderData.OutPay=''
+                // }else if(this.orderData.OutPay=='0'){
+                //     this.orderData.OutPay='发件人'
+                // }else{
+                //     this.orderData.OutPay='收件人'
+                // }
                 this.showSearch = this.orderData.showSearch;
                 this.accoutNum =  this.orderData.accoutNum;
                 this.CountType = this.orderData.CountType;
@@ -1793,6 +1870,14 @@
                 this.Note = this.orderData.Note;
                 this.SName = this.orderData.SName;
 
+
+                // if(this.orderData.OutPay==''){
+                //     this.orderData.OutPay=''
+                // }else if(this.orderData.OutPay=='发件人'){
+                //     this.orderData.OutPay='0'
+                // }else if(this.orderData.OutPay=='收件人'){
+                //     this.orderData.OutPay='1'
+                // }
                 this.OutPay = this.orderData.OutPay;
                 //this.OutPay =this.orderData.OutPay;
                 this.Cid2 = this.orderData.Cid2;
@@ -1877,7 +1962,7 @@
                         IsLCar:this.IsLCar=='冷车'?"1":'',//	冷车费用
                         LCar:this.LCar,
 
-                        OutPay:this.OutPay,//0是发件方1是收件方
+                        OutPay:this.OutPay=="发件人"?'0':'1',//0是发件方1是收件方
                         PayMoney:this.PayMoney,//费用
                         CompanyNet:this.CompanyNet||'',//取件网络公司
                         NetDepart:this.val2[0],//取件站点省份
@@ -1908,9 +1993,9 @@
                         setTimeout(() => {
                             that.xiadan = false;
                             that.$router.push({
-                                path: "/OrderEntry22",
+                                path: "/OrderQuery",
                             })
-                        }, 10000)
+                        }, 5000)
                     }else{
                         that.$message.error(res.data.msg)
                     }
@@ -1923,19 +2008,20 @@
     };
 </script>
 <style>
-    .el-form-item__error {
-        color: #fff;!important
-    font-size: 12px;
-        line-height: 1;
-        padding-top: 4px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-    }
+
 </style>
 <style scoped>
+    /*.el-form-item__error {*/
+    /*    color: #fff;!important*/
+    /*font-size: 12px;*/
+    /*    line-height: 1;*/
+    /*    padding-top: 4px;*/
+    /*    position: absolute;*/
+    /*    top: 100%;*/
+    /*    left: 0;*/
+    /*}*/
     .el-form-item {
-        margin-bottom: 10px !important;
+        margin-bottom: 20px !important;
     }
 #biaogeBotom span{
     color:#00d1b2;
