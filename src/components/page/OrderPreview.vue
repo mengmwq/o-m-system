@@ -488,22 +488,14 @@
                         setTimeout(() => {
                             that.$router.push({
                                 path: "/OrderQuery",
-
                             })
-
-
                         }, 10000)
-
-
-
                     }else{
                         that.$message.error(res.data.msg)
                     }
-
                 })
             },
         }
-
     }
 </script>
 

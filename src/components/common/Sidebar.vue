@@ -166,9 +166,7 @@ export default {
     }
   },
   created(){
-
      //this.items = JSON.parse(window.sessionStorage.getItem("items"));
-
   }
 };
 </script>
@@ -198,7 +196,6 @@ export default {
     .el-submenu .el-menu-item{
         min-width: auto;
     }
-
 </style>
 <style scoped>
     .el-menu-item{
@@ -215,13 +212,13 @@ export default {
         bottom: 0;
         background-image: url(../../assets/Slidebj.png);
     }
-.sidebar > ul {
-  /*height: 100%;*/
-    background: rgba(0,0,0,0);
-}
-.sidebar .logo{
-    text-align: center;
-    line-height: 70px;
-    color: #fff;
-}
+    .sidebar > ul {
+      /*height: 100%;*/
+        background: rgba(0,0,0,0);
+    }
+    .sidebar .logo{
+        text-align: center;
+        line-height: 70px;
+        color: #fff;
+    }
 </style>

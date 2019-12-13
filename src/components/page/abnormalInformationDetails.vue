@@ -13,12 +13,12 @@
                     </el-col>
                     <el-col >
                         <el-form-item label="客户账号">
-                            <el-input  v-model="AccountNumber" suffix-icon="el-icon-date" :maxlength="255"></el-input>
+                            <el-input  v-model="AccountNumber"></el-input>
 
                         </el-form-item>
 
                         <el-form-item label="订单号码">
-                            <el-input  v-model="ID" suffix-icon="el-icon-date" :maxlength="255"></el-input>
+                            <el-input  v-model="ID" ></el-input>
                         </el-form-item>
 
                         <el-form-item label="录入人">
